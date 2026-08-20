@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FX Morning Signal Dashboard</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1: #fcfcfb; --page: #f9f9f7;
+    --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #898781;
+    --gridline: #e1e0d9; --baseline: #c3c2b7; --border: rgba(11,11,11,0.10);
+    --blue: #2a78d6; --orange: #eb6834; --aqua: #1baf7a; --yellow: #eda100;
+    --magenta: #e87ba4; --green: #008300; --violet: #4a3aa7; --red: #e34948;
+    --good: #0ca30c; --warning: #fab219; --serious: #ec835a; --critical: #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1: #1a1a19; --page: #0d0d0d;
+      --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #898781;
+      --gridline: #2c2c2a; --baseline: #383835; --border: rgba(255,255,255,0.10);
+      --blue: #3987e5; --orange: #d95926; --aqua: #199e70; --yellow: #c98500;
+      --magenta: #d55181; --green: #008300; --violet: #9085e9; --red: #e66767;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui,-apple-system,"Segoe UI",sans-serif; background: var(--page); color: var(--text-primary); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .subtitle { color: var(--text-secondary); font-size: 13px; margin-bottom: 28px; }
+  .disclaimer { font-size: 12px; color: var(--text-muted); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin-bottom: 24px; background: var(--surface-1); }
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; margin-bottom: 16px; }
+  .card-head { display:flex; align-items:center; justify-content:space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+  .pair { font-size: 18px; font-weight: 600; }
+  .badge { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; display:inline-flex; align-items:center; gap:6px; }
+  .badge.long { background: color-mix(in srgb, var(--good) 16%, transparent); color: var(--good); }
+  .badge.short { background: color-mix(in srgb, var(--critical) 16%, transparent); color: var(--critical); }
+  .badge.no_trade { background: color-mix(in srgb, var(--text-muted) 18%, transparent); color: var(--text-secondary); }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+  .row { display:flex; align-items:center; gap: 10px; font-size: 13px; margin: 6px 0; }
+  .row .label { width: 130px; color: var(--text-secondary); flex-shrink:0; }
+  .bar-track { flex:1; height: 10px; border-radius: 5px; background: var(--gridline); position: relative; overflow:hidden; }
+  .bar-fill { position:absolute; top:0; bottom:0; border-radius: 5px; }
+  .bar-fill.pos { background: var(--blue); left: 50%; }
+  .bar-fill.neg { background: var(--red); right: 50%; }
+  .mid { position:absolute; left:50%; top:-2px; bottom:-2px; width:1px; background: var(--baseline); }
+  .score-val { width: 44px; text-align:right; font-variant-numeric: tabular-nums; color: var(--text-primary); font-size: 12px; }
+  .sltp { display:flex; gap: 24px; margin-top: 14px; font-size: 13px; }
+  .sltp .k { color: var(--text-secondary); }
+  .sltp .v { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .reason { font-size: 12px; color: var(--text-muted); margin-top: 10px; }
+  .window { font-size: 12px; color: var(--text-secondary); margin-top: 12px; display:flex; align-items:center; gap:8px; }
+  .window .pill { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--blue) 14%, transparent); color: var(--blue); }
+  .window .stale { background: color-mix(in srgb, var(--critical) 14%, transparent); color: var(--critical); }
+  .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); margin: 4px 0 8px; }
+  table.legend-table { width:100%; border-collapse: collapse; font-size: 12px; }
+  table.legend-table td { padding: 3px 6px; color: var(--text-secondary); }
+</style>
+</head>
+<body>
+<div class="viz-root">
+<div class="wrap">
+  <h1>FX Morning Signal Dashboard</h1>
+  <div class="subtitle">Generated 2026-08-17T21:16:34.095656+00:00</div>
+  <div class="disclaimer">Decision-support output only, not financial advice. Technical + PESTLE scores are rule-based heuristics, not calibrated probabilities — validate against a live backtest and paper-trade before risking capital.</div>
+  
+<div class="card">
+  <div class="card-head">
+    <div class="pair">EURUSD</div>
+    <div class="badge no_trade">NO TRADE · Low confidence</div>
+  </div>
+  <div class="grid">
+    <div>
+      <div class="section-label">Technical (ORB / Trend / Pattern)</div>
+      <div class="row"><div class="label">Opening Range BO</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div><div class="row"><div class="label">Trend/Momentum</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div><div class="row"><div class="label">Candlestick</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div>
+      <div class="row"><div class="label">Composite</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div>
+    </div>
+    <div>
+      <div class="section-label">PESTLE (EUR−USD)</div>
+      <div class="row"><div class="label">EUR</div><div class="bar-track"><div class="mid"></div><div class="bar-fill neg" style="width:5.9%;right:50%;"></div></div><div class="score-val">-0.12</div></div><div class="row"><div class="label">USD</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:8.3%;left:50%;"></div></div><div class="score-val">+0.17</div></div>
+      <div class="row"><div class="label">Pair PESTLE</div><div class="bar-track"><div class="mid"></div><div class="bar-fill neg" style="width:14.2%;right:50%;"></div></div><div class="score-val">-0.28</div></div>
+    </div>
+  </div>
+  <div class="sltp">
+    <div><span class="k">Entry</span> <span class="v">1.31536</span></div>
+    <div><span class="k">Stop-loss</span> <span class="v">1.31536 – 1.31536</span></div>
+    <div><span class="k">Take-profit</span> <span class="v">1.31536 – 1.31536</span></div>
+  </div>
+  <div class="window"><span class="pill stale">EXPIRED</span>Signal window: 03:30 GMT, 05 Jun 2026 – 05:00 GMT, 05 Jun 2026 (London session)</div>
+  <div class="reason">tech=+0.00, pestle=-0.28, combined=-0.11</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="pair">GBPUSD</div>
+    <div class="badge no_trade">NO TRADE · Low confidence</div>
+  </div>
+  <div class="grid">
+    <div>
+      <div class="section-label">Technical (ORB / Trend / Pattern)</div>
+      <div class="row"><div class="label">Opening Range BO</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div><div class="row"><div class="label">Trend/Momentum</div><div class="bar-track"><div class="mid"></div><div class="bar-fill neg" style="width:50.0%;right:50%;"></div></div><div class="score-val">-1.00</div></div><div class="row"><div class="label">Candlestick</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div>
+      <div class="row"><div class="label">Composite</div><div class="bar-track"><div class="mid"></div><div class="bar-fill neg" style="width:15.0%;right:50%;"></div></div><div class="score-val">-0.30</div></div>
+    </div>
+    <div>
+      <div class="section-label">PESTLE (GBP−USD)</div>
+      <div class="row"><div class="label">GBP</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:13.3%;left:50%;"></div></div><div class="score-val">+0.27</div></div><div class="row"><div class="label">USD</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:8.3%;left:50%;"></div></div><div class="score-val">+0.17</div></div>
+      <div class="row"><div class="label">Pair PESTLE</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:5.0%;left:50%;"></div></div><div class="score-val">+0.10</div></div>
+    </div>
+  </div>
+  <div class="sltp">
+    <div><span class="k">Entry</span> <span class="v">1.29783</span></div>
+    <div><span class="k">Stop-loss</span> <span class="v">1.29783 – 1.29783</span></div>
+    <div><span class="k">Take-profit</span> <span class="v">1.29783 – 1.29783</span></div>
+  </div>
+  <div class="window"><span class="pill stale">EXPIRED</span>Signal window: 03:30 GMT, 05 Jun 2026 – 05:00 GMT, 05 Jun 2026 (London session)</div>
+  <div class="reason">tech=-0.30, pestle=+0.10, combined=-0.14</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="pair">USDJPY</div>
+    <div class="badge no_trade">NO TRADE · Low confidence</div>
+  </div>
+  <div class="grid">
+    <div>
+      <div class="section-label">Technical (ORB / Trend / Pattern)</div>
+      <div class="row"><div class="label">Opening Range BO</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div><div class="row"><div class="label">Trend/Momentum</div><div class="bar-track"><div class="mid"></div><div class="bar-fill neg" style="width:50.0%;right:50%;"></div></div><div class="score-val">-1.00</div></div><div class="row"><div class="label">Candlestick</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div>
+      <div class="row"><div class="label">Composite</div><div class="bar-track"><div class="mid"></div><div class="bar-fill neg" style="width:15.0%;right:50%;"></div></div><div class="score-val">-0.30</div></div>
+    </div>
+    <div>
+      <div class="section-label">PESTLE (USD−JPY)</div>
+      <div class="row"><div class="label">USD</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:8.3%;left:50%;"></div></div><div class="score-val">+0.17</div></div><div class="row"><div class="label">JPY</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:4.7%;left:50%;"></div></div><div class="score-val">+0.09</div></div>
+      <div class="row"><div class="label">Pair PESTLE</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:3.6%;left:50%;"></div></div><div class="score-val">+0.07</div></div>
+    </div>
+  </div>
+  <div class="sltp">
+    <div><span class="k">Entry</span> <span class="v">1.32827</span></div>
+    <div><span class="k">Stop-loss</span> <span class="v">1.32827 – 1.32827</span></div>
+    <div><span class="k">Take-profit</span> <span class="v">1.32827 – 1.32827</span></div>
+  </div>
+  <div class="window"><span class="pill stale">EXPIRED</span>Signal window: 03:30 GMT, 05 Jun 2026 – 05:00 GMT, 05 Jun 2026 (Tokyo session)</div>
+  <div class="reason">tech=-0.30, pestle=+0.07, combined=-0.15</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="pair">USDCHF</div>
+    <div class="badge no_trade">NO TRADE · Low confidence</div>
+  </div>
+  <div class="grid">
+    <div>
+      <div class="section-label">Technical (ORB / Trend / Pattern)</div>
+      <div class="row"><div class="label">Opening Range BO</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div><div class="row"><div class="label">Trend/Momentum</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div><div class="row"><div class="label">Candlestick</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div>
+      <div class="row"><div class="label">Composite</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div>
+    </div>
+    <div>
+      <div class="section-label">PESTLE (USD−CHF)</div>
+      <div class="row"><div class="label">USD</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:8.3%;left:50%;"></div></div><div class="score-val">+0.17</div></div><div class="row"><div class="label">CHF</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div>
+      <div class="row"><div class="label">Pair PESTLE</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:8.3%;left:50%;"></div></div><div class="score-val">+0.17</div></div>
+    </div>
+  </div>
+  <div class="sltp">
+    <div><span class="k">Entry</span> <span class="v">1.30700</span></div>
+    <div><span class="k">Stop-loss</span> <span class="v">1.30700 – 1.30700</span></div>
+    <div><span class="k">Take-profit</span> <span class="v">1.30700 – 1.30700</span></div>
+  </div>
+  <div class="window"><span class="pill stale">EXPIRED</span>Signal window: 03:30 GMT, 05 Jun 2026 – 05:00 GMT, 05 Jun 2026 (London session)</div>
+  <div class="reason">tech=+0.00, pestle=+0.17, combined=+0.07</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="pair">AUDUSD</div>
+    <div class="badge no_trade">NO TRADE · Low confidence</div>
+  </div>
+  <div class="grid">
+    <div>
+      <div class="section-label">Technical (ORB / Trend / Pattern)</div>
+      <div class="row"><div class="label">Opening Range BO</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div><div class="row"><div class="label">Trend/Momentum</div><div class="bar-track"><div class="mid"></div><div class="bar-fill neg" style="width:50.0%;right:50%;"></div></div><div class="score-val">-1.00</div></div><div class="row"><div class="label">Candlestick</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div>
+      <div class="row"><div class="label">Composite</div><div class="bar-track"><div class="mid"></div><div class="bar-fill neg" style="width:15.0%;right:50%;"></div></div><div class="score-val">-0.30</div></div>
+    </div>
+    <div>
+      <div class="section-label">PESTLE (AUD−USD)</div>
+      <div class="row"><div class="label">AUD</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.9%;left:50%;"></div></div><div class="score-val">+0.02</div></div><div class="row"><div class="label">USD</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:8.3%;left:50%;"></div></div><div class="score-val">+0.17</div></div>
+      <div class="row"><div class="label">Pair PESTLE</div><div class="bar-track"><div class="mid"></div><div class="bar-fill neg" style="width:7.4%;right:50%;"></div></div><div class="score-val">-0.15</div></div>
+    </div>
+  </div>
+  <div class="sltp">
+    <div><span class="k">Entry</span> <span class="v">1.31744</span></div>
+    <div><span class="k">Stop-loss</span> <span class="v">1.31744 – 1.31744</span></div>
+    <div><span class="k">Take-profit</span> <span class="v">1.31744 – 1.31744</span></div>
+  </div>
+  <div class="window"><span class="pill stale">EXPIRED</span>Signal window: 03:30 GMT, 05 Jun 2026 – 05:00 GMT, 05 Jun 2026 (Sydney session)</div>
+  <div class="reason">tech=-0.30, pestle=-0.15, combined=-0.24</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="pair">USDCAD</div>
+    <div class="badge no_trade">NO TRADE · Low confidence</div>
+  </div>
+  <div class="grid">
+    <div>
+      <div class="section-label">Technical (ORB / Trend / Pattern)</div>
+      <div class="row"><div class="label">Opening Range BO</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div><div class="row"><div class="label">Trend/Momentum</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div><div class="row"><div class="label">Candlestick</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div>
+      <div class="row"><div class="label">Composite</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div>
+    </div>
+    <div>
+      <div class="section-label">PESTLE (USD−CAD)</div>
+      <div class="row"><div class="label">USD</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:8.3%;left:50%;"></div></div><div class="score-val">+0.17</div></div><div class="row"><div class="label">CAD</div><div class="bar-track"><div class="mid"></div><div class="bar-fill neg" style="width:4.2%;right:50%;"></div></div><div class="score-val">-0.08</div></div>
+      <div class="row"><div class="label">Pair PESTLE</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:12.5%;left:50%;"></div></div><div class="score-val">+0.25</div></div>
+    </div>
+  </div>
+  <div class="sltp">
+    <div><span class="k">Entry</span> <span class="v">1.30275</span></div>
+    <div><span class="k">Stop-loss</span> <span class="v">1.30275 – 1.30275</span></div>
+    <div><span class="k">Take-profit</span> <span class="v">1.30275 – 1.30275</span></div>
+  </div>
+  <div class="window"><span class="pill stale">EXPIRED</span>Signal window: 03:30 GMT, 05 Jun 2026 – 05:00 GMT, 05 Jun 2026 (New York session)</div>
+  <div class="reason">tech=+0.00, pestle=+0.25, combined=+0.10</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="pair">NZDUSD</div>
+    <div class="badge no_trade">NO TRADE · Low confidence</div>
+  </div>
+  <div class="grid">
+    <div>
+      <div class="section-label">Technical (ORB / Trend / Pattern)</div>
+      <div class="row"><div class="label">Opening Range BO</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div><div class="row"><div class="label">Trend/Momentum</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:0.0%;left:50%;"></div></div><div class="score-val">+0.00</div></div><div class="row"><div class="label">Candlestick</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:40.0%;left:50%;"></div></div><div class="score-val">+0.80</div></div>
+      <div class="row"><div class="label">Composite</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:8.0%;left:50%;"></div></div><div class="score-val">+0.16</div></div>
+    </div>
+    <div>
+      <div class="section-label">PESTLE (NZD−USD)</div>
+      <div class="row"><div class="label">NZD</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:5.6%;left:50%;"></div></div><div class="score-val">+0.11</div></div><div class="row"><div class="label">USD</div><div class="bar-track"><div class="mid"></div><div class="bar-fill pos" style="width:8.3%;left:50%;"></div></div><div class="score-val">+0.17</div></div>
+      <div class="row"><div class="label">Pair PESTLE</div><div class="bar-track"><div class="mid"></div><div class="bar-fill neg" style="width:2.7%;right:50%;"></div></div><div class="score-val">-0.05</div></div>
+    </div>
+  </div>
+  <div class="sltp">
+    <div><span class="k">Entry</span> <span class="v">1.31900</span></div>
+    <div><span class="k">Stop-loss</span> <span class="v">1.31900 – 1.31900</span></div>
+    <div><span class="k">Take-profit</span> <span class="v">1.31900 – 1.31900</span></div>
+  </div>
+  <div class="window"><span class="pill stale">EXPIRED</span>Signal window: 03:30 GMT, 05 Jun 2026 – 05:00 GMT, 05 Jun 2026 (Sydney session)</div>
+  <div class="reason">tech=+0.16, pestle=-0.05, combined=+0.07</div>
+</div>
+
+</div>
+</div>
+</body>
+</html>

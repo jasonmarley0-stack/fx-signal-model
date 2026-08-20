@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.fx-signal-model.monitor</string>
+
+    <!-- EDIT these two paths before installing — see MONITOR_SETUP.md -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/jasonmarley/fx-signal-model/.venv/bin/python3</string>
+        <string>/Users/jasonmarley/fx-signal-model/monitor_signals.py</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/jasonmarley/fx-signal-model</string>
+
+    <!-- launchd does NOT inherit your shell's exported env vars — without
+         this, monitor_signals.py silently runs in mock mode and never alerts. -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>SIGNAL_ENGINE_BASE_URL</key>
+        <string>http://127.0.0.1:8000</string>
+    </dict>
+
+    <!-- Every 30 minutes -->
+    <key>StartInterval</key>
+    <integer>1800</integer>
+
+    <key>StandardOutPath</key>
+    <string>/Users/jasonmarley/fx-signal-model/monitor.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/jasonmarley/fx-signal-model/monitor.error.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>

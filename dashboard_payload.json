@@ -1,0 +1,425 @@
+{
+  "generated_at": "2026-08-17T21:16:34.095656+00:00",
+  "rows": [
+    {
+      "pair": "EURUSD",
+      "entry": 1.3153635802304484,
+      "tech": {
+        "orb": 0.0,
+        "trend": 0.0,
+        "pattern": 0.0,
+        "composite": 0.0
+      },
+      "pestle": {
+        "pair": "EURUSD",
+        "pestle_score": -0.28308306453699594,
+        "base": {
+          "currency": "EUR",
+          "score": -0.11711996426128111,
+          "categories": {
+            "political": 0.0,
+            "economic": -0.24430837039772066,
+            "social": -0.19396616102192846,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "USD",
+          "score": 0.16596310027571484,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.4149077506892871,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": -0.11323322581479839,
+        "entry": 1.3153635802304484,
+        "stop_loss_range": [
+          1.3153635802304484,
+          1.3153635802304484
+        ],
+        "take_profit_range": [
+          1.3153635802304484,
+          1.3153635802304484
+        ],
+        "reason": "tech=+0.00, pestle=-0.28, combined=-0.11",
+        "window": {
+          "session": "London",
+          "generated_at_utc": "2026-06-05T03:30:00+00:00",
+          "valid_until_utc": "2026-06-05T05:00:00+00:00",
+          "generated_at_gmt_str": "03:30 GMT, 05 Jun 2026",
+          "valid_until_gmt_str": "05:00 GMT, 05 Jun 2026"
+        }
+      }
+    },
+    {
+      "pair": "GBPUSD",
+      "entry": 1.2978325215950355,
+      "tech": {
+        "orb": 0.0,
+        "trend": -1.0,
+        "pattern": 0.0,
+        "composite": -0.3
+      },
+      "pestle": {
+        "pair": "GBPUSD",
+        "pestle_score": 0.10028935614037776,
+        "base": {
+          "currency": "GBP",
+          "score": 0.26625243038012986,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.6656310759503247,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "USD",
+          "score": 0.1659630742397521,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.41490768559938024,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": -0.1398842575438489,
+        "entry": 1.2978325215950355,
+        "stop_loss_range": [
+          1.2978325215950355,
+          1.2978325215950355
+        ],
+        "take_profit_range": [
+          1.2978325215950355,
+          1.2978325215950355
+        ],
+        "reason": "tech=-0.30, pestle=+0.10, combined=-0.14",
+        "window": {
+          "session": "London",
+          "generated_at_utc": "2026-06-05T03:30:00+00:00",
+          "valid_until_utc": "2026-06-05T05:00:00+00:00",
+          "generated_at_gmt_str": "03:30 GMT, 05 Jun 2026",
+          "valid_until_gmt_str": "05:00 GMT, 05 Jun 2026"
+        }
+      }
+    },
+    {
+      "pair": "USDJPY",
+      "entry": 1.3282720798323984,
+      "tech": {
+        "orb": 0.0,
+        "trend": -1.0,
+        "pattern": 0.0,
+        "composite": -0.3
+      },
+      "pestle": {
+        "pair": "USDJPY",
+        "pestle_score": 0.07228199905599589,
+        "base": {
+          "currency": "USD",
+          "score": 0.1659630483644545,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.4149076209111362,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "JPY",
+          "score": 0.09368104930845861,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.23420262327114652,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": -0.15108720037760165,
+        "entry": 1.3282720798323984,
+        "stop_loss_range": [
+          1.3282720798323984,
+          1.3282720798323984
+        ],
+        "take_profit_range": [
+          1.3282720798323984,
+          1.3282720798323984
+        ],
+        "reason": "tech=-0.30, pestle=+0.07, combined=-0.15",
+        "window": {
+          "session": "Tokyo",
+          "generated_at_utc": "2026-06-05T03:30:00+00:00",
+          "valid_until_utc": "2026-06-05T05:00:00+00:00",
+          "generated_at_gmt_str": "03:30 GMT, 05 Jun 2026",
+          "valid_until_gmt_str": "05:00 GMT, 05 Jun 2026"
+        }
+      }
+    },
+    {
+      "pair": "USDCHF",
+      "entry": 1.3070001845800707,
+      "tech": {
+        "orb": 0.0,
+        "trend": 0.0,
+        "pattern": 0.0,
+        "composite": 0.0
+      },
+      "pestle": {
+        "pair": "USDCHF",
+        "pestle_score": 0.16596302081686665,
+        "base": {
+          "currency": "USD",
+          "score": 0.16596302081686665,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.4149075520421666,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "CHF",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": 0.06638520832674666,
+        "entry": 1.3070001845800707,
+        "stop_loss_range": [
+          1.3070001845800707,
+          1.3070001845800707
+        ],
+        "take_profit_range": [
+          1.3070001845800707,
+          1.3070001845800707
+        ],
+        "reason": "tech=+0.00, pestle=+0.17, combined=+0.07",
+        "window": {
+          "session": "London",
+          "generated_at_utc": "2026-06-05T03:30:00+00:00",
+          "valid_until_utc": "2026-06-05T05:00:00+00:00",
+          "generated_at_gmt_str": "03:30 GMT, 05 Jun 2026",
+          "valid_until_gmt_str": "05:00 GMT, 05 Jun 2026"
+        }
+      }
+    },
+    {
+      "pair": "AUDUSD",
+      "entry": 1.3174371986195383,
+      "tech": {
+        "orb": 0.0,
+        "trend": -1.0,
+        "pattern": 0.0,
+        "composite": -0.3
+      },
+      "pestle": {
+        "pair": "AUDUSD",
+        "pestle_score": -0.14803609078063512,
+        "base": {
+          "currency": "AUD",
+          "score": 0.017926902077675822,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.11951268051783882
+          }
+        },
+        "quote": {
+          "currency": "USD",
+          "score": 0.16596299285831095,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.4149074821457774,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": -0.23921443631225403,
+        "entry": 1.3174371986195383,
+        "stop_loss_range": [
+          1.3174371986195383,
+          1.3174371986195383
+        ],
+        "take_profit_range": [
+          1.3174371986195383,
+          1.3174371986195383
+        ],
+        "reason": "tech=-0.30, pestle=-0.15, combined=-0.24",
+        "window": {
+          "session": "Sydney",
+          "generated_at_utc": "2026-06-05T03:30:00+00:00",
+          "valid_until_utc": "2026-06-05T05:00:00+00:00",
+          "generated_at_gmt_str": "03:30 GMT, 05 Jun 2026",
+          "valid_until_gmt_str": "05:00 GMT, 05 Jun 2026"
+        }
+      }
+    },
+    {
+      "pair": "USDCAD",
+      "entry": 1.3027545492828785,
+      "tech": {
+        "orb": 0.0,
+        "trend": 0.0,
+        "pattern": 0.0,
+        "composite": 0.0
+      },
+      "pestle": {
+        "pair": "USDCAD",
+        "pestle_score": 0.2505715412633095,
+        "base": {
+          "currency": "USD",
+          "score": 0.16596296891805798,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.41490742229514493,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "CAD",
+          "score": -0.08460857234525151,
+          "categories": {
+            "political": 0.0,
+            "economic": -0.28202857448417173,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": 0.1002286165053238,
+        "entry": 1.3027545492828785,
+        "stop_loss_range": [
+          1.3027545492828785,
+          1.3027545492828785
+        ],
+        "take_profit_range": [
+          1.3027545492828785,
+          1.3027545492828785
+        ],
+        "reason": "tech=+0.00, pestle=+0.25, combined=+0.10",
+        "window": {
+          "session": "New York",
+          "generated_at_utc": "2026-06-05T03:30:00+00:00",
+          "valid_until_utc": "2026-06-05T05:00:00+00:00",
+          "generated_at_gmt_str": "03:30 GMT, 05 Jun 2026",
+          "valid_until_gmt_str": "05:00 GMT, 05 Jun 2026"
+        }
+      }
+    },
+    {
+      "pair": "NZDUSD",
+      "entry": 1.3190007873915721,
+      "tech": {
+        "orb": 0.0,
+        "trend": 0.0,
+        "pattern": 0.8,
+        "composite": 0.16000000000000003
+      },
+      "pestle": {
+        "pair": "NZDUSD",
+        "pestle_score": -0.054361237733158874,
+        "base": {
+          "currency": "NZD",
+          "score": 0.11160170734051353,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.3720056911350451,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "USD",
+          "score": 0.1659629450736724,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.414907362684181,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": 0.07425550490673646,
+        "entry": 1.3190007873915721,
+        "stop_loss_range": [
+          1.3190007873915721,
+          1.3190007873915721
+        ],
+        "take_profit_range": [
+          1.3190007873915721,
+          1.3190007873915721
+        ],
+        "reason": "tech=+0.16, pestle=-0.05, combined=+0.07",
+        "window": {
+          "session": "Sydney",
+          "generated_at_utc": "2026-06-05T03:30:00+00:00",
+          "valid_until_utc": "2026-06-05T05:00:00+00:00",
+          "generated_at_gmt_str": "03:30 GMT, 05 Jun 2026",
+          "valid_until_gmt_str": "05:00 GMT, 05 Jun 2026"
+        }
+      }
+    }
+  ]
+}

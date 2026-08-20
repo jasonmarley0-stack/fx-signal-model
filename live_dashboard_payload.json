@@ -1,0 +1,467 @@
+{
+  "generated_at": "2026-08-19T09:32:52.394014+00:00",
+  "rows": [
+    {
+      "pair": "EURUSD",
+      "entry": 1.159805,
+      "tech": {
+        "orb": 1.0,
+        "trend": 0.0,
+        "pattern": 0.0,
+        "composite": 0.5
+      },
+      "pestle": {
+        "pair": "EURUSD",
+        "pestle_score": 0.0,
+        "base": {
+          "currency": "EUR",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "USD",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": 0.3,
+        "entry": 1.159805,
+        "stop_loss_range": [
+          1.159805,
+          1.159805
+        ],
+        "take_profit_range": [
+          1.159805,
+          1.159805
+        ],
+        "reason": "tech=+0.50, pestle=+0.00, combined=+0.30",
+        "window": {
+          "session": "London",
+          "generated_at_utc": "2026-08-19T08:30:00+00:00",
+          "valid_until_utc": "2026-08-19T10:00:00+00:00",
+          "generated_at_gmt_str": "08:30 GMT, 19 Aug 2026",
+          "valid_until_gmt_str": "10:00 GMT, 19 Aug 2026"
+        }
+      },
+      "narrative": {
+        "technical": "Fired: Opening range breakout bullish.",
+        "pestle_base": "No recent EUR PESTLE evidence in the lookback window \u2014 score is flat by default, not a null result.",
+        "pestle_quote": "[<1h ago, n/a] [SCHEDULED 2026-09-16T18:00:00Z] FOMC rate decision (Sep 2026 meeting, day 2 of 2)"
+      },
+      "upcoming": []
+    },
+    {
+      "pair": "GBPUSD",
+      "entry": 1.3553199999999999,
+      "tech": {
+        "orb": 0.0,
+        "trend": 0.0,
+        "pattern": -1.0,
+        "composite": -0.2
+      },
+      "pestle": {
+        "pair": "GBPUSD",
+        "pestle_score": 0.0,
+        "base": {
+          "currency": "GBP",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "USD",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": -0.12,
+        "entry": 1.3553199999999999,
+        "stop_loss_range": [
+          1.3553199999999999,
+          1.3553199999999999
+        ],
+        "take_profit_range": [
+          1.3553199999999999,
+          1.3553199999999999
+        ],
+        "reason": "tech=-0.20, pestle=+0.00, combined=-0.12",
+        "window": {
+          "session": "London",
+          "generated_at_utc": "2026-08-19T08:30:00+00:00",
+          "valid_until_utc": "2026-08-19T10:00:00+00:00",
+          "generated_at_gmt_str": "08:30 GMT, 19 Aug 2026",
+          "valid_until_gmt_str": "10:00 GMT, 19 Aug 2026"
+        }
+      },
+      "narrative": {
+        "technical": "Fired: Candlestick pattern bearish.",
+        "pestle_base": "[<1h ago, n/a] [SCHEDULED 2026-10-28T12:30:00Z] UK Autumn Budget 2026 (Chancellor's statement)",
+        "pestle_quote": "[<1h ago, n/a] [SCHEDULED 2026-09-16T18:00:00Z] FOMC rate decision (Sep 2026 meeting, day 2 of 2)"
+      },
+      "upcoming": []
+    },
+    {
+      "pair": "USDJPY",
+      "entry": 159.17000000000002,
+      "tech": {
+        "orb": 0.0,
+        "trend": 0.0,
+        "pattern": 0.0,
+        "composite": 0.0
+      },
+      "pestle": {
+        "pair": "USDJPY",
+        "pestle_score": 0.06439065412828872,
+        "base": {
+          "currency": "USD",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "JPY",
+          "score": -0.06439065412828872,
+          "categories": {
+            "political": 0.0,
+            "economic": -0.1609766353207218,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": 0.02575626165131549,
+        "entry": 159.17000000000002,
+        "stop_loss_range": [
+          159.17000000000002,
+          159.17000000000002
+        ],
+        "take_profit_range": [
+          159.17000000000002,
+          159.17000000000002
+        ],
+        "reason": "tech=+0.00, pestle=+0.06, combined=+0.03",
+        "window": {
+          "session": "Tokyo",
+          "generated_at_utc": "2026-08-19T08:30:00+00:00",
+          "valid_until_utc": "2026-08-19T09:00:00+00:00",
+          "generated_at_gmt_str": "08:30 GMT, 19 Aug 2026",
+          "valid_until_gmt_str": "09:00 GMT, 19 Aug 2026"
+        }
+      },
+      "narrative": {
+        "technical": "No technical components fired on the latest bar \u2014 composite score is driven by drift/noise only.",
+        "pestle_base": "[<1h ago, n/a] [SCHEDULED 2026-09-16T18:00:00Z] FOMC rate decision (Sep 2026 meeting, day 2 of 2)",
+        "pestle_quote": "[2d ago, bearish] Japan Q2 2026 GDP misses forecast \u2014 Japan's Q2 2026 annualized GDP growth came in at 1.1% y/y, below the 1.9% forecast (previous: 1.8%) \u2014 softer-than-expected growth, though the yen still firmed as traders focused on fading Fed rate-hike expectations."
+      },
+      "upcoming": []
+    },
+    {
+      "pair": "USDCHF",
+      "entry": 0.81087,
+      "tech": {
+        "orb": 0.0,
+        "trend": 0.0,
+        "pattern": 0.0,
+        "composite": 0.0
+      },
+      "pestle": {
+        "pair": "USDCHF",
+        "pestle_score": 0.0,
+        "base": {
+          "currency": "USD",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "CHF",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": 0.0,
+        "entry": 0.81087,
+        "stop_loss_range": [
+          0.81087,
+          0.81087
+        ],
+        "take_profit_range": [
+          0.81087,
+          0.81087
+        ],
+        "reason": "tech=+0.00, pestle=+0.00, combined=+0.00",
+        "window": {
+          "session": "London",
+          "generated_at_utc": "2026-08-19T08:30:00+00:00",
+          "valid_until_utc": "2026-08-19T10:00:00+00:00",
+          "generated_at_gmt_str": "08:30 GMT, 19 Aug 2026",
+          "valid_until_gmt_str": "10:00 GMT, 19 Aug 2026"
+        }
+      },
+      "narrative": {
+        "technical": "No technical components fired on the latest bar \u2014 composite score is driven by drift/noise only.",
+        "pestle_base": "[<1h ago, n/a] [SCHEDULED 2026-09-16T18:00:00Z] FOMC rate decision (Sep 2026 meeting, day 2 of 2)",
+        "pestle_quote": "No recent CHF PESTLE evidence in the lookback window \u2014 score is flat by default, not a null result."
+      },
+      "upcoming": []
+    },
+    {
+      "pair": "AUDUSD",
+      "entry": 0.70775,
+      "tech": {
+        "orb": 0.0,
+        "trend": 0.0,
+        "pattern": 0.0,
+        "composite": 0.0
+      },
+      "pestle": {
+        "pair": "AUDUSD",
+        "pestle_score": 0.0,
+        "base": {
+          "currency": "AUD",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "USD",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": 0.0,
+        "entry": 0.70775,
+        "stop_loss_range": [
+          0.70775,
+          0.70775
+        ],
+        "take_profit_range": [
+          0.70775,
+          0.70775
+        ],
+        "reason": "tech=+0.00, pestle=+0.00, combined=+0.00",
+        "window": {
+          "session": "Sydney",
+          "generated_at_utc": "2026-08-19T08:30:00+00:00",
+          "valid_until_utc": "2026-08-19T07:00:00+00:00",
+          "generated_at_gmt_str": "08:30 GMT, 19 Aug 2026",
+          "valid_until_gmt_str": "07:00 GMT, 19 Aug 2026"
+        }
+      },
+      "narrative": {
+        "technical": "No technical components fired on the latest bar \u2014 composite score is driven by drift/noise only.",
+        "pestle_base": "No recent AUD PESTLE evidence in the lookback window \u2014 score is flat by default, not a null result.",
+        "pestle_quote": "[<1h ago, n/a] [SCHEDULED 2026-09-16T18:00:00Z] FOMC rate decision (Sep 2026 meeting, day 2 of 2)"
+      },
+      "upcoming": []
+    },
+    {
+      "pair": "USDCAD",
+      "entry": 1.38782,
+      "tech": {
+        "orb": 0.0,
+        "trend": 0.0,
+        "pattern": 0.0,
+        "composite": 0.0
+      },
+      "pestle": {
+        "pair": "USDCAD",
+        "pestle_score": -0.04829295649185511,
+        "base": {
+          "currency": "USD",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "CAD",
+          "score": 0.04829295649185511,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.16097652163951703,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": -0.019317182596742047,
+        "entry": 1.38782,
+        "stop_loss_range": [
+          1.38782,
+          1.38782
+        ],
+        "take_profit_range": [
+          1.38782,
+          1.38782
+        ],
+        "reason": "tech=+0.00, pestle=-0.05, combined=-0.02",
+        "window": {
+          "session": "New York",
+          "generated_at_utc": "2026-08-19T08:30:00+00:00",
+          "valid_until_utc": "2026-08-19T10:00:00+00:00",
+          "generated_at_gmt_str": "08:30 GMT, 19 Aug 2026",
+          "valid_until_gmt_str": "10:00 GMT, 19 Aug 2026"
+        }
+      },
+      "narrative": {
+        "technical": "No technical components fired on the latest bar \u2014 composite score is driven by drift/noise only.",
+        "pestle_base": "[<1h ago, n/a] [SCHEDULED 2026-09-16T18:00:00Z] FOMC rate decision (Sep 2026 meeting, day 2 of 2)",
+        "pestle_quote": "[2d ago, bullish] Canada CPI (July 2026) comes in above forecast \u2014 Canada headline CPI rose 3.0% y/y in July 2026, above the 2.9% forecast (previous: 2.8%); core CPI rose 2.3% y/y vs 2.2% forecast. Gasoline prices were the primary driver."
+      },
+      "upcoming": []
+    },
+    {
+      "pair": "NZDUSD",
+      "entry": 0.587655,
+      "tech": {
+        "orb": 0.0,
+        "trend": 0.0,
+        "pattern": 0.0,
+        "composite": 0.0
+      },
+      "pestle": {
+        "pair": "NZDUSD",
+        "pestle_score": 0.0,
+        "base": {
+          "currency": "NZD",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        },
+        "quote": {
+          "currency": "USD",
+          "score": 0.0,
+          "categories": {
+            "political": 0.0,
+            "economic": 0.0,
+            "social": 0.0,
+            "technological": 0.0,
+            "legal_regulatory": 0.0,
+            "environmental": 0.0
+          }
+        }
+      },
+      "signal": {
+        "direction": "no_trade",
+        "confidence": "low",
+        "combined_score": 0.0,
+        "entry": 0.587655,
+        "stop_loss_range": [
+          0.587655,
+          0.587655
+        ],
+        "take_profit_range": [
+          0.587655,
+          0.587655
+        ],
+        "reason": "tech=+0.00, pestle=+0.00, combined=+0.00",
+        "window": {
+          "session": "Sydney",
+          "generated_at_utc": "2026-08-19T08:30:00+00:00",
+          "valid_until_utc": "2026-08-19T07:00:00+00:00",
+          "generated_at_gmt_str": "08:30 GMT, 19 Aug 2026",
+          "valid_until_gmt_str": "07:00 GMT, 19 Aug 2026"
+        }
+      },
+      "narrative": {
+        "technical": "No technical components fired on the latest bar \u2014 composite score is driven by drift/noise only.",
+        "pestle_base": "No recent NZD PESTLE evidence in the lookback window \u2014 score is flat by default, not a null result.",
+        "pestle_quote": "[<1h ago, n/a] [SCHEDULED 2026-09-16T18:00:00Z] FOMC rate decision (Sep 2026 meeting, day 2 of 2)"
+      },
+      "upcoming": []
+    }
+  ]
+}

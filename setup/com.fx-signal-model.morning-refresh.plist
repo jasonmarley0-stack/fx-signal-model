@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.fx-signal-model.morning-refresh</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/jasonmarley/fx-signal-model/.venv/bin/python3</string>
+        <string>/Users/jasonmarley/fx-signal-model/run_live_dashboard.py</string>
+        <string>--days</string>
+        <string>14</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/jasonmarley/fx-signal-model</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>SIGNAL_ENGINE_BASE_URL</key>
+        <string>http://127.0.0.1:8000</string>
+    </dict>
+
+    <!-- 06:45 local every weekday — before the 07:15 cloud sync. If your local
+         clock offset from UTC ever changes (BST<->GMT), this stays correct
+         since StartCalendarInterval uses local time, unlike the 30-min
+         monitor's StartInterval which is a plain elapsed-seconds counter. -->
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>45</integer><key>Weekday</key><integer>1</integer></dict>
+        <dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>45</integer><key>Weekday</key><integer>2</integer></dict>
+        <dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>45</integer><key>Weekday</key><integer>3</integer></dict>
+        <dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>45</integer><key>Weekday</key><integer>4</integer></dict>
+        <dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>45</integer><key>Weekday</key><integer>5</integer></dict>
+    </array>
+
+    <key>StandardOutPath</key>
+    <string>/Users/jasonmarley/fx-signal-model/morning-refresh.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/jasonmarley/fx-signal-model/morning-refresh.error.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>

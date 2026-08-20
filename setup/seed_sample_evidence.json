@@ -1,0 +1,35 @@
+[
+  {
+    "signal_type_code": "RATE_HIKE",
+    "company_name": "EUR",
+    "headline": "ECB raises rates 25bp to 2.25% deposit facility",
+    "summary": "The European Central Bank raised its deposit facility rate by 25 basis points from 2.00% to 2.25% on 11 June 2026, citing eurozone inflation at 3.2% in May 2026 driven largely by Iran-war-related energy price increases.",
+    "event_date": "2026-06-11",
+    "confidence": 0.9,
+    "source_credibility": 85,
+    "source_name": "Euronews",
+    "source_note": "Verified via WebFetch during setup — real ECB rate decision, clean match for RATE_HIKE against the EUR Company. See PESTLE_SIGNAL_ENGINE_INTEGRATION.md for the polarity/category mapping this relies on."
+  },
+  {
+    "signal_type_code": "CPI_ABOVE_FORECAST",
+    "company_name": "CAD",
+    "headline": "Canada CPI (July 2026) comes in above forecast",
+    "summary": "Canada headline CPI rose 3.0% y/y in July 2026, above the 2.9% forecast (previous: 2.8%); core CPI rose 2.3% y/y vs 2.2% forecast. Gasoline prices were the primary driver.",
+    "event_date": "2026-08-17",
+    "confidence": 0.75,
+    "source_credibility": 65,
+    "source_name": "Babypips Financial & Forex Market Recap",
+    "source_note": "Verified via WebFetch during setup — secondary forex-news aggregation of the underlying StatCan release, dated one day before this test. Credibility set lower than the ECB/Euronews entry since it's a market recap, not the primary statistical agency release."
+  },
+  {
+    "signal_type_code": "GDP_MISS",
+    "company_name": "JPY",
+    "headline": "Japan Q2 2026 GDP misses forecast",
+    "summary": "Japan's Q2 2026 annualized GDP growth came in at 1.1% y/y, below the 1.9% forecast (previous: 1.8%) — softer-than-expected growth, though the yen still firmed as traders focused on fading Fed rate-hike expectations.",
+    "event_date": "2026-08-17",
+    "confidence": 0.75,
+    "source_credibility": 65,
+    "source_name": "Babypips Financial & Forex Market Recap",
+    "source_note": "Verified via WebFetch during setup — secondary forex-news aggregation, same caveat as the CAD entry above. Note the market reaction (yen firming) diverged from the pure data reading (GDP miss = bearish) because of a competing driver (US rate expectations) — a reminder that PESTLE-only scoring won't always match spot price action."
+  }
+]

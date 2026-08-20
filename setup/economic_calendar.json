@@ -1,0 +1,18 @@
+[
+  {
+    "currency": "USD",
+    "title": "FOMC rate decision (Sep 2026 meeting, day 2 of 2)",
+    "scheduled_at_utc": "2026-09-16T18:00:00Z",
+    "source_name": "Federal Reserve (federalreserve.gov/monetarypolicy/fomccalendars.htm)",
+    "source_credibility": 90,
+    "note": "Meeting confirmed for Sep 15-16, 2026 via the Fed's own calendar. The 18:00 UTC (14:00 ET) statement time is the FOMC's usual convention, not explicitly confirmed on that page for this specific meeting — treat the time as approximate, the date as confirmed."
+  },
+  {
+    "currency": "GBP",
+    "title": "UK Autumn Budget 2026 (Chancellor's statement)",
+    "scheduled_at_utc": "2026-10-28T12:30:00Z",
+    "source_name": "UK Government (via alto-accounting.com coverage, date confirmed by Chancellor 31 Jul 2026)",
+    "source_credibility": 70,
+    "note": "Date (28 Oct 2026) is confirmed. Time (12:30 GMT) is the UK's usual post-PMQs Budget slot, not explicitly published for this date at time of research — treat as approximate."
+  }
+]

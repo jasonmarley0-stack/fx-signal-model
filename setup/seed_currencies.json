@@ -1,0 +1,10 @@
+[
+  {"name": "GBP", "sector": "Currency", "region": "UK", "company_tier": "Major", "capabilities": "GBP macro/PESTLE tracking"},
+  {"name": "USD", "sector": "Currency", "region": "US", "company_tier": "Major", "capabilities": "USD macro/PESTLE tracking"},
+  {"name": "EUR", "sector": "Currency", "region": "Eurozone", "company_tier": "Major", "capabilities": "EUR macro/PESTLE tracking"},
+  {"name": "JPY", "sector": "Currency", "region": "Japan", "company_tier": "Major", "capabilities": "JPY macro/PESTLE tracking"},
+  {"name": "CHF", "sector": "Currency", "region": "Switzerland", "company_tier": "Major", "capabilities": "CHF macro/PESTLE tracking"},
+  {"name": "AUD", "sector": "Currency", "region": "Australia", "company_tier": "Major", "capabilities": "AUD macro/PESTLE tracking"},
+  {"name": "CAD", "sector": "Currency", "region": "Canada", "company_tier": "Major", "capabilities": "CAD macro/PESTLE tracking"},
+  {"name": "NZD", "sector": "Currency", "region": "New Zealand", "company_tier": "Major", "capabilities": "NZD macro/PESTLE tracking"}
+]
