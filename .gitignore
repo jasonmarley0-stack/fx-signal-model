@@ -5,3 +5,5 @@ __pycache__/
 .env
 .monitor_state.json
 *.log
+setup/oanda.env
+signals_log/
