@@ -1,0 +1,17 @@
+[Unit]
+Description=FX signal scanner (OANDA live prices + Signal Engine PESTLE)
+After=network.target signal-engine.service
+Wants=signal-engine.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/fx-signal-model
+EnvironmentFile=/root/fx-signal-model/setup/oanda.env
+Environment=SIGNAL_ENGINE_BASE_URL=http://127.0.0.1:8000
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/scanner_oanda.py
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
