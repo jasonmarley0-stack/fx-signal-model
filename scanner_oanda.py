@@ -43,6 +43,7 @@ from pestle.signal_engine_client import SignalEngineClient  # noqa: E402
 from combiner import combine_signal  # noqa: E402
 
 SIGNALS_LOG_DIR = Path(__file__).parent / "signals_log"
+LIVE_SCAN_PATH = Path(__file__).parent / "live_scan.json"
 POLL_SECONDS = 30 * 60
 
 
@@ -75,14 +76,26 @@ def log_signal(pair: str, sig) -> None:
         f.write(json.dumps(entry) + "\n")
 
 
+def write_live_scan(now: datetime, rows: list[dict]) -> None:
+    """Snapshot of the most recent scan for the dashboard to read — the
+    dashboard never talks to OANDA/Signal Engine directly, it just reads
+    this file, so a slow/dead dashboard page can never block the scanner."""
+    payload = {"generated_at": now.isoformat(), "rows": rows}
+    tmp_path = LIVE_SCAN_PATH.with_suffix(".json.tmp")
+    tmp_path.write_text(json.dumps(payload, indent=2))
+    tmp_path.replace(LIVE_SCAN_PATH)  # atomic — dashboard never reads a half-written file
+
+
 def run_once(pairs: list[str], client: SignalEngineClient) -> None:
     now = datetime.now(timezone.utc)
     fired = 0
+    rows = []
     for pair in pairs:
         try:
             df = fetch_oanda_candles(pair, count=300, granularity="M30")
             if len(df) < 60:
                 print(f"  {pair}: not enough OANDA history yet ({len(df)} bars) — skipping")
+                rows.append({"pair": pair, "error": f"not enough OANDA history ({len(df)} bars)"})
                 continue
             tech = technical_score(df)
             latest_tech = tech.iloc[-1]
@@ -101,8 +114,29 @@ def run_once(pairs: list[str], client: SignalEngineClient) -> None:
                 print(f"  {pair}: {sig.direction.upper()} ({sig.confidence}) @ {entry:.5f} — {sig.reason}")
             else:
                 print(f"  {pair}: no_trade ({sig.reason})")
+
+            window = None
+            if sig.window:
+                window = {
+                    "session": sig.window.get("session"),
+                    "generated_at_gmt_str": sig.window.get("generated_at_gmt_str"),
+                    "valid_until_gmt_str": sig.window.get("valid_until_gmt_str"),
+                }
+            rows.append({
+                "pair": pair, "entry": entry,
+                "tech": {"orb": latest_tech["orb"], "trend": latest_tech["trend"],
+                         "pattern": latest_tech["pattern"], "composite": latest_tech["tech_score"]},
+                "pestle_score": pestle["pestle_score"],
+                "direction": sig.direction, "confidence": sig.confidence,
+                "combined_score": sig.combined_score,
+                "stop_loss_range": list(sig.stop_loss_range),
+                "take_profit_range": list(sig.take_profit_range),
+                "reason": sig.reason, "window": window,
+            })
         except Exception as e:  # noqa: BLE001 — one pair's failure shouldn't kill the run
             print(f"  {pair}: ERROR — {e}")
+            rows.append({"pair": pair, "error": str(e)})
+    write_live_scan(now, rows)
     print(f"[{now.isoformat()}] Scan complete — {fired} signal(s) fired across {len(pairs)} pairs.")
 
 

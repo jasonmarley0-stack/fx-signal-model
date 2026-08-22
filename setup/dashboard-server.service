@@ -1,0 +1,16 @@
+[Unit]
+Description=FX signal scanner — live dashboard (password-protected)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/fx-signal-model
+EnvironmentFile=/root/fx-signal-model/setup/dashboard.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/dashboard_server.py
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
