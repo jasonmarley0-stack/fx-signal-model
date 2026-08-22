@@ -4,6 +4,7 @@ After=network.target signal-engine.service
 Wants=signal-engine.service
 
 [Service]
+Environment=PYTHONUNBUFFERED=1
 Type=simple
 User=root
 WorkingDirectory=/root/fx-signal-model
