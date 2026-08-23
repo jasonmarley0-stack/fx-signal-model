@@ -10,7 +10,7 @@ User=root
 WorkingDirectory=/root/fx-signal-model
 EnvironmentFile=/root/fx-signal-model/setup/oanda.env
 Environment=SIGNAL_ENGINE_BASE_URL=http://127.0.0.1:8000
-ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/scanner_oanda.py
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/streaming_scanner.py
 Restart=on-failure
 RestartSec=10
 

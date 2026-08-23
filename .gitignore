@@ -4,6 +4,9 @@ __pycache__/
 *.pyc
 .env
 .monitor_state.json
+.streaming_state.json
+live_scan.json
+alerts.json
 *.log
 setup/oanda.env
 signals_log/
