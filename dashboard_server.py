@@ -1,16 +1,21 @@
-"""Tiny live dashboard for the droplet: reads live_scan.json (written by
-streaming_scanner.py roughly every 30s) and alerts.json (last ~50 fired
-signal transitions) and renders them as a password-protected web page.
-Deliberately does NOT call OANDA or Signal Engine itself — it only ever
-reads the snapshot files the scanner writes, so this page can be slow,
-crash, or get hammered by refreshes without ever affecting the scanner or
-hitting rate limits on either upstream API.
+"""Signal IQ's live dashboard: reads live_scan.json (written by
+streaming_scanner.py roughly every 30s), alerts.json (last ~50 fired signal
+transitions), and performance.json (written by performance_scorer.py
+hourly) and renders them as a password-protected web page. Deliberately
+does NOT call OANDA, Signal Engine, or performance_scorer itself — it only
+ever reads the snapshot files those write, so this page can be slow,
+crash, or get hammered by refreshes without ever affecting anything
+upstream.
 
-The page polls /table every 15s for a fresh table partial (a partial, not a
-full page reload, so the browser doesn't lose its in-memory alert-tracking
-state) and /alerts every 5s; any alert newer than the last one it's seen
-pops a browser Notification, plays a short beep, and flashes that pair's
-row.
+Two views, switched client-side (no full page reload, so in-page state —
+alert tracking, notification permission — survives switching):
+  - Live: the market table (polls /table every 15s) + alert notifications
+    (polls /alerts every 5s — pops a browser Notification, plays a beep,
+    flashes the row on anything new).
+  - Performance: signal-outcome and directional-accuracy track record from
+    performance.json, with a 7D/30D/All range toggle. Rendered once at
+    page load — the data behind it only changes hourly, so unlike Live
+    there's no polling; reload the page for fresh numbers.
 
 Auth: HTTP Basic, credentials from setup/dashboard.env (DASHBOARD_USER /
 DASHBOARD_PASSWORD) — see setup/dashboard-server.service. Not meant to
@@ -34,6 +39,7 @@ import uvicorn
 
 LIVE_SCAN_PATH = Path(__file__).parent / "live_scan.json"
 ALERTS_PATH = Path(__file__).parent / "alerts.json"
+PERFORMANCE_PATH = Path(__file__).parent / "performance.json"
 app = FastAPI()
 security = HTTPBasic()
 
@@ -110,69 +116,207 @@ def render_table_body(payload: dict | None) -> str:
     rows_html = "".join(row_html(r) for r in payload["rows"])
     return f"""
     <div class="subtitle">Last scan: {generated_str}</div>
-    <table>
-      <thead><tr>
-        <th>Pair</th><th>Price</th><th>Technical</th><th>PESTLE</th>
-        <th>Combined</th><th>Signal</th><th>SL / TP</th>
-      </tr></thead>
-      <tbody>{rows_html}</tbody>
-    </table>"""
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Pair</th><th>Price</th><th>Technical</th><th>PESTLE</th>
+          <th>Combined</th><th>Signal</th><th>SL / TP</th>
+        </tr></thead>
+        <tbody>{rows_html}</tbody>
+      </table>
+    </div>"""
 
 
-def render_page(payload: dict | None) -> str:
+def fmt_pct(v: float | None) -> str:
+    return f"{v:.0%}" if isinstance(v, (int, float)) else "—"
+
+
+def fmt_r(v: float | None) -> str:
+    return f"{v:+.2f}R" if isinstance(v, (int, float)) else "—"
+
+
+def render_performance_view(performance: dict | None) -> str:
+    """Static at page load — performance.json only changes hourly (see
+    performance_scorer.py), so unlike the Live table this doesn't need
+    polling. All three range windows are embedded as data and switched
+    client-side (renderPerformanceRange in the page script) rather than
+    rendered three times server-side."""
+    if performance is None:
+        return """
+        <div class="subtitle">No performance data yet — performance_scorer.py hasn't run yet.</div>
+        <p class="empty">Check back once it's had a chance to run (hourly via systemd timer).</p>"""
+
+    all_agg = performance["aggregates"]["all"]
+    if all_agg["total_signals"] == 0:
+        return """
+        <div class="subtitle">No signals scored yet.</div>
+        <p class="empty">Nothing has fired since the streaming scanner went live — this fills in
+        automatically the moment a real signal fires and enough time passes to score it.</p>"""
+
+    data_json = json.dumps(performance["aggregates"])
+    return f"""
+    <div class="range-toggle" id="perf-range-toggle">
+      <button data-range="7d">7D</button>
+      <button data-range="30d" class="active">30D</button>
+      <button data-range="all">All</button>
+    </div>
+    <div id="perf-tiles" class="stat-tiles"></div>
+    <div class="chart-card">
+      <div class="chart-head"><h3>Cumulative R</h3><span class="cur" id="perf-chart-cur"></span></div>
+      <svg class="chart-svg" id="perf-chart" viewBox="0 0 640 200" preserveAspectRatio="none"></svg>
+      <p class="empty" id="perf-chart-empty" style="display:none">No resolved signals in this range yet.</p>
+    </div>
+    <div class="block-head"><h2>By Pair</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Pair</th><th>Signals</th><th>Win Rate</th><th>Avg R</th>
+          <th>Directional Acc.</th><th>Best</th><th>Worst</th></tr></thead>
+        <tbody id="perf-by-pair"></tbody>
+      </table>
+    </div>
+    <script id="perf-data" type="application/json">{data_json}</script>"""
+
+
+def render_page(live_payload: dict | None, performance_payload: dict | None) -> str:
     return f"""<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/>
-<title>FX Signal Scanner — Live</title>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Signal IQ</title>
 <style>
   :root {{
-    --bg:#0d0f12; --panel:#15181c; --border:rgba(255,255,255,0.08);
-    --text:#e8e9ea; --muted:#8b9098; --accent:#4a9eff;
-    --long:#3ecf7e; --short:#f0654a; --neutral:#8b9098;
+    --ground:#090d14; --surface:#10161f; --surface-2:#161d29; --surface-3:#1c2432;
+    --border:rgba(158,176,204,0.12); --border-strong:rgba(158,176,204,0.22);
+    --text:#e9edf5; --text-muted:#8996ac; --text-faint:#5c6577;
+    --accent:#4c7eff; --accent-hover:#6a95ff; --accent-soft:rgba(76,126,255,0.14);
+    --long:#34c495; --long-soft:rgba(52,196,149,0.14);
+    --short:#f1654a; --short-soft:rgba(241,101,74,0.14);
+    --neutral:#8996ac; --neutral-soft:rgba(137,150,172,0.12);
+    --warn:#e0a94c; --warn-soft:rgba(224,169,76,0.14);
+    --font-display:'Sora',system-ui,sans-serif; --font-body:'Inter',system-ui,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+    --radius:12px; --radius-sm:8px;
   }}
   * {{ box-sizing:border-box; }}
-  body {{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    background:var(--bg); color:var(--text); margin:0; padding:32px 20px 64px;
-  }}
-  .wrap {{ max-width:1100px; margin:0 auto; }}
-  h1 {{ font-size:20px; margin:0 0 4px; font-weight:600; }}
-  .subtitle {{ color:var(--muted); font-size:13px; margin-bottom:24px; font-variant-numeric:tabular-nums; }}
-  table {{ width:100%; border-collapse:collapse; font-size:13px; background:var(--panel);
-    border:1px solid var(--border); border-radius:10px; overflow:hidden; }}
-  th, td {{ padding:10px 12px; text-align:left; border-bottom:1px solid var(--border); vertical-align:top; }}
-  th {{ background:rgba(255,255,255,0.03); font-size:11px; text-transform:uppercase;
-    letter-spacing:0.04em; color:var(--muted); font-weight:600; }}
-  .pair {{ font-weight:600; }}
-  .num {{ font-variant-numeric:tabular-nums; }}
-  .arrow {{ font-size:11px; }}
+  html {{ color-scheme: dark; }}
+  body {{ margin:0; background:var(--ground); color:var(--text); font-family:var(--font-body); line-height:1.5; }}
+  h1,h2,h3 {{ font-family:var(--font-display); margin:0; }}
+  .mono {{ font-family:var(--font-mono); font-variant-numeric:tabular-nums; }}
+
+  .shell {{ display:grid; grid-template-columns:220px 1fr; min-height:100vh; }}
+  .sidebar {{ border-right:1px solid var(--border); padding:24px 16px; display:flex; flex-direction:column; gap:24px; position:sticky; top:0; height:100vh; }}
+  .brand {{ display:flex; align-items:center; gap:10px; padding:0 8px; }}
+  .brand-mark {{ width:28px; height:28px; border-radius:8px; background:linear-gradient(155deg,var(--accent),#2a4fc4); flex-shrink:0; }}
+  .brand-name {{ font-family:var(--font-display); font-weight:700; font-size:16px; }}
+  .nav {{ display:flex; flex-direction:column; gap:2px; }}
+  .nav-item {{ display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:var(--radius-sm); background:transparent; border:none; cursor:pointer; text-align:left; color:var(--text-muted); font-family:var(--font-display); font-weight:600; font-size:13.5px; }}
+  .nav-item:hover {{ background:var(--surface-2); color:var(--text); }}
+  .nav-item.active {{ background:var(--accent-soft); color:var(--accent-hover); }}
+
+  .main {{ min-width:0; }}
+  .topbar {{ padding:20px clamp(16px,3vw,36px); border-bottom:1px solid var(--border); }}
+  .topbar h1 {{ font-size:19px; font-weight:700; }}
+  .view {{ display:none; padding:24px clamp(16px,3vw,36px) 80px; max-width:1180px; }}
+  .view.active {{ display:block; }}
+  .block-head {{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:28px 0 14px; flex-wrap:wrap; }}
+  .block-head h2 {{ font-size:15px; font-weight:700; }}
+
+  .subtitle {{ color:var(--text-faint); font-size:13px; margin-bottom:20px; font-variant-numeric:tabular-nums; }}
+  .empty {{ color:var(--text-muted); }}
+  .table-wrap {{ overflow-x:auto; border:1px solid var(--border); border-radius:var(--radius); }}
+  table {{ width:100%; border-collapse:collapse; font-size:13px; min-width:640px; }}
+  th, td {{ padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); vertical-align:top; }}
+  thead th {{ background:var(--surface-2); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); font-weight:600; white-space:nowrap; }}
+  tbody td {{ background:var(--surface); }}
+  tbody tr:last-child td {{ border-bottom:none; }}
+  .pair {{ font-weight:700; font-family:var(--font-display); }}
+  .num {{ font-variant-numeric:tabular-nums; font-family:var(--font-mono); }}
+  .arrow {{ font-size:11px; font-family:var(--font-body); }}
   .arrow-up {{ color:var(--long); }}
   .arrow-down {{ color:var(--short); }}
-  .arrow-flat {{ color:var(--muted); }}
-  .tech-breakdown {{ color:var(--muted); font-size:12px; }}
+  .arrow-flat {{ color:var(--text-faint); }}
+  .tech-breakdown {{ color:var(--text-muted); font-size:12px; font-family:var(--font-mono); }}
   .composite {{ color:var(--text); font-weight:600; margin-top:2px; }}
   .combined {{ font-weight:700; font-size:14px; }}
-  .badge {{ display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px;
-    font-weight:700; letter-spacing:0.03em; }}
-  .badge.long {{ background:rgba(62,207,126,0.15); color:var(--long); }}
-  .badge.short {{ background:rgba(240,101,74,0.15); color:var(--short); }}
-  .badge.neutral {{ background:rgba(139,144,152,0.15); color:var(--neutral); }}
-  .conf {{ color:var(--muted); font-size:11px; text-transform:uppercase; }}
+  .badge {{ display:inline-block; padding:2px 9px; border-radius:999px; font-size:11px; font-weight:700; letter-spacing:0.03em; font-family:var(--font-body); }}
+  .badge.long {{ background:var(--long-soft); color:var(--long); }}
+  .badge.short {{ background:var(--short-soft); color:var(--short); }}
+  .badge.neutral {{ background:var(--neutral-soft); color:var(--neutral); }}
+  .conf {{ color:var(--text-faint); font-size:11px; text-transform:uppercase; }}
   .sltp {{ font-size:12px; line-height:1.6; }}
   .reason-row td {{ border-bottom:1px solid var(--border); padding-top:0; }}
-  .reason {{ color:var(--muted); font-size:12px; }}
-  .window {{ color:var(--accent); font-size:11px; margin-top:2px; }}
+  .reason {{ color:var(--text-faint); font-size:12px; }}
+  .window {{ color:var(--accent-hover); font-size:11px; margin-top:2px; }}
   .err-row .err {{ color:var(--short); font-size:12px; }}
-  .empty {{ color:var(--muted); }}
   tr[data-pair].flash td {{ animation: flash-row 1s ease-in-out 3; }}
-  @keyframes flash-row {{
-    0%, 100% {{ background-color:transparent; }}
-    50% {{ background-color:rgba(74,158,255,0.25); }}
+  @keyframes flash-row {{ 0%,100% {{ background-color:transparent; }} 50% {{ background-color:rgba(76,126,255,0.22); }} }}
+
+  .range-toggle {{ display:inline-flex; background:var(--surface-2); border:1px solid var(--border); border-radius:999px; padding:3px; gap:2px; margin-bottom:20px; }}
+  .range-toggle button {{ border:none; background:transparent; padding:6px 14px; border-radius:999px; font-size:12.5px; font-weight:600; color:var(--text-faint); cursor:pointer; font-family:var(--font-body); }}
+  .range-toggle button.active {{ background:var(--accent); color:#fff; }}
+  .stat-tiles {{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }}
+  .tile {{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; }}
+  .tile .label {{ font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); font-weight:600; margin-bottom:8px; }}
+  .tile .value {{ font-family:var(--font-mono); font-size:22px; font-weight:500; }}
+  .tile .value.pos {{ color:var(--long); }}
+  .tile .value.neg {{ color:var(--short); }}
+  .tile .sub {{ font-size:11.5px; color:var(--text-faint); margin-top:4px; }}
+  .chart-card {{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px 10px; margin-bottom:8px; }}
+  .chart-head {{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px; }}
+  .chart-head h3 {{ font-size:13.5px; font-weight:700; }}
+  .chart-head .cur {{ font-family:var(--font-mono); color:var(--long); font-weight:500; }}
+  .chart-svg {{ width:100%; height:200px; display:block; }}
+
+  .bottom-nav {{ display:none; }}
+  @media (max-width:860px) {{
+    .shell {{ grid-template-columns:1fr; }}
+    .sidebar {{ display:none; }}
+    .main {{ padding-bottom:64px; }}
+    .bottom-nav {{ display:flex; position:fixed; bottom:0; left:0; right:0; z-index:20; background:color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter:blur(12px); border-top:1px solid var(--border); padding:8px 10px calc(8px + env(safe-area-inset-bottom)); justify-content:space-around; }}
+    .bottom-nav button {{ background:none; border:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:var(--text-faint); font-size:10.5px; font-weight:600; font-family:var(--font-display); padding:4px 18px; border-radius:var(--radius-sm); cursor:pointer; }}
+    .bottom-nav button.active {{ color:var(--accent-hover); }}
+    .stat-tiles {{ grid-template-columns:repeat(2,1fr); }}
   }}
-</style></head><body><div class="wrap">
-  <h1>FX Signal Scanner</h1>
-  <div id="table-container">{render_table_body(payload)}</div>
+</style></head><body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark"></div><div class="brand-name">Signal IQ</div></div>
+    <nav class="nav" id="side-nav">
+      <button class="nav-item active" data-view="live">Live</button>
+      <button class="nav-item" data-view="performance">Performance</button>
+    </nav>
+  </aside>
+  <main class="main">
+    <section class="view active" id="view-live">
+      <div class="topbar"><h1>Live</h1></div>
+      <div style="padding:24px clamp(16px,3vw,36px) 0">
+        <div id="table-container">{render_table_body(live_payload)}</div>
+      </div>
+    </section>
+    <section class="view" id="view-performance">
+      <div class="topbar"><h1>Performance</h1></div>
+      <div style="padding:24px clamp(16px,3vw,36px) 0" id="performance-container">
+        {render_performance_view(performance_payload)}
+      </div>
+    </section>
+  </main>
+  <nav class="bottom-nav" id="bottom-nav">
+    <button class="active" data-view="live">Live</button>
+    <button data-view="performance">Performance</button>
+  </nav>
 </div>
 <script>
+  const navButtons = document.querySelectorAll('.nav-item, .bottom-nav button');
+  function setView(name) {{
+    document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + name));
+    navButtons.forEach(b => b.classList.toggle('active', b.dataset.view === name));
+  }}
+  navButtons.forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+
+  // ---------- Live: table refresh + alert polling/notifications ----------
   let lastAlertId = null;
 
   function beep() {{
@@ -210,8 +354,6 @@ def render_page(payload: dict | None) -> str:
       const data = await resp.json();
       const alerts = data.alerts || [];
       if (lastAlertId === null) {{
-        // First poll after page load — record the current tip only, don't
-        // re-fire notifications for alerts that already happened.
         lastAlertId = alerts.length ? alerts[alerts.length - 1].id : '';
         return;
       }}
@@ -231,20 +373,93 @@ def render_page(payload: dict | None) -> str:
   if ('Notification' in window && Notification.permission === 'default') {{
     Notification.requestPermission();
   }}
-
   setInterval(refreshTable, 15000);
   setInterval(pollAlerts, 5000);
   pollAlerts();
+
+  // ---------- Performance: render from embedded data, range-toggle client-side ----------
+  const perfDataEl = document.getElementById('perf-data');
+  if (perfDataEl) {{
+    const aggregates = JSON.parse(perfDataEl.textContent);
+
+    function fmtPct(v) {{ return (v === null || v === undefined) ? '—' : (v * 100).toFixed(0) + '%'; }}
+    function fmtR(v) {{ return (v === null || v === undefined) ? '—' : (v >= 0 ? '+' : '') + v.toFixed(2) + 'R'; }}
+
+    function renderPerformanceRange(range) {{
+      const agg = aggregates[range];
+      const pairCount = Object.keys(agg.by_pair).length;
+      document.getElementById('perf-tiles').innerHTML = `
+        <div class="tile"><div class="label">Win Rate</div><div class="value ${{agg.win_rate >= 0.5 ? 'pos' : ''}}">${{fmtPct(agg.win_rate)}}</div><div class="sub">${{agg.resolved_signals}} of ${{agg.total_signals}} signals</div></div>
+        <div class="tile"><div class="label">Avg R</div><div class="value ${{agg.avg_r >= 0 ? 'pos' : 'neg'}}">${{fmtR(agg.avg_r)}}</div><div class="sub">per closed signal</div></div>
+        <div class="tile"><div class="label">Directional Accuracy</div><div class="value ${{agg.directional_accuracy >= 0.5 ? 'pos' : ''}}">${{fmtPct(agg.directional_accuracy)}}</div><div class="sub">${{agg.directional_sample_size}} scored</div></div>
+        <div class="tile"><div class="label">Total Signals</div><div class="value">${{agg.total_signals}}</div><div class="sub">${{pairCount}} pair${{pairCount === 1 ? '' : 's'}}</div></div>`;
+
+      const series = agg.cumulative_r_series;
+      const chartEmpty = document.getElementById('perf-chart-empty');
+      const chartSvg = document.getElementById('perf-chart');
+      if (!series.length) {{
+        chartSvg.style.display = 'none';
+        chartEmpty.style.display = 'block';
+        document.getElementById('perf-chart-cur').textContent = '';
+      }} else {{
+        chartSvg.style.display = 'block';
+        chartEmpty.style.display = 'none';
+        const W = 640, H = 200, pad = 8;
+        const values = series.map(p => p.cumulative_r);
+        const max = Math.max(0, ...values), min = Math.min(0, ...values);
+        const range_ = (max - min) || 1;
+        const xs = i => pad + (i / Math.max(series.length - 1, 1)) * (W - pad * 2);
+        const ys = v => H - pad - ((v - min) / range_) * (H - pad * 2);
+        const points = series.map((p, i) => `${{xs(i)}},${{ys(p.cumulative_r)}}`).join(' ');
+        const areaPoints = points + ` ${{xs(series.length - 1)}},${{H - pad}} ${{xs(0)}},${{H - pad}}`;
+        const last = series[series.length - 1];
+        const lastX = xs(series.length - 1), lastY = ys(last.cumulative_r);
+        const lineColor = last.cumulative_r >= 0 ? 'var(--long)' : 'var(--short)';
+        chartSvg.innerHTML = `
+          <defs><linearGradient id="perfAreaFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="${{lineColor}}" stop-opacity="0.28" />
+            <stop offset="100%" stop-color="${{lineColor}}" stop-opacity="0" />
+          </linearGradient></defs>
+          <line x1="${{pad}}" y1="${{ys(0)}}" x2="${{W-pad}}" y2="${{ys(0)}}" stroke="var(--border)" stroke-width="1" />
+          <polygon points="${{areaPoints}}" fill="url(#perfAreaFill)" />
+          <polyline points="${{points}}" fill="none" stroke="${{lineColor}}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+          <circle cx="${{lastX}}" cy="${{lastY}}" r="4" fill="${{lineColor}}" />`;
+        document.getElementById('perf-chart-cur').textContent = fmtR(last.cumulative_r);
+      }}
+
+      document.getElementById('perf-by-pair').innerHTML = Object.entries(agg.by_pair).map(([pair, s]) => `
+        <tr><td class="pair">${{pair}}</td><td class="num">${{s.signals}}</td>
+          <td class="num">${{fmtPct(s.win_rate)}}</td><td class="num">${{fmtR(s.avg_r)}}</td>
+          <td class="num">${{fmtPct(s.directional_accuracy)}}</td>
+          <td class="num">${{fmtR(s.best_r)}}</td><td class="num">${{fmtR(s.worst_r)}}</td></tr>`).join('');
+    }}
+
+    document.getElementById('perf-range-toggle').addEventListener('click', (e) => {{
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      document.querySelectorAll('#perf-range-toggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPerformanceRange(btn.dataset.range);
+    }});
+
+    renderPerformanceRange('30d');
+  }}
 </script>
 </body></html>"""
 
 
 @app.get("/", response_class=HTMLResponse)
 def dashboard(_: None = Depends(check_auth)) -> str:
-    payload = None
+    live_payload = None
     if LIVE_SCAN_PATH.exists():
-        payload = json.loads(LIVE_SCAN_PATH.read_text())
-    return render_page(payload)
+        live_payload = json.loads(LIVE_SCAN_PATH.read_text())
+    performance_payload = None
+    if PERFORMANCE_PATH.exists():
+        try:
+            performance_payload = json.loads(PERFORMANCE_PATH.read_text())
+        except json.JSONDecodeError:
+            performance_payload = None
+    return render_page(live_payload, performance_payload)
 
 
 @app.get("/table", response_class=HTMLResponse)
@@ -263,6 +478,16 @@ def alerts(_: None = Depends(check_auth)) -> dict:
         return json.loads(ALERTS_PATH.read_text())
     except json.JSONDecodeError:
         return {"alerts": []}
+
+
+@app.get("/api/performance", response_class=JSONResponse)
+def performance(_: None = Depends(check_auth)) -> dict:
+    if not PERFORMANCE_PATH.exists():
+        return {"updated_at": None, "signals": [], "aggregates": {}}
+    try:
+        return json.loads(PERFORMANCE_PATH.read_text())
+    except json.JSONDecodeError:
+        return {"updated_at": None, "signals": [], "aggregates": {}}
 
 
 if __name__ == "__main__":

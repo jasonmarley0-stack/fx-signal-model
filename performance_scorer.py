@@ -170,6 +170,8 @@ def aggregate(scored: list[dict], since: datetime | None = None) -> dict:
         pair_all = [s for s in scored if s["pair"] == pair]
         pair_resolved = [s for s in resolved if s["pair"] == pair]
         pair_wins = [s for s in pair_resolved if s["outcome"] == "target"]
+        pair_directional_done = [s for s in pair_all if s["directional_outcome"] in ("correct", "incorrect")]
+        pair_directional_correct = [s for s in pair_directional_done if s["directional_outcome"] == "correct"]
         r_values = [s["r_multiple"] for s in pair_resolved]
         by_pair[pair] = {
             "signals": len(pair_all),
@@ -177,6 +179,7 @@ def aggregate(scored: list[dict], since: datetime | None = None) -> dict:
             "avg_r": (sum(r_values) / len(r_values)) if r_values else None,
             "best_r": max(r_values) if r_values else None,
             "worst_r": min(r_values) if r_values else None,
+            "directional_accuracy": (len(pair_directional_correct) / len(pair_directional_done)) if pair_directional_done else None,
         }
     ranked = [(p, s["win_rate"]) for p, s in by_pair.items() if s["win_rate"] is not None]
     best_pair = max(ranked, key=lambda kv: kv[1])[0] if ranked else None
