@@ -10,3 +10,5 @@ alerts.json
 *.log
 setup/oanda.env
 signals_log/
+setup/dashboard.env
+live_scan.json
