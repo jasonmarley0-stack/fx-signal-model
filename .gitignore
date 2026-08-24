@@ -7,8 +7,8 @@ __pycache__/
 .streaming_state.json
 live_scan.json
 alerts.json
+performance.json
 *.log
 setup/oanda.env
 signals_log/
 setup/dashboard.env
-live_scan.json

@@ -1,0 +1,10 @@
+[Unit]
+Description=Score fired signals against real OANDA price action (trade-outcome + directional accuracy)
+After=network.target signal-scanner.service
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/fx-signal-model
+EnvironmentFile=/root/fx-signal-model/setup/oanda.env
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/performance_scorer.py

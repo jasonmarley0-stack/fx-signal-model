@@ -1,0 +1,10 @@
+[Unit]
+Description=Score fired signals against real price action hourly
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1h
+Persistent=true
+
+[Install]
+WantedBy=timers.target
