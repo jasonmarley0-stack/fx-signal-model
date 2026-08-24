@@ -1,0 +1,11 @@
+[Unit]
+Description=Re-run RSS ingestion for all registered Signal Engine evidence sources
+After=network.target signal-engine.service
+Wants=signal-engine.service
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/fx-signal-model
+Environment=SIGNAL_ENGINE_BASE_URL=http://127.0.0.1:8000
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/setup/register_rss_sources.py

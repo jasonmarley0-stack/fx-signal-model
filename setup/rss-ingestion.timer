@@ -1,0 +1,10 @@
+[Unit]
+Description=Run RSS ingestion every 6 hours so the raw-evidence review queue keeps refilling
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=6h
+Persistent=true
+
+[Install]
+WantedBy=timers.target
