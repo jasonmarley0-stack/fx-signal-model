@@ -33,22 +33,48 @@ Diagnosed directly against the running droplet (2026-08-24, ~21:00 UTC):
   just now the thing actively strangling the dashboard, not a
   someday-nice-to-have.
 
-**Fix, in order:**
-1. Schedule recurring RSS ingestion (a systemd timer running the
-   `register_rss_sources.py`-style pull every 6–12h) so `/raw-evidence`
-   keeps refilling.
-2. Establish an actual recurring review cadence against that queue
-   (Claude-assisted pass, following the `process_evidence_batch.py`
-   pattern already proven on the first batch) — this is manual/considered
-   by design, per Signal Engine's no-auto-classification principle, so it
-   needs a standing habit, not just automation.
-3. Once evidence is flowing continuously, it's worth revisiting whether
-   72h lookback / 36h half-life are still the right constants — but that's
-   tuning, not urgent, and shouldn't block 1–2.
+**Status: fixed and verified live**, 2026-08-24:
+1. Reviewed all 135 backlogged items and published 6 more genuine PESTLE
+   signals (AUD/JPY/EUR/GBP PMI moves, CAD payments-infrastructure) — see
+   `setup/process_evidence_batch_2.py` for the full reasoning per item.
+2. That surfaced a **deeper issue than staleness alone**: Signal Engine
+   dates each signal by its real-world event date (`source_published_at`),
+   not by review/publish date — correct design, but it means review lag
+   eats directly into the scoring window. Confirmed directly: freshly
+   published signals for events 3–4 days old still scored `0.0` under the
+   72h window. Fixed by widening the default lookback to 120h
+   (`src/pestle/pestle_scorer.py`, `DEFAULT_LOOKBACK_HOURS`) — enough
+   runway for a realistic review cadence, while `RECENCY_HALF_LIFE_HOURS`
+   (36h) still decays older evidence sharply within that window.
+3. Added `setup/rss-ingestion.service` + `.timer` — re-runs
+   `register_rss_sources.py` (already idempotent) every 6h so the queue
+   keeps refilling. Confirmed no cron/timer existed before; confirmed
+   working after deploy (ran once immediately, next run scheduled, will
+   survive reboots).
+4. Verified live on the droplet after restart: `pestle_score` is now
+   non-zero for GBP/EUR/JPY/AUD/NZD (USD/CHF/CAD stayed at `0.0` — zero
+   qualifying published evidence for those three, which is correct, not a
+   bug). Still mostly `no_trade` across pairs at the moment, which is
+   honest: the fresh evidence is real but modest in magnitude, and
+   technicals happen to be quiet right now too — not the same failure mode
+   as before.
 
-Nothing about this is a regression from last session's deploy — the
-streaming scanner is doing exactly what it's supposed to with the PESTLE
-data it's being given, which is currently starved.
+**Still open**: the recurring RSS timer keeps the queue *filled*; nothing
+yet keeps it *reviewed* on a cadence. Review is deliberately manual (no
+auto-classification, per Signal Engine's design principle), so this needs
+a standing habit — e.g. a periodic prompt to run another
+`process_evidence_batch_N.py`-style pass — not another piece of
+automation. Worth deciding cadence (daily? every few days?) so evidence
+doesn't sit long enough to blow past even the widened window again.
+
+One concrete catalog gap found while reviewing: **UK and Canada retail
+sales both had clear beat/miss data with no fitting SignalType** —
+`CONSUMER_CONFIDENCE_UP/DOWN` is a sentiment-survey type and would be a
+stretch for actual spending data. Same shape of gap as the already-known
+missing PMI type (composite PMI *was* mapped to `CONSUMER_CONFIDENCE_*`
+here, since PMI is itself a business-sentiment survey — a much closer fit
+than retail sales is). Worth adding a `RETAIL_SALES_BEAT/MISS` SignalType
+alongside the PMI one if this keeps coming up.
 
 ## 1. Backend/data gaps
 
