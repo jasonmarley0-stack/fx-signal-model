@@ -122,6 +122,14 @@ rolling dataset (e.g. `performance.json`, appended to as signals resolve)
 instead of just rendering HTML; aggregate into win rate / avg R /
 cumulative-R / per-pair breakdown with 7D/30D/All windows.
 
+**Sharpened by [SIGNAL_DEFINITION_AND_ACCURACY.md](SIGNAL_DEFINITION_AND_ACCURACY.md):**
+this item now covers two metrics computed together from the same data, not
+one — the R-multiple/win-rate above, *and* a simpler directional-accuracy
+check (did price move the called direction by a fixed horizon, independent
+of SL/TP). The second is what eventually calibrates `combined_score` into
+a real probability instead of an unvalidated heuristic — see that doc for
+the full reasoning.
+
 ### 1d. No settings/preferences persistence
 Nothing today stores per-pair mute, sound on/off, "high confidence only",
 or notification-channel prefs — not even for a single user.
