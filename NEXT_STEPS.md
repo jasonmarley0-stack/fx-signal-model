@@ -28,9 +28,12 @@ mostly done and stands as a historical record instead.
 
 ## Outstanding — operating the MVP over the next 30 days
 
-- [ ] **Daily performance review cadence — needs a decision, see below.**
-      This is the one thing worth explicitly agreeing on before calling
-      this phase "running," not just building more.
+- [x] **Daily performance review cadence** — done. A scheduled cloud
+      routine ("Signal IQ daily performance review") runs at 06:00 UTC
+      daily and pushes a notification with health + performance numbers.
+      Getting there needed more than the API call originally planned — see
+      "How the daily review actually works" below for what changed and
+      why, since it's worth understanding if this ever needs debugging.
 - [ ] **PESTLE evidence review cadence.** RSS ingestion is now automatic
       (every 6h) but review (raw evidence → published signal) is still a
       manual/Claude-assisted pass with no set schedule — deliberately so,
@@ -89,25 +92,49 @@ mostly done and stands as a historical record instead.
       both during the evidence review pass that had to be approximated
       into `CONSUMER_CONFIDENCE_*` (PMI, a reasonable fit) or skipped
       entirely (retail sales, not a good fit for a sentiment-survey type).
-- [ ] TLS on the dashboard (currently plain HTTP on a public port) — was
-      already flagged as "before this becomes anything resembling a real
-      product with real users." Worth revisiting now that real performance
-      numbers are live, even before other users exist.
+- [x] TLS on the dashboard — done as a side effect of building the daily
+      review (see below): Caddy fronts the dashboard with automatic HTTPS
+      at `https://159-65-19-136.sslip.io`, port 8080 closed externally.
+      Swap the Caddyfile's hostname for a real domain later if one gets
+      registered; everything else stays the same.
 - [ ] Git identity on the Mac — fixed on the droplet this session; the Mac
       side still auto-detects from username/hostname. Cosmetic.
 
-## The key decision: daily performance review
+## How the daily review actually works
 
-Three ways this could actually work, from least to most automated:
+You picked full automation ("I run a scheduled daily check"). The first
+attempt — a scheduled cloud routine calling the dashboard's API directly —
+didn't work, and it's worth recording why in case this ever needs
+debugging: **cloud routine sandboxes sit behind a strict outbound
+allowlist that doesn't include arbitrary third-party hosts.** Confirmed by
+testing directly, twice: a plain-HTTP call and then an HTTPS call (behind
+Caddy, with a real Let's Encrypt cert) to the droplet both got a flat 403
+from the sandbox's own outbound proxy gateway, before the request ever
+left the sandbox. TLS and a real hostname don't fix this — it's a platform
+policy, not a protocol problem.
 
-1. **You check the Performance/Live tabs yourself**, on whatever cadence
-   suits you; I'm available on demand if something looks off or you want
-   a deeper read on a specific day.
-2. **I run a scheduled daily check** (via a scheduled cloud task) that
-   reads `performance.json` + service health each day and sends you a
-   short summary — win rate/avg R/directional accuracy movement, any
-   service down, any error spike — without you having to go look.
-3. **Hybrid**: I run the automated *health* check (services up, signals
-   firing, nothing erroring) on a schedule, but the actual performance
-   numbers are something you review yourself on your own cadence, since
-   30 days of data is too early to react to day-to-day noise anyway.
+The actual fix: route through GitHub instead, since routines already have
+sanctioned repo access.
+
+1. `setup/push_status_snapshot.py` runs daily at **05:45 UTC** on the
+   droplet (systemd timer) — reads the same local files
+   `dashboard_server.py` reads, plus systemd service/timer status, and
+   commits+pushes `status/daily_status.json` via a dedicated write-scoped
+   deploy key (`fx_signal_model_status_relay`, added to the repo with
+   write access — separate from the Mac's own push access and from the
+   read-only key used for the private `signal-engine` repo).
+2. The "Signal IQ daily performance review" routine fires at **06:00 UTC**
+   (7am London, currently BST — will drift to 6am local once clocks go
+   back in late October since cron is fixed UTC; revisit then if it
+   matters), reads that file from its own repo checkout — no network call
+   to your infrastructure at all — and pushes you a notification every
+   time, healthy or not.
+3. Manage the routine at
+   [claude.ai/code/routines](https://claude.ai/code/routines), or ask me
+   to check/adjust it in a session like this one (`trig_01UHKBcHN3w2UgDXPqqqc4fH`).
+
+Side effects worth knowing about, both net positives: the dashboard is now
+on real HTTPS (`https://159-65-19-136.sslip.io`, port 8080 closed
+externally) instead of plain HTTP, and `/api/health` + `/api/performance`
+accept a separate `MONITOR_API_KEY` header so automation never needs your
+own dashboard login.
