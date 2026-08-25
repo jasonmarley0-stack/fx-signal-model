@@ -1,0 +1,13 @@
+# Reverse-proxies the Signal IQ dashboard behind automatic HTTPS (Caddy
+# obtains and renews a Let's Encrypt certificate on its own — no manual
+# cert management). Fronts dashboard_server.py, which keeps listening on
+# plain HTTP at 127.0.0.1:8080 unchanged; only Caddy is exposed externally.
+#
+# Domain: a zero-config sslip.io hostname that resolves directly to the
+# droplet's IP (159-65-19-136.sslip.io -> 159.65.19.136), so this works
+# with no DNS setup. Swap for a real domain later by changing this one
+# line and pointing its A record at the droplet — everything else here
+# stays the same.
+159-65-19-136.sslip.io {
+	reverse_proxy 127.0.0.1:8080
+}
