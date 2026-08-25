@@ -37,7 +37,7 @@ import secrets
 from datetime import datetime, timezone
 from pathlib import Path
 
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, Header, HTTPException, status
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 import uvicorn
@@ -47,19 +47,44 @@ ALERTS_PATH = Path(__file__).parent / "alerts.json"
 PERFORMANCE_PATH = Path(__file__).parent / "performance.json"
 app = FastAPI()
 security = HTTPBasic()
+security_optional = HTTPBasic(auto_error=False)  # for routes that also accept the monitor API key
+
+
+def _basic_auth_ok(credentials: HTTPBasicCredentials | None) -> bool:
+    user = os.environ.get("DASHBOARD_USER", "")
+    password = os.environ.get("DASHBOARD_PASSWORD", "")
+    if not credentials or not user or not password:
+        return False
+    return secrets.compare_digest(credentials.username, user) and secrets.compare_digest(credentials.password, password)
 
 
 def check_auth(credentials: HTTPBasicCredentials = Depends(security)) -> None:
-    user = os.environ.get("DASHBOARD_USER", "")
-    password = os.environ.get("DASHBOARD_PASSWORD", "")
-    ok_user = secrets.compare_digest(credentials.username, user)
-    ok_pass = secrets.compare_digest(credentials.password, password)
-    if not (user and password and ok_user and ok_pass):
+    if not _basic_auth_ok(credentials):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials",
             headers={"WWW-Authenticate": "Basic"},
         )
+
+
+def check_auth_or_monitor_key(
+    credentials: HTTPBasicCredentials | None = Depends(security_optional),
+    x_api_key: str | None = Header(default=None, alias="X-API-Key"),
+) -> None:
+    """/api/health and /api/performance accept either the human dashboard
+    login (Basic Auth, browser use) or a separate MONITOR_API_KEY via
+    header — a scheduled automation gets its own narrow, revocable
+    credential instead of reusing the person's own login."""
+    monitor_key = os.environ.get("MONITOR_API_KEY", "")
+    if monitor_key and x_api_key and secrets.compare_digest(x_api_key, monitor_key):
+        return
+    if _basic_auth_ok(credentials):
+        return
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid credentials",
+        headers={"WWW-Authenticate": "Basic"},
+    )
 
 
 def fmt_price(v: float | None) -> str:
@@ -731,7 +756,7 @@ def alerts(_: None = Depends(check_auth)) -> dict:
 
 
 @app.get("/api/performance", response_class=JSONResponse)
-def performance(_: None = Depends(check_auth)) -> dict:
+def performance(_: None = Depends(check_auth_or_monitor_key)) -> dict:
     if not PERFORMANCE_PATH.exists():
         return {"updated_at": None, "signals": [], "aggregates": {}}
     try:
@@ -741,7 +766,7 @@ def performance(_: None = Depends(check_auth)) -> dict:
 
 
 @app.get("/api/health", response_class=JSONResponse)
-def health(_: None = Depends(check_auth)) -> dict:
+def health(_: None = Depends(check_auth_or_monitor_key)) -> dict:
     """Purpose-built for automated monitoring (e.g. a scheduled daily check)
     rather than having a script scrape HTML for the "last scan" line. Judge
     freshness against each writer's own cadence: live_scan_age_seconds
