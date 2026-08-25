@@ -740,5 +740,38 @@ def performance(_: None = Depends(check_auth)) -> dict:
         return {"updated_at": None, "signals": [], "aggregates": {}}
 
 
+@app.get("/api/health", response_class=JSONResponse)
+def health(_: None = Depends(check_auth)) -> dict:
+    """Purpose-built for automated monitoring (e.g. a scheduled daily check)
+    rather than having a script scrape HTML for the "last scan" line. Judge
+    freshness against each writer's own cadence: live_scan_age_seconds
+    should be well under 60s (streaming_scanner recomputes every ~30s);
+    performance_updated_at should be within the last couple of hours
+    (performance_scorer runs hourly)."""
+    now = datetime.now(timezone.utc)
+    live_scan_age_seconds = None
+    if LIVE_SCAN_PATH.exists():
+        try:
+            payload = json.loads(LIVE_SCAN_PATH.read_text())
+            generated = datetime.fromisoformat(payload["generated_at"])
+            live_scan_age_seconds = (now - generated).total_seconds()
+        except (json.JSONDecodeError, KeyError, ValueError):
+            live_scan_age_seconds = None
+    performance_updated_at = None
+    if PERFORMANCE_PATH.exists():
+        try:
+            performance_updated_at = json.loads(PERFORMANCE_PATH.read_text()).get("updated_at")
+        except json.JSONDecodeError:
+            performance_updated_at = None
+    alerts = load_alerts().get("alerts", [])
+    return {
+        "checked_at": now.isoformat(),
+        "live_scan_age_seconds": live_scan_age_seconds,
+        "performance_updated_at": performance_updated_at,
+        "alerts_stored_count": len(alerts),
+        "most_recent_alert": alerts[-1] if alerts else None,
+    }
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
