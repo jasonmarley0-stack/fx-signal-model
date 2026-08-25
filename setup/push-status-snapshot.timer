@@ -1,0 +1,9 @@
+[Unit]
+Description=Push the daily status snapshot at 05:45 UTC, ahead of the 06:00 UTC monitoring routine
+
+[Timer]
+OnCalendar=*-*-* 05:45:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

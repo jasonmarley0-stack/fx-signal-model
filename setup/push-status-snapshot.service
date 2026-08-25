@@ -1,0 +1,8 @@
+[Unit]
+Description=Push a daily status snapshot to GitHub for the scheduled monitoring routine to read
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/fx-signal-model
+ExecStart=/usr/bin/python3 /root/fx-signal-model/setup/push_status_snapshot.py
