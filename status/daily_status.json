@@ -1,0 +1,367 @@
+{
+  "generated_at": "2026-08-25T23:29:58.844401+00:00",
+  "services": {
+    "signal-scanner": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "dashboard-server": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "signal-engine": {
+      "active": "active",
+      "enabled": "enabled"
+    }
+  },
+  "timers": {
+    "rss-ingestion.timer": "active",
+    "performance-scorer.timer": "active"
+  },
+  "live_scan_age_seconds": 8.736809,
+  "performance_updated_at": "2026-08-25T22:53:09.384100+00:00",
+  "performance_aggregates": {
+    "7d": {
+      "total_signals": 9,
+      "resolved_signals": 7,
+      "win_rate": 0.5714285714285714,
+      "avg_r": 0.6428571428571661,
+      "directional_accuracy": null,
+      "directional_sample_size": 0,
+      "best_pair": "USDCAD",
+      "by_pair": {
+        "GBPUSD": {
+          "signals": 2,
+          "win_rate": null,
+          "avg_r": null,
+          "best_r": null,
+          "worst_r": null,
+          "directional_accuracy": null
+        },
+        "NZDUSD": {
+          "signals": 3,
+          "win_rate": 0.3333333333333333,
+          "avg_r": -0.04166666666673587,
+          "best_r": 1.8749999999997924,
+          "worst_r": -1.0,
+          "directional_accuracy": null
+        },
+        "USDCAD": {
+          "signals": 1,
+          "win_rate": 1.0,
+          "avg_r": 1.8750000000003604,
+          "best_r": 1.8750000000003604,
+          "worst_r": 1.8750000000003604,
+          "directional_accuracy": null
+        },
+        "USDCHF": {
+          "signals": 1,
+          "win_rate": 1.0,
+          "avg_r": 1.8750000000001597,
+          "best_r": 1.8750000000001597,
+          "worst_r": 1.8750000000001597,
+          "directional_accuracy": null
+        },
+        "USDJPY": {
+          "signals": 2,
+          "win_rate": 0.5,
+          "avg_r": 0.43749999999992517,
+          "best_r": 1.8749999999998503,
+          "worst_r": -1.0,
+          "directional_accuracy": null
+        }
+      },
+      "cumulative_r_series": [
+        {
+          "time": "2026-08-25T08:03:52.879767+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -1.0
+        },
+        {
+          "time": "2026-08-25T08:04:53.610871+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -2.0
+        },
+        {
+          "time": "2026-08-25T09:02:09.564279+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -0.125
+        },
+        {
+          "time": "2026-08-25T10:00:23.419010+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": 1.75
+        },
+        {
+          "time": "2026-08-25T10:18:07.545261+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": 3.625
+        },
+        {
+          "time": "2026-08-25T13:07:57.729721+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": 5.5
+        },
+        {
+          "time": "2026-08-25T13:30:15.792235+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": 4.5
+        }
+      ]
+    },
+    "30d": {
+      "total_signals": 9,
+      "resolved_signals": 7,
+      "win_rate": 0.5714285714285714,
+      "avg_r": 0.6428571428571661,
+      "directional_accuracy": null,
+      "directional_sample_size": 0,
+      "best_pair": "USDCAD",
+      "by_pair": {
+        "GBPUSD": {
+          "signals": 2,
+          "win_rate": null,
+          "avg_r": null,
+          "best_r": null,
+          "worst_r": null,
+          "directional_accuracy": null
+        },
+        "NZDUSD": {
+          "signals": 3,
+          "win_rate": 0.3333333333333333,
+          "avg_r": -0.04166666666673587,
+          "best_r": 1.8749999999997924,
+          "worst_r": -1.0,
+          "directional_accuracy": null
+        },
+        "USDCAD": {
+          "signals": 1,
+          "win_rate": 1.0,
+          "avg_r": 1.8750000000003604,
+          "best_r": 1.8750000000003604,
+          "worst_r": 1.8750000000003604,
+          "directional_accuracy": null
+        },
+        "USDCHF": {
+          "signals": 1,
+          "win_rate": 1.0,
+          "avg_r": 1.8750000000001597,
+          "best_r": 1.8750000000001597,
+          "worst_r": 1.8750000000001597,
+          "directional_accuracy": null
+        },
+        "USDJPY": {
+          "signals": 2,
+          "win_rate": 0.5,
+          "avg_r": 0.43749999999992517,
+          "best_r": 1.8749999999998503,
+          "worst_r": -1.0,
+          "directional_accuracy": null
+        }
+      },
+      "cumulative_r_series": [
+        {
+          "time": "2026-08-25T08:03:52.879767+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -1.0
+        },
+        {
+          "time": "2026-08-25T08:04:53.610871+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -2.0
+        },
+        {
+          "time": "2026-08-25T09:02:09.564279+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -0.125
+        },
+        {
+          "time": "2026-08-25T10:00:23.419010+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": 1.75
+        },
+        {
+          "time": "2026-08-25T10:18:07.545261+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": 3.625
+        },
+        {
+          "time": "2026-08-25T13:07:57.729721+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": 5.5
+        },
+        {
+          "time": "2026-08-25T13:30:15.792235+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": 4.5
+        }
+      ]
+    },
+    "all": {
+      "total_signals": 9,
+      "resolved_signals": 7,
+      "win_rate": 0.5714285714285714,
+      "avg_r": 0.6428571428571661,
+      "directional_accuracy": null,
+      "directional_sample_size": 0,
+      "best_pair": "USDCAD",
+      "by_pair": {
+        "GBPUSD": {
+          "signals": 2,
+          "win_rate": null,
+          "avg_r": null,
+          "best_r": null,
+          "worst_r": null,
+          "directional_accuracy": null
+        },
+        "NZDUSD": {
+          "signals": 3,
+          "win_rate": 0.3333333333333333,
+          "avg_r": -0.04166666666673587,
+          "best_r": 1.8749999999997924,
+          "worst_r": -1.0,
+          "directional_accuracy": null
+        },
+        "USDCAD": {
+          "signals": 1,
+          "win_rate": 1.0,
+          "avg_r": 1.8750000000003604,
+          "best_r": 1.8750000000003604,
+          "worst_r": 1.8750000000003604,
+          "directional_accuracy": null
+        },
+        "USDCHF": {
+          "signals": 1,
+          "win_rate": 1.0,
+          "avg_r": 1.8750000000001597,
+          "best_r": 1.8750000000001597,
+          "worst_r": 1.8750000000001597,
+          "directional_accuracy": null
+        },
+        "USDJPY": {
+          "signals": 2,
+          "win_rate": 0.5,
+          "avg_r": 0.43749999999992517,
+          "best_r": 1.8749999999998503,
+          "worst_r": -1.0,
+          "directional_accuracy": null
+        }
+      },
+      "cumulative_r_series": [
+        {
+          "time": "2026-08-25T08:03:52.879767+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -1.0
+        },
+        {
+          "time": "2026-08-25T08:04:53.610871+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -2.0
+        },
+        {
+          "time": "2026-08-25T09:02:09.564279+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -0.125
+        },
+        {
+          "time": "2026-08-25T10:00:23.419010+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": 1.75
+        },
+        {
+          "time": "2026-08-25T10:18:07.545261+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": 3.625
+        },
+        {
+          "time": "2026-08-25T13:07:57.729721+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": 5.5
+        },
+        {
+          "time": "2026-08-25T13:30:15.792235+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": 4.5
+        }
+      ]
+    }
+  },
+  "alerts_stored_count": 31,
+  "most_recent_alert": {
+    "id": "1787697415528-GBPUSD",
+    "time": "2026-08-25T22:36:55.528106+00:00",
+    "pair": "GBPUSD",
+    "direction": "no_trade",
+    "confidence": "low",
+    "combined_score": 0.30472711483148834,
+    "entry": 1.36488,
+    "message": "GBPUSD: back to no_trade",
+    "reason": "tech=+0.50, pestle=+0.01, combined=+0.30",
+    "tech": {
+      "orb": 1.0,
+      "trend": 0.0,
+      "pattern": 0.0,
+      "composite": 0.5
+    },
+    "pestle": {
+      "pair": "GBPUSD",
+      "pestle_score": 0.01181778707872089,
+      "base": {
+        "currency": "GBP",
+        "score": 0.01181778707872089,
+        "categories": {
+          "political": 0.0,
+          "economic": 0.0,
+          "social": 0.1181778707872089,
+          "technological": 0.0,
+          "legal_regulatory": 0.0,
+          "environmental": 0.0
+        },
+        "evidence": [
+          {
+            "title": "Consumer/business confidence rises",
+            "source_url": "https://investinglive.com/news/uk-consumer-confidence-hits-two-year-high-despite-inflation-warning/",
+            "observed_at": "2026-08-20T23:13:27+00:00",
+            "signal_type_code": "CONSUMER_CONFIDENCE_UP",
+            "category": "social",
+            "polarity": 1
+          },
+          {
+            "title": "Consumer/business confidence rises",
+            "source_url": "https://investinglive.com/news/uk-august-flash-services-pmi-xx-vs-51-8-expected/",
+            "observed_at": "2026-08-21T08:30:20+00:00",
+            "signal_type_code": "CONSUMER_CONFIDENCE_UP",
+            "category": "social",
+            "polarity": 1
+          }
+        ]
+      },
+      "quote": {
+        "currency": "USD",
+        "score": 0.0,
+        "categories": {
+          "political": 0.0,
+          "economic": 0.0,
+          "social": 0.0,
+          "technological": 0.0,
+          "legal_regulatory": 0.0,
+          "environmental": 0.0
+        },
+        "evidence": []
+      }
+    },
+    "stop_loss_range": [
+      1.36488,
+      1.36488
+    ],
+    "take_profit_range": [
+      1.36488,
+      1.36488
+    ],
+    "window": {
+      "session": "London",
+      "generated_at_gmt_str": "22:30 GMT, 25 Aug 2026",
+      "valid_until_gmt_str": "16:00 GMT, 25 Aug 2026"
+    }
+  }
+}
