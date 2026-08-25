@@ -69,12 +69,31 @@ def fmt_price(v: float | None) -> str:
 ARROW_GLYPH = {"up": ("▲", "arrow-up"), "down": ("▼", "arrow-down"), "flat": ("—", "arrow-flat")}
 
 
+def sparkline_svg(values: list[float] | None) -> str:
+    """A small inline trendline for the market table — ~24h of M30 closes
+    (see streaming_scanner.py's SPARKLINE_BARS). Green/red purely by net
+    direction over the window shown, not tied to the signal direction —
+    this is a price trend at a glance, not a restatement of the badge."""
+    if not values or len(values) < 2:
+        return '<span class="sparkline-empty">—</span>'
+    w, h = 72, 24
+    vmin, vmax = min(values), max(values)
+    span = (vmax - vmin) or 1
+    xs = lambda i: i / (len(values) - 1) * w  # noqa: E731
+    ys = lambda v: h - ((v - vmin) / span) * h  # noqa: E731
+    points = " ".join(f"{xs(i):.1f},{ys(v):.1f}" for i, v in enumerate(values))
+    color = "var(--long)" if values[-1] >= values[0] else "var(--short)"
+    return (f'<svg class="sparkline" viewBox="0 0 {w} {h}" preserveAspectRatio="none">'
+            f'<polyline points="{points}" fill="none" stroke="{color}" stroke-width="1.6" '
+            f'stroke-linejoin="round" stroke-linecap="round" /></svg>')
+
+
 def row_html(row: dict) -> str:
     pair = row["pair"]
     if "error" in row:
         return f"""
         <tr class="err-row" data-pair="{pair}">
-          <td>{pair}</td><td colspan="6" class="err">{row['error']}</td>
+          <td>{pair}</td><td colspan="7" class="err">{row['error']}</td>
         </tr>"""
 
     direction = row["direction"]
@@ -92,6 +111,7 @@ def row_html(row: dict) -> str:
     <tr data-pair="{pair}">
       <td class="pair">{pair}</td>
       <td class="num">{fmt_price(row['entry'])} <span class="arrow {arrow_cls}">{glyph}</span></td>
+      <td>{sparkline_svg(row.get('sparkline'))}</td>
       <td class="num tech-breakdown">
         orb {row['tech']['orb']:+.2f} · trend {row['tech']['trend']:+.2f} · pat {row['tech']['pattern']:+.2f}
         <div class="composite">composite {row['tech']['composite']:+.2f}</div>
@@ -104,7 +124,7 @@ def row_html(row: dict) -> str:
         TP {fmt_price(min(tp))}–{fmt_price(max(tp))}
       </td>
     </tr>
-    <tr class="reason-row" data-pair="{pair}"><td></td><td colspan="6" class="reason">{row['reason']}{window_str}</td></tr>"""
+    <tr class="reason-row" data-pair="{pair}"><td></td><td colspan="7" class="reason">{row['reason']}{window_str}</td></tr>"""
 
 
 def render_table_body(payload: dict | None) -> str:
@@ -124,7 +144,7 @@ def render_table_body(payload: dict | None) -> str:
     <div class="table-wrap">
       <table>
         <thead><tr>
-          <th>Pair</th><th>Price</th><th>Technical</th><th>PESTLE</th>
+          <th>Pair</th><th>Price</th><th>Trend</th><th>Technical</th><th>PESTLE</th>
           <th>Combined</th><th>Signal</th><th>SL / TP</th>
         </tr></thead>
         <tbody>{rows_html}</tbody>
@@ -281,7 +301,7 @@ def render_performance_view(performance: dict | None) -> str:
         <p class="empty">Nothing has fired since the streaming scanner went live — this fills in
         automatically the moment a real signal fires and enough time passes to score it.</p>"""
 
-    data_json = json.dumps(performance["aggregates"])
+    data_json = json.dumps({"aggregates": performance["aggregates"], "signals": performance.get("signals", [])})
     return f"""
     <div class="range-toggle" id="perf-range-toggle">
       <button data-range="7d">7D</button>
@@ -300,6 +320,14 @@ def render_performance_view(performance: dict | None) -> str:
         <thead><tr><th>Pair</th><th>Signals</th><th>Win Rate</th><th>Avg R</th>
           <th>Directional Acc.</th><th>Best</th><th>Worst</th></tr></thead>
         <tbody id="perf-by-pair"></tbody>
+      </table>
+    </div>
+    <div class="block-head"><h2>Recent Signals</h2><span class="hint">Newest first, up to 50 shown</span></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Fired</th><th>Pair</th><th>Call</th><th>Entry</th>
+          <th>Outcome</th><th>R</th><th>Directional</th></tr></thead>
+        <tbody id="perf-signals"></tbody>
       </table>
     </div>
     <script id="perf-data" type="application/json">{data_json}</script>"""
@@ -351,6 +379,13 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
   .view.active {{ display:block; }}
   .block-head {{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:28px 0 14px; flex-wrap:wrap; }}
   .block-head h2 {{ font-size:15px; font-weight:700; }}
+  .hint {{ font-size:12.5px; color:var(--text-faint); }}
+  .badge.outcome-target {{ background:var(--long-soft); color:var(--long); }}
+  .badge.outcome-stop {{ background:var(--short-soft); color:var(--short); }}
+  .badge.outcome-unresolved, .badge.outcome-no_data {{ background:var(--neutral-soft); color:var(--neutral); }}
+  .badge.dir-correct {{ background:var(--long-soft); color:var(--long); }}
+  .badge.dir-incorrect {{ background:var(--short-soft); color:var(--short); }}
+  .badge.dir-pending, .badge.dir-no_data {{ background:var(--neutral-soft); color:var(--neutral); }}
 
   .subtitle {{ color:var(--text-faint); font-size:13px; margin-bottom:20px; font-variant-numeric:tabular-nums; }}
   .empty {{ color:var(--text-muted); }}
@@ -366,6 +401,8 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
   .arrow-up {{ color:var(--long); }}
   .arrow-down {{ color:var(--short); }}
   .arrow-flat {{ color:var(--text-faint); }}
+  .sparkline {{ width:72px; height:24px; display:block; }}
+  .sparkline-empty {{ color:var(--text-faint); }}
   .tech-breakdown {{ color:var(--text-muted); font-size:12px; font-family:var(--font-mono); }}
   .composite {{ color:var(--text); font-weight:600; margin-top:2px; }}
   .combined {{ font-weight:700; font-size:14px; }}
@@ -559,10 +596,16 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
   // ---------- Performance: render from embedded data, range-toggle client-side ----------
   const perfDataEl = document.getElementById('perf-data');
   if (perfDataEl) {{
-    const aggregates = JSON.parse(perfDataEl.textContent);
+    const perfData = JSON.parse(perfDataEl.textContent);
+    const aggregates = perfData.aggregates;
+    const allSignals = perfData.signals;
+    const RANGE_DAYS = {{ '7d': 7, '30d': 30, 'all': null }};
 
     function fmtPct(v) {{ return (v === null || v === undefined) ? '—' : (v * 100).toFixed(0) + '%'; }}
     function fmtR(v) {{ return (v === null || v === undefined) ? '—' : (v >= 0 ? '+' : '') + v.toFixed(2) + 'R'; }}
+    function fmtTime(iso) {{ return iso.replace('T', ' ').slice(0, 16) + ' UTC'; }}
+    const OUTCOME_LABEL = {{ target: 'Target hit', stop: 'Stopped out', unresolved: 'Unresolved', no_data: 'No data' }};
+    const DIRECTIONAL_LABEL = {{ correct: 'Correct', incorrect: 'Incorrect', pending: 'Pending', no_data: 'No data' }};
 
     function renderPerformanceRange(range) {{
       const agg = aggregates[range];
@@ -611,7 +654,26 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
           <td class="num">${{fmtPct(s.win_rate)}}</td><td class="num">${{fmtR(s.avg_r)}}</td>
           <td class="num">${{fmtPct(s.directional_accuracy)}}</td>
           <td class="num">${{fmtR(s.best_r)}}</td><td class="num">${{fmtR(s.worst_r)}}</td></tr>`).join('');
+
+      const days = RANGE_DAYS[range];
+      const cutoff = days === null ? null : Date.now() - days * 86400000;
+      const inRange = allSignals.filter(s => cutoff === null || new Date(s.logged_at).getTime() >= cutoff);
+      const sorted = inRange.slice().sort((a, b) => new Date(b.logged_at) - new Date(a.logged_at)).slice(0, 50);
+      document.getElementById('perf-signals').innerHTML = sorted.length
+        ? sorted.map(s => `
+          <tr>
+            <td class="mono">${{fmtTime(s.logged_at)}}</td>
+            <td class="pair">${{s.pair}}</td>
+            <td><span class="badge ${{s.direction}}">${{s.direction.toUpperCase()}}</span> <span class="conf">${{s.confidence}}</span></td>
+            <td class="num">${{fmt5(s.entry)}}</td>
+            <td><span class="badge outcome-${{s.outcome}}">${{OUTCOME_LABEL[s.outcome] || s.outcome}}</span></td>
+            <td class="num">${{fmtR(s.r_multiple)}}</td>
+            <td><span class="badge dir-${{s.directional_outcome}}">${{DIRECTIONAL_LABEL[s.directional_outcome] || s.directional_outcome}}</span></td>
+          </tr>`).join('')
+        : '<tr><td colspan="7" class="empty">No signals in this range.</td></tr>';
     }}
+
+    function fmt5(v) {{ return (v === null || v === undefined) ? '—' : v.toFixed(5); }}
 
     document.getElementById('perf-range-toggle').addEventListener('click', (e) => {{
       const btn = e.target.closest('button');

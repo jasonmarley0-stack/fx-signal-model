@@ -11,7 +11,20 @@ from combiner import combine_signal
 from narrative import technical_narrative, pestle_narrative
 from calendar_events import upcoming_events_for_pair
 
-DEFAULT_PAIRS = ["EURUSD", "GBPUSD", "USDJPY", "USDCHF", "AUDUSD", "USDCAD", "NZDUSD"]
+# The original 7 majors, plus every cross pair among the 8 tracked currencies
+# (GBP/USD/EUR/JPY/CHF/AUD/CAD/NZD) — the full standard 28-pair matrix OANDA
+# itself offers. No new PESTLE currency onboarding needed for any of these:
+# scoring reuses the same 8 currency caches regardless of how many pairs use
+# them (see streaming_scanner.py's per-currency PESTLE cache).
+DEFAULT_PAIRS = [
+    "EURUSD", "GBPUSD", "USDJPY", "USDCHF", "AUDUSD", "USDCAD", "NZDUSD",
+    "EURGBP", "EURJPY", "EURCHF", "EURAUD", "EURCAD", "EURNZD",
+    "GBPJPY", "GBPCHF", "GBPAUD", "GBPCAD", "GBPNZD",
+    "AUDJPY", "AUDCHF", "AUDCAD", "AUDNZD",
+    "NZDJPY", "NZDCHF", "NZDCAD",
+    "CADJPY", "CADCHF",
+    "CHFJPY",
+]
 
 
 def build_dashboard_payload(pair_dataframes: dict[str, pd.DataFrame], pairs: list[str] | None = None) -> dict:

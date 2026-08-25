@@ -71,6 +71,7 @@ SIGNALS_LOG_DIR = Path(__file__).parent / "signals_log"
 
 HISTORY_BARS = 300
 RECOMPUTE_SECONDS = 30
+SPARKLINE_BARS = 48  # ~24h of M30 bars — the Live tab's per-pair trendline
 PESTLE_CACHE_SECONDS = 5 * 60
 MAX_ALERTS = 50
 RECONNECT_BACKOFF = [2, 5, 10, 30, 60]  # seconds; holds at the last value
@@ -360,8 +361,11 @@ def recompute_loop(pairs: list[str], pair_states: dict[str, PairState], lock: th
 
                 fire_if_new_transition(pair, sig, last_fired, tech_dict, pestle, window)
 
+                sparkline = [round(float(v), 6) for v in df["close"].tail(SPARKLINE_BARS).tolist()]
+
                 rows.append({
                     "pair": pair, "entry": current_price, "price_arrow": arrow,
+                    "sparkline": sparkline,
                     "tech": tech_dict,
                     "pestle_score": pestle["pestle_score"],
                     "direction": sig.direction, "confidence": sig.confidence,
