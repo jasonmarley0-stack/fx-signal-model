@@ -9,9 +9,14 @@ upstream.
 
 Two views, switched client-side (no full page reload, so in-page state —
 alert tracking, notification permission — survives switching):
-  - Live: the market table (polls /table every 15s) + alert notifications
-    (polls /alerts every 5s — pops a browser Notification, plays a beep,
-    flashes the row on anything new).
+  - Live: a feed of fired-signal cards (full technical + PESTLE evidence
+    breakdown per card — see streaming_scanner.py's push_alert, which
+    persists that breakdown specifically so this page can show it) above
+    the market table. Polls /alerts every 5s for notification purposes
+    (pops a browser Notification, plays a beep, flashes the row); when
+    that poll finds something genuinely new it also refreshes the feed
+    via /feed and the table via /table (partials, not a full reload, so
+    in-page JS state survives).
   - Performance: signal-outcome and directional-accuracy track record from
     performance.json, with a 7D/30D/All range toggle. Rendered once at
     page load — the data behind it only changes hourly, so unlike Live
@@ -127,6 +132,129 @@ def render_table_body(payload: dict | None) -> str:
     </div>"""
 
 
+def relative_time(iso_str: str | None) -> str:
+    if not iso_str:
+        return ""
+    try:
+        t = datetime.fromisoformat(iso_str)
+    except ValueError:
+        return ""
+    age = (datetime.now(timezone.utc) - t).total_seconds()
+    if age < 60:
+        return "just now"
+    if age < 3600:
+        return f"{int(age // 60)}m ago"
+    if age < 86400:
+        return f"{int(age // 3600)}h ago"
+    return f"{int(age // 86400)}d ago"
+
+
+def bar_row_html(label: str, value: float) -> str:
+    """One technical-component bar for an alert card: a bidirectional bar
+    from the track's center, matching how combiner.py's components are
+    conviction votes in [-1,1], not a magnitude — see the chat discussion
+    on what -1..+1 means. Width is purely abs(value), direction is which
+    side of center it fills."""
+    width_pct = min(abs(value), 1.0) * 50
+    cls = "pos" if value >= 0 else "neg"
+    return f"""<div class="bar-row"><span class="bar-label">{label}</span>
+      <div class="bar-track"><span class="bar-mid"></span><span class="bar-fill {cls}" style="width:{width_pct:.0f}%"></span></div>
+      <span class="bar-val mono">{value:+.2f}</span></div>"""
+
+
+def evidence_html(evidence: list[dict] | None) -> str:
+    if not evidence:
+        return '<div class="evidence-item">No recent evidence in the scoring window.</div>'
+    items = "".join(
+        f'<div class="evidence-item">{e["title"]} <span class="src">— {relative_time(e.get("observed_at"))}</span></div>'
+        for e in evidence
+    )
+    return f'<div class="evidence">{items}</div>'
+
+
+def alert_card_html(alert: dict) -> str:
+    """Renders one fired-signal alert with its full technical + PESTLE
+    breakdown — the data streaming_scanner.py's push_alert() now persists
+    specifically so this card can show *why*, not just the headline
+    direction/confidence (see SIGNAL_IQ_GAP_ANALYSIS.md item 1b and
+    SIGNAL_DEFINITION_AND_ACCURACY.md on keeping that breakdown visible)."""
+    pair = alert["pair"]
+    direction = alert["direction"]
+    when = relative_time(alert.get("time"))
+    alert_id = alert.get("id", "")
+
+    if direction == "no_trade":
+        return f"""
+        <article class="card dir-flat standdown" data-alert-id="{alert_id}">
+          <div class="card-top">
+            <div class="card-id"><span class="pair-name">{pair}</span><span class="badge neutral">No trade</span></div>
+            <div class="card-meta"><div>{when}</div></div>
+          </div>
+          <p class="standdown-note">Signal stood down — {alert.get('reason', '')}</p>
+        </article>"""
+
+    dir_label = {"long": "Long", "short": "Short"}[direction]
+    tech = alert.get("tech") or {}
+    pestle = alert.get("pestle") or {}
+    base = pestle.get("base", {})
+    quote = pestle.get("quote", {})
+    sl = alert.get("stop_loss_range") or [alert["entry"], alert["entry"]]
+    tp = alert.get("take_profit_range") or [alert["entry"], alert["entry"]]
+    window = alert.get("window")
+    window_html = ""
+    if window:
+        window_html = f'<span class="session">{window.get("session", "")}</span> · valid to {window.get("valid_until_gmt_str", "")}'
+
+    return f"""
+    <article class="card dir-{direction}" data-alert-id="{alert_id}">
+      <div class="card-top">
+        <div class="card-id">
+          <span class="pair-name">{pair}</span>
+          <span class="badge {direction}">{dir_label}</span>
+          <span class="badge conf-{alert['confidence']}">{alert['confidence']} confidence</span>
+        </div>
+        <div class="card-meta">
+          <div class="entry mono">{fmt_price(alert.get('entry'))}</div>
+          <div>{when}</div>
+        </div>
+      </div>
+      <div class="card-grid">
+        <div>
+          <div class="card-section-label">Technical · {tech.get('composite', 0):+.2f}</div>
+          {bar_row_html('ORB', tech.get('orb', 0))}
+          {bar_row_html('Trend', tech.get('trend', 0))}
+          {bar_row_html('Pattern', tech.get('pattern', 0))}
+        </div>
+        <div>
+          <div class="card-section-label">PESTLE · {base.get('currency', '')} {base.get('score', 0):+.2f}</div>
+          {evidence_html(base.get('evidence'))}
+        </div>
+        <div>
+          <div class="card-section-label">PESTLE · {quote.get('currency', '')} {quote.get('score', 0):+.2f}</div>
+          {evidence_html(quote.get('evidence'))}
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="sltp-group">
+          <span><span class="k">SL</span> <span class="v mono">{fmt_price(min(sl))}–{fmt_price(max(sl))}</span></span>
+          <span><span class="k">TP</span> <span class="v mono">{fmt_price(min(tp))}–{fmt_price(max(tp))}</span></span>
+        </div>
+        <div class="window-note">{window_html}</div>
+      </div>
+    </article>"""
+
+
+def render_feed_body(alerts_payload: dict | None) -> str:
+    """Newest-first, capped at 20 shown — alerts.json itself already caps
+    at ~50 stored. Separate from render_table_body/render_performance_view
+    so /feed can refresh just this block."""
+    alerts = (alerts_payload or {}).get("alerts", [])
+    if not alerts:
+        return '<p class="empty">No signals have fired yet — this fills in the moment a real direction/confidence transition happens.</p>'
+    cards = "".join(alert_card_html(a) for a in reversed(alerts[-20:]))
+    return f'<div class="feed">{cards}</div>'
+
+
 def fmt_pct(v: float | None) -> str:
     return f"{v:.0%}" if isinstance(v, (int, float)) else "—"
 
@@ -177,7 +305,7 @@ def render_performance_view(performance: dict | None) -> str:
     <script id="perf-data" type="application/json">{data_json}</script>"""
 
 
-def render_page(live_payload: dict | None, performance_payload: dict | None) -> str:
+def render_page(live_payload: dict | None, performance_payload: dict | None, alerts_payload: dict | None) -> str:
     return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8">
@@ -245,6 +373,9 @@ def render_page(live_payload: dict | None, performance_payload: dict | None) -> 
   .badge.long {{ background:var(--long-soft); color:var(--long); }}
   .badge.short {{ background:var(--short-soft); color:var(--short); }}
   .badge.neutral {{ background:var(--neutral-soft); color:var(--neutral); }}
+  .badge.conf-high {{ background:var(--accent-soft); color:var(--accent-hover); }}
+  .badge.conf-medium {{ background:var(--warn-soft); color:var(--warn); }}
+  .badge.conf-low {{ background:var(--neutral-soft); color:var(--text-faint); }}
   .conf {{ color:var(--text-faint); font-size:11px; text-transform:uppercase; }}
   .sltp {{ font-size:12px; line-height:1.6; }}
   .reason-row td {{ border-bottom:1px solid var(--border); padding-top:0; }}
@@ -253,6 +384,41 @@ def render_page(live_payload: dict | None, performance_payload: dict | None) -> 
   .err-row .err {{ color:var(--short); font-size:12px; }}
   tr[data-pair].flash td {{ animation: flash-row 1s ease-in-out 3; }}
   @keyframes flash-row {{ 0%,100% {{ background-color:transparent; }} 50% {{ background-color:rgba(76,126,255,0.22); }} }}
+
+  .feed {{ display:flex; flex-direction:column; gap:12px; margin-bottom:8px; }}
+  .card {{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; position:relative; overflow:hidden; }}
+  .card::before {{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; }}
+  .card.dir-long::before {{ background:var(--long); }}
+  .card.dir-short::before {{ background:var(--short); }}
+  .card.dir-flat::before {{ background:var(--neutral); }}
+  .card-top {{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:14px; }}
+  .card-id {{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }}
+  .pair-name {{ font-family:var(--font-display); font-weight:700; font-size:16px; }}
+  .card-meta {{ text-align:right; font-size:12px; color:var(--text-faint); }}
+  .card-meta .entry {{ font-size:14px; color:var(--text); font-weight:500; }}
+  .card-grid {{ display:grid; grid-template-columns:1.1fr 1fr 1fr; gap:20px; }}
+  .card-section-label {{ font-size:10.5px; text-transform:uppercase; letter-spacing:0.07em; color:var(--text-faint); font-weight:600; margin-bottom:9px; }}
+  .bar-row {{ display:flex; align-items:center; gap:8px; margin-bottom:7px; font-size:12px; }}
+  .bar-row:last-child {{ margin-bottom:0; }}
+  .bar-label {{ width:56px; flex-shrink:0; color:var(--text-muted); }}
+  .bar-track {{ flex:1; height:5px; border-radius:999px; background:var(--surface-3); position:relative; overflow:hidden; }}
+  .bar-fill {{ position:absolute; top:0; bottom:0; border-radius:999px; }}
+  .bar-fill.pos {{ background:var(--long); left:50%; }}
+  .bar-fill.neg {{ background:var(--short); right:50%; }}
+  .bar-mid {{ position:absolute; left:50%; top:-1px; bottom:-1px; width:1px; background:var(--border-strong); }}
+  .bar-val {{ width:38px; text-align:right; font-size:11.5px; color:var(--text-muted); flex-shrink:0; }}
+  .evidence {{ display:flex; flex-direction:column; gap:5px; }}
+  .evidence-item {{ font-size:11.5px; line-height:1.4; color:var(--text-muted); padding-left:10px; position:relative; }}
+  .evidence-item::before {{ content:""; position:absolute; left:0; top:6px; width:4px; height:4px; border-radius:50%; background:var(--text-faint); }}
+  .evidence-item .src {{ color:var(--text-faint); }}
+  .card-footer {{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-top:16px; padding-top:14px; border-top:1px solid var(--border); font-size:12px; }}
+  .sltp-group {{ display:flex; gap:18px; }}
+  .sltp-group .k {{ color:var(--text-faint); margin-right:5px; }}
+  .sltp-group .v {{ color:var(--text); }}
+  .window-note {{ color:var(--text-faint); }}
+  .window-note .session {{ color:var(--accent-hover); font-weight:600; }}
+  .standdown-note {{ font-size:12.5px; color:var(--text-muted); margin:0; }}
+  article[data-alert-id].flash {{ animation: flash-row 1s ease-in-out 3; }}
 
   .range-toggle {{ display:inline-flex; background:var(--surface-2); border:1px solid var(--border); border-radius:999px; padding:3px; gap:2px; margin-bottom:20px; }}
   .range-toggle button {{ border:none; background:transparent; padding:6px 14px; border-radius:999px; font-size:12.5px; font-weight:600; color:var(--text-faint); cursor:pointer; font-family:var(--font-body); }}
@@ -279,6 +445,7 @@ def render_page(live_payload: dict | None, performance_payload: dict | None) -> 
     .bottom-nav button {{ background:none; border:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:var(--text-faint); font-size:10.5px; font-weight:600; font-family:var(--font-display); padding:4px 18px; border-radius:var(--radius-sm); cursor:pointer; }}
     .bottom-nav button.active {{ color:var(--accent-hover); }}
     .stat-tiles {{ grid-template-columns:repeat(2,1fr); }}
+    .card-grid {{ grid-template-columns:1fr; gap:16px; }}
   }}
 </style></head><body>
 <div class="shell">
@@ -293,6 +460,9 @@ def render_page(live_payload: dict | None, performance_payload: dict | None) -> 
     <section class="view active" id="view-live">
       <div class="topbar"><h1>Live</h1></div>
       <div style="padding:24px clamp(16px,3vw,36px) 0">
+        <div class="block-head"><h2>Live Feed</h2></div>
+        <div id="feed-container">{render_feed_body(alerts_payload)}</div>
+        <div class="block-head"><h2>Market</h2></div>
         <div id="table-container">{render_table_body(live_payload)}</div>
       </div>
     </section>
@@ -347,6 +517,14 @@ def render_page(live_payload: dict | None, performance_payload: dict | None) -> 
     }} catch (e) {{ /* transient — next poll retries */ }}
   }}
 
+  async function refreshFeed() {{
+    try {{
+      const resp = await fetch('/feed', {{ credentials: 'same-origin' }});
+      if (!resp.ok) return;
+      document.getElementById('feed-container').innerHTML = await resp.text();
+    }} catch (e) {{ /* transient — next poll retries */ }}
+  }}
+
   async function pollAlerts() {{
     try {{
       const resp = await fetch('/alerts', {{ credentials: 'same-origin' }});
@@ -359,6 +537,7 @@ def render_page(live_payload: dict | None, performance_payload: dict | None) -> 
       }}
       const idx = alerts.findIndex(a => a.id === lastAlertId);
       const fresh = idx === -1 ? alerts : alerts.slice(idx + 1);
+      if (fresh.length) refreshFeed();  // pulls in the new card(s) via the same render_feed_body() the page loaded with
       for (const a of fresh) {{
         if ('Notification' in window && Notification.permission === 'granted') {{
           new Notification(`${{a.pair}} — ${{a.direction.toUpperCase()}}`, {{ body: a.message }});
@@ -448,6 +627,15 @@ def render_page(live_payload: dict | None, performance_payload: dict | None) -> 
 </body></html>"""
 
 
+def load_alerts() -> dict:
+    if not ALERTS_PATH.exists():
+        return {"alerts": []}
+    try:
+        return json.loads(ALERTS_PATH.read_text())
+    except json.JSONDecodeError:
+        return {"alerts": []}
+
+
 @app.get("/", response_class=HTMLResponse)
 def dashboard(_: None = Depends(check_auth)) -> str:
     live_payload = None
@@ -459,7 +647,7 @@ def dashboard(_: None = Depends(check_auth)) -> str:
             performance_payload = json.loads(PERFORMANCE_PATH.read_text())
         except json.JSONDecodeError:
             performance_payload = None
-    return render_page(live_payload, performance_payload)
+    return render_page(live_payload, performance_payload, load_alerts())
 
 
 @app.get("/table", response_class=HTMLResponse)
@@ -470,14 +658,14 @@ def table_partial(_: None = Depends(check_auth)) -> str:
     return render_table_body(payload)
 
 
+@app.get("/feed", response_class=HTMLResponse)
+def feed_partial(_: None = Depends(check_auth)) -> str:
+    return render_feed_body(load_alerts())
+
+
 @app.get("/alerts", response_class=JSONResponse)
 def alerts(_: None = Depends(check_auth)) -> dict:
-    if not ALERTS_PATH.exists():
-        return {"alerts": []}
-    try:
-        return json.loads(ALERTS_PATH.read_text())
-    except json.JSONDecodeError:
-        return {"alerts": []}
+    return load_alerts()
 
 
 @app.get("/api/performance", response_class=JSONResponse)

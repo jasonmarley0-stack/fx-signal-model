@@ -60,7 +60,7 @@ import os  # noqa: E402
 from data.oanda import fetch_oanda_candles, to_oanda_instrument  # noqa: E402
 from dashboard_data import DEFAULT_PAIRS  # noqa: E402
 from strategies.composite import technical_score  # noqa: E402
-from pestle.pestle_scorer import currency_pestle_score  # noqa: E402
+from pestle.pestle_scorer import currency_pestle_score, top_evidence  # noqa: E402
 from pestle.signal_engine_client import SignalEngineClient  # noqa: E402
 from combiner import combine_signal  # noqa: E402
 
@@ -183,25 +183,30 @@ def stream_loop(pairs: list[str], pair_states: dict[str, PairState],
         time.sleep(delay)
 
 
-def get_currency_pestle(currency: str, client: SignalEngineClient, cache: dict) -> tuple[float, dict]:
+def get_currency_pestle(currency: str, client: SignalEngineClient, cache: dict) -> tuple[float, dict, list]:
     entry = cache.get(currency)
     now = time.monotonic()
     if entry and now - entry["fetched_at"] < PESTLE_CACHE_SECONDS:
-        return entry["score"], entry["categories"]
+        return entry["score"], entry["categories"], entry["evidence"]
     score, cats = currency_pestle_score(currency, client=client)
-    cache[currency] = {"score": score, "categories": cats, "fetched_at": now}
-    return score, cats
+    # Fetched together with the score (not separately, on-demand) so this
+    # stays on the same 5-min cache cadence as the score itself — an alert
+    # card's evidence should match the score it fired on, not drift ahead
+    # of it between cache refreshes.
+    evidence = top_evidence(currency, client=client, limit=2)
+    cache[currency] = {"score": score, "categories": cats, "evidence": evidence, "fetched_at": now}
+    return score, cats, evidence
 
 
 def get_pair_pestle(pair: str, client: SignalEngineClient, cache: dict) -> dict:
     base, quote = pair[:3], pair[3:]
-    base_score, base_cats = get_currency_pestle(base, client, cache)
-    quote_score, quote_cats = get_currency_pestle(quote, client, cache)
+    base_score, base_cats, base_evidence = get_currency_pestle(base, client, cache)
+    quote_score, quote_cats, quote_evidence = get_currency_pestle(quote, client, cache)
     pair_score = max(-1.0, min(1.0, base_score - quote_score))
     return {
         "pair": pair, "pestle_score": pair_score,
-        "base": {"currency": base, "score": base_score, "categories": base_cats},
-        "quote": {"currency": quote, "score": quote_score, "categories": quote_cats},
+        "base": {"currency": base, "score": base_score, "categories": base_cats, "evidence": base_evidence},
+        "quote": {"currency": quote, "score": quote_score, "categories": quote_cats, "evidence": quote_evidence},
     }
 
 
@@ -249,7 +254,12 @@ def log_signal(pair: str, sig) -> None:
         f.write(json.dumps(entry) + "\n")
 
 
-def push_alert(pair: str, sig) -> None:
+def push_alert(pair: str, sig, tech: dict, pestle: dict, window: dict | None) -> None:
+    """Persists the full breakdown behind the fired signal, not just the
+    headline — an alert card needs the technical components and PESTLE
+    evidence to show *why*, not just direction/confidence/score. All of
+    this was already computed by recompute_loop(); this just carries it
+    through instead of discarding it (see SIGNAL_IQ_GAP_ANALYSIS.md item 1b)."""
     alerts = []
     if ALERTS_PATH.exists():
         try:
@@ -267,6 +277,11 @@ def push_alert(pair: str, sig) -> None:
         "entry": sig.entry,
         "message": f"{pair}: {label}",
         "reason": sig.reason,
+        "tech": tech,
+        "pestle": pestle,
+        "stop_loss_range": list(sig.stop_loss_range),
+        "take_profit_range": list(sig.take_profit_range),
+        "window": window,
     }
     alerts.append(entry)
     alerts = alerts[-MAX_ALERTS:]
@@ -276,7 +291,7 @@ def push_alert(pair: str, sig) -> None:
     print(f"[alert] {entry['message']}")
 
 
-def fire_if_new_transition(pair: str, sig, last_fired: dict) -> None:
+def fire_if_new_transition(pair: str, sig, last_fired: dict, tech: dict, pestle: dict, window: dict | None) -> None:
     current = [sig.direction, sig.confidence]
     prev = last_fired.get(pair)
     last_fired[pair] = current
@@ -285,7 +300,7 @@ def fire_if_new_transition(pair: str, sig, last_fired: dict) -> None:
     if prev == current:
         return
     log_signal(pair, sig)
-    push_alert(pair, sig)
+    push_alert(pair, sig, tech, pestle, window)
 
 
 def write_live_scan(now: datetime, rows: list[dict]) -> None:
@@ -333,8 +348,8 @@ def recompute_loop(pairs: list[str], pair_states: dict[str, PairState], lock: th
                         arrow = "down"
                 prev_price[pair] = current_price
 
-                fire_if_new_transition(pair, sig, last_fired)
-
+                tech_dict = {"orb": latest_tech["orb"], "trend": latest_tech["trend"],
+                             "pattern": latest_tech["pattern"], "composite": latest_tech["tech_score"]}
                 window = None
                 if sig.window:
                     window = {
@@ -342,10 +357,12 @@ def recompute_loop(pairs: list[str], pair_states: dict[str, PairState], lock: th
                         "generated_at_gmt_str": sig.window.get("generated_at_gmt_str"),
                         "valid_until_gmt_str": sig.window.get("valid_until_gmt_str"),
                     }
+
+                fire_if_new_transition(pair, sig, last_fired, tech_dict, pestle, window)
+
                 rows.append({
                     "pair": pair, "entry": current_price, "price_arrow": arrow,
-                    "tech": {"orb": latest_tech["orb"], "trend": latest_tech["trend"],
-                             "pattern": latest_tech["pattern"], "composite": latest_tech["tech_score"]},
+                    "tech": tech_dict,
                     "pestle_score": pestle["pestle_score"],
                     "direction": sig.direction, "confidence": sig.confidence,
                     "combined_score": sig.combined_score,

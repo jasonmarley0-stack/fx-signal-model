@@ -32,21 +32,34 @@ def _recency_weight(observed_at: datetime, half_life_hours: float = RECENCY_HALF
     return math.pow(0.5, max(age_hours, 0) / half_life_hours)
 
 
-def category_scores(currency: str, client: SignalEngineClient | None = None,
-                     lookback_hours: int = DEFAULT_LOOKBACK_HOURS) -> dict[str, float]:
-    """Returns {category: score in [-1, 1]} for one currency."""
+def _weighted_signals(currency: str, client: SignalEngineClient | None = None,
+                       lookback_hours: int = DEFAULT_LOOKBACK_HOURS) -> list[tuple]:
+    """[(signal, category, polarity, weight), ...] for every raw signal that
+    maps to a scored PESTLE category — the shared basis for both
+    category_scores() (aggregates these into per-category numbers) and
+    top_evidence() (surfaces the actual signals behind those numbers, for
+    display on an alert card)."""
     client = client or SignalEngineClient()
     signals = client.fetch_signals(currency, lookback_hours=lookback_hours)
-
-    bucket_pos = {c: 0.0 for c in PESTLE_CATEGORIES}
-    bucket_neg = {c: 0.0 for c in PESTLE_CATEGORIES}
-
+    out = []
     for sig in signals:
         polarity_entry = PESTLE_SIGNAL_POLARITY.get(sig.signal_type_code)
         if polarity_entry is None:
             continue
         category, polarity = polarity_entry
         weight = sig.confidence * (sig.source_credibility / 100) * _recency_weight(sig.observed_at)
+        out.append((sig, category, polarity, weight))
+    return out
+
+
+def category_scores(currency: str, client: SignalEngineClient | None = None,
+                     lookback_hours: int = DEFAULT_LOOKBACK_HOURS) -> dict[str, float]:
+    """Returns {category: score in [-1, 1]} for one currency."""
+    weighted = _weighted_signals(currency, client=client, lookback_hours=lookback_hours)
+
+    bucket_pos = {c: 0.0 for c in PESTLE_CATEGORIES}
+    bucket_neg = {c: 0.0 for c in PESTLE_CATEGORIES}
+    for sig, category, polarity, weight in weighted:
         if polarity > 0:
             bucket_pos[category] += weight
         else:
@@ -57,6 +70,28 @@ def category_scores(currency: str, client: SignalEngineClient | None = None,
         total = bucket_pos[cat] + bucket_neg[cat]
         scores[cat] = 0.0 if total == 0 else max(-1.0, min(1.0, (bucket_pos[cat] - bucket_neg[cat]) / max(total, 1.0)))
     return scores
+
+
+def top_evidence(currency: str, client: SignalEngineClient | None = None,
+                  lookback_hours: int = DEFAULT_LOOKBACK_HOURS, limit: int = 2) -> list[dict]:
+    """The evidence items actually driving this currency's PESTLE score,
+    ranked by the same weight (confidence x source credibility x recency)
+    the score itself is built from — for showing *why* on an alert card,
+    not just the number. Falls back to a humanized signal-type label when
+    a signal has no title (e.g. mock-mode fixtures)."""
+    weighted = _weighted_signals(currency, client=client, lookback_hours=lookback_hours)
+    weighted.sort(key=lambda t: t[3], reverse=True)
+    out = []
+    for sig, category, polarity, weight in weighted[:limit]:
+        out.append({
+            "title": sig.title or sig.signal_type_code.replace("_", " ").title(),
+            "source_url": sig.source_url,
+            "observed_at": sig.observed_at.isoformat(),
+            "signal_type_code": sig.signal_type_code,
+            "category": category,
+            "polarity": polarity,
+        })
+    return out
 
 
 def currency_pestle_score(currency: str, client: SignalEngineClient | None = None,

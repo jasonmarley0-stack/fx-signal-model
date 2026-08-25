@@ -55,7 +55,9 @@ class RawPestleSignal:
     observed_at: datetime
     confidence: float  # 0-1, from Signal Engine
     source_credibility: float  # 0-100, from Signal Engine
-    description: str = ""  # the real evidence text, for narrative display
+    description: str = ""  # raw evidence text (often long, HTML-formatted) — not fit for card display as-is
+    title: str = ""  # the actual clean headline, e.g. "Consumer/business confidence rises" — what alert cards show
+    source_url: str = ""  # link back to the real article
 
 
 class SignalEngineClient:
@@ -94,6 +96,8 @@ class SignalEngineClient:
                     confidence=row.get("confidence", 0.7),
                     source_credibility=row.get("source_credibility", 70),
                     description=row.get("description", ""),
+                    title=row.get("title", ""),
+                    source_url=row.get("source_url", ""),
                 ))
             return out
 
