@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-25T23:29:58.844401+00:00",
+  "generated_at": "2026-08-26T05:45:08.784610+00:00",
   "services": {
     "signal-scanner": {
       "active": "active",
@@ -18,24 +18,24 @@
     "rss-ingestion.timer": "active",
     "performance-scorer.timer": "active"
   },
-  "live_scan_age_seconds": 8.736809,
-  "performance_updated_at": "2026-08-25T22:53:09.384100+00:00",
+  "live_scan_age_seconds": 17.222931,
+  "performance_updated_at": "2026-08-26T04:55:01.589197+00:00",
   "performance_aggregates": {
     "7d": {
       "total_signals": 9,
-      "resolved_signals": 7,
-      "win_rate": 0.5714285714285714,
-      "avg_r": 0.6428571428571661,
+      "resolved_signals": 9,
+      "win_rate": 0.4444444444444444,
+      "avg_r": 0.27777777777779583,
       "directional_accuracy": null,
       "directional_sample_size": 0,
       "best_pair": "USDCAD",
       "by_pair": {
         "GBPUSD": {
           "signals": 2,
-          "win_rate": null,
-          "avg_r": null,
-          "best_r": null,
-          "worst_r": null,
+          "win_rate": 0.0,
+          "avg_r": -1.0,
+          "best_r": -1.0,
+          "worst_r": -1.0,
           "directional_accuracy": null
         },
         "NZDUSD": {
@@ -106,24 +106,34 @@
           "time": "2026-08-25T13:30:15.792235+00:00",
           "pair": "USDJPY",
           "cumulative_r": 4.5
+        },
+        {
+          "time": "2026-08-25T19:47:04.956520+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": 3.5
+        },
+        {
+          "time": "2026-08-25T22:35:54.758795+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": 2.5
         }
       ]
     },
     "30d": {
       "total_signals": 9,
-      "resolved_signals": 7,
-      "win_rate": 0.5714285714285714,
-      "avg_r": 0.6428571428571661,
+      "resolved_signals": 9,
+      "win_rate": 0.4444444444444444,
+      "avg_r": 0.27777777777779583,
       "directional_accuracy": null,
       "directional_sample_size": 0,
       "best_pair": "USDCAD",
       "by_pair": {
         "GBPUSD": {
           "signals": 2,
-          "win_rate": null,
-          "avg_r": null,
-          "best_r": null,
-          "worst_r": null,
+          "win_rate": 0.0,
+          "avg_r": -1.0,
+          "best_r": -1.0,
+          "worst_r": -1.0,
           "directional_accuracy": null
         },
         "NZDUSD": {
@@ -194,24 +204,34 @@
           "time": "2026-08-25T13:30:15.792235+00:00",
           "pair": "USDJPY",
           "cumulative_r": 4.5
+        },
+        {
+          "time": "2026-08-25T19:47:04.956520+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": 3.5
+        },
+        {
+          "time": "2026-08-25T22:35:54.758795+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": 2.5
         }
       ]
     },
     "all": {
       "total_signals": 9,
-      "resolved_signals": 7,
-      "win_rate": 0.5714285714285714,
-      "avg_r": 0.6428571428571661,
+      "resolved_signals": 9,
+      "win_rate": 0.4444444444444444,
+      "avg_r": 0.27777777777779583,
       "directional_accuracy": null,
       "directional_sample_size": 0,
       "best_pair": "USDCAD",
       "by_pair": {
         "GBPUSD": {
           "signals": 2,
-          "win_rate": null,
-          "avg_r": null,
-          "best_r": null,
-          "worst_r": null,
+          "win_rate": 0.0,
+          "avg_r": -1.0,
+          "best_r": -1.0,
+          "worst_r": -1.0,
           "directional_accuracy": null
         },
         "NZDUSD": {
@@ -282,6 +302,16 @@
           "time": "2026-08-25T13:30:15.792235+00:00",
           "pair": "USDJPY",
           "cumulative_r": 4.5
+        },
+        {
+          "time": "2026-08-25T19:47:04.956520+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": 3.5
+        },
+        {
+          "time": "2026-08-25T22:35:54.758795+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": 2.5
         }
       ]
     }
