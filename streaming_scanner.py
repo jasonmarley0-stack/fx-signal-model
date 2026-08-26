@@ -293,8 +293,20 @@ def push_alert(pair: str, sig, tech: dict, pestle: dict, window: dict | None) ->
 
 
 def fire_if_new_transition(pair: str, sig, last_fired: dict, tech: dict, pestle: dict, window: dict | None) -> None:
-    current = [sig.direction, sig.confidence]
+    """Fires only on a genuine direction change (no_trade <-> long <-> short), not
+    on confidence-tier movement. Confidence tier is a coarse bucket derived from
+    combined_score crossing a threshold (e.g. 0.6 for "high"); when the score
+    sits near that line, ordinary recompute-to-recompute noise flips the tier
+    back and forth while direction never changes. Dedup used to be keyed on
+    [direction, confidence], so each flip got logged as a "new" trade — inflating
+    performance-tracking counts with several near-identical entries for one
+    underlying call. Confirmed on 2026-08-26: EURNZD long fired 5x in 26 minutes
+    with direction unchanged throughout, purely from tech score wobbling
+    0.80<->0.96 back and forth across the confidence-tier line. See NEXT_STEPS.md."""
     prev = last_fired.get(pair)
+    if isinstance(prev, list):  # migrate old [direction, confidence] state entries
+        prev = prev[0]
+    current = sig.direction
     last_fired[pair] = current
     if prev is None:
         return  # first recompute this run — establish baseline, don't alert on pre-existing state
