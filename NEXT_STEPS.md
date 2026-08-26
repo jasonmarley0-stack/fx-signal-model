@@ -96,6 +96,50 @@ mostly done and stands as a historical record instead.
     (c) a decision on what it actually surfaces — e.g. a banner ahead of
     time ("high-impact USD event in 3h") on affected pairs, distinct from
     PESTLE's after-the-fact evidence scoring.
+  - **Data-source research done 2026-08-26** (parked here so it isn't
+    redone from scratch later):
+    - **Trading Economics** — real, well-structured calendar API
+      (country/currency/importance/actual/forecast/previous fields,
+      filterable by date range and importance). Access requires a paid
+      trial that auto-converts to a subscription — no genuine free tier
+      found in their docs. A long-rumored free `guest:guest` demo key
+      couldn't be confirmed either way from current docs; untested.
+    - **Finnhub** — ruled out. Confirmed directly in their pricing table
+      (inspected the actual checkmark icons, not just text) that Economic
+      Calendar is gated behind their $3,500/month enterprise tier; nothing
+      on the free plan.
+    - **FMP (Financial Modeling Prep)** — the most promising lead, not yet
+      confirmed. Free "Basic" plan ($0/mo, 250 calls/day) is pitched as
+      "ideal for testing endpoints," and their Economic Calendar docs page
+      doesn't show it gated behind a paid tier the way Finnhub's did — the
+      only caveat is date-range filtering (`from`/`to` params) shows as
+      "Limited Access," likely just capping how far ahead you can query.
+      Clean response shape: `date, country, event, currency, previous,
+      estimate, actual, impact, unit`. Needs an actual signup to confirm
+      for certain. Also carries a term worth reading before displaying raw
+      calendar data to subscribers: "displaying or redistributing FMP
+      data requires a specific Data Display and Licensing Agreement" —
+      using it to *inform* PESTLE-style scoring internally is a different
+      thing than showing subscribers the raw feed, but worth checking
+      which this product would end up doing.
+    - **Official government/central-bank calendars** (BLS, ECB, ONS, etc.)
+      — genuinely free and authoritative, and BLS specifically publishes a
+      subscribable `.ics` calendar feed
+      (`https://www.bls.gov/schedule/news_release/bls.ics`) seemingly
+      designed for exactly this. Confirmed it's **not usable for
+      automation**: blocked by Akamai bot-protection on both a bare
+      `curl` and a real browser User-Agent, and BLS's own error message
+      states automated "robot" retrieval violates their usage policy —
+      not something to route around even if a working fetch pattern
+      existed. Other agencies (ECB/ONS/RBA/etc.) weren't individually
+      checked; even where free and unprotected, they'd only cover rate
+      decisions, not the full CPI/GDP/employment/PMI breadth the original
+      design wanted.
+    - **Bottom line if this gets picked back up**: FMP's free tier is the
+      next concrete step (needs a real signup to confirm), otherwise this
+      needs either a paid data source or accepting a much narrower
+      rate-decisions-only calendar assembled from official sources by
+      hand.
 
 ## Known gaps, lower priority
 
