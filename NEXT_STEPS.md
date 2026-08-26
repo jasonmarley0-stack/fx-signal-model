@@ -108,20 +108,21 @@ mostly done and stands as a historical record instead.
       (inspected the actual checkmark icons, not just text) that Economic
       Calendar is gated behind their $3,500/month enterprise tier; nothing
       on the free plan.
-    - **FMP (Financial Modeling Prep)** — the most promising lead, not yet
-      confirmed. Free "Basic" plan ($0/mo, 250 calls/day) is pitched as
-      "ideal for testing endpoints," and their Economic Calendar docs page
-      doesn't show it gated behind a paid tier the way Finnhub's did — the
-      only caveat is date-range filtering (`from`/`to` params) shows as
-      "Limited Access," likely just capping how far ahead you can query.
-      Clean response shape: `date, country, event, currency, previous,
-      estimate, actual, impact, unit`. Needs an actual signup to confirm
-      for certain. Also carries a term worth reading before displaying raw
-      calendar data to subscribers: "displaying or redistributing FMP
-      data requires a specific Data Display and Licensing Agreement" —
-      using it to *inform* PESTLE-style scoring internally is a different
-      thing than showing subscribers the raw feed, but worth checking
-      which this product would end up doing.
+    - **FMP (Financial Modeling Prep)** — **ruled out, confirmed by
+      testing** (2026-08-26, with a real free-tier key Jason signed up
+      for): `GET /stable/economic-calendar` returns `HTTP 402 "Restricted
+      Endpoint... not available under your current subscription"`. The
+      key itself was valid (worked fine against `/stable/quote`), so this
+      is a real tier restriction, not a bad key. The docs' ambiguous
+      "Limited Access" wording on the `from`/`to` params turned out to
+      mean the whole endpoint, not just those params — the earlier read
+      of the docs was too optimistic. Also checked their legacy `/api/v3/`
+      path as a fallback — fully deprecated for anyone who signed up after
+      August 2025, no free-tier access there either. Don't know which paid
+      tier actually includes Economic Calendar (their plan-comparison
+      table doesn't parse reliably out of the page) — check that
+      specifically before considering a paid FMP plan, rather than
+      guessing again.
     - **Official government/central-bank calendars** (BLS, ECB, ONS, etc.)
       — genuinely free and authoritative, and BLS specifically publishes a
       subscribable `.ics` calendar feed
