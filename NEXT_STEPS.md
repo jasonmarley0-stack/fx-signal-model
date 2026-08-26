@@ -34,14 +34,26 @@ mostly done and stands as a historical record instead.
       Getting there needed more than the API call originally planned — see
       "How the daily review actually works" below for what changed and
       why, since it's worth understanding if this ever needs debugging.
-- [ ] **PESTLE evidence review cadence.** RSS ingestion is now automatic
-      (every 6h) but review (raw evidence → published signal) is still a
-      manual/Claude-assisted pass with no set schedule — deliberately so,
-      per Signal Engine's no-auto-classification design. Concrete evidence
-      this needs a cadence now, not eventually: the queue grew from 141 to
-      175 items since the timer went in, and *unreviewed* items grew from
-      135 to 163 despite publishing 6 more in between. Ingestion is now
-      outpacing review.
+- [x] **PESTLE evidence review cadence** — done, and this one was a real
+      policy decision, not just automation: Jason decided that for this
+      FX-specific Signal Engine deployment (unlike the general-purpose
+      product it's built on, where human review was the original intent)
+      AI review is essential to keep the queue live. A three-leg pipeline
+      now runs every 6h: `push_pending_evidence.py` (droplet → GitHub
+      main) → the "Signal IQ evidence auto-review" routine (classifies
+      against the same rubric the manual batches used, pushes to a
+      dedicated `review-decisions` branch — routines can't push to `main`
+      directly, confirmed by testing) → `apply_evidence_decisions.py`
+      (droplet reads that branch, executes against Signal Engine).
+      Verified against the real 169-item backlog: 6 published, 163
+      rejected, every single decision spot-checked against the rubric
+      matched or improved on manual judgment (one PMI item the auto-review
+      published was one I'd personally rejected in an earlier manual
+      batch for ambiguous country attribution — the fuller description in
+      this pipeline's dump confirmed it was correctly US-attributed).
+      PESTLE scores moved for AUD/USD/EUR/CAD immediately after applying.
+      Needed installing the Claude GitHub App on this repo (write access,
+      scoped to just this repo) — see below for why.
 - [ ] **Watch alert volume/noise at 28 pairs.** 7 pairs already produced a
       rapid confidence-flicker episode (NZDUSD, 4 alerts in 2 minutes on
       one wobbly setup). 28 pairs will surface more of this. Worth keeping
@@ -138,3 +150,41 @@ on real HTTPS (`https://159-65-19-136.sslip.io`, port 8080 closed
 externally) instead of plain HTTP, and `/api/health` + `/api/performance`
 accept a separate `MONITOR_API_KEY` header so automation never needs your
 own dashboard login.
+
+## How the automated evidence review actually works
+
+Same GitHub-relay shape as the daily review, but with one more constraint
+discovered along the way, also worth recording: **routines refuse to
+commit straight to `main`**, even with write access confirmed (tested
+directly — it created a feature branch on its own initiative rather than
+touching `main`, unprompted). Signal Engine's API is also localhost-only
+by design (no auth of its own, not exposed externally) — so classification
+has to happen in a routine, but the actual publish/reject calls have to
+happen on the droplet. Three legs, all on a 6-hourly cycle:
+
+1. **`push_pending_evidence.py`** — droplet, **:00** (00:00/06:00/12:00/
+   18:00 UTC). Pulls every unreviewed raw-evidence item and pushes
+   `review/pending_evidence.json` straight to `main` (the droplet's own
+   git identity has no restriction against it).
+2. **"Signal IQ evidence auto-review"** routine — **:20**. Reads that
+   file, classifies each item against the rubric distilled from the two
+   manual review batches (see the script docstrings for the full rubric
+   text), writes `review/decisions.json`, and **force-pushes it to a
+   dedicated `review-decisions` branch** — never merged into `main`, just
+   a drop-box. Manage at
+   [claude.ai/code/routines](https://claude.ai/code/routines)
+   (`trig_018GPWtdnkpz4F1mghkMPH5H`).
+3. **`apply_evidence_decisions.py`** — droplet, **:45**. Reads
+   `review/decisions.json` straight off the `review-decisions` ref
+   (`git show`, no merge) and executes each decision against Signal
+   Engine locally — publish (match-company if needed → map-signal-type →
+   approve → publish) or reject with a reason.
+
+Required installing the **Claude GitHub App** on this repo (write access,
+scoped to just `fx-signal-model`) — the routine can clone a public repo
+without it, but pushing anywhere needs it.
+
+Verified against the real backlog before trusting it unattended: 169
+items, 6 published/163 rejected (matches the ~4-5% rate from the manual
+batches), every flagged decision spot-checked against the rubric, PESTLE
+scores confirmed moving for AUD/USD/EUR/CAD immediately after applying.
