@@ -1,0 +1,10 @@
+[Unit]
+Description=Apply the auto-review routine's evidence classification decisions to Signal Engine
+After=network.target signal-engine.service
+Wants=signal-engine.service
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/fx-signal-model
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/setup/apply_evidence_decisions.py

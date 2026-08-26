@@ -1,0 +1,10 @@
+[Unit]
+Description=Push unreviewed PESTLE evidence to GitHub for the auto-review routine to read
+After=network.target signal-engine.service
+Wants=signal-engine.service
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/fx-signal-model
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/setup/push_pending_evidence.py

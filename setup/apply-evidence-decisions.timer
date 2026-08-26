@@ -1,0 +1,9 @@
+[Unit]
+Description=Apply evidence review decisions every 6h, 45 minutes after the cycle starts
+
+[Timer]
+OnCalendar=*-*-* 0/6:45:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
