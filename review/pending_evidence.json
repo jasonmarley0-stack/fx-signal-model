@@ -1,35 +1,79 @@
 [
   {
-    "id": 184,
+    "id": 191,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Asia-Pacific market news: Oil down, AUD 3 month high",
-    "description": "ICYMI: US begins returning staff to Middle East embassies after Iran war evacuations Hawkish board member Tamura to represent BOJ at Jackson Hole instead of Ueda Asian shares edge higher as markets await Nvidia earnings, US inflation data Gold holds near three month high as markets await US inflation data AUD higher, Australian CPI beats forecasts as core inflation surprises to the upside Australian monthly CPI (July 2026) 3.5 % y/y (vs. 3.2% expected) Preview, today: Fed's favoured inflation gauge lands two days before Warsh's Jackson Hole speech Japan's services inflation accelerates to 3.6p",
-    "published_at": "2026-08-26T03:49:00",
-    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-oil-down-aud-3-month-high/"
+    "title": "UK retail sector remains under pressure as CBI survey shows sharp sales decline",
+    "description": "Full report here The UK retail sector faced worsening trading conditions in August, according to the latest CBI Distributive Trades Survey, as sales volumes fell at their fastest pace in over a year and business sentiment deteriorated further. The CBI's retail sales balance dropped to -48% in August, down sharply from -26% in July. Although sales are still expected to decline in September, firms anticipate the pace of contraction will moderate, with the balance forecast to improve to -22%. Retailers also reported that sales were well below normal seasonal levels, with the balance deteriorating",
+    "published_at": "2026-08-26T10:10:20",
+    "source_url": "https://investinglive.com/news/uk-retail-sector-remains-under-pressure-as-cbi-survey-shows-sharp-sales-decline/"
   },
   {
-    "id": 183,
+    "id": 190,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "What are the main events for today?",
-    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than a couple of low-tier releases like the Swiss economic sentiment index and UK CBI distributive trades. The data won't change anything for the respective central banks, so the market reaction will be muted. The market is currently focused on US-Iran developments, as expectations for a deal grew stronger yesterday following several positive reports. This is what is likely to be driving the price action ahead of the Jackson Hole event. AMERICAN SESSION In the American session, we have the US PCE price index and t",
-    "published_at": "2026-08-26T04:23:24",
-    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-28/"
+    "title": "investingLive European news wrap: Markets await further US-Iran news, Jackson Hole event",
+    "description": "UK retail sector remains under pressure as CBI survey shows sharp sales decline Oil prices sink as expectations for an imminent US-Iran deal increase. What's next? Nasdaq Analysis: Two Critical Levels to Watch Around Nvidia Earnings Switzerland August UBS investor sentiment +12.1 vs +10.0 prior Nvidia Earnings Tonight: NVDA Levels and Trade Plan ECB's Schnabel says the central bank must act early to prevent second-round effects FX option expiries for 26 August 10am New York cut What are the main events for today? It's been a pretty boring session with limited economic data and news releases. O",
+    "published_at": "2026-08-26T11:33:33",
+    "source_url": "https://investinglive.com/news/investinglive-european-news-wrap-markets-await-further-us-iran-news-jackson-hole-event/"
   },
   {
-    "id": 182,
+    "id": 189,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Switzerland August UBS investor sentiment +12.1 vs +10.0 prior",
-    "description": "Prior was +10.0 Swiss investor confidence strengthened again in August, with the UBS Investor Sentiment Index rising to +12.1 from +10.0 in July, signalling growing optimism about the outlook for the Swiss economy and financial markets. This marks the second consecutive month in positive territory following a sharp recovery from June's negative reading. Investors have turned more positive on Switzerland's economic prospects despite the US-Iran war and elevated oil prices. Nevertheless, the data won't change anything for the SNB, as the central bank is expected to keep monetary policy unchanged",
-    "published_at": "2026-08-26T08:00:17",
-    "source_url": "https://investinglive.com/news/switzerland-august-ubs-investor-sentiment-xx-vs-10-0-prior/"
+    "title": "US GDP 2nd estimate for Q2 1.5% vs 1.5% preliminary.",
+    "description": "GDP 1st estimate 1.6% (they were expecting 2.1% before the 1st release). GDP 2nd revision&nbsp;1.5% vs 1.5% estimate Consumer Spending 3.4% vs 3.2% preliminary estimate GDP Deflator 6.4% vs 6.2% estimate Core PCE YoY 3.6% vs 3.4% estimate PCE Prices YoY 5.3% vs 5.1% estimate PCE ex food energy and housing Q2 3.4% vs 3.2% preliminary PCE Services ex energy and housing Q2 3.7% vs 3.4% preliminary Other details: GDP slowed in Q2: The deceleration reflected lower government spending, slower investment and export growth, and a larger increase in imports. Stronger consumer spending provided a partia",
+    "published_at": "2026-08-26T12:30:43",
+    "source_url": "https://investinglive.com/news/us-gdp-2nd-estimate-for-q2-1-5-vs-1-5-preliminary-0/"
+  },
+  {
+    "id": 188,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US GDP 2nd estimate for Q2 1.5% vs 1.5% preliminary.",
+    "description": "GDP 1st estimate 1.6% (they were expecting 2.1% before the 1st release). GDP 2nd revision x.x% vs 1.5% estimate Consumer Spending x.x% vs 3.2% preliminary estimate GDP Deflator x.x% vs 6.2% estimate Core PCE YoY x.x% vs 3.4% estimate PCE Prices YoY x.x% vs 5.1% estimate PCE ex food energy and housing Q2 x.x% vs 3.2% preliminary PCE Services ex energy and housing Q2 x.x% vs 3.4% preliminary This article was written by Greg Michalowski at investinglive.com.",
+    "published_at": "2026-08-26T12:30:36",
+    "source_url": "https://investinglive.com/news/us-gdp-2nd-estimate-for-q2-1-5-vs-1-5-preliminary/"
+  },
+  {
+    "id": 187,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US July durable goods orders +1.1% vs +0.5% expected",
+    "description": "Prior was +0.5% Ex transport +0.4% vs +0.8% exp Ex defense +1.3% vs +0.3% prior Non-defense capital goods ex air +0.2% vs +0.9% exp This is a softer report overall but the US dollar has been strengthening on the slightly-hotter PCE report released at the same time. The euro was last down 21 pips on the day to 1.1653. This article was written by Adam Button at investinglive.com.",
+    "published_at": "2026-08-26T12:45:11",
+    "source_url": "https://investinglive.com/news/us-july-durable-goods-orders-1-1-vs-0-5-expected/"
+  },
+  {
+    "id": 186,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Meta and US states agree to settle claims that platforms harmed children",
+    "description": "Meta is truly a vilanous company. Just this month, CEO Mark Zuckerberg was writing about all the jobs AI would create. Meanwhile, we learned in a Reuters report today that he was contemplating eliminating 60% of Meta's workforce this year. In any case, he will need the savings as&nbsp;Meta will pay $16.7 billion to 29 states as part of an agreement today, just before jury selection was set to begin in the trial. The accusation was that the company designed Instagram and Facebook to addict children, misled consumers about their safety, and improperly collected personal data of kids. What's biza",
+    "published_at": "2026-08-26T13:10:47",
+    "source_url": "https://investinglive.com/news/meta-and-us-states-agree-to-settle-claims-that-platforms-harmed-children/"
+  },
+  {
+    "id": 185,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Piero Cipollone: From vision to delivery: building Europe\u2019s tokenised financial market",
+    "description": "",
+    "published_at": "2026-08-26T10:15:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260826~3641116314.en.html"
   }
 ]
