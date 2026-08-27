@@ -1,79 +1,57 @@
 [
   {
-    "id": 191,
+    "id": 196,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "UK retail sector remains under pressure as CBI survey shows sharp sales decline",
-    "description": "Full report here The UK retail sector faced worsening trading conditions in August, according to the latest CBI Distributive Trades Survey, as sales volumes fell at their fastest pace in over a year and business sentiment deteriorated further. The CBI's retail sales balance dropped to -48% in August, down sharply from -26% in July. Although sales are still expected to decline in September, firms anticipate the pace of contraction will moderate, with the balance forecast to improve to -22%. Retailers also reported that sales were well below normal seasonal levels, with the balance deteriorating",
-    "published_at": "2026-08-26T10:10:20",
-    "source_url": "https://investinglive.com/news/uk-retail-sector-remains-under-pressure-as-cbi-survey-shows-sharp-sales-decline/"
+    "title": "Putin said to plan Ukraine escalation after seeing talks as fruitless",
+    "description": "The CIA visit to Moscow yesterday led to some optimism about a thawing or potential deal. Instead, we're getting a further cycle of escalation that follows rumors of 300,000 more Russians set to be drafted. In any case, oil is higher on this report and it's hard to see this war ever ending. The Bloomberg report says:&nbsp; Russia is preparing to escalate attacks on Ukraine after concluding that negotiations for a peace deal have reached a dead end, according to three people close to the Kremlin. For now, Russia is weighing an intensification of powerful conventional ballistic missile attacks o",
+    "published_at": "2026-08-26T15:56:39",
+    "source_url": "https://investinglive.com/news/putin-said-to-plan-ukraine-escalation-after-seeing-talks-as-fruitless/"
   },
   {
-    "id": 190,
+    "id": 195,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive European news wrap: Markets await further US-Iran news, Jackson Hole event",
-    "description": "UK retail sector remains under pressure as CBI survey shows sharp sales decline Oil prices sink as expectations for an imminent US-Iran deal increase. What's next? Nasdaq Analysis: Two Critical Levels to Watch Around Nvidia Earnings Switzerland August UBS investor sentiment +12.1 vs +10.0 prior Nvidia Earnings Tonight: NVDA Levels and Trade Plan ECB's Schnabel says the central bank must act early to prevent second-round effects FX option expiries for 26 August 10am New York cut What are the main events for today? It's been a pretty boring session with limited economic data and news releases. O",
-    "published_at": "2026-08-26T11:33:33",
-    "source_url": "https://investinglive.com/news/investinglive-european-news-wrap-markets-await-further-us-iran-news-jackson-hole-event/"
+    "title": "Dallas Fed Trimmed Mean +2.2% versus 1.5% last month",
+    "description": "The Dallas Fed trimmed mean PCE came in at 2.2% versus 1.5% last month. That compares favorably to the July core PCE your and your at 3.3%, and the headline PCE year on year at 3.7%. However, the rise from 1.5% last month and moving back above the 2.0% level is going the wrong way. What is the difference between the Trimmed Mean PCE and headline PCE seen earlier? The&nbsp;Dallas Fed Trimmed Mean PCE Inflation Rate&nbsp;is an alternative measure of inflation designed to filter out the \"noise\" from unusually large price moves and provide a better picture of the underlying inflation trend. Here's",
+    "published_at": "2026-08-26T16:40:09",
+    "source_url": "https://investinglive.com/news/dallas-fed-trimmed-mean-2-2-versus-1-5-last-month/"
   },
   {
-    "id": 189,
+    "id": 194,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US GDP 2nd estimate for Q2 1.5% vs 1.5% preliminary.",
-    "description": "GDP 1st estimate 1.6% (they were expecting 2.1% before the 1st release). GDP 2nd revision&nbsp;1.5% vs 1.5% estimate Consumer Spending 3.4% vs 3.2% preliminary estimate GDP Deflator 6.4% vs 6.2% estimate Core PCE YoY 3.6% vs 3.4% estimate PCE Prices YoY 5.3% vs 5.1% estimate PCE ex food energy and housing Q2 3.4% vs 3.2% preliminary PCE Services ex energy and housing Q2 3.7% vs 3.4% preliminary Other details: GDP slowed in Q2: The deceleration reflected lower government spending, slower investment and export growth, and a larger increase in imports. Stronger consumer spending provided a partia",
-    "published_at": "2026-08-26T12:30:43",
-    "source_url": "https://investinglive.com/news/us-gdp-2nd-estimate-for-q2-1-5-vs-1-5-preliminary-0/"
+    "title": "US treasury sells $70 billion of 5 year notes at a high yield of 4.393%",
+    "description": "High yield 4.393% WI level at the time of the auction 4.391%. Tail +0.2 basis points Bid to cover 2.37X versus 2.32X Directs 28.4% vs&nbsp;average of&nbsp;21.2%. Indirects 61.5% versus average of 65.4% Dealers 10.05% versus average of 13.4% The&nbsp;domestic buyers were the stronger today it ain't 428.4% of the issue. The international buyers were less than the average at 61.5%. The bid to cover was modestly higher than the average. The tail although positive was better than the average of 0.7 basis points. Auction Grade: B This article was written by Greg Michalowski at investinglive.com.",
+    "published_at": "2026-08-26T17:07:08",
+    "source_url": "https://investinglive.com/news/us-treasury-sells-70-billion-of-5-year-notes-at-a-high-yield-of-4-393/"
   },
   {
-    "id": 188,
+    "id": 193,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US GDP 2nd estimate for Q2 1.5% vs 1.5% preliminary.",
-    "description": "GDP 1st estimate 1.6% (they were expecting 2.1% before the 1st release). GDP 2nd revision x.x% vs 1.5% estimate Consumer Spending x.x% vs 3.2% preliminary estimate GDP Deflator x.x% vs 6.2% estimate Core PCE YoY x.x% vs 3.4% estimate PCE Prices YoY x.x% vs 5.1% estimate PCE ex food energy and housing Q2 x.x% vs 3.2% preliminary PCE Services ex energy and housing Q2 x.x% vs 3.4% preliminary This article was written by Greg Michalowski at investinglive.com.",
-    "published_at": "2026-08-26T12:30:36",
-    "source_url": "https://investinglive.com/news/us-gdp-2nd-estimate-for-q2-1-5-vs-1-5-preliminary/"
+    "title": "Economic and event calendar in Asia 27 August 2026 - Bank of Korea and RBA",
+    "description": "I popped up a preview of the BoK earlier this week: Bank of Korea rate call a coin toss as economists split on August hike From the RBA we get the 'Bulletin'.&nbsp;The RBA Bulletin is the Reserve Bank's quarterly publication analysing economic and financial developments, alongside pieces on the RBA's own history and operations. It's a companion to the Statement on Monetary Policy, which is the quarterly assessment underpinning rate decisions. Long-running (dating to 1937), it's more explainer/research than market-moving. This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-08-26T20:05:49",
+    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-27-august-2026-bank-of-korea-and-rba/"
   },
   {
-    "id": 187,
+    "id": 192,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US July durable goods orders +1.1% vs +0.5% expected",
-    "description": "Prior was +0.5% Ex transport +0.4% vs +0.8% exp Ex defense +1.3% vs +0.3% prior Non-defense capital goods ex air +0.2% vs +0.9% exp This is a softer report overall but the US dollar has been strengthening on the slightly-hotter PCE report released at the same time. The euro was last down 21 pips on the day to 1.1653. This article was written by Adam Button at investinglive.com.",
-    "published_at": "2026-08-26T12:45:11",
-    "source_url": "https://investinglive.com/news/us-july-durable-goods-orders-1-1-vs-0-5-expected/"
-  },
-  {
-    "id": 186,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Meta and US states agree to settle claims that platforms harmed children",
-    "description": "Meta is truly a vilanous company. Just this month, CEO Mark Zuckerberg was writing about all the jobs AI would create. Meanwhile, we learned in a Reuters report today that he was contemplating eliminating 60% of Meta's workforce this year. In any case, he will need the savings as&nbsp;Meta will pay $16.7 billion to 29 states as part of an agreement today, just before jury selection was set to begin in the trial. The accusation was that the company designed Instagram and Facebook to addict children, misled consumers about their safety, and improperly collected personal data of kids. What's biza",
-    "published_at": "2026-08-26T13:10:47",
-    "source_url": "https://investinglive.com/news/meta-and-us-states-agree-to-settle-claims-that-platforms-harmed-children/"
-  },
-  {
-    "id": 185,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 3,
-    "source_id": 2,
-    "title": "Piero Cipollone: From vision to delivery: building Europe\u2019s tokenised financial market",
-    "description": "",
-    "published_at": "2026-08-26T10:15:00",
-    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260826~3641116314.en.html"
+    "title": "investingLive Americas FX news wrap 26 Aug  The USD is mostly higher with higher yields the catalyst",
+    "description": "US stock markets close near flat ahead of Nvidia earnings Bill Gates undermines everything the AI leaders have been saying Crude oil futures settle little changed at $82.23 The $4 trillion question: Can the hyperscalers' enormous bet on data centers pay off US treasury sells $70 billion of 5 year notes at a high yield of 4.393% Dallas Fed Trimmed Mean +2.2% versus 1.5% last month Major European indices closed mostly higher with the UK FTSE 100 the exception Putin said to plan Ukraine escalation after seeing talks as fruitless EIA weekly US crude oil inventories +95K vs +597K expected The Canad",
+    "published_at": "2026-08-26T20:41:42",
+    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-26-aug-the-usd-is-mostly-higher-with-higher-yields-the-catalyst/"
   }
 ]
