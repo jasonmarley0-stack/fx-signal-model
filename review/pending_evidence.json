@@ -1,13 +1,46 @@
 [
   {
-    "id": 197,
+    "id": 201,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "China industrial profit growth slumps to 7-month low of 11.2%",
-    "description": "The slowdown to an 11.2% annual pace, well below the 18.7% clip logged in the first half, will raise questions over whether the AI-driven turnaround in Chinese industrial profitability is starting to fade rather than merely normalizing off a strong base. Traders positioned for continued strength in China-exposed cyclicals and commodity demand may reassess given the clear deceleration trend across both the July print and the seven-month cumulative figure. The data adds to a broader mosaic of Chinese economic indicators markets are using to gauge the durability of the recovery from the 2021 to 2",
-    "published_at": "2026-08-27T02:02:50",
-    "source_url": "https://investinglive.com/news/china-industrial-profit-growth-slumps-to-7-month-low-of-11-2/"
+    "title": "investingLive Asia-Pacific market news: Asia marks time ahead of Warsh",
+    "description": "ING says Canadian dollar has further to fall on tariff chaos Recap: BOJ's Himino calls for 'timely' rate hikes to curb inflation China industrial profit growth slumps to 7-month low of 11.2% BOJ's Himino signals more hikes, flags growing upside inflation risk Australian household spending surges, builds case for RBA hike Oil - the report of an oil tanker attack in Hormuz says it occurred August 25 Bank of Korea (BOK) delivers second straight rate hike, lifts benchmark to 3.00% BOJ hawk Himino speaks soon ahead of key September meeting PBOC sets USD/ CNY reference rate for today at 6.7840 (vs. ",
+    "published_at": "2026-08-27T03:36:45",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-asia-marks-time-ahead-of-warsh/"
+  },
+  {
+    "id": 200,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Germany consumer sentiment set to improve further going into September",
+    "description": "September GfK consumer sentiment -26.6 vs -29.6 expected Prior -29.6; revised to -29.4 German consumer sentiment looks set to improve further going into September, with this being the highest reading since February (ahead of March). The good news is that income expectations have now turned positive again while economic expectations also continue to show much improvement. Here's the more detailed breakdown: Economic expectations -3.9 vs -6.3 prior Income expectaitons 1.7 vs -14.5 prior Willingness to buy -9.8 vs -9.9 prior Willingness to save 15.5 vs 17.0 prior NIM notes that: \"Although the eco",
+    "published_at": "2026-08-27T06:00:16",
+    "source_url": "https://investinglive.com/news/germany-consumer-sentiment-set-to-improve-further-going-into-september/"
+  },
+  {
+    "id": 199,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than a couple of low-tier releases like the French PPI and ECB meeting minutes. The data won't change anything for the ECB, so the market reaction will be muted.&nbsp; As a reminder, the ECB is widely expected to hike interest rates by 25 bps in September, bringing the policy rate to 2.50%. This was also confirmed by \"ECB sources\" which reported that the central bank is ready to raise interest rates in September but added that there's little appetite to signal further tightening afterwards.&nbsp; AMERICAN SESSION ",
+    "published_at": "2026-08-27T06:19:23",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-29/"
+  },
+  {
+    "id": 198,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 6,
+    "source_id": 6,
+    "title": "Payments System Board Update: August 2026 Meeting",
+    "description": "Media Release Number 2026-23: At its meeting today, the Payments System Board discussed a range of issues, including:The annual Assessment of the ASX clearing and settlement facilities against the Financial Stability Standards; The future of account-to-account (A2A) payments; Consultation on the Role of RITS in Supporting Settlement in a Tokenised Ecosystem; Cash distribution regulatory framework.",
+    "published_at": "2026-08-27T04:30:00",
+    "source_url": "https://www.rba.gov.au/media-releases/2026/mr-26-23.html"
   }
 ]
