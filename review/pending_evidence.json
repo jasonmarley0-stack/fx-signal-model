@@ -1,101 +1,46 @@
 [
   {
-    "id": 229,
+    "id": 233,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Asia-Pacific market news: Quiet session awaiting Warsh",
-    "description": "90% of economists expect RBNZ hike on September 2, poll shows Yen weakness back in focus as Katayama, Ueda head to G20 meeting Jackson Hole preview: Fed Chair Warsh likely to skip September and December rate signals China's planner accelerates infrastructure and private investment push Preview: Inflation and growth strength point to further RBNZ tightening, BNZ says US to press G20 on growth, imbalances and Iran sanctions at Asheville talks Goldman: Gulf oil flows recovering but still well below pre-war levels PBOC sets USD/ CNY reference rate for today at 6.7811 (vs. estimate at 6.7208) Here'",
-    "published_at": "2026-08-28T03:39:19",
-    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-quiet-session-awaiting-warsh/"
+    "title": "How have interest rate expectations changed after this week's events?",
+    "description": "Rate hikes by year-end RBNZ:&nbsp;55 bps (99% probability of&nbsp;rate hike&nbsp;at the next meeting) ECB:&nbsp;41 bps (98% probability of&nbsp;rate hike&nbsp;at the next meeting) BoJ:&nbsp;37 bps (67% probability of&nbsp;rate hike&nbsp;at the next meeting) RBA:&nbsp;27 bps (51% probability of rate hike at the next meeting) BoE:&nbsp;26 bps (84% probability of no change at the next meeting) Fed:&nbsp;26 bps (65% probability of no change at the next meeting) BoC:&nbsp;13 bps (98% probability of no change at the next meeting) SNB:&nbsp;5 bps (97% probability of no change at the next meeting) Las",
+    "published_at": "2026-08-28T11:00:11",
+    "source_url": "https://investinglive.com/news/how-have-interest-rate-expectations-changed-after-this-week-s-events-1/"
   },
   {
-    "id": 228,
+    "id": 232,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Ship traffic along Strait of Hormuz remains heavily suppressed",
-    "description": "That figure is down from 17 vessels on Wednesday and falls below the 10-day average of around 15 vessels. According to initial data from Kpler,&nbsp;the seven vessels that transited were two medium-range \u200btankers, one very large gas carrier (VLGC), one Ultramax \u200bvessel, one intermediate tanker, and two chemical tankers. Of which, four vessels were seen exiting the strait with the others entering. Despite talks and murmurs of reopening the Strait of Hormuz still, the numbers on the ground - or should I say water - continue to point to heavy disruption. Sure, the US is still managing some backdo",
-    "published_at": "2026-08-28T05:25:10",
-    "source_url": "https://investinglive.com/news/ship-traffic-along-strait-of-hormuz-remains-heavily-suppressed/"
+    "title": "investingLive European markets wrap: A more pensive mood in run up to Jackson Hole next",
+    "description": "Headlines: No guidance from Jackson Hole? USD/JPY extends gains as focus turns to Fed Chair Warsh's speech Gold stays locked in ahead of Warsh's Jackson Hole speech How have interest rate expectations changed after this week's events? France Q2 final GDP +0.0% vs +0.2% q/q prelim France August preliminary CPI +2.4% vs +2.4% y/y expected Spain August preliminary CPI +4.3% vs +4.2% y/y expected German unemployment rises a little less than expected in August Month-end fixing to be mildly supportive of the dollar - BofA Some slight dollar selling likely to be the case for this month-end - Credit A",
+    "published_at": "2026-08-28T11:45:11",
+    "source_url": "https://investinglive.com/news/investinglive-european-markets-wrap-a-more-pensive-mood-in-run-up-to-jackson-hole-next/"
   },
   {
-    "id": 227,
+    "id": 231,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "German import prices climb in July as impact from Middle East conflict continues to reverberate",
-    "description": "Germany July import prices +0.2% m/m Prior -0.7% Germany July import prices +6.8% y/y Prior +6.1% Import prices in Germany continue to pick up, with the annual estimate now rising to 6.8%. The main culprit continues to be energy prices, which has surged higher compared to last year due to the US-Iran conflict. But even so, we are seeing spillover impact to the likes of raw materials and metals. So, that is also raising overall import prices compared to a year ago. Even if excluding energy prices, German import prices in July this year are still seen up 4.8% compared to July last year. And on t",
-    "published_at": "2026-08-28T06:00:25",
-    "source_url": "https://investinglive.com/news/german-import-prices-climb-in-july-as-impact-from-middle-east-conflict-continues-to-reverberate/"
+    "title": "Canada GDP Q2 annualized 3.3% vs 3.4% estimate",
+    "description": "Prior Q1 +0.3% Canada GDP Q2 annualized 3.3% vs 3.4% estimate Implicit price QoQ 2.5% vs 1.2% last quarter GDP MoM for June 0.3% vs 0.2% estimate. Prior month 0.3%. Preliminary July estimate 0.0% Solid growth.The USDCAD is trading in a narrow range with the price maintaining between a cluster of MAs with the price above the 200 hour MA at 1.3838, the 200 day MA at 1.38422, but below the 100 hour MA at 1.3856. This article was written by Greg Michalowski at investinglive.com.",
+    "published_at": "2026-08-28T12:35:45",
+    "source_url": "https://investinglive.com/news/canada-gdp-q2-annualized-3-3-vs-3-4-estimate/"
   },
   {
-    "id": 226,
+    "id": 230,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "What are the main events for today?",
-    "description": "EUROPEAN SESSION In the European session, we get the preliminary inflation reports for France and Spain. They are both expected to rise given the increase in energy prices in August, but the focus will be on the core figures. Nevertheless, the ECB has already pre-committed to a rate hike in September and signalled that there's less appetite to tighter further afterwards, so the market reaction might be muted, as the data won't change anything for near-term policy. AMERICAN SESSION In the American session, all eyes will be on Fed Chair Warsh's speech at Jackson Hole.&nbsp;After the Treasury buy",
-    "published_at": "2026-08-28T06:31:26",
-    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-30/"
-  },
-  {
-    "id": 225,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "France August preliminary CPI +2.4% vs +2.4% y/y expected",
-    "description": "Prior +2.1% HICP +2.7% vs +2.6% y/y expected Prior +2.4% French inflation picked up in August with stronger energy prices offsetting softer pressures from the services sector.&nbsp;The acceleration was primarily driven by energy costs, particularly petroleum products, which increased at a faster pace than in the previous month. Food prices also contributed modestly to the uptick in inflation, while the decline in manufactured goods prices continued to ease. Meanwhile, services inflation softened slightly, helping to limit the overall increase in consumer prices. Tobacco prices rose at the same",
-    "published_at": "2026-08-28T06:45:23",
-    "source_url": "https://investinglive.com/news/france-august-preliminary-cpi-xx-vs-2-4-y-y-expected/"
-  },
-  {
-    "id": 224,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "France Q2 final GDP +0.0% vs +0.2% q/q prelim",
-    "description": "Prior -0.2% GDP Y/Y +0.5% vs +0.7 expected Prior +0.9% France's economy stagnated in the second quarter of 2026, with real GDP unchanged from the previous quarter after contracting 0.2% in Q1. While a sharp rebound in exports helped stabilize growth, household purchasing power weakened further and savings fell markedly as inflation accelerated. Household consumption returned to growth during the quarter, rising 0.3% after a 0.3% decline in Q1. However, investment remained a drag on activity, with gross fixed capital formation falling 0.3%, reflecting continued weakness in market services inves",
-    "published_at": "2026-08-28T06:48:33",
-    "source_url": "https://investinglive.com/news/france-q2-final-gdp-0-0-vs-0-2-q-q-prelim/"
-  },
-  {
-    "id": 223,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Spain August preliminary CPI +4.3% vs +4.2% y/y expected",
-    "description": "Prior +3.6% HICP +4.5% vs +4.6% y/y expected Prior +3.9% Core CPI Y/Y +2.9% vs +3.0% prior Spain's annual inflation rate accelerated sharply in August, with rising fuel costs pushing headline inflation to its highest level in more than a year.&nbsp;The main factor behind the acceleration was the fuel and lubricants component, where prices increased compared with declines recorded in August 2025. The comparison with last year's weakness in energy prices generated a significant upward base effect, making fuel costs the largest contributor to the rise in headline inflation. Food and non-alcoholic",
-    "published_at": "2026-08-28T07:00:12",
-    "source_url": "https://investinglive.com/news/spain-august-preliminary-cpi-xx-vs-4-2-y-y-expected/"
-  },
-  {
-    "id": 222,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "German unemployment rises a little less than expected in August",
-    "description": "Germany August unemployment change 4k vs 5k expected Prior 6k Germany August unemployment rate 6.4% vs 6.4% expected Prior 6.4% German unemployment rises slightly less than expected in August, bringing the overall figure of unemployed persons to 2.996 million. The jobless rate is seen holding steady and that continues to reaffirm that labour market conditions aren't exactly deteriorating at a sharp pace in Europe's largest economy. Considering the manufacturing slump last year, one can argue that jobs data in Germany has held up modestly during this entire period. And zooming in to the July an",
-    "published_at": "2026-08-28T07:55:33",
-    "source_url": "https://investinglive.com/news/germany-august-unemployment-change-k-vs-5k-expected/"
-  },
-  {
-    "id": 221,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Eurozone economic sentiment sees recovery extend in August",
-    "description": "August final consumer confidence -15.5 vs -15.5 prelim Prior -15.9 August economic confidence 98.4 vs 97.5 expected Prior 96.9; revised to 97.1 August industrial confidence -5.3 vs -5.2 expected Prior -6.1 August services confidence 5.8 vs 4.9 expected Prior 4.7; revised to 5.1 The recovery continues for euro area economic sentiment at the tail end of the summer, bolstered by better confidence levels in both manufacturing and services. That is some good news at least despite it still being a testing time for major economies in the region, that especially in the battle against inflation. In tha",
-    "published_at": "2026-08-28T09:00:16",
-    "source_url": "https://investinglive.com/news/eurozone-economic-sentiment-sees-recovery-extend-in-august/"
+    "title": "Univ of Michigan final sentiment index for August 51.7 vs 51.0 estimate",
+    "description": "Preliminary estimate 51.0 Consumer sentiment&nbsp;51.7 vs 51.0 estimate. Prior 55.2 Current conditions&nbsp;51.9 versus 51.8 estimate. Preliminary 51.8. Prior 54.8. Expectations 51.5 versus 50.6 preliminary. Prior month 55.4. 1 year inflation expectations 4.0% versus 4.3 preliminary. Prior month 4.2%. 5 year inflation expectations 3.3% versus 3.3% preliminary. Prior month 3.3% Comments from Joanne Hsu:Consumer sentiment confirmed its early month reading, falling about 6% from last month and landing about 11% below a year ago amid continued worries that inflation will remain elevated for the fo",
+    "published_at": "2026-08-28T14:00:18",
+    "source_url": "https://investinglive.com/news/univ-of-michigan-final-sentiment-index-for-august-51-7-vs-51-0-estimate/"
   }
 ]
