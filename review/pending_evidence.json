@@ -1,46 +1,35 @@
 [
   {
-    "id": 233,
+    "id": 236,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "How have interest rate expectations changed after this week's events?",
-    "description": "Rate hikes by year-end RBNZ:&nbsp;55 bps (99% probability of&nbsp;rate hike&nbsp;at the next meeting) ECB:&nbsp;41 bps (98% probability of&nbsp;rate hike&nbsp;at the next meeting) BoJ:&nbsp;37 bps (67% probability of&nbsp;rate hike&nbsp;at the next meeting) RBA:&nbsp;27 bps (51% probability of rate hike at the next meeting) BoE:&nbsp;26 bps (84% probability of no change at the next meeting) Fed:&nbsp;26 bps (65% probability of no change at the next meeting) BoC:&nbsp;13 bps (98% probability of no change at the next meeting) SNB:&nbsp;5 bps (97% probability of no change at the next meeting) Las",
-    "published_at": "2026-08-28T11:00:11",
-    "source_url": "https://investinglive.com/news/how-have-interest-rate-expectations-changed-after-this-week-s-events-1/"
+    "title": "Non-farm payrolls benchmark revisions trimmed employment by 79K jobs",
+    "description": "Last year at this time there was some serious hand-wringing about a non-farm payrolls benchmark revision that saw 911K jobs cut from payrolls. For the latest edition, the consensus was +183K jobs but instead, employment fell by 79K jobs for the year ending in March. That's an average of 6.6K jobs per month lost and it's notable that private payrolls were -178K led by retail trade. That's a dovish signal on where the jobs market stands but note that this is a preliminary revision, with the final number to come in January.&nbsp; This article was written by Adam Button at investinglive.com.",
+    "published_at": "2026-08-28T18:36:44",
+    "source_url": "https://investinglive.com/news/non-farm-payrolls-benchmark-revisions-trimmed-employment-by-79k-jobs/"
   },
   {
-    "id": 232,
+    "id": 235,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive European markets wrap: A more pensive mood in run up to Jackson Hole next",
-    "description": "Headlines: No guidance from Jackson Hole? USD/JPY extends gains as focus turns to Fed Chair Warsh's speech Gold stays locked in ahead of Warsh's Jackson Hole speech How have interest rate expectations changed after this week's events? France Q2 final GDP +0.0% vs +0.2% q/q prelim France August preliminary CPI +2.4% vs +2.4% y/y expected Spain August preliminary CPI +4.3% vs +4.2% y/y expected German unemployment rises a little less than expected in August Month-end fixing to be mildly supportive of the dollar - BofA Some slight dollar selling likely to be the case for this month-end - Credit A",
-    "published_at": "2026-08-28T11:45:11",
-    "source_url": "https://investinglive.com/news/investinglive-european-markets-wrap-a-more-pensive-mood-in-run-up-to-jackson-hole-next/"
+    "title": "investingLive Americas FX news wrap 28 Aug",
+    "description": "Fed's Warsh: Numbers on price stability are 'more concerning' Univ of Michigan final sentiment index for August 51.7 vs 51.0 estimate Fed's Hammack: It's time to act with rate hikes, waiting will create pain Canada GDP Q2 annualized 3.3% vs 3.4% estimate Fed's Goolsbee: Agrees with Warsh that inflation is Fed's main issue right now Non-farm payrolls benchmark revisions trimmed employment by 79K jobs Markets: Gold down $145 to $4455 US 10-year yields up 5.4 bps to 4.73% US 2-year yields up 12 bps to 4.36% WTI crude oil down 8 cents to $83.43 USD leads, NZD lags Nasdaq down 0.5% S&amp;P 500 down",
+    "published_at": "2026-08-28T20:41:11",
+    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-28-aug/"
   },
   {
-    "id": 231,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Canada GDP Q2 annualized 3.3% vs 3.4% estimate",
-    "description": "Prior Q1 +0.3% Canada GDP Q2 annualized 3.3% vs 3.4% estimate Implicit price QoQ 2.5% vs 1.2% last quarter GDP MoM for June 0.3% vs 0.2% estimate. Prior month 0.3%. Preliminary July estimate 0.0% Solid growth.The USDCAD is trading in a narrow range with the price maintaining between a cluster of MAs with the price above the 200 hour MA at 1.3838, the 200 day MA at 1.38422, but below the 100 hour MA at 1.3856. This article was written by Greg Michalowski at investinglive.com.",
-    "published_at": "2026-08-28T12:35:45",
-    "source_url": "https://investinglive.com/news/canada-gdp-q2-annualized-3-3-vs-3-4-estimate/"
-  },
-  {
-    "id": 230,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Univ of Michigan final sentiment index for August 51.7 vs 51.0 estimate",
-    "description": "Preliminary estimate 51.0 Consumer sentiment&nbsp;51.7 vs 51.0 estimate. Prior 55.2 Current conditions&nbsp;51.9 versus 51.8 estimate. Preliminary 51.8. Prior 54.8. Expectations 51.5 versus 50.6 preliminary. Prior month 55.4. 1 year inflation expectations 4.0% versus 4.3 preliminary. Prior month 4.2%. 5 year inflation expectations 3.3% versus 3.3% preliminary. Prior month 3.3% Comments from Joanne Hsu:Consumer sentiment confirmed its early month reading, falling about 6% from last month and landing about 11% below a year ago amid continued worries that inflation will remain elevated for the fo",
-    "published_at": "2026-08-28T14:00:18",
-    "source_url": "https://investinglive.com/news/univ-of-michigan-final-sentiment-index-for-august-51-7-vs-51-0-estimate/"
+    "id": 234,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Isabel Schnabel: Central banks on-chain",
+    "description": "",
+    "published_at": "2026-08-28T16:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260828~fe9afc86e8.en.html"
   }
 ]
