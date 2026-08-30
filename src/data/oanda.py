@@ -62,9 +62,15 @@ def fetch_oanda_candles(pair: str, count: int | None = 300, granularity: str = "
             "time": candle["time"],
             "open": float(mid["o"]), "high": float(mid["h"]),
             "low": float(mid["l"]), "close": float(mid["c"]),
+            # OANDA spot FX has no true traded volume (it's OTC) — this is
+            # tick count per candle, a proxy for market activity/liquidity,
+            # not volume in the equity-market sense. Used to gate false
+            # breakouts in low-activity conditions (see strategies backtest
+            # in NEXT_STEPS.md), not as a standalone directional signal.
+            "volume": int(candle.get("volume", 0)),
         })
     if not rows:
-        return pd.DataFrame(columns=["open", "high", "low", "close"])
+        return pd.DataFrame(columns=["open", "high", "low", "close", "volume"])
 
     df = pd.DataFrame(rows)
     df["time"] = pd.to_datetime(df["time"], utc=True)
