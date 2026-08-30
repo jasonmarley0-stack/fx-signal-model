@@ -66,7 +66,15 @@ def combine_signal(pair: str, entry: float, atr_value: float, tech_score: float,
 
     # ATR-based SL/TP ranges (MODEL_SPEC.md §5.1)
     rr = 2.0 if (confidence == "high" and magnitude >= STRONG_AGREEMENT) else 1.5
-    sl_near, sl_far = 0.8 * atr_value, 1.2 * atr_value
+    # sl_near was 0.8x ATR — backtested against all 186 signals fired 2026-08-25
+    # through 2026-08-30 and found too tight: with directional accuracy sitting
+    # at ~52% (see NEXT_STEPS.md), a stop this close to entry was getting hit by
+    # ordinary noise well before the eventual (often correct) move played out,
+    # producing avg_r=-0.205 across that sample. 1.5x ATR was the best tested
+    # width (0.8/1.0/1.2/1.5/2.0x): avg_r improved to -0.012 (near breakeven)
+    # without pushing R:R unfavorable the way 2.0x did. sl_far keeps the same
+    # 1.5x ratio to sl_near as before (1.2/0.8) for the display-only outer bound.
+    sl_near, sl_far = 1.5 * atr_value, 2.25 * atr_value
     tp_near, tp_far = 1.3 * atr_value, (rr / 1.5) * 1.5 * atr_value  # scales TP range with rr
 
     if direction == "long":
