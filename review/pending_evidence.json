@@ -1,13 +1,68 @@
 [
   {
-    "id": 237,
+    "id": 243,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Economic and event calendar in Asia 31 August 2026 - China official PMIs",
-    "description": "It's a packed data agenda ahead with the priority item Chinese PMI data.&nbsp; Setting the stage for the session ahead is this renewed hostility: U.S. forces have struck two Iranian launchers near Strait of Hormuz China's National Bureau of Statistics releases its official August Purchasing Managers' Indices on Monday at 9:30am Beijing time (01:30 GMT/2130 US Eastern time Sunday), with the manufacturing print due to show whether a contraction that deepened sharply in July has begun to ease. A Reuters poll of 17 economists puts the consensus for the official manufacturing PMI at 49.6, up from J",
-    "published_at": "2026-08-30T20:12:12",
-    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-31-august-2026-china-official-pmis/"
+    "title": "More from Bessent, presses G20 to confront China's $1.2 trillion trade surplus",
+    "description": "Bessent framing China's trade surplus as unacceptable at a G20 gathering he is personally trying to reshape signals Washington intends to use the forum to build multilateral pressure on Beijing rather than relying solely on bilateral tariffs, which could unsettle currencies and equities across export-heavy Asian economies if other G20 members show any appetite for coordinated trade barriers. At the same time, his confirmation that tariff reductions on $30 billion of non-strategic goods on each side will continue suggests the two countries are not walking back the narrower de-escalation reached",
+    "published_at": "2026-08-30T23:11:42",
+    "source_url": "https://investinglive.com/news/more-from-bessent-presses-g20-to-confront-china-s-1-2-trillion-trade-surplus/"
+  },
+  {
+    "id": 242,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Japan factory output tops forecasts as retail sales rebound sharply",
+    "description": "The scale of the beat on industrial output, a small monthly gain against a Reuters poll pointing to a 0.7 percent contraction, removes some of the immediate downside risk to Japan's growth outlook that markets had been pricing in going into the release. The sharp rebound in retail sales, both on the month and year-on-year, suggests consumer spending held up better than the June slump had implied, which is relevant for the Bank of Japan's ongoing debate about the durability of domestic demand as a driver of inflation. The manufacturers' survey pointing to a strong 6.4 percent output gain in Aug",
+    "published_at": "2026-08-31T00:00:12",
+    "source_url": "https://investinglive.com/news/japan-factory-output-tops-forecasts-as-retail-sales-rebound-sharply/"
+  },
+  {
+    "id": 241,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "New Zealand data: ANZ business survey shows August business confidence 53.7 (prior 56.1)",
+    "description": "Earlier: Reserve Bank of New Zealand Shadow Board split, most back 25bp rate hike this week Preview: Inflation and growth strength point to further RBNZ tightening, BNZ says 90% of economists expect RBNZ hike on September 2, poll shows Data: Business own activity Outlook 48.2% prior 49.3% Business confidence 53.7% prior 56.1% --- The lift in reported past activity, up six points to 16 and led by services, is arguably the more market-relevant signal here than the modest pullback in headline confidence, since it points to actual momentum building rather than just sentiment. That fits with the ca",
+    "published_at": "2026-08-31T01:00:28",
+    "source_url": "https://investinglive.com/news/new-zealand-data-anz-business-survey-shows-august-business-confidence-prior-56-1/"
+  },
+  {
+    "id": 240,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China official August Manufacturing PMI 49.8 (expected 49.7, prior 49.2)",
+    "description": "China official August Manufacturing PMI 49.8 expected 49.7, prior 49.2 Non-manufacturing PMI 49.0 expected 49.5, prior49.0 Composiute PMI is 49.5 prior 49.3 Preview of this here earlier: Economic and event calendar in Asia 31 August 2026 - China official PMIs I'll have more to come on this separately, details and implications. ADDED, here is the extra now: China factory activity beats forecasts but stays in contraction in August This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-08-31T01:31:46",
+    "source_url": "https://investinglive.com/news/china-official-august-manufacturing-pmi-expected-49-7-prior-49-2/"
+  },
+  {
+    "id": 239,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Australian inventory data for Q2 will be a drag on GDP growth",
+    "description": "The inventory figure is the most consequential data point here for GDP-watchers, since a 0.3 percentage point drag from private non-farm inventories is a meaningful subtraction heading into Tuesday's national accounts release. Because the drawdown was concentrated in mining inventories, it points to a likely offsetting boost from resources exports in the same GDP report, which could partially cushion the headline growth number even as the inventory component itself detracts. The softer-than-expected private sector credit growth suggests some cooling in borrowing momentum, which is consistent w",
+    "published_at": "2026-08-31T01:47:11",
+    "source_url": "https://investinglive.com/news/australian-inventory-data-for-q2-will-be-a-drag-on-gdp-growth/"
+  },
+  {
+    "id": 238,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China factory activity beats forecasts but stays in contraction in August",
+    "description": "The better-than-expected manufacturing PMI print offers some relief after July's steep fall, and the beat against consensus should support a modest improvement in risk sentiment toward Chinese assets and commodity-linked currencies, even though the index remains below the 50 line separating growth from contraction. The stalled non-manufacturing PMI, unchanged at 49.0, tempers the positive read from manufacturing, since it confirms services and construction activity are not yet showing the same signs of stabilisation, consistent with recent data showing consumer spending and urban investment lo",
+    "published_at": "2026-08-31T01:56:51",
+    "source_url": "https://investinglive.com/news/china-factory-activity-beats-forecasts-but-stays-in-contraction-in-august/"
   }
 ]
