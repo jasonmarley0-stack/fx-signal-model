@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-30T05:45:01.493293+00:00",
+  "generated_at": "2026-08-31T05:45:04.047136+00:00",
   "services": {
     "signal-scanner": {
       "active": "active",
@@ -18,8 +18,8 @@
     "rss-ingestion.timer": "active",
     "performance-scorer.timer": "active"
   },
-  "live_scan_age_seconds": 24.089425,
-  "performance_updated_at": "2026-08-30T05:12:30.913229+00:00",
+  "live_scan_age_seconds": 28.799752,
+  "performance_updated_at": "2026-08-31T05:14:00.200483+00:00",
   "performance_aggregates": {
     "7d": {
       "total_signals": 186,
