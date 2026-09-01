@@ -1,0 +1,10 @@
+[Unit]
+Description=Shadow/paper-mode scanner — H1 reweighted config, logs signals without affecting the live product
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/fx-signal-model
+EnvironmentFile=/root/fx-signal-model/setup/oanda.env
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/shadow_scanner.py

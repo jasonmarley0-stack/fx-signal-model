@@ -1,0 +1,10 @@
+[Unit]
+Description=Score shadow-mode signals against real OANDA price action
+After=network.target shadow-scanner.service
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/fx-signal-model
+EnvironmentFile=/root/fx-signal-model/setup/oanda.env
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/shadow_performance_scorer.py

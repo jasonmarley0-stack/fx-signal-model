@@ -1,0 +1,10 @@
+[Unit]
+Description=Poll for fresh closed H1 bars every 15 minutes (shadow scanner)
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=15min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
