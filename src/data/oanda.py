@@ -80,8 +80,16 @@ def fetch_oanda_candles(pair: str, count: int | None = 300, granularity: str = "
 
 def fetch_current_price(pair: str) -> float:
     """Latest mid price — used as the signal's entry price, since the most
-    recent completed candle's close can lag by up to one bar."""
-    df = fetch_oanda_candles(pair, count=1, granularity="M1")
+    recent completed candle's close can lag by up to one bar.
+
+    count=1 here used to mean "the single most recent M1 candle" — which is
+    very often the one still forming right now, and fetch_oanda_candles
+    already drops incomplete candles, so that request would come back empty
+    on a normal cadence, not just at the edges. Fetching a few and taking
+    the last (now guaranteed complete) row fixes it without changing the
+    "latest available price" intent — confirmed live 2026-09-01, this was
+    failing on most pairs, most of the time, not as an edge case."""
+    df = fetch_oanda_candles(pair, count=5, granularity="M1")
     if df.empty:
         raise RuntimeError(f"No live price available for {pair}")
     return float(df["close"].iloc[-1])
