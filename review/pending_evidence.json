@@ -1,35 +1,46 @@
 [
   {
-    "id": 294,
+    "id": 298,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Americas FX news wrap 1 Sept: It's a wrap but not for the Iran War.  Fighting resumes.",
-    "description": "Oil: Private survey of inventory shows a headline crude oil draw greater than expected Nasdaq indices close sharply lower as Iran war heats up All aboard!. The Bond Bears take the 10 year yield above 4.75% and up to 4.80% Here we go again. Trump says \"Iran will be totally wiped out as a country\". Crude oil trades at $90.50 Trump confirms US striking Iran. Crude oil moves higher. Stocks move lower as reports of an American attack on Iran More Bessent: He emphasized the importance of sound formulation and communication of monetary policy US Treas. Sec Bessent: I think Japan is taking right steps",
-    "published_at": "2026-09-01T21:12:30",
-    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-1-sept-it-s-a-wrap-but-not-for-the-iran-war-fighting-resumes/"
+    "title": "investingLive Asia-Pacific market news: Oil hits six week high",
+    "description": "RBNZ chief says rate settings still accommodative despite hikes Asian stocks slide as Iran conflict fuels oil and bond yield worries Australia Q2 GDP beats at 0.4%, keeps September rate hike in play RBNZ lifts OCR to 2.75%, says gradual tightening reduces risk of bigger hikes later BOJ hawk Takata says nimble rate hikes needed as inflation risks build Australian Q2 GDP 0.4% q/q (expected 0.3%, prior 0.3%) Trump says he is in no rush for Iran talks, points to Hormuz control PBOC sets USD/ CNY mid-point today at 6.7829 (vs. estimate at 6.7238) US strikes Iranian tankers for first time under new ",
+    "published_at": "2026-09-02T03:42:58",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-oil-hits-six-week-high/"
   },
   {
-    "id": 293,
+    "id": 297,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Australian Q2 GDP 0.4% q/q (expected 0.3%, prior 0.3%)",
-    "description": "Australian Q2 GDP 0.4% q/q for a beat expected 0.3%, prior 0.3% 2.1% y/y, beat expected 1.8%, prior 2.5% Just the numbers this post. I'll have more to come on this separately, details and implications. Added, here is more: Australia Q2 GDP beats at 0.4%, keeps September rate hike in play In brief AUD should get a supportive blip, at the margin. This article was written by Eamonn Sheridan at investinglive.com.",
-    "published_at": "2026-09-02T01:30:42",
-    "source_url": "https://investinglive.com/news/australian-q2-gdp-0-4-q-q-expected-0-3-prior-0-3/"
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than a couple of low-tier releases like Spain's unemployment change and Italy's PPI. The data won't change anything for the ECB, so the market reaction will be muted.&nbsp; As a reminder, the ECB is widely expected to hike at the upcoming meeting, but sources have already signalled that there's low appetite to tighten further afterwards. The Eurozone core inflation data supports this case.&nbsp; AMERICAN SESSION In the American session, we have the US ADP report and the Bank of Canada rate decision. The ADP is exp",
+    "published_at": "2026-09-02T06:37:54",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-33/"
   },
   {
-    "id": 292,
+    "id": 296,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Australia Q2 GDP beats at 0.4%, keeps September rate hike in play",
-    "description": "The stronger than expected GDP print has pushed market pricing for a September RBA hike to 57 percent, up from 48 percent beforehand, while a November move remains more than fully priced. AUD/USD ticked higher on the release, trading above 0.7150, as the beat on both quarterly and annual growth reinforced the case for further tightening. With annual growth at 2.1 percent still running above the RBA's estimated 2 percent non-inflationary speed limit, and underlying trimmed mean inflation stuck at 3.6 percent, the data leaves the central bank with limited room to pause. The composition of growth",
-    "published_at": "2026-09-02T02:30:51",
-    "source_url": "https://investinglive.com/news/australia-q2-gdp-beats-at-0-4-keeps-september-rate-hike-in-play/"
+    "title": "The tectonic shift that is taking place in the bond market",
+    "description": "What is happening in the bond market in the past week is something that every trader and investor should stand up and take notice. While there is still a heavy focus on the US-Iran conflict, the stock market and AI, as well as central banks, the bond market might well be sending a big message to broader markets at the moment. And that is we should be prepared for a new era in fixed income. One that will be defined by higher-for-longer interest rates and yields. For the longest of time now, markets have grown accustomed to the landscape of low yields and low inflation. That led to the era of ea",
+    "published_at": "2026-09-02T07:34:10",
+    "source_url": "https://investinglive.com/news/the-tectonic-shift-that-is-taking-place-in-the-bond-market/"
+  },
+  {
+    "id": 295,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "IRGC claims that another two oil tankers have been disabled after hitting mines in the Strait of Hormuz",
+    "description": "Another day, another story about vessels being struck down in the Strait of Hormuz. That as Iran continues to send a message that if the US continues to escalate tensions, they will hit back at where it hurts most. Iran's Islamic Revolutionary Guard Corps (IRGC) is out again claiming that another two oil tankers have been brought to a halt after striking mines in the strait. The accompanying statement reads: \"The IRGC Navy had previously warned of the dangers of passing through the mined channel. Additional punitive measures have also been prepared for shipping companies that, instead of using",
+    "published_at": "2026-09-02T08:38:34",
+    "source_url": "https://investinglive.com/news/irgc-claims-that-another-two-oil-tankers-have-been-disabled-after-hitting-mines-in-the-strait-of-hormuz/"
   }
 ]
