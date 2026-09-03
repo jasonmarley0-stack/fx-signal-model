@@ -1,46 +1,35 @@
 [
   {
-    "id": 306,
+    "id": 309,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Trump: Maybe the Strait of Hormuz should be renamed the Trump Strait?",
-    "description": "Just a little satire....; ) Trump on Truth Social is now posting: Now that we have it under U.S.A. control, should we change the name Hormuz Strait to TRUMP STRAIT??? Like America itself, it would be \u201chotter\u201d than ever before! Thank you for your attention to this matter. President DONALD J. TRUMP Why&nbsp;so limited? It is time to rename the&nbsp;World to \"Trump\" instead. Is the&nbsp;Strait fully open again? Meanwhile, crude oil is trading at $90.80. That's up $0.60 or 0.65%. That is off the session lows at $88.97. The price on the day before the start of the Iran war was at $67.02.&nbsp;At cu",
-    "published_at": "2026-09-02T15:30:49",
-    "source_url": "https://investinglive.com/news/trump-maybe-it-should-be-renamed-the-trump-strait/"
+    "title": "Yen support: Japan services PMI hits five-month high as inflation strengthens BOJ hike case",
+    "description": "The combination of stronger growth and near record cost pass through is the key signal here for BOJ policy watchers, and Fiddes explicitly linked the data to a strengthening case for another rate hike. This is a yen supportive data point on its face, since it reinforces the narrative of accelerating domestic inflation pressure alongside decent growth momentum, a combination that gives the BOJ more room to tighten. That said, the export orders detail complicates the picture, with new export business contracting at its sharpest rate since November 2020, suggesting external demand and yen weaknes",
+    "published_at": "2026-09-03T00:45:45",
+    "source_url": "https://investinglive.com/news/yen-support-japan-services-pmi-hits-five-month-high-as-inflation-strengthens-boj-hike-case/"
   },
   {
-    "id": 305,
+    "id": 308,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "The political headlines are fast and furious coming out of Washington",
-    "description": "There is a slew of headlines coming out of Washington as the Trump administration fights fires on multiple fronts. From beef prices to Chinese subsidies, Venezuelan oil, AI data centers and the bond market, officials are offering explanations, defending policies and touting hopes for what comes next. The common thread? There are plenty of plans. Delivering the results is the next step. Beef imports are creating a political headache. According to Fox News, USTR Jamieson Greer told lawmakers the move to import more beef is temporary. Meanwhile, Politico reports that Republican lawmakers want to ",
-    "published_at": "2026-09-02T18:05:08",
-    "source_url": "https://investinglive.com/news/the-political-headlines-are-fast-and-furious-coming-out-of-washington/"
+    "title": "China's RatingDog services PMI beats strongly as domestic demand offsets soft export growth",
+    "description": "Today's RatingDog services beat completes the week's China data set and reinforces the pattern already seen in the manufacturing PMIs, private and export oriented surveys running hotter than the state weighted official readings. This divergence is worth tracking rather than resolving in either direction, since it likely reflects genuine differences in panel composition, private surveys skew toward smaller, more externally exposed firms, rather than one series being right and the other wrong. For AUD, a China proxy currency through the iron ore and broader commodity trade, the composite print h",
+    "published_at": "2026-09-03T01:58:14",
+    "source_url": "https://investinglive.com/news/china-s-ratingdog-services-pmi-beats-strongly-as-domestic-demand-offsets-soft-export-growth/"
   },
   {
-    "id": 304,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Economic and event calendar in Asia Thursday, September 3, 2026 - another China PMI",
-    "description": "The data release of note due today, Thursday, September 3, 2026, from the Asian timezone is the private sector services PMI survey from Rating Dog / S&amp;P. Look back recap: this week's China PMI data Monday brought the official NBS releases for August. The Manufacturing PMI rose to 49.8, up from 49.2 in July and slightly ahead of the 49.7 consensus. It marked a second straight month in contraction territory (sub-50), but the underlying detail was constructive: output and new orders both flipped back into expansion, and new export orders followed suit. The soft spot remained employment, still",
-    "published_at": "2026-09-02T20:28:24",
-    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-thursday-september-3-2026-another-china-pmi/"
-  },
-  {
-    "id": 303,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "investingLive Americas FX news wrap 2 Sept: USD mixed, stocks rise as Iran tensions simmer",
-    "description": "US stocks rise as small caps lead the gains EURUSD Technicals: Traders have done their ABCs in trading the EURUSD today. What do I mean? Fed Beige Book: Modest growth, moderate inflation The political headlines are fast and furious coming out of Washington Bitcoin technicals: The price of bitcoin is back below the 100/200 hour MA and making new corrective lows Trump: Maybe the Strait of Hormuz should be renamed the Trump Strait? Bank of Canada Governor Macklem answers questions after BOC rate decision. What are the implications? Crude oil technical analsysis: US crude oil inventories for -4.45",
-    "published_at": "2026-09-02T20:33:10",
-    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-2-sept-usd-mixed-stocks-rise-as-iran-tensions-simmer/"
+    "id": 307,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 6,
+    "source_id": 6,
+    "title": "RITS Consultation and Retail CBDC Update",
+    "description": "Media Release Number 2026-24: The RBA today launched a consultation on the Role of RITS in Supporting Settlement in a Tokenised Ecosystem. As highlighted in Project Acacia, tokenisation has the potential to enhance the efficiency, functionality and resilience of Australia\u2019s wholesale financial markets.",
+    "published_at": "2026-09-03T00:30:00",
+    "source_url": "https://www.rba.gov.au/media-releases/2026/mr-26-24.html"
   }
 ]
