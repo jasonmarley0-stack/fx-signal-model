@@ -1,68 +1,46 @@
 [
   {
-    "id": 315,
+    "id": 319,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Asia-Pacific market news: Trump mulls declaring Iran war over",
-    "description": "Yen extends gains below 157.80 as BOJ hawks and less hawkish Fed voices collide WSJ reports Trump privately weighs declaring Iran war over (50,000 troops to keep options open) China's RatingDog services PMI beats strongly as domestic demand offsets soft export growth Oil popping higher as Kuwait reports missile and drone attacks PBOC sets USD/ CNY reference rate for today at 6.7807 (vs. estimate at 6.7167) Bitcoin and Ethereum slide as US Iran war simmers &amp; rate hike odds rise Yen support: Japan services PMI hits five-month high as inflation strengthens BOJ hike case CNN report US military",
-    "published_at": "2026-09-03T03:52:18",
-    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-trump-mulls-declaring-iran-war-over/"
+    "title": "investingLive European markets wrap: Japanese yen surges higher for second straight day",
+    "description": "Headlines: USD/JPY extends fall today in drop back below 158, what's next? Bond yields pull back from the highs as focus turns to US jobs report next WTI Crude Oil Price Analysis: Bears Favored Below $90 Gold upside remains limited by Fed rate hike risks and Iran war; traders await US CPI for next direction Nasdaq's fate hinges on US CPI and Middle East conflict as growth expectations deteriorate Swiss inflation nudges up in August amid higher energy prices Euro area business activity keeps steadier in August, reaffirms ECB policy pathway Markets: JPY leads, USD lags on the day WTI crude up 2.",
+    "published_at": "2026-09-03T12:11:20",
+    "source_url": "https://investinglive.com/news/investinglive-european-markets-wrap-japanese-yen-surges-higher-for-second-straight-day/"
   },
   {
-    "id": 314,
+    "id": 318,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Bond yields pull back from the highs as focus turns to US jobs report next",
-    "description": "As we get into the second half of the week, the bond market continues to be a key spot to watch. The big story this week is how bond yields have surged to multi-year highs globally, with some even hitting multi-decade highs. In case you missed it:&nbsp; The tectonic shift that is taking place in the bond market The moves in the bond market have the potential to drive other markets and that is precisely what we're seeing since overnight trading as well. After hitting those highs, yields are now coming off the boil a little today. And that is affording broader markets with some breathing room. U",
-    "published_at": "2026-09-03T05:14:56",
-    "source_url": "https://investinglive.com/news/bond-yields-pull-back-from-the-highs-as-focus-turns-to-us-jobs-report-next/"
+    "title": "US Initial Jobless claims 206K vs 205K estimate",
+    "description": "Prior week 204K initial jobless claims 206K versus 205K estimate 4 week moving average 207.25K versus 205.75K continuing claims 1.779 million versus 1.790 million estimate. Prior week 1.7719 The claims data continues to show steady employment&nbsp;in the US. There is not a lot of hiring. There is not a lot of firing.&nbsp; This article was written by Greg Michalowski at investinglive.com.",
+    "published_at": "2026-09-03T12:33:02",
+    "source_url": "https://investinglive.com/news/us-initial-jobless-claims-206k-vs-205k-estimate/"
   },
   {
-    "id": 313,
+    "id": 317,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "What are the main events for today?",
-    "description": "EUROPEAN SESSION In the European session, we get the final PMIs for the major Eurozone economies and the UK, as well as the Eurozone PPI report. None of the data will change anything for the respective central banks, so the market reaction will likely be muted.&nbsp; As a reminder, the ECB is widely expected to hike at the upcoming meeting but also signal less appetite for further tightening. The market, on the other hand, is still pricing high chances of another rate hike in December. On the BoE's front, the central bank is expected to deliver one rate hike before the end of the year, with 68",
-    "published_at": "2026-09-03T06:47:22",
-    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-34/"
+    "title": "US trade deficit widens sharply in July as AI-related imports surge",
+    "description": "The US trade deficit widened significantly in July, with a sharp increase in imports and a decline in exports that could weigh on economic growth in the third quarter.&nbsp;The goods and services deficit rose to $88.6 billion in July from $71.2 billion in June. The increase was driven primarily by a surge in goods imports, particularly computers, computer accessories, and semiconductors.&nbsp;Exports fell by $6.6 billion to $310.7 billion, while imports increased by $10.8 billion to $399.3 billion. The trade balance measures the difference between what a country exports and what it imports.&nb",
+    "published_at": "2026-09-03T12:40:01",
+    "source_url": "https://investinglive.com/news/us-trade-deficit-widens-sharply-in-july-as-ai-related-imports-surge/"
   },
   {
-    "id": 312,
+    "id": 316,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Swiss inflation nudges up in August amid higher energy prices",
-    "description": "Switzerland August CPI +0.4% vs 0.0% m/m expected (Prior -0.1%) Switzerland August CPI +0.8% vs +0.5% y/y expected (Prior +0.4%) Switzerland August core CPI +0.4% y/y (Prior +0.3%) The surge in petrol prices was the key factor driving up Swiss inflation in August, with that seen 25% higher compared to the same month a year ago. As such, headline annual inflation is seen doubling in August compared to July. However, there was only a slight increase in core annual inflation. And this is the more important metric, one that the SNB looks at more closely to decide on monetary policy setting. For no",
-    "published_at": "2026-09-03T06:55:12",
-    "source_url": "https://investinglive.com/news/swiss-inflation-nudges-up-in-august-amid-higher-energy-prices/"
-  },
-  {
-    "id": 311,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Euro area business activity keeps steadier in August, reaffirms ECB policy pathway",
-    "description": "A quick catch-up of the PMI prints that we got for today: Spain August services PMI: 57.8 (previously 58.3) Spain August composite PMI: 55.8 (previously 56.5) Italy August services PMI: 55.2 (previously 52.5) Italy August composite PMI: 53.6 (previously 52.5) France August final services PMI: 48.0 (previously 49.6) France August final composite PMI: 48.5 (previously 49.4) Germany August final services PMI: 49.7 (previously 49.8) Germany August final composite PMI: 51.8 (previously 51.3) Eurozone August final services PMI: 51.6 (previously 51.7) Eurozone August final composite PMI: 52.0 (previo",
-    "published_at": "2026-09-03T08:24:03",
-    "source_url": "https://investinglive.com/news/euro-area-business-activity-keeps-steadier-in-august-reaffirms-ecb-policy-pathway/"
-  },
-  {
-    "id": 310,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 6,
-    "source_id": 6,
-    "title": "Designation of Linfox Armaguard Pty Ltd under the Cash Distribution Framework Act 2026",
-    "description": "Media Release Number 2026-25: The RBA has today designated Linfox Armaguard Pty Ltd (Armaguard) (ACN 099 701 872) under the Cash Distribution Framework Act 2026 (the Act).",
-    "published_at": "2026-09-03T03:30:00",
-    "source_url": "https://www.rba.gov.au/media-releases/2026/mr-26-25.html"
+    "title": "ISM non manufacturing PMI for August 55.4 versus 54.2 estimate. Stronger than expectations",
+    "description": "Nonmanufacturing PMI prior month&nbsp;54.1 Nonmanufacturing PMI for August 55.4 versus 54.2 estimate nonmanufacturing business activity 61.7 versus 59.1 last month Employment index 47.8 versus 47.4 last month New orders index 60.9 versus 57 42 last month Prices paid 72.6 versus 70.3 last month The US ISM nonmanufacturing PMI rose to 55.4 in August from 54.1 last month, comfortably above the 54.2 estimate. The details show stronger activity, with business activity rising to 61.7 from 59.1 and new orders increasing to 60.9. However, prices paid also moved higher to 72.6 from 70.3, signaling more",
+    "published_at": "2026-09-03T14:00:12",
+    "source_url": "https://investinglive.com/news/ism-non-manufacturing-pmi-for-august-55-4-versus-54-2-estimate-stronger-than-expectations/"
   }
 ]
