@@ -1,35 +1,24 @@
 [
   {
-    "id": 322,
+    "id": 324,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Preview: August non-farm payrolls by the numbers",
-    "description": "What's expected: Consensus estimate +56K (range -25K to +121K) July -23K June +63K Private consensus estimate +45K Unemployment rate consensus estimate: 4.1% vs 4.1% prior Participation rate consensus 61.4% prior Prior underemployment U6 prior 7.9% Avg hourly earnings y/y exp +3.0% y/y vs +3.2% prior Avg hourly earnings m/m exp +0.3% vs +0.1% prior Avg weekly hours exp 34.3 vs 34.3 prior August jobs so far: ADP employment report +38K (lowest since Jan) vs +47K expected and +46K prior ISM services employment 47.8 vs 47.4 prior ISM manufacturing employment 51.2 vs 52.5 exp and 52.8 prior Challen",
-    "published_at": "2026-09-03T17:52:49",
-    "source_url": "https://investinglive.com/news/preview-august-non-farm-payrolls-by-the-numbers/"
+    "title": "investingLive Americas market news wrap: Waller tamps down rate hike bets",
+    "description": "Deutsche Bank: The dollar is now leveraged to the AI race Vance: We're not talking to Iran unless they stop shooting at ships Preview: August non-farm payrolls by the numbers ISM non manufacturing PMI for August 55.4 versus 54.2 estimate. Stronger than expectations Feds Waller: Finally seeing some signs of disinflation in recent data. How are the markets reacting? US trade deficit widens sharply in July as AI-related imports surge US Initial Jobless claims 206K vs 205K estimate BOE Pill: Sees the need to raise the bank rate to 4.00%. GBPUSD moves higher on the news. Markets: Gold up $86 to $44",
+    "published_at": "2026-09-03T21:37:30",
+    "source_url": "https://investinglive.com/news/investinglive-americas-market-news-wrap-waller-tamps-down-rate-hike-bets/"
   },
   {
-    "id": 321,
+    "id": 323,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Economic and event calendar in Asia Friday, September 4, 2026 - a light one",
-    "description": "Data due from South Korea, Japan and Singapore.&nbsp;These are not marked as priority items and unless something is way off expectations are unlikely to move markets too much upon release. This article was written by Eamonn Sheridan at investinglive.com.",
-    "published_at": "2026-09-03T21:07:05",
-    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-friday-september-4-2026-a-light-one/"
-  },
-  {
-    "id": 320,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 7,
-    "source_id": 4,
-    "title": "Bank of Canada unveils new vertical $20 bank note",
-    "description": "Her Excellency the Right Honourable Louise Arbour, Governor General of Canada, and the Honourable Wayne Long, Secretary of State (Canada Revenue Agency and Financial Institutions), joined Bank of Canada Governor Tiff Macklem today at an event to unveil Canada\u2019s new vertical $20 bank note featuring a portrait of His Majesty King Charles III.",
-    "published_at": "2026-09-03T13:20:16",
-    "source_url": "https://www.bankofcanada.ca/2026/09/bank-canada-unveils-new-vertical-20-bank-note/"
+    "title": "Household spending in Japan is the worst in more than 18 months",
+    "description": "Japanese Household Spending July: -3.6% y/y, biggest drop since January 2024 expected -1.6% ,prior -3.3% --- September BOJ hike is near-fully priced (~87%), driven mainly by rising inflation and yields, not consumption strength. Weak household spending is a known, ongoing theme, not new information, and doesn't touch the inflation and yen-weakness arguments actually driving the hike case. The BOJ is tightening despite soft spending, not because of strong spending. This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-04T00:09:57",
+    "source_url": "https://investinglive.com/news/household-spending-in-japan-is-the-worst-in-more-than-18-months/"
   }
 ]
