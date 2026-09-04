@@ -1,24 +1,46 @@
 [
   {
-    "id": 324,
+    "id": 328,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Americas market news wrap: Waller tamps down rate hike bets",
-    "description": "Deutsche Bank: The dollar is now leveraged to the AI race Vance: We're not talking to Iran unless they stop shooting at ships Preview: August non-farm payrolls by the numbers ISM non manufacturing PMI for August 55.4 versus 54.2 estimate. Stronger than expectations Feds Waller: Finally seeing some signs of disinflation in recent data. How are the markets reacting? US trade deficit widens sharply in July as AI-related imports surge US Initial Jobless claims 206K vs 205K estimate BOE Pill: Sees the need to raise the bank rate to 4.00%. GBPUSD moves higher on the news. Markets: Gold up $86 to $44",
-    "published_at": "2026-09-03T21:37:30",
-    "source_url": "https://investinglive.com/news/investinglive-americas-market-news-wrap-waller-tamps-down-rate-hike-bets/"
+    "title": "investingLive Asia-Pacific market news: Markets tread water ahead of US payrolls",
+    "description": "RBNZ signals December, not October, for its next rate hike Diesel crunch, hot ISM data point to entrenched inflation risk: gold, equity risks JPMorgan flags a $103 bn yen short position, unwind could push USD/JPY to 142 Gold's week of whiplash sets up a payrolls-driven Friday PBOC sets USD/ CNY reference rate for today at 6.7787 (vs. estimate at 6.7093) Central bankers speak, currencies don't always react: here's why that matters Household spending in Japan is the worst in more than 18 months The magazine cover \"curse\": less about magic, more about who's already bought in How Waller moved the ",
+    "published_at": "2026-09-04T03:50:50",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-markets-tread-water-ahead-of-us-payrolls/"
   },
   {
-    "id": 323,
+    "id": 327,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Household spending in Japan is the worst in more than 18 months",
-    "description": "Japanese Household Spending July: -3.6% y/y, biggest drop since January 2024 expected -1.6% ,prior -3.3% --- September BOJ hike is near-fully priced (~87%), driven mainly by rising inflation and yields, not consumption strength. Weak household spending is a known, ongoing theme, not new information, and doesn't touch the inflation and yen-weakness arguments actually driving the hike case. The BOJ is tightening despite soft spending, not because of strong spending. This article was written by Eamonn Sheridan at investinglive.com.",
-    "published_at": "2026-09-04T00:09:57",
-    "source_url": "https://investinglive.com/news/household-spending-in-japan-is-the-worst-in-more-than-18-months/"
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than a couple of low-tier releases like the German factory orders or the Eurozone retail sales. The data won't change anything for the ECB, so the market reaction will be muted.&nbsp; As a reminder, the ECB is widely expected to increase interest rates at the upcoming meeting, but policymakers should also signal less appetite for further tightening. That means the bar for more rate hikes will go much higher.&nbsp; AMERICAN SESSION In the American session, we get Canada's jobs report and the US NFP. Canada's employ",
+    "published_at": "2026-09-04T05:09:17",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-35/"
+  },
+  {
+    "id": 326,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What is the distribution of forecasts for the US NFP?",
+    "description": "The ranges of estimates are important in terms of market reaction because when the actual data deviates from the expectations, it creates a surprise effect. Another important input in market's reaction is the distribution of forecasts. In fact, although we can have a range of estimates, most forecasts might be clustered on the upper bound of the range, so even if the data comes out inside the range of estimates but on the lower bound of the range, it can still create a surprise effect. Non-Farm Payrolls -25K to 121K range of estimates 30K-70K range most clustered 56K consensus Unemployment Rat",
+    "published_at": "2026-09-04T08:00:16",
+    "source_url": "https://investinglive.com/news/what-is-the-distribution-of-forecasts-for-the-us-nfp-0/"
+  },
+  {
+    "id": 325,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Philip R. Lane: Diversity at the European Central Bank",
+    "description": "",
+    "published_at": "2026-09-04T09:10:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260904~7b9257099b.en.pdf"
   }
 ]
