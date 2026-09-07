@@ -1,1 +1,68 @@
-[]
+[
+  {
+    "id": 346,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Asia-Pacific market news: Oil firm on Hormuz strikes",
+    "description": "Dutch and French gold moves fuel debate over Trump-era confiscation risk Stocks - Chip rally lifts Nikkei and Kospi, but Japan's rally story looks shaky How rate hikes, and expectations of them, ripple through stocks and gold People\u2019s Bank of China sets yuan reference rate at 6.7795 (vs. estimate at 6.7086) Gold sold: Strong jobs data keeps September Fed hike alive. Mint sales slump. Asian stocks rally on AI demand hopes, Kospi jumps as won hits multi-year high Yen's sharp weekly rally tied to BOJ rate hike repricing Hormuz traffic sinks to lowest since May, despite US Navy's escort claims Gol",
+    "published_at": "2026-09-07T03:34:06",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-oil-firm-on-hormuz-strikes/"
+  },
+  {
+    "id": 345,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Reminder: US markets are closed for Labor Day - what traders need to know",
+    "description": "It'll be a quieter session up ahead in the US today as we will see key market closures in observance of the Labor Day weekend. Both the NYSE and Nasdaq are shut, so there will be no regular trading in US equities today. Besides that, the options market is also closed for the holiday with normal trading only resuming on Tuesday tomorrow. In addition, the bond market is effectively closed as well. So, that means all dollar-denominated fixed-income securities such as Treasuries, mortgage-back securities, high-yield corporate bonds, municipal bonds and parts of the money market will be shut. Why d",
+    "published_at": "2026-09-07T04:23:00",
+    "source_url": "https://investinglive.com/news/reminder-us-markets-are-closed-for-labor-day-what-traders-need-to-know/"
+  },
+  {
+    "id": 344,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Germany factory output slumps in July as autos hit the brakes",
+    "description": "Germany July industrial production -1.1% vs +0.1% m/m expected Prior +0.2%; revised to 0.0% The breakdownThat's a big miss on estimates as the&nbsp;weak July print was driven heavily by a sharp albeit partly temporary auto-sector slump. That being said,&nbsp;the broader industrial picture was also soft on the month. Of note, the auto sector posted a decline of 9.2% m/m - partly due to&nbsp;a multi-week production pause. But looking elsewhere, the production of capital goods also fell by 3.4% and consumer goods by 2.2% on the month. To make matters worse, the only lift on the month came from en",
+    "published_at": "2026-09-07T06:02:17",
+    "source_url": "https://investinglive.com/news/germany-factory-output-slumps-in-july-as-autos-hit-the-brakes/"
+  },
+  {
+    "id": 343,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we have the Swiss unemployment rate and the final Eurozone Q2 GDP report. The data won't change anything for the respective central banks, so the market reaction will likely be muted.&nbsp; As a reminder, the ECB is widely expected to hike by 25 bps at the upcoming meeting, bringing the policy rate to 2.50%, while signalling lower appetite for further tightening. The SNB, on the other hand, is expected to keep interest rates unchanged at least until June 2027.&nbsp; AMERICAN SESSION In the American session, we don't have anything on the agenda with the",
+    "published_at": "2026-09-07T06:34:25",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-36/"
+  },
+  {
+    "id": 342,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Eurozone investor confidence jumps to four-year high",
+    "description": "Eurozone September Sentix investor confidence index 5.1 vs 2.0 expected Prior 0.9 The breakdownThat's a solid beat on estimates as the index has now risen&nbsp;for five straight months and reached its highest level since February 2022. The rise was&nbsp;driven by both better current conditions and stronger expectations going into September. The former improved to&nbsp;-3.3 from -8.0, while the latter&nbsp;climbed to 13.8 from 5.3. Of note, Germany&nbsp;was a major contributor, with its headline index jumping to -2.8 from -11.9, its fourth straight increase. Overall, investor confidence is impr",
+    "published_at": "2026-09-07T08:30:09",
+    "source_url": "https://investinglive.com/news/eurozone-investor-confidence-jumps-to-four-year-high/"
+  },
+  {
+    "id": 341,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Eurozone Q2 GDP gets a trade boost as growth accelerates to 0.6%",
+    "description": "Eurozone Q2 final GDP +0.6% vs +0.4% q/q second estimate Prior (Q1) 0.0% The breakdownThe positive revision is definitely a welcome boost for euro area policymakers. That especially after the more stagnant momentum seen in Q1. The annual growth of euro area GDP even increased to 1.2%, beating the second estimate of 1.0% as well; much better than 0.3% in Q1 too. Looking at the details, trade was the dominant driver in adding 0.9% to euro area GDP growth. Household consumption helped a little by posting a 0.2% contribution, before being offset by a drag in investories - which subtracted 0.5% fro",
+    "published_at": "2026-09-07T09:00:16",
+    "source_url": "https://investinglive.com/news/eurozone-q2-gdp-gets-a-trade-boost-as-growth-accelerates-to-0-6/"
+  }
+]
