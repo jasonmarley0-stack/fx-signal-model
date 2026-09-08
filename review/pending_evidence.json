@@ -1,35 +1,79 @@
 [
   {
-    "id": 351,
+    "id": 358,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Americas FX news wrap 7 Sept: USD falls as the yen surges on BOJ rate-hike expectations",
-    "description": "Crude oil technicals: Buyers test key resistance near $93.50 European major indices close mixed on the day Copper reaches a new record high on the LME Kickstart the North American FX session. The USDJPY is the big mover. The EUR and GBP are down modestly investingLive European session wrap: Oil climbs, yen surges amid US holiday The US dollar moved mostly lower in holiday-thinned trading, led by a sharp decline against the Japanese yen. US markets were closed for the Labor Day holiday, but that did not stop USDJPY from extending its recent move to the downside. The pair fell 1.22% to 154.33 af",
-    "published_at": "2026-09-07T19:28:20",
-    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-7-sept-usd-falls-as-the-yen-surges-on-boj-rate-hike-expectations/"
+    "title": "BRC data shows summer retail boost fading fast as GBP watches consumer signals",
+    "description": "The retail slowdown adds another soft data point to the pile the Bank of England will weigh into its next policy assessment, with the loss of momentum in both BRC and Barclays readings, plus the sharp pullback in consumer confidence, reinforcing a narrative of a UK consumer losing steam rather than one at risk of overheating. That's a modest headwind for GBP on the margin, since it takes some pressure off the case for the BoE to hold rates higher for longer, though a single month of consumer data is unlikely to shift near-term policy pricing on its own. The youth jobs initiative is a longer-ho",
+    "published_at": "2026-09-07T23:18:19",
+    "source_url": "https://investinglive.com/news/brc-data-shows-summer-retail-boost-fading-fast-as-gbp-watches-consumer-signals/"
   },
   {
-    "id": 350,
+    "id": 357,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Economic and event calendar in Asia Tuesday, September 8, 2026: Japan GDP and China trade data",
-    "description": "GDP data from Japan and the trade data from China due today.&nbsp;I'll have more to come on both of these separately, previews, posted soon.&nbsp; The preliminary GDP from Japan was three weeks ago, quite a solid miss on this: Japan Q2 GDP growth undershoots forecasts, complicating BOJ's hike timeline This article was written by Eamonn Sheridan at investinglive.com.",
-    "published_at": "2026-09-07T20:24:45",
-    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-tuesday-september-8-2026-japan-gdp-and-china-trade-data/"
+    "title": "South Korea Q2 GDP, final, +0.6% (vs. expected +0.6%, prior +1.8%)",
+    "description": "Data catch up.&nbsp; South Korean GDP Growth Final, Q2 2026: QQ&nbsp;+0.6% expected +0.6%, prior +1.8% YY&nbsp;+3.7% expected +3.7%, prior +3.6% --- New Zealand Manufacturing Activity Volume Q2 2026: QQ +0.8% prior +3.6% Manufacturing Activity: QQ +3.1% prior +2.8% Kiwi $ little moved. This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-07T23:17:44",
+    "source_url": "https://investinglive.com/news/south-korea-q2-gdp-final-0-6-vs-expected-0-6-prior-1-8/"
   },
   {
-    "id": 349,
+    "id": 356,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Preview: China trade data due today, a beat could firm up AUD as a demand proxy trade",
-    "description": "A stronger-than-forecast export print would extend China's reliance on external demand to offset a sluggish domestic economy, a dynamic that has held even as it pushes trade tensions with major partners further into focus. Import strength, if it also beats forecast, would be read more constructively as a signal of firmer domestic demand rather than just re-exported components, and tends to carry more weight for commodity-linked currencies including the Australian dollar. A miss on either side would reinforce concerns that August's still-subdued manufacturing PMI reading is the more accurate si",
-    "published_at": "2026-09-07T21:03:52",
-    "source_url": "https://investinglive.com/news/preview-china-trade-data-due-today-a-beat-could-firm-up-aud-as-a-demand-proxy-trade/"
+    "title": "Japan wages data, July 2026: Headline earnings +4.7% y/y (expected +3.9%, prior +4%)",
+    "description": "Just the data on this post. July 2026.&nbsp; Average Cash Earnings YY 4.7% expected 3.9%, prior&nbsp;4.0% Real wages + 2.4% y/y biggest increase since May 2021 seventh consecutive month of gains ADDED, details here:&nbsp; Japan wage growth strongest since 1997, cementing BOJ hike case Coming up soon: Preview: Japan revised Q2 GDP set to test BOJ September rate hike bets This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-07T23:31:32",
+    "source_url": "https://investinglive.com/news/japan-wages-data-july-2026-headline-earnings-4-7-y-y-expected-3-9-prior-4/"
+  },
+  {
+    "id": 355,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Japan revised Q2 GDP: +1.4% y/y (preliminary 1.1%)",
+    "description": "Just the data points this post. I'll have more to come on this separately, details and implications, etc. ADDED:&nbsp; Japan GDP revision cements BOJ hike bets, yen and Nikkei in focus revised Q2 GDP: +1.4% y/y (preliminary 1.1%) and +0.4% q/q (prelim 0.3%) Background here: Preview: Japan revised Q2 GDP set to test BOJ September rate hike bets Preliminary Q2 GDP showed 0.3% quarter-on-quarter growth, an annualised 1.1%, both below forecasts of 0.5% and 2% respectively This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-07T23:50:17",
+    "source_url": "https://investinglive.com/news/japan-revised-q2-gdp-1-4-y-y-preliminary-1-1/"
+  },
+  {
+    "id": 354,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Japan wage growth strongest since 1997, cementing BOJ hike case",
+    "description": "The news headline for the data is here ICYMI: Japan wages data, July 2026: Headline earnings +4.7% y/y (expected +3.9%, prior +4%) Since then we've had: Japan revised Q2 GDP: +1.4% y/y (preliminary 1.1%) I'll have more to come on that GDP data, but for now, wrappoing up the wages data.&nbsp; --- This is about as clean a data point as the BOJ could ask for heading into next week's meeting (September 17\u201318): real wages accelerating for a seventh straight month while nominal pay growth hits its fastest pace in almost three decades removes one of the central bank's main hesitations around hiking, ",
+    "published_at": "2026-09-07T23:57:36",
+    "source_url": "https://investinglive.com/news/japan-wage-growth-strongest-since-1997-cementing-boj-hike-case/"
+  },
+  {
+    "id": 353,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China's Rio Tinto ore purchasing halt appears set to take effect. AUD down.",
+    "description": "The story itself isn't new, Reuters first reported the directive on August 6, but its relevance sharpens now that September has arrived, the month CMRG specified as the effective start for the halted negotiations. Rio Tinto had been viewed as relatively insulated from CMRG's pressure campaign given Chinalco's stake in the miner and its role in the Simandou project, so an effective freeze targeting Rio specifically would mark an escalation beyond the earlier campaigns against BHP and Fortescue. For iron ore price action, the more instructive precedent is what happened during the BHP restriction",
+    "published_at": "2026-09-08T02:34:22",
+    "source_url": "https://investinglive.com/news/china-s-rio-tinto-ore-purchasing-halt-appears-set-to-take-effect-aud-down/"
+  },
+  {
+    "id": 352,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China August trade balance shows imports below expectations",
+    "description": "China&nbsp;August: Trade&nbsp;balance&nbsp;$+119.09&nbsp;bln&nbsp;(Reuters&nbsp;poll&nbsp;+$119.05Bn, prior +112.5bn) Dollar-denominated&nbsp;exports&nbsp;+25%&nbsp;y/y&nbsp;(Reuters&nbsp;poll&nbsp;+25.0%&nbsp;y/y, prior +23.9%) Dollar-denominated&nbsp;imports&nbsp;+28.2%&nbsp;y/y&nbsp;(Reuters&nbsp;poll&nbsp;+30.0%&nbsp;y/y, prior +27.5%) Background: Preview: China trade data due today, a beat could firm up AUD as a demand proxy trade I'll have more to come on this separately, detail etc.&nbsp; This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-08T02:39:08",
+    "source_url": "https://investinglive.com/news/china-august-trade-balance-shows-exports-and-imports-below-expectations/"
   }
 ]
