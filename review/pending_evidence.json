@@ -1,79 +1,46 @@
 [
   {
-    "id": 365,
+    "id": 369,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "China exports match forecast in August, imports fall short as domestic demand stays soft",
-    "description": "The headline numbers land close to consensus but the details matter more than the surface read. Exports hitting the forecast exactly, while accelerating from July, confirms the export-led growth pattern that has defined China's year so far, with high-tech goods, cars and semiconductors doing the heavy lifting. The import miss, 28.2% against a 30% forecast, is the more interesting number: it suggests the pickup in domestic demand markets had been hoping for isn't quite materialising at the pace expected, even as it still represents a clear acceleration from July. For AUD specifically, that's a ",
-    "published_at": "2026-09-08T03:18:31",
-    "source_url": "https://investinglive.com/news/china-exports-match-forecast-in-august-imports-fall-short-as-domestic-demand-stays-soft/"
+    "title": "investingLive European news wrap: Oil prices rise as Houthis escalate attacks on Saudi targets",
+    "description": "Headlines: Bitcoin swings wildly as volatility in Fed expectations increases ahead of US CPI and FOMC decision Today's trade idea for oil traders Bitcoin has already won its battle, whereas Ethereum is only starting its own How oil prices influence inflation, inflation expectations and monetary policy The bond market continues to tighten the screws, and everything else is feeling it Oil prices extend gains as Yemen's Houthis threaten broader Saudi operation after attacks hit energy sites A-Book vs B-Book: How Brokers Actually Manage Your Trades USD/JPY selloff extends further as Yen hits seven",
+    "published_at": "2026-09-08T11:30:22",
+    "source_url": "https://investinglive.com/news/investinglive-european-news-wrap-oil-prices-rise-as-houthis-escalate-attacks-on-saudi-targets/"
   },
   {
-    "id": 364,
+    "id": 368,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Asia-Pacific market news: Yen surges to six-month high",
-    "description": "RBA's Hunter flags deliberate cooling in housing and broader growth China exports match forecast in August, imports fall short as domestic demand stays soft Kospi surges past 7,130 on chips, Nikkei ekes out modest gain China August trade balance shows imports below expectations China's Rio Tinto ore purchasing halt appears set to take effect. AUD down. Vitol CEO sees China oil demand picking up, flags unsustainable gap ASX, AUD, NZD softer as NAB business conditions hit six-year low PBOC sets USD/ CNY central rate at 6.7804 (vs. estimate at 6.7104) Goldman Sachs turns more constructive on Indi",
-    "published_at": "2026-09-08T03:50:43",
-    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-yen-surges-to-six-month-high/"
+    "title": "US Conference Board August employment trends  108.53  vs 107.71 prior",
+    "description": "It's no surprise this is higher after non-farm payrolls. Note that this is a composite index that grabs from various sources that are already public. That said, it's still a useful barometer and has been trending higher. Here is what the Conference Board says: \u201cThe ETI increased for a second consecutive month in August and is now up 2.0% from its level one year ago,\u201d said Conrad Qi, Economic Data Scientist Associate, The Conference Board. \u201cAlthough they were mixed in August on a month-over-month basis, all eight components of the ETI delivered positive average contributions over the past six m",
+    "published_at": "2026-09-08T14:04:53",
+    "source_url": "https://investinglive.com/news/us-conference-board-august-employment-trends-108-53-vs-107-71-prior/"
   },
   {
-    "id": 363,
+    "id": 367,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Germany's trade surplus widens sharply in July as imports slump",
-    "description": "Germany July trade balance \u20ac21.3 billion vs \u20ac15.9 billion expected Prior&nbsp;\u20ac15.4 billion Germany July exports -0.8% vs +0.1% m/m expected Prior +0.9% Germany July imports -5.7% vs -0.9% m/m expected Prior +4.4% The breakdownThe German trade surplus widened in July but it comes as both exports and imports falling on the month. In particular, the latter dropped heavily with weakness from China being rather evident. Exports to the US were a standout, climbing by over 19% compared to June. However, exports to the likes of the UK and China fell notably by over 7% and over 9% respectively. Lookin",
-    "published_at": "2026-09-08T06:10:09",
-    "source_url": "https://investinglive.com/news/germany-s-trade-surplus-widens-sharply-in-july-as-imports-slump/"
+    "title": "NY Fed survey: Expectations for rising unemployment rise to highest since April 2020",
+    "description": "The latest monthly survey from the NY Fed: One-year inflation expectations unchanged at 3.6% Three year inflation expectations to 3.2% vs 3.3% prior Five year inflation expectations unchanged at 3% Expectations for higher unemployment at worst since April 2020 Labor market expectations were 'mixed' overall Consumers projected higher future gasoline prices Views about current and future personal finance deteriorated There isn't much good news in this report but for the Fed, the inflation expectations metric -- by far -- is the most important one and it doesn't argue for hiking this month. The m",
+    "published_at": "2026-09-08T15:04:25",
+    "source_url": "https://investinglive.com/news/ny-fed-survey-expectations-for-rising-unemployment-rise-to-highest-since-april-2020/"
   },
   {
-    "id": 362,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "What are the main events for today?",
-    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than a couple of low-tier releases like the French trade balance and the US NFIB Small Business Optimism index. The data is not going to change anything for the respective central banks, so the market reaction will be muted.&nbsp; AMERICAN SESSION In the American session, we only have the weekly ADP jobs data and the NY Fed consumer inflation expectations survey. The data won't change anything for the Fed, so the market reaction will be muted.&nbsp; As a reminder, the Fed is focused solely on inflation now, and th",
-    "published_at": "2026-09-08T06:33:36",
-    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-37/"
-  },
-  {
-    "id": 361,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "French trade deficit grows larger in July on higher imports again",
-    "description": "France July trade balance -\u20ac6.67 billion Prior&nbsp;-\u20ac5.85 billion; revised to&nbsp;-\u20ac5.75 billion The breakdownThe French trade widened in July as exports grew a little to&nbsp;\u20ac54.68 billion from&nbsp;\u20ac54.49 billion in June. Meanwhile, imports grew by more to&nbsp;\u20ac61.35 billion from&nbsp;\u20ac60.24 billion in the month before. This continues to reinforce the narrative of the trade deficit widening after the US-Iran conflict due to higher energy imports before pulling back a little in June. That being said, Q2 still marked a deterioration in France's trade balance&nbsp;due to import growth excee",
-    "published_at": "2026-09-08T06:55:21",
-    "source_url": "https://investinglive.com/news/french-trade-deficit-grows-larger-in-july-on-higher-imports-again/"
-  },
-  {
-    "id": 360,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Oil prices extend gains as Yemen's Houthis threaten broader Saudi operation after attacks hit energy sites",
-    "description": "Yemen\u2019s Iran-backed Houthis launched a series of attacks against targets in southern Saudi Arabia, including energy facilities, military sites and other strategic locations, in a fresh escalation in regional tensions. The Saudi Energy Ministry said several energy facilities and installations in the kingdom\u2019s southern region were targeted, causing fires and temporarily halting some operations. Emergency teams were deployed to contain the fires and secure the affected sites. Saudi authorities said the attacks targeted areas including Abha, Khamis Mushait, Jazan and Najran, with the Saudi-led coa",
-    "published_at": "2026-09-08T07:55:57",
-    "source_url": "https://investinglive.com/news/oil-prices-extend-gains-as-yemen-s-houthis-threaten-broader-saudi-operation-after-attacks-hit-energy-sites/"
-  },
-  {
-    "id": 359,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "The bond market continues to tighten the screws, and everything else is feeling it",
-    "description": "It's a new week but once again we are starting to see bond yields push higher again. And if this keeps up, it will be increasingly more difficult for broader markets to ignore. 10-year Treasury yields are touching 4.80% again, its highest levels since 2023, while 30-year yields in the US are starting to nudge back closer to 5.30%. It's a similar story elsewhere around the globe as borrowing costs in the likes of the UK, Japan, and Germany are all hovering around multi-year or multi-decade highs. Today itself, 10-year Germany bond yields are back at 3.39% - the highest since 2011. This is all c",
-    "published_at": "2026-09-08T08:31:36",
-    "source_url": "https://investinglive.com/news/the-bond-market-continues-to-tighten-the-screws-and-everything-else-is-feeling-it/"
+    "id": 366,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Frank Elderson: Fireside chat",
+    "description": "",
+    "published_at": "2026-09-08T15:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260908~3652aa828f.en.html"
   }
 ]
