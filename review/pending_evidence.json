@@ -1,24 +1,13 @@
 [
   {
-    "id": 380,
+    "id": 381,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Asia-Pacific market news: War escalation supports oil",
-    "description": "China inflation rebounds on energy costs, but the demand story hasn't changed - recap KOSPI tops 7,000 on AI optimism even as Middle East risk weighs Iran claims strikes on US destroyers, tankers crossing Hormuz Central bank buying keeps UBS bullish on gold's long game Gold's Iran-war paradox: why bullion keeps stumbling as the conflict widens China August CPI 0.8% y/y (expected 0.8%, prior 0.5%) PBOC sets USD/ CNY mid-point today at 6.7769 (vs. estimate at 6.7042) Trump bans Canadian autos, dairy and alcohol in trade war escalation Why a Gulf oil shock moves Brent harder than WTI, and what th",
-    "published_at": "2026-09-09T03:34:20",
-    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-war-escalation-supports-oil/"
-  },
-  {
-    "id": 379,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "What are the main events for today?",
-    "description": "EUROPEAN SESSION In the European session, we don't have anything on the agenda other than the French industrial production report. The data is not going to change anything for the ECB, so the market reaction will likely be muted.&nbsp; As a reminder, the ECB is widely expected to hike interest rates by 25 bps tomorrow, bringing the policy rate to 2.50%. According to \"ECB sources\" , the central bank will also signal less appetite for further tightening, raising the bar for additional rate hikes. The market, on the other hand, is still pricing in high chances of another rate hike in December. AM",
-    "published_at": "2026-09-09T06:24:25",
-    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-38/"
+    "title": "investingLive European markets wrap: Brent crude hits $100, equities fall",
+    "description": "Headlines: Oil prices close in on $100 as US-Iran tensions persist, but the real risk comes after it gets there European stocks slide as $100 oil revives inflation fears ahead of ECB The Nasdaq consolidates at key resistance as traders await the US CPI report AI infrastructure stocks surged while software fell. Does the rotation continue Wednesday? Gold remains under pressure amid escalating US-Iran attacks and US CPI risks. What to watch next? ECB preview: A rate hike expected as markets focus on Lagarde, inflation and future policy DeepSeek reportedly preparing for IPO in what could be China",
+    "published_at": "2026-09-09T11:33:46",
+    "source_url": "https://investinglive.com/news/investinglive-european-markets-wrap-brent-crude-hits-100-equities-fall/"
   }
 ]
