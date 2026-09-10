@@ -1,13 +1,57 @@
 [
   {
-    "id": 385,
+    "id": 390,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Trump ties $5,000 payment promise to a full Republican midterm sweep",
-    "description": "A pledge of this scale, if it were ever legislated, would represent a meaningful debt expansion at a moment when concerns about the deficit and Treasury issuance are already weighing on bond markets. For now, the promise is conditional on a Republican sweep in November and carries no funding mechanism or legislative pathway, so it is unlikely to move markets in the near term. The more relevant read for traders may be what it signals about the administration's political strategy heading into the midterms, using direct payments as a response to public concern over the cost of living, rather than",
-    "published_at": "2026-09-10T02:49:13",
-    "source_url": "https://investinglive.com/news/trump-ties-5-000-payment-promise-to-a-full-republican-midterm-sweep/"
+    "title": "investingLive Asia-Pacific market news: Gold steady around $4400",
+    "description": "Earnings season is turning more defensive, but the weakness is not everywhere Bank of Korea links Kospi's wild swings to leverage both at home and abroad Korea Exchange to launch real time trading through to 8pm from September 14 Trump ties $5,000 payment promise to a full Republican midterm sweep Weak yen, oil costs and food prices in focus as BOJ's Masu talks hikes What the September futures rollover means for traders, ES and NQ as examples Gold steady near $4,400 as traders brace for US inflation data PBOC sets USD/ CNY reference rate for today at 6.7766 (vs. estimate at 6.7074) Euro braces",
+    "published_at": "2026-09-10T03:48:12",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-gold-steady-around-4400/"
+  },
+  {
+    "id": 389,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US Treasury bond buyback: Why yields are still rising",
+    "description": "Just last week, I highlighted the tectonic shift taking place in the global bond market in arguing that markets may have to get used to an era of structurally higher yields. And yesterday's announcement from the US Treasury offers another interesting test of that argument. The Treasury said that it&nbsp;will buy back as much as $6 billion of 10-to-20-year government bonds ,&nbsp;tripling the previous $2 billion size. Now on&nbsp;the surface, that should be supportive for bonds.&nbsp;The theory is that Treasury buying removes older securities from the market, helping with liquidity while creati",
+    "published_at": "2026-09-10T05:25:13",
+    "source_url": "https://investinglive.com/news/us-treasury-bond-buyback-why-yields-are-still-rising/"
+  },
+  {
+    "id": 388,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Germany August CPI: Energy shock keeps inflation pressures elevated",
+    "description": "Germany August final CPI +2.9% vs +2.9% y/y prelim Prior +2.8% Germany August final HICP +2.9% vs +2.9% y/y prelim Prior +2.8% Germany August final core CPI +2.4% vs +2.4% y/y prelim Prior +2.4% The breakdownThere are no changes to the preliminary data as headline annual inflation in Germany nudges up in August. That comes as the energy shock keeps inflation pressures more elevated. The details show that energy price inflation increased by 10.5% year-on-year, marking the strongest reading in more than three years. And that is a notable jump from the 8.3% estimate in July. Besides that, core an",
+    "published_at": "2026-09-10T06:10:14",
+    "source_url": "https://investinglive.com/news/germany-august-cpi-energy-shock-keeps-inflation-pressures-elevated/"
+  },
+  {
+    "id": 387,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we have the ECB rate decision. The central bank is widely expected to hike by 25 bps, bringing the policy rate to 2.50%. The focus will be mainly on forward guidance and the appetite for further tightening. If you recall,&nbsp; \"ECB sources\" signalled in August that there was less appetite at the ECB for further tightening. This gives us a baseline to work with. Looking at the market pricing, traders are expecting another rate hike in December and a total of&nbsp;85 bps of tightening by the end of 2027. If the ECB sounds more hawkish, we could see some",
+    "published_at": "2026-09-10T06:43:45",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-39/"
+  },
+  {
+    "id": 386,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Announcement of the publication of the Governor's interview transcript",
+    "description": "Statement from the Bank of England",
+    "published_at": "2026-09-10T09:00:00",
+    "source_url": "https://www.bankofengland.co.uk/news/2026/september/statement-announcing-governors-interview"
   }
 ]
