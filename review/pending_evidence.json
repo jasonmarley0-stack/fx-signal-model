@@ -1,57 +1,101 @@
 [
   {
-    "id": 390,
+    "id": 399,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Asia-Pacific market news: Gold steady around $4400",
-    "description": "Earnings season is turning more defensive, but the weakness is not everywhere Bank of Korea links Kospi's wild swings to leverage both at home and abroad Korea Exchange to launch real time trading through to 8pm from September 14 Trump ties $5,000 payment promise to a full Republican midterm sweep Weak yen, oil costs and food prices in focus as BOJ's Masu talks hikes What the September futures rollover means for traders, ES and NQ as examples Gold steady near $4,400 as traders brace for US inflation data PBOC sets USD/ CNY reference rate for today at 6.7766 (vs. estimate at 6.7074) Euro braces",
-    "published_at": "2026-09-10T03:48:12",
-    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-gold-steady-around-4400/"
+    "title": "Oil is driving the rise in long-term yields; Everything else is just noise",
+    "description": "The rise in long-term bond yields is being blamed on a growing list of factors, but there is a much simpler explanation sitting in plain sight: oil prices are the main driver of the rise in long-term yields, and the Iran war is the reason oil is rising. Brent crude has pushed back above $100 a barrel as the US-Iran conflict escalated, while the 10-year Treasury yield has climbed above 4.8%, its highest level since 2023. Oil goes up, yields follow The key transmission mechanism is inflation.&nbsp;An oil price shock does not stay confined to the energy market. Higher crude prices feed into gasol",
+    "published_at": "2026-09-10T11:01:56",
+    "source_url": "https://investinglive.com/news/oil-is-driving-the-rise-in-long-term-yields-everything-else-is-just-noise/"
   },
   {
-    "id": 389,
+    "id": 398,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US Treasury bond buyback: Why yields are still rising",
-    "description": "Just last week, I highlighted the tectonic shift taking place in the global bond market in arguing that markets may have to get used to an era of structurally higher yields. And yesterday's announcement from the US Treasury offers another interesting test of that argument. The Treasury said that it&nbsp;will buy back as much as $6 billion of 10-to-20-year government bonds ,&nbsp;tripling the previous $2 billion size. Now on&nbsp;the surface, that should be supportive for bonds.&nbsp;The theory is that Treasury buying removes older securities from the market, helping with liquidity while creati",
-    "published_at": "2026-09-10T05:25:13",
-    "source_url": "https://investinglive.com/news/us-treasury-bond-buyback-why-yields-are-still-rising/"
+    "title": "investingLive European markets wrap: Oil and bond yields push higher as ECB decision looms",
+    "description": "Headlines: Oil prices above $100 continue to lift bond yields as inflation fears grow European stocks edge higher as investors brace for ECB decision Stock movers today: Meta leads AI optimism while ServiceTitan and Navan show the cost of missing expectations Oracle earnings preview: AI spending, cloud growth and a $638 billion backlog in focus EUR/USD almost erased Warsh-driven selloff ahead of the ECB decision. What to watch next? ECB preview: what is expected, what is priced in and what could surprise ECB preview: What major banks and analysts expect from Lagarde and interest rates Germany ",
+    "published_at": "2026-09-10T12:05:13",
+    "source_url": "https://investinglive.com/news/investinglive-european-markets-wrap-oil-and-bond-yields-push-higher-as-ecb-decision-looms/"
   },
   {
-    "id": 388,
+    "id": 397,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Germany August CPI: Energy shock keeps inflation pressures elevated",
-    "description": "Germany August final CPI +2.9% vs +2.9% y/y prelim Prior +2.8% Germany August final HICP +2.9% vs +2.9% y/y prelim Prior +2.8% Germany August final core CPI +2.4% vs +2.4% y/y prelim Prior +2.4% The breakdownThere are no changes to the preliminary data as headline annual inflation in Germany nudges up in August. That comes as the energy shock keeps inflation pressures more elevated. The details show that energy price inflation increased by 10.5% year-on-year, marking the strongest reading in more than three years. And that is a notable jump from the 8.3% estimate in July. Besides that, core an",
-    "published_at": "2026-09-10T06:10:14",
-    "source_url": "https://investinglive.com/news/germany-august-cpi-energy-shock-keeps-inflation-pressures-elevated/"
+    "title": "US August PPI 5.4% vs 5.3% expected",
+    "description": "Prior was 4.7% (revised to 4.8%) PPI final demand m/m +0.4% vs +0.4% expected Prior m/m 0.0% (revised to +0.1%) Ex-food and energy 4.6% y/y&nbsp; vs 4.6% expected&nbsp; Prior ex-food and energy 4.2% y/y (revised to 4.3%) Ex-food and energy 0.2% m/m&nbsp; vs 0.3% expected&nbsp; Ex-food, energy and trade +4.7% m/m vs +4.7% prior Ex-food energy and trade +0.3% m/m vs +0.4% prior Given the revisisions, this is a very small upside surprise but given the importance the Fed has placed on inflation reports this week, it's a meaningful reading and we're seeing dollar strength as a result. Fed funds fut",
+    "published_at": "2026-09-10T12:30:10",
+    "source_url": "https://investinglive.com/news/us-august-ppi-5-4-vs-5-3-expected/"
   },
   {
-    "id": 387,
+    "id": 396,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "What are the main events for today?",
-    "description": "EUROPEAN SESSION In the European session, we have the ECB rate decision. The central bank is widely expected to hike by 25 bps, bringing the policy rate to 2.50%. The focus will be mainly on forward guidance and the appetite for further tightening. If you recall,&nbsp; \"ECB sources\" signalled in August that there was less appetite at the ECB for further tightening. This gives us a baseline to work with. Looking at the market pricing, traders are expecting another rate hike in December and a total of&nbsp;85 bps of tightening by the end of 2027. If the ECB sounds more hawkish, we could see some",
-    "published_at": "2026-09-10T06:43:45",
-    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-39/"
+    "title": "Jobless claims show steady US employment picture. Initial claims 206K vs 205k estimate",
+    "description": "The latest weekly jobless claims data remain consistent with a labor market where layoffs are limited and those who lose their jobs are taking slightly longer to find new employment. Initial jobless claims: 206K versus 205K expected Prior week: 207K, revised from 206K Four-week average: 206K versus 207.5K previously Continuing claims: 1.774M versus 1.780M expected Prior week: 1.775M, revised from 1.779M Four-week continuing-claims average: 1.779M versus 1.78075M previously Insured unemployment rate: 1.2%, unchanged The initial claims number was nearly in line with expectations, while continuin",
+    "published_at": "2026-09-10T12:30:58",
+    "source_url": "https://investinglive.com/news/jobless-claims-show-steady-us-employment-picture-initial-claims-206k-vs-205k-estimate/"
   },
   {
-    "id": 386,
+    "id": 395,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US August existing home sales 3.98m vs 3.98m expected",
+    "description": "Prior was 4.06m (unrevised) Existing home sales -2.0% vs -1.7% prior We're into the final gasp of the year for real estate and with rates rising at the moment, there's no help coming. It's going to end as another poor year in the housing market and I don't think there is much optimism for 2027 at the moment. This article was written by Adam Button at investinglive.com.",
+    "published_at": "2026-09-10T14:00:12",
+    "source_url": "https://investinglive.com/news/us-august-existing-home-sales-3-98m-vs-3-98m-expected/"
+  },
+  {
+    "id": 394,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US wholesale inventories +1.3% in line with expectations",
+    "description": "U.S. wholesale inventories increased strongly in July, while sales rebounded following June\u2019s decline. Inventories grew faster than sales during the month, pushing the inventories-to-sales ratio modestly higher. Wholesale inventories July inventories: $958.9 billion Month over month: +1.3%&nbsp;versus 1.3% expected Year over year: +5.7% The monthly increase was unrevised from the advance estimate The 1.3% rise in inventories was relatively strong. That could indicate wholesalers are rebuilding stocks in anticipation of future demand. However, if inventories continue rising faster than sales, i",
+    "published_at": "2026-09-10T14:02:59",
+    "source_url": "https://investinglive.com/news/us-wholesale-inventories-1-3-in-line-with-expectations/"
+  },
+  {
+    "id": 393,
     "status": "NORMALISED",
     "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Announcement of the publication of the Governor's interview transcript",
-    "description": "Statement from the Bank of England",
-    "published_at": "2026-09-10T09:00:00",
-    "source_url": "https://www.bankofengland.co.uk/news/2026/september/statement-announcing-governors-interview"
+    "company_id": 7,
+    "source_id": 4,
+    "title": "Bank of Canada Board launches process to fill external Deputy Governor position",
+    "description": "The Board of Directors of the Bank of Canada has initiated a recruitment process to fill the external Deputy Governor position left vacant by the appointment of Nicolas Vincent as a full-time Deputy Governor.",
+    "published_at": "2026-09-10T11:00:09",
+    "source_url": "https://www.bankofcanada.ca/2026/09/bank-canada-board-launches-process-fill-external-deputy-governor-position/"
+  },
+  {
+    "id": 392,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Monetary policy decisions",
+    "description": "",
+    "published_at": "2026-09-10T12:15:00",
+    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.mp260910~314e508016.en.html"
+  },
+  {
+    "id": 391,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Christine Lagarde, Boris Vuj\u010di\u0107: Monetary policy statement",
+    "description": "",
+    "published_at": "2026-09-10T13:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/press_conference/monetary-policy-statement/2026/html/ecb.is260910~6a45359cfc.en.html"
   }
 ]
