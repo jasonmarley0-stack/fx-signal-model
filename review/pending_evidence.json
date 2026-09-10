@@ -1,13 +1,35 @@
 [
   {
-    "id": 381,
+    "id": 384,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive European markets wrap: Brent crude hits $100, equities fall",
-    "description": "Headlines: Oil prices close in on $100 as US-Iran tensions persist, but the real risk comes after it gets there European stocks slide as $100 oil revives inflation fears ahead of ECB The Nasdaq consolidates at key resistance as traders await the US CPI report AI infrastructure stocks surged while software fell. Does the rotation continue Wednesday? Gold remains under pressure amid escalating US-Iran attacks and US CPI risks. What to watch next? ECB preview: A rate hike expected as markets focus on Lagarde, inflation and future policy DeepSeek reportedly preparing for IPO in what could be China",
-    "published_at": "2026-09-09T11:33:46",
-    "source_url": "https://investinglive.com/news/investinglive-european-markets-wrap-brent-crude-hits-100-equities-fall/"
+    "title": "Economic and event calendar in Asia Thursday, September 10, 2026 ... m'eh",
+    "description": "The economic calendar for Asia today does not show impactful data releases.&nbsp; We will, of course, have ongoing war developments to deal with, along with specualtion ahead of US inflation reports due Thursday (PPI) and Friday (CPI - what Goldman Sachs expect ('benign') here ). This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-09T20:25:19",
+    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-thursday-september-10-2026-m-eh/"
+  },
+  {
+    "id": 383,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Americas FX news wrap 9 Sept: Oil is a problem as war likely to continue",
+    "description": "US stocks close lower for the third consecutive day as oil and yields rise USD/JPY and the \"I am the House now\" trade Gold Technicals: Buyers and sellers battle between key support and resistance as the market awaits the next shove Trump says oil prices won't come down until after the midterms US sells 10-year notes at 4.834% vs 4.849% WI The endgame for the AI bubble is taking an unexpected twist European indices: Prices of major European indices move lower as Brent passes $100 US Treasury announces $6 billion buyback, less than expected The oil price breakout is confirming and that's a big p",
+    "published_at": "2026-09-09T21:08:55",
+    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-9-sept-oil-is-a-problem-as-war-likely-to-continue/"
+  },
+  {
+    "id": 382,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Christine Lagarde: The choice facing Europeans",
+    "description": "",
+    "published_at": "2026-09-09T17:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260909~59a07e6f05.en.html"
   }
 ]
