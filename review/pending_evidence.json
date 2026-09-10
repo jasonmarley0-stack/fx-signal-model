@@ -1,35 +1,13 @@
 [
   {
-    "id": 384,
+    "id": 385,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Economic and event calendar in Asia Thursday, September 10, 2026 ... m'eh",
-    "description": "The economic calendar for Asia today does not show impactful data releases.&nbsp; We will, of course, have ongoing war developments to deal with, along with specualtion ahead of US inflation reports due Thursday (PPI) and Friday (CPI - what Goldman Sachs expect ('benign') here ). This article was written by Eamonn Sheridan at investinglive.com.",
-    "published_at": "2026-09-09T20:25:19",
-    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-thursday-september-10-2026-m-eh/"
-  },
-  {
-    "id": 383,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "investingLive Americas FX news wrap 9 Sept: Oil is a problem as war likely to continue",
-    "description": "US stocks close lower for the third consecutive day as oil and yields rise USD/JPY and the \"I am the House now\" trade Gold Technicals: Buyers and sellers battle between key support and resistance as the market awaits the next shove Trump says oil prices won't come down until after the midterms US sells 10-year notes at 4.834% vs 4.849% WI The endgame for the AI bubble is taking an unexpected twist European indices: Prices of major European indices move lower as Brent passes $100 US Treasury announces $6 billion buyback, less than expected The oil price breakout is confirming and that's a big p",
-    "published_at": "2026-09-09T21:08:55",
-    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-9-sept-oil-is-a-problem-as-war-likely-to-continue/"
-  },
-  {
-    "id": 382,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 3,
-    "source_id": 2,
-    "title": "Christine Lagarde: The choice facing Europeans",
-    "description": "",
-    "published_at": "2026-09-09T17:00:00",
-    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260909~59a07e6f05.en.html"
+    "title": "Trump ties $5,000 payment promise to a full Republican midterm sweep",
+    "description": "A pledge of this scale, if it were ever legislated, would represent a meaningful debt expansion at a moment when concerns about the deficit and Treasury issuance are already weighing on bond markets. For now, the promise is conditional on a Republican sweep in November and carries no funding mechanism or legislative pathway, so it is unlikely to move markets in the near term. The more relevant read for traders may be what it signals about the administration's political strategy heading into the midterms, using direct payments as a response to public concern over the cost of living, rather than",
+    "published_at": "2026-09-10T02:49:13",
+    "source_url": "https://investinglive.com/news/trump-ties-5-000-payment-promise-to-a-full-republican-midterm-sweep/"
   }
 ]
