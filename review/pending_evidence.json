@@ -1,35 +1,68 @@
 [
   {
-    "id": 406,
+    "id": 412,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "NZ manufacturing growth slows in August but stays above long-term average",
-    "description": "The August reading confirms New Zealand's manufacturing sector is still growing, but the pace is clearly moderating, a signal that may feed into the Reserve Bank of New Zealand's broader read on domestic activity alongside employment and price data. The flat employment sub-index, sitting right at the 50.0 breakeven line, is arguably the more sensitive data point for rate-path watchers, since a slip below that mark would point to actual sector job losses rather than simply slower hiring intentions. Steady New Orders and Finished Stocks readings suggest underlying demand has not cracked, which s",
-    "published_at": "2026-09-10T22:37:56",
-    "source_url": "https://investinglive.com/news/nz-manufacturing-growth-slows-in-august-but-stays-above-long-term-average/"
+    "title": "investingLive Asia-Pacific market news: Oil holds near highs",
+    "description": "BOJ hike next week is a given, the real question is pace and terminal rate Houthis claim total control of Bab el-Mandeb, but wires haven't confirmed it ANZ sees ECB hiking again in December, lifting deposit rate to 2.75% Preview: August CPI due Friday to decide odds of first Fed hike since 2023 Coming up: What Lagarde may say next, two days after the ECB's rate rise PBOC sets USD/ CNY reference rate for today at 6.7743 (vs. estimate at 6.7174) Japan wholesale inflation stays hot in August, cements case for BOJ hike Nikkei, Kospi fall as US bond yields and inflation data spook markets Japan Aug",
+    "published_at": "2026-09-11T03:45:12",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-oil-holds-near-highs/"
   },
   {
-    "id": 405,
+    "id": 411,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Japan August PPI surges +7.6% y/y (expected +7.4%, prior +7.2%)",
-    "description": "ADDED: Follow up post with more here Japan wholesale inflation stays hot in August, cements case for BOJ hike This article was written by Eamonn Sheridan at investinglive.com.",
-    "published_at": "2026-09-10T23:54:52",
-    "source_url": "https://investinglive.com/news/japan-august-ppi-surges-7-6-y-y-expected-7-4-prior-7-2/"
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, the only highlight is the monthly UK GDP data which is expected to show a 0.0% growth in July. The data is unlikely to change much for the BoE, though, as the majority of policymakers continue to exercise patience. The market, on the other hand, has been increasing rate hike bets following the surge in oil prices, with two rate hikes priced in by year-end starting in November.&nbsp; AMERICAN SESSION In the American session, all eyes will be on the US CPI report. The headline CPI Y/Y is expected at 3.4% vs 3.4% prior, while the M/M measure is seen at 0.",
+    "published_at": "2026-09-11T04:40:09",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-40/"
   },
   {
-    "id": 404,
+    "id": 410,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Japan wholesale inflation stays hot in August, cements case for BOJ hike",
-    "description": "August's corporate goods price index reinforces what markets had already priced in, that the Bank of Japan is close to certain to raise rates to 1.25% at next week's meeting, so the immediate surprise value for JPY crosses is limited. The more interesting detail is the import price index, up 24.8% year on year, which points to continued yen weakness feeding directly into domestic cost pressures rather than easing as some had hoped. That keeps alive the more hawkish end of rate expectations, with analysts now pencilling in a further hike to 1.75% in the second quarter of 2027, earlier than prev",
-    "published_at": "2026-09-11T00:37:16",
-    "source_url": "https://investinglive.com/news/japan-wholesale-inflation-stays-hot-in-august-cements-case-for-boj-hike/"
+    "title": "UK July monthly GDP +0.4% vs 0.0% m/m expected",
+    "description": "Prior +0.3% GDP Y/Y +1.6% vs +1.0% expected Prior +1.1% Full report here The UK economy maintained its recent pace of growth in the three months to July, with real GDP rising 0.4% compared with the three months to April. The increase marks the eighth consecutive three-month period of growth, although momentum has eased from the 0.6% expansion recorded in the three months to May. Services remained the main driver of growth, with output increasing 0.6% over the three-month period. In contrast, production and construction both contracted by 0.5%. The monthly figures were more encouraging. UK GDP ",
+    "published_at": "2026-09-11T06:00:10",
+    "source_url": "https://investinglive.com/news/uk-july-monthly-gdp-xx-vs-0-0-m-m-expected/"
+  },
+  {
+    "id": 409,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Iran gains stronger leverage as oil surges above $100, forcing urgent diplomatic solutions",
+    "description": "Oil prices have surged above $100 a barrel&nbsp;this week as the market started to price in a prolonged disruption to energy flows after Trump's midterm comments . Brent climbed as high as around $109 yesterday, while WTI moved above $104, with both benchmarks on track for their strongest weekly gains in months. Iran's foreign minister and Pakistan's army chief have been discussing ways to restore diplomatic efforts and de-escalate the conflict on all fronts.&nbsp;Islamabad has also been pressing Tehran to rein in the Iran-backed Houthis following their attacks on Saudi Arabia. The diplomatic ",
+    "published_at": "2026-09-11T06:57:14",
+    "source_url": "https://investinglive.com/news/iran-gains-stronger-leverage-as-oil-surges-above-100-forcing-urgent-diplomatic-solutions/"
+  },
+  {
+    "id": 408,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What is the distribution of forecasts for the US CPI?",
+    "description": "The ranges of estimates are important in terms of market reaction because when the actual data deviates from the expectations, it creates a surprise effect. Another important input in market's reaction is the distribution of forecasts. In fact, although we can have a range of estimates, most forecasts might be clustered on the upper bound of the range, so even if the data comes out inside the range of estimates but on the lower bound of the range, it can still create a surprise effect. CPI Y/Y 3.8% (4%) 3.5% (4%) 3.4% (67%) - consensus 3.3% (25%) CPI M/M 0.4% (76%) - consensus 0.3% (23%) 0.2% ",
+    "published_at": "2026-09-11T07:18:57",
+    "source_url": "https://investinglive.com/news/what-is-the-distribution-of-forecasts-for-the-us-cpi-1/"
+  },
+  {
+    "id": 407,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Yemen's Iran-backed Houthis have completed the takeover of Bab el-Mandeb Strait",
+    "description": "Yemen's Iran-backed Houthis have completed the takeover of Bab el-Mandeb Strait after capturing strategic points in the Red Sea, according to the AFP.&nbsp;Bab el-Mandeb connects the Red Sea with the Gulf of Aden and provides a key maritime route between the Indian Ocean, the Suez Canal and Europe. Around 10% of global trade passes through this waterway. That leaves global energy flows facing pressure from both ends of the Arabian Peninsula. Iran's disruption of Hormuz threatens the main route out of the Persian Gulf, while Houthi control of Bab el-Mandeb creates another bottleneck for shipmen",
+    "published_at": "2026-09-11T08:25:21",
+    "source_url": "https://investinglive.com/news/yemen-s-iran-backed-houthis-have-completed-the-takeover-of-bab-el-mandeb-strait/"
   }
 ]
