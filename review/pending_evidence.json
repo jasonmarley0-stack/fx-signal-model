@@ -1,46 +1,35 @@
 [
   {
-    "id": 403,
+    "id": 406,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US treasury sells $22 billion of 30 year bonds at a high yield of 5.308%",
-    "description": "The U.S. Treasury has auctioned off $22 million and 30 year bonds at a high yield of 5.308% WI level at the time of the auction 5.335% Tail -2.7 basis points&nbsp;versus 013 basis points average Bid to cover&nbsp;2.61X&nbsp;versus average of&nbsp;2.38X DIrects (domestic buyers) 18.3%&nbsp;versus 22.1% average Indirects (international buyers)&nbsp;79.5% versus 66.4% average Dealers (they get the rest)&nbsp;2.2% versus 11.5% average. I don't think I've ever seen a dealer number as low as 2.2%. The big buyer was international at 79.5%. I wonder if the bond buyback influenced the buying interest t",
-    "published_at": "2026-09-10T17:03:20",
-    "source_url": "https://investinglive.com/news/us-treasury-sells-22-billion-of-30-year-bonds-at-a-high-yield-of-5-308/"
+    "title": "NZ manufacturing growth slows in August but stays above long-term average",
+    "description": "The August reading confirms New Zealand's manufacturing sector is still growing, but the pace is clearly moderating, a signal that may feed into the Reserve Bank of New Zealand's broader read on domestic activity alongside employment and price data. The flat employment sub-index, sitting right at the 50.0 breakeven line, is arguably the more sensitive data point for rate-path watchers, since a slip below that mark would point to actual sector job losses rather than simply slower hiring intentions. Steady New Orders and Finished Stocks readings suggest underlying demand has not cracked, which s",
+    "published_at": "2026-09-10T22:37:56",
+    "source_url": "https://investinglive.com/news/nz-manufacturing-growth-slows-in-august-but-stays-above-long-term-average/"
   },
   {
-    "id": 402,
+    "id": 405,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "The US Treasury bought $5.187 billion in 10-20 year notes",
-    "description": "The next Treasury buyback is Sept 24. I wouldn't read too much into this result because it's the first one in the series so the market might be feeling it out. That said, the market was disappointed this week at only $6 billion and $5.187 billion is even lower than that. US 10-year yields hit the highs of the day afterwards and the highs since 2023. Not coincidentally, the Nasdaq is at the lows of the day, down 1.0%. This article was written by Adam Button at investinglive.com.",
-    "published_at": "2026-09-10T18:13:21",
-    "source_url": "https://investinglive.com/news/the-us-treasury-bought-5-187-billion-in-10-20-year-notes/"
+    "title": "Japan August PPI surges +7.6% y/y (expected +7.4%, prior +7.2%)",
+    "description": "ADDED: Follow up post with more here Japan wholesale inflation stays hot in August, cements case for BOJ hike This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-10T23:54:52",
+    "source_url": "https://investinglive.com/news/japan-august-ppi-surges-7-6-y-y-expected-7-4-prior-7-2/"
   },
   {
-    "id": 401,
+    "id": 404,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Americas market news wrap: Oil climbs 7%",
-    "description": "The US Treasury bought $5.187 billion in 10-20 year notes US treasury sells $22 billion of 30 year bonds at a high yield of 5.308% EIA weekly US crude oil inventories -391K vs -1554K expected US wholesale inventories +1.3% in line with expectations US August existing home sales 3.98m vs 3.98m expected ECB's Lagarde: The economy is proving resilient US August PPI 5.4% vs 5.3% expected Jobless claims show steady US employment picture. Initial claims 206K vs 205k estimate ECB hikes by 25 basis points, as expected Markets: WTI crude oil up $6.67 to $102.72 Gold down $78 to $4322 US 10-year yields ",
-    "published_at": "2026-09-10T20:14:16",
-    "source_url": "https://investinglive.com/news/investinglive-americas-market-news-wrap-oil-climbs-7/"
-  },
-  {
-    "id": 400,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 2,
-    "source_id": 1,
-    "title": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle",
-    "description": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle",
-    "published_at": "2026-09-10T20:00:00",
-    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260910a.htm"
+    "title": "Japan wholesale inflation stays hot in August, cements case for BOJ hike",
+    "description": "August's corporate goods price index reinforces what markets had already priced in, that the Bank of Japan is close to certain to raise rates to 1.25% at next week's meeting, so the immediate surprise value for JPY crosses is limited. The more interesting detail is the import price index, up 24.8% year on year, which points to continued yen weakness feeding directly into domestic cost pressures rather than easing as some had hoped. That keeps alive the more hawkish end of rate expectations, with analysts now pencilling in a further hike to 1.75% in the second quarter of 2027, earlier than prev",
+    "published_at": "2026-09-11T00:37:16",
+    "source_url": "https://investinglive.com/news/japan-wholesale-inflation-stays-hot-in-august-cements-case-for-boj-hike/"
   }
 ]
