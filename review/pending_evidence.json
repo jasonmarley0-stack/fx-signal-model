@@ -1,101 +1,46 @@
 [
   {
-    "id": 399,
+    "id": 403,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Oil is driving the rise in long-term yields; Everything else is just noise",
-    "description": "The rise in long-term bond yields is being blamed on a growing list of factors, but there is a much simpler explanation sitting in plain sight: oil prices are the main driver of the rise in long-term yields, and the Iran war is the reason oil is rising. Brent crude has pushed back above $100 a barrel as the US-Iran conflict escalated, while the 10-year Treasury yield has climbed above 4.8%, its highest level since 2023. Oil goes up, yields follow The key transmission mechanism is inflation.&nbsp;An oil price shock does not stay confined to the energy market. Higher crude prices feed into gasol",
-    "published_at": "2026-09-10T11:01:56",
-    "source_url": "https://investinglive.com/news/oil-is-driving-the-rise-in-long-term-yields-everything-else-is-just-noise/"
+    "title": "US treasury sells $22 billion of 30 year bonds at a high yield of 5.308%",
+    "description": "The U.S. Treasury has auctioned off $22 million and 30 year bonds at a high yield of 5.308% WI level at the time of the auction 5.335% Tail -2.7 basis points&nbsp;versus 013 basis points average Bid to cover&nbsp;2.61X&nbsp;versus average of&nbsp;2.38X DIrects (domestic buyers) 18.3%&nbsp;versus 22.1% average Indirects (international buyers)&nbsp;79.5% versus 66.4% average Dealers (they get the rest)&nbsp;2.2% versus 11.5% average. I don't think I've ever seen a dealer number as low as 2.2%. The big buyer was international at 79.5%. I wonder if the bond buyback influenced the buying interest t",
+    "published_at": "2026-09-10T17:03:20",
+    "source_url": "https://investinglive.com/news/us-treasury-sells-22-billion-of-30-year-bonds-at-a-high-yield-of-5-308/"
   },
   {
-    "id": 398,
+    "id": 402,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive European markets wrap: Oil and bond yields push higher as ECB decision looms",
-    "description": "Headlines: Oil prices above $100 continue to lift bond yields as inflation fears grow European stocks edge higher as investors brace for ECB decision Stock movers today: Meta leads AI optimism while ServiceTitan and Navan show the cost of missing expectations Oracle earnings preview: AI spending, cloud growth and a $638 billion backlog in focus EUR/USD almost erased Warsh-driven selloff ahead of the ECB decision. What to watch next? ECB preview: what is expected, what is priced in and what could surprise ECB preview: What major banks and analysts expect from Lagarde and interest rates Germany ",
-    "published_at": "2026-09-10T12:05:13",
-    "source_url": "https://investinglive.com/news/investinglive-european-markets-wrap-oil-and-bond-yields-push-higher-as-ecb-decision-looms/"
+    "title": "The US Treasury bought $5.187 billion in 10-20 year notes",
+    "description": "The next Treasury buyback is Sept 24. I wouldn't read too much into this result because it's the first one in the series so the market might be feeling it out. That said, the market was disappointed this week at only $6 billion and $5.187 billion is even lower than that. US 10-year yields hit the highs of the day afterwards and the highs since 2023. Not coincidentally, the Nasdaq is at the lows of the day, down 1.0%. This article was written by Adam Button at investinglive.com.",
+    "published_at": "2026-09-10T18:13:21",
+    "source_url": "https://investinglive.com/news/the-us-treasury-bought-5-187-billion-in-10-20-year-notes/"
   },
   {
-    "id": 397,
+    "id": 401,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US August PPI 5.4% vs 5.3% expected",
-    "description": "Prior was 4.7% (revised to 4.8%) PPI final demand m/m +0.4% vs +0.4% expected Prior m/m 0.0% (revised to +0.1%) Ex-food and energy 4.6% y/y&nbsp; vs 4.6% expected&nbsp; Prior ex-food and energy 4.2% y/y (revised to 4.3%) Ex-food and energy 0.2% m/m&nbsp; vs 0.3% expected&nbsp; Ex-food, energy and trade +4.7% m/m vs +4.7% prior Ex-food energy and trade +0.3% m/m vs +0.4% prior Given the revisisions, this is a very small upside surprise but given the importance the Fed has placed on inflation reports this week, it's a meaningful reading and we're seeing dollar strength as a result. Fed funds fut",
-    "published_at": "2026-09-10T12:30:10",
-    "source_url": "https://investinglive.com/news/us-august-ppi-5-4-vs-5-3-expected/"
+    "title": "investingLive Americas market news wrap: Oil climbs 7%",
+    "description": "The US Treasury bought $5.187 billion in 10-20 year notes US treasury sells $22 billion of 30 year bonds at a high yield of 5.308% EIA weekly US crude oil inventories -391K vs -1554K expected US wholesale inventories +1.3% in line with expectations US August existing home sales 3.98m vs 3.98m expected ECB's Lagarde: The economy is proving resilient US August PPI 5.4% vs 5.3% expected Jobless claims show steady US employment picture. Initial claims 206K vs 205k estimate ECB hikes by 25 basis points, as expected Markets: WTI crude oil up $6.67 to $102.72 Gold down $78 to $4322 US 10-year yields ",
+    "published_at": "2026-09-10T20:14:16",
+    "source_url": "https://investinglive.com/news/investinglive-americas-market-news-wrap-oil-climbs-7/"
   },
   {
-    "id": 396,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Jobless claims show steady US employment picture. Initial claims 206K vs 205k estimate",
-    "description": "The latest weekly jobless claims data remain consistent with a labor market where layoffs are limited and those who lose their jobs are taking slightly longer to find new employment. Initial jobless claims: 206K versus 205K expected Prior week: 207K, revised from 206K Four-week average: 206K versus 207.5K previously Continuing claims: 1.774M versus 1.780M expected Prior week: 1.775M, revised from 1.779M Four-week continuing-claims average: 1.779M versus 1.78075M previously Insured unemployment rate: 1.2%, unchanged The initial claims number was nearly in line with expectations, while continuin",
-    "published_at": "2026-09-10T12:30:58",
-    "source_url": "https://investinglive.com/news/jobless-claims-show-steady-us-employment-picture-initial-claims-206k-vs-205k-estimate/"
-  },
-  {
-    "id": 395,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "US August existing home sales 3.98m vs 3.98m expected",
-    "description": "Prior was 4.06m (unrevised) Existing home sales -2.0% vs -1.7% prior We're into the final gasp of the year for real estate and with rates rising at the moment, there's no help coming. It's going to end as another poor year in the housing market and I don't think there is much optimism for 2027 at the moment. This article was written by Adam Button at investinglive.com.",
-    "published_at": "2026-09-10T14:00:12",
-    "source_url": "https://investinglive.com/news/us-august-existing-home-sales-3-98m-vs-3-98m-expected/"
-  },
-  {
-    "id": 394,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "US wholesale inventories +1.3% in line with expectations",
-    "description": "U.S. wholesale inventories increased strongly in July, while sales rebounded following June\u2019s decline. Inventories grew faster than sales during the month, pushing the inventories-to-sales ratio modestly higher. Wholesale inventories July inventories: $958.9 billion Month over month: +1.3%&nbsp;versus 1.3% expected Year over year: +5.7% The monthly increase was unrevised from the advance estimate The 1.3% rise in inventories was relatively strong. That could indicate wholesalers are rebuilding stocks in anticipation of future demand. However, if inventories continue rising faster than sales, i",
-    "published_at": "2026-09-10T14:02:59",
-    "source_url": "https://investinglive.com/news/us-wholesale-inventories-1-3-in-line-with-expectations/"
-  },
-  {
-    "id": 393,
+    "id": 400,
     "status": "NORMALISED",
     "was_matched": true,
-    "company_id": 7,
-    "source_id": 4,
-    "title": "Bank of Canada Board launches process to fill external Deputy Governor position",
-    "description": "The Board of Directors of the Bank of Canada has initiated a recruitment process to fill the external Deputy Governor position left vacant by the appointment of Nicolas Vincent as a full-time Deputy Governor.",
-    "published_at": "2026-09-10T11:00:09",
-    "source_url": "https://www.bankofcanada.ca/2026/09/bank-canada-board-launches-process-fill-external-deputy-governor-position/"
-  },
-  {
-    "id": 392,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 3,
-    "source_id": 2,
-    "title": "Monetary policy decisions",
-    "description": "",
-    "published_at": "2026-09-10T12:15:00",
-    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.mp260910~314e508016.en.html"
-  },
-  {
-    "id": 391,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 3,
-    "source_id": 2,
-    "title": "Christine Lagarde, Boris Vuj\u010di\u0107: Monetary policy statement",
-    "description": "",
-    "published_at": "2026-09-10T13:00:00",
-    "source_url": "https://www.ecb.europa.eu//press/press_conference/monetary-policy-statement/2026/html/ecb.is260910~6a45359cfc.en.html"
+    "company_id": 2,
+    "source_id": 1,
+    "title": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle",
+    "description": "Agencies reduce regulatory burden for community banks, increase eligibility for 18-month exam cycle",
+    "published_at": "2026-09-10T20:00:00",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260910a.htm"
   }
 ]
