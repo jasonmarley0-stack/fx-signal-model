@@ -1,24 +1,13 @@
 [
   {
-    "id": 420,
+    "id": 421,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US August Federal budget deficit $167 billion vs $404 billion expected",
-    "description": "The $432 billion deficit last month was near a monthly record but it seems as though much of that spending was pulled forward from August as the latest month shows a nice bounce. Fiscal Year to date deficit at $1.966 trillion verus $1.973 trillion a year ago Outlates $527 billion vs $689 billion a year ago Receipts $360 billion vs $344 billion a year ago Net cutoms receipts of $12.836 billion This number could tad some of the pressure of Treasuries but the month-to-month numbers are tough to get a read on because spending shifts around. This article was written by Adam Button at investinglive.",
-    "published_at": "2026-09-11T18:03:50",
-    "source_url": "https://investinglive.com/news/us-august-federal-budget-deficit-167-billion-vs-404-billion-expected/"
-  },
-  {
-    "id": 419,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 3,
-    "source_id": 2,
-    "title": "Philip R. Lane: Outlook for the euro area economy",
-    "description": "",
-    "published_at": "2026-09-11T17:00:00",
-    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260911~a4d6526f00.en.pdf"
+    "title": "investingLive Americas FX news wrap 11 Sept: US CPI raises odds for Fed rate hike",
+    "description": "US stocks rebound sharply, but major indices still close lower for the week Bitcoin sellers regain the short-term advantage ahead of weekend trading Why the Saudi Arabian pipeline strike is such a big deal JPMorgan now sees the Fed hiking in September and December US August Federal budget deficit $167 billion vs $404 billion expected ECB's Lane: If the rise in energy prices persists, maybe it will hit consumption Oil falls despite fresh attacks on Saudi energy infrastructure Meta stock surges on Muse AI launch\u2014but can it break key resistance? UMich September consumer sentiment 47.8 vs 51.0 exp",
+    "published_at": "2026-09-11T21:18:48",
+    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-11-sept-us-cpi-keeps-fed-raises-odds-for-fed-rate-hike/"
   }
 ]
