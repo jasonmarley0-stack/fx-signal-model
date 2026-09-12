@@ -1,68 +1,24 @@
 [
   {
-    "id": 418,
+    "id": 420,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive European news wrap: The calm before the storm?",
-    "description": "Headlines: Gold falls back into the major $4300 support ahead of US CPI, as surging oil prices increase rate hike bets Yemen's Iran-backed Houthis have completed the takeover of Bab el-Mandeb Strait Bitcoin trades at a major support ahead of the US CPI report. What to watch next? What is the distribution of forecasts for the US CPI? Iran gains stronger leverage as oil surges above $100, forcing urgent diplomatic solutions Trading Went Around the Clock. Can Settlement Keep Up? UK July monthly GDP +0.4% vs 0.0% m/m expected FX option expiries for 11 September 10am New York cut What are the main ",
-    "published_at": "2026-09-11T11:40:23",
-    "source_url": "https://investinglive.com/news/investinglive-european-news-wrap-the-calm-before-the-storm/"
+    "title": "US August Federal budget deficit $167 billion vs $404 billion expected",
+    "description": "The $432 billion deficit last month was near a monthly record but it seems as though much of that spending was pulled forward from August as the latest month shows a nice bounce. Fiscal Year to date deficit at $1.966 trillion verus $1.973 trillion a year ago Outlates $527 billion vs $689 billion a year ago Receipts $360 billion vs $344 billion a year ago Net cutoms receipts of $12.836 billion This number could tad some of the pressure of Treasuries but the month-to-month numbers are tough to get a read on because spending shifts around. This article was written by Adam Button at investinglive.",
+    "published_at": "2026-09-11T18:03:50",
+    "source_url": "https://investinglive.com/news/us-august-federal-budget-deficit-167-billion-vs-404-billion-expected/"
   },
   {
-    "id": 417,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "US August CPI 3.4% vs 3.4% expected",
-    "description": "Prior was 3.4% Unrounded +3.397% vs +3.365% prior CPI m/m +0.4% vs +0.4% exp Prior CPI was +0.1% Unrounded CPI m/m +0.396% vs +0.074% prior Core readings: Core y/y 2.4% vs 2.4% expected Prior core was 2.5% Core unrounded +2.446% y/y Core m/m +0.3% vs +0.2% expected Prior m/m +0.2% Unrounded +0.318% m/m vs +0.215% prior Core goods +0.11% m/m vs +0.2% prior Real weekly earnings +0.2% vs 0.0% prior (revised to +0.1%) Supercore +0.511% m/m vs +0.189% prior -- highest since Jan Supercore +3.022% y/y vs +2.843% Ahead of the report, the market was pricing in a 68% chance of a rate hike in September a",
-    "published_at": "2026-09-11T12:30:07",
-    "source_url": "https://investinglive.com/news/us-august-cpi-vs-3-4-expected/"
-  },
-  {
-    "id": 416,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Back up the garbage truck: A look at how AI will impact margins in AI",
-    "description": "I'm increasingly conviced that the trade in AI is no longer the model makers or the vendors, but at the user level. This is the RAMP trade that I've been writing about since last year (real assets, margin potential). Today we get some insight into how it will unfold and the potential. At this point, you don't need to build the best AI model to make money from artificial intelligence. You might just need a fleet of garbage trucks and a better way to route them. Waste Connections offers an interesting example of where this could be heading in hard-asset industries.&nbsp;The company estimates its",
-    "published_at": "2026-09-11T13:35:56",
-    "source_url": "https://investinglive.com/news/back-of-the-garbage-truck-a-look-at-how-ai-will-impact-margins-in-ai/"
-  },
-  {
-    "id": 415,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Some anniversaries aren\u2019t meant to be celebrated. They are simply remembered and never forgotten.",
-    "description": "Today is an anniversary. Anniversaries are often days of celebration. They are also days of remembrance. Today is not a day to celebrate. It is a day to pause and remember\u2014to remember all those who \u201cslipped the surly bonds of Earth\u201d and touched the face of God. I personally knew three people who died that day. Ironically, each was named John, and each was working on the upper floors of the World Trade Center. It is difficult to imagine what they went through. In a strange way, I hope the plane struck where they were working and that their lives ended instantly. The alternative\u2014the thought of t",
-    "published_at": "2026-09-11T13:56:34",
-    "source_url": "https://investinglive.com/news/some-anniversaries-aren-t-meant-to-be-celebrated-they-are-simply-remembered-and-never-forgotten/"
-  },
-  {
-    "id": 414,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "UMich September consumer sentiment 47.8 vs 51.0 expected",
-    "description": "Priorwas 51.0 Current conditions 50.9 vs 51.3 exp Expectations 45.8 vs 50.5 exp One-year inflation 4.6% vs 4.0% exp Five-year inflation 3.4% vs 3.3% exp Those inflation expectations numbers will further tilt the Fed towards hiking rates next week. I think it's a done deal now and the market has it at 82%. This article was written by Adam Button at investinglive.com.",
-    "published_at": "2026-09-11T14:12:23",
-    "source_url": "https://investinglive.com/news/umich-september-consumer-sentiment-47-8-vs-51-0-expected/"
-  },
-  {
-    "id": 413,
+    "id": 419,
     "status": "NORMALISED",
     "was_matched": true,
-    "company_id": 2,
-    "source_id": 1,
-    "title": "Agencies seek comment on proposed third-party risk management guidance and issue statement on community bank engagement with core service providers",
-    "description": "Agencies seek comment on proposed third-party risk management guidance and issue statement on community bank engagement with core service providers",
-    "published_at": "2026-09-11T14:00:00",
-    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260911a.htm"
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Philip R. Lane: Outlook for the euro area economy",
+    "description": "",
+    "published_at": "2026-09-11T17:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260911~a4d6526f00.en.pdf"
   }
 ]
