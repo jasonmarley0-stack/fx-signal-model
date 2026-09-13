@@ -7,12 +7,15 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 
+from spreads import get_spread
+
 ALPHA = 0.6  # weight on technical vs PESTLE
 AGREEMENT_THRESHOLD = 0.3
 VETO_THRESHOLD = 0.4
 CONFIDENCE_HIGH = 0.6
 CONFIDENCE_MEDIUM = 0.35
 STRONG_AGREEMENT = 0.75
+MIN_RISK_SPREAD_MULTIPLE = 10  # stop-loss risk must be >= this many spreads, so cost caps around ~10% of risk
 
 
 @dataclass
@@ -72,10 +75,28 @@ def combine_signal(pair: str, entry: float, atr_value: float, tech_score: float,
     # ordinary noise well before the eventual (often correct) move played out,
     # producing avg_r=-0.205 across that sample. 1.5x ATR was the best tested
     # width (0.8/1.0/1.2/1.5/2.0x): avg_r improved to -0.012 (near breakeven)
-    # without pushing R:R unfavorable the way 2.0x did. sl_far keeps the same
-    # 1.5x ratio to sl_near as before (1.2/0.8) for the display-only outer bound.
+    # without pushing R:R unfavorable the way 2.0x did.
     sl_near, sl_far = 1.5 * atr_value, 2.25 * atr_value
     tp_near, tp_far = 1.3 * atr_value, (rr / 1.5) * 1.5 * atr_value  # scales TP range with rr
+
+    # Spread floor (added 2026-09-13, see NEXT_STEPS.md "transaction cost
+    # modeling"): an ATR-only stop has no relationship to the actual cost of
+    # the trade. Checked against real spread on 822 live-fired signals: on
+    # 78% of them, spread alone exceeded the entire stop-loss risk — meaning
+    # most trades were unprofitable before price moved a single tick,
+    # regardless of signal quality. If the ATR-based stop is tighter than
+    # MIN_RISK_SPREAD_MULTIPLE x spread, widen sl_near up to that floor and
+    # scale every other bound (sl_far, tp_near, tp_far) by the same factor —
+    # preserving the intended R:R exactly rather than just widening the stop
+    # and leaving the target where it was (which would quietly make the
+    # trade's real R:R worse right when it needs it to hold).
+    if direction != "no_trade":
+        spread = get_spread(pair)
+        min_sl_near = MIN_RISK_SPREAD_MULTIPLE * spread
+        if sl_near > 0 and min_sl_near > sl_near:
+            scale = min_sl_near / sl_near
+            sl_near, sl_far = sl_near * scale, sl_far * scale
+            tp_near, tp_far = tp_near * scale, tp_far * scale
 
     if direction == "long":
         sl_range = (entry - sl_far, entry - sl_near)
