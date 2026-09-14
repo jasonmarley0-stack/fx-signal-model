@@ -1,35 +1,90 @@
 [
   {
-    "id": 429,
+    "id": 437,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Asia-Pacific market news: Oil holds gap higher",
-    "description": "The heads of US frontier AI labs are terrified of China Anthropic, OpenAI and Google held talks on AI safety body, report says Ripple's RLUSD supply hits fresh all-time high as XRP price lags behind PBOC sets USD/ CNY reference rate for today at 6.7698 (vs. estimate at 6.7083) CICC warns $100 oil could bring demand destruction into view Musk highly confident SpaceX will launch Nvidia AI computers into orbit in 2027 Carney explores Canada as EU associate member, WSJ reports Trump wants future Iran talks focused on nuclear file, not Hormuz, sources say NZ services sector expands for third month ",
-    "published_at": "2026-09-14T03:56:12",
-    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-oil-holds-gap-higher/"
+    "title": "India's inflation rises further to 4.82% in August, reinforcing rate hike expectations",
+    "description": "India's retail inflation accelerated further in August, with headline CPI inflation rising to 4.82% y/y, up from 4.45% in July. Food inflation was even stronger, with the Consumer Food Price Index rising 5.95% from a year earlier. Rural inflation stood at 5.23%, while urban inflation was 4.31%. The August reading puts headline inflation further above the Reserve Bank of India's 4% medium-term target, although it remains comfortably within the central bank's 2%-6% tolerance band. The bigger concern for the RBI is the composition of the increase. Food inflation has accelerated sharply, while the",
+    "published_at": "2026-09-14T10:53:24",
+    "source_url": "https://investinglive.com/news/india-s-inflation-rises-further-to-4-82-in-august-reinforcing-rate-hike-expectations/"
   },
   {
-    "id": 428,
+    "id": 436,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "What are the main events for today?",
-    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than the Swiss PPI report. The data won't change anything for the SNB, so the market reaction will likely be muted.&nbsp; The focus is currently on oil prices, with WTI and Brent both trading above the $100 level amid disruptions in the Strait of Hormuz, Bab-el Mandeb and increased supply concerns after Saudi Arabia shut a key oil pipeline following drone attacks.&nbsp; Looking ahead, the developments in the Middle East and the FOMC rate decision on Wednesday are going to be key for markets.&nbsp; AMERICAN SESSION",
-    "published_at": "2026-09-14T06:26:33",
-    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-41/"
+    "title": "How have interest rate expectations changed after last week's events?",
+    "description": "Rate hikes by year-end BoE: 51 bps (57% probability of no change at the next meeting) 2027: 111 bps Fed: 50 bps (87% probability of rate hike at the next meeting) 2027: 91 bps BoJ: 43 bps (76% probability of rate hike at the next meeting) 2027: 111 bps RBA: 38 bps (85% probability of rate hike at the next meeting) 2027: 61 bps BoC: 38 bps (58% probability of rate hike at the next meeting) 2027: 132 bps ECB: 37 bps (62% probability of rate hike at the next meeting) 2027: 82 bps RBNZ: 35 bps (54% probability of rate hike at the next meeting) 2027: 119 bps SNB: 13 bps (88% probability of no chang",
+    "published_at": "2026-09-14T11:29:43",
+    "source_url": "https://investinglive.com/news/how-have-interest-rate-expectations-changed-after-last-week-s-events/"
   },
   {
-    "id": 427,
+    "id": 435,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive European markets wrap: Oil surges, Fed rate hike bets rise as AI fears hit stocks",
+    "description": "Headlines: Fed rate hike bets surge as Wall Street analysts converge on September move Oil prices climb again as Hormuz disruption and Saudi pipeline attack deepen inflation fears Gold tests the major $4,300 support again, as rate hike bets and rising oil threaten a breakdown Gold price risks deeper drop on break below $4,300 ahead of Fed decision How have interest rate expectations changed after last week's events? US stock futures slide as AI worries hit tech stocks ahead of Fed decision Bitcoin at risk of a \"sell the fact\" reaction on the CLARITY Act vote as FOMC decision looms Why Bitcoin ",
+    "published_at": "2026-09-14T11:55:03",
+    "source_url": "https://investinglive.com/news/investinglive-european-markets-wrap-oil-surges-fed-rate-hike-bets-rise-as-ai-fears-hit-stocks/"
+  },
+  {
+    "id": 434,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Canada August CPI 3.0% y/y vs 3.0% expected",
+    "description": "Prior was 3.0% CPY -0.1% m/m vs 0.0% expected BOC core 2.4% y/y vs 2.3%&nbsp; BOC core +0.1% m/m vs 0.2% CPI median 2.0% vs 2.0% expected (prior was 2.0%) CPI trim 1.9% vs 1.9% expected (prior was 1.9%) CPI common 2.6% vs 2.7% prior The numbers are generally in line with estimates but a touch lighter at the margin. The problem right now is that gasoline prices have risen materially in September and that's despite being supressed by a 10c/litre federal gasoline tax holiday that's been extended through year end. The Canadian dollar&nbsp;dropped on the release as the market sees a diminished chan",
+    "published_at": "2026-09-14T12:30:48",
+    "source_url": "https://investinglive.com/news/canada-august-cpi-y-y-vs-3-0-expected/"
+  },
+  {
+    "id": 433,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Saudi east-west pipeline will be out of service for 3-5 weeks - report",
+    "description": "The big question in energy markets this week is how long it will take to restore flows through the Saudi east-west pipeline. For background, this was the pipeline that was put into use at the start of the war and it directs oil across the country and to the Red Sea. However on Thursday morning, attacks -- purportedly from Iraq -- damaged a 100km long section of the pipe in several places. The image above is a pumping station that appears to be completely destroyed and there's some talk there were eight separate hits. AP is out with a report saying it will take 3-5 weeks to restore flows and ot",
+    "published_at": "2026-09-14T12:58:06",
+    "source_url": "https://investinglive.com/news/saudi-east-west-pipeline-will-be-out-of-service-for-3-5-weeks-report/"
+  },
+  {
+    "id": 432,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Trump: The only guradrail that AI needs is a high IQ President",
+    "description": "Trump won't be swayed by talk of AI doom. He writes: The only control or \u201cguardrails\u201d that AI needs is a STRONG AND SMART (High IQ!) PRESIDENT, and the U.S.A. has that, in spades! The Trump Administration has stopped AI \u201cpeople\u201d from doing bad, or potentially bad, \u201cthings,\u201c like Dario (Anthropic!), who is now pretending to be a \u201cperfect little angel\u201d - and we will continue to do so! We already have tremendous CRIMINAL and REGULATORY power over these companies! There is a SICK conspiracy going on against AI and Data Centers, and the only one that is happy about it is China. WHOEVER WINS AI, WIN",
+    "published_at": "2026-09-14T14:01:39",
+    "source_url": "https://investinglive.com/news/trump-the-only-guradrail-that-ai-needs-is-a-high-iq-president/"
+  },
+  {
+    "id": 431,
     "status": "NORMALISED",
     "was_matched": true,
     "company_id": 3,
     "source_id": 2,
-    "title": "Isabel Schnabel: Macroeconomic, fiscal and financial stability in a shock-prone world",
+    "title": "Piero Cipollone: The future of euro cash: trusted today, designed for tomorrow",
     "description": "",
-    "published_at": "2026-09-14T09:15:00",
-    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260914~0ffd556bc8.en.pdf"
+    "published_at": "2026-09-14T13:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260914_1~91d3436449.en.html"
+  },
+  {
+    "id": 430,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Christine Lagarde: A new age of capital: growth, sovereignty and AI",
+    "description": "",
+    "published_at": "2026-09-14T15:15:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260914_2~a3f0efbee4.en.html"
   }
 ]
