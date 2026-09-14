@@ -1,1 +1,35 @@
-[]
+[
+  {
+    "id": 426,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "NZ services sector expands for third month as PSI rises to 51.2",
+    "description": "The data adds to a modest but building case that New Zealand's services sector is stabilising, which matters for the Reserve Bank of New Zealand's read on domestic demand heading into upcoming policy decisions. A third consecutive month of expansion, with the three month moving average also climbing, gives some support to the view that the earlier contraction has passed, though the breadth of the improvement remains limited given three of the five sub-indices are still below the 50 threshold. Soft employment and activity sub-indices, alongside a majority of respondent comments turning negative",
+    "published_at": "2026-09-13T22:43:37",
+    "source_url": "https://investinglive.com/news/nz-services-sector-expands-for-third-month-as-psi-rises-to-51-2/"
+  },
+  {
+    "id": 425,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Carney explores Canada as EU associate member, WSJ reports",
+    "description": "This is a longer horizon structural story rather than an immediate market mover, but it speaks to the ongoing repricing of Canada's trade relationships since the tariff dispute with Washington escalated. A deeper EU tie-up, if it advances, would represent a meaningful diversification of Canadian trade exposure away from the United States across goods, services, energy, and critical minerals, which could support the loonie over time by reducing dependence on a single, currently strained trading relationship. That said, the practical hurdles are significant. The EU has historically been inflexib",
+    "published_at": "2026-09-13T23:40:53",
+    "source_url": "https://investinglive.com/news/carney-explores-canada-as-eu-associate-member-wsj-reports/"
+  },
+  {
+    "id": 424,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Anthropic, OpenAI and Google held talks on AI safety body, report says",
+    "description": "The report adds substance behind the wave of public safety commentary from AI industry leaders that surfaced over the weekend, suggesting the coordination is more advanced than a single essay or public statement implied. For markets, a credible move toward shared testing and auditing standards could be read two ways. On one hand, standardised pre-release safety reviews could reduce regulatory tail risk for the largest labs by getting ahead of government intervention, a dynamic that has previously supported valuations across the sector. On the other, several commentators have flagged that compl",
+    "published_at": "2026-09-14T02:21:11",
+    "source_url": "https://investinglive.com/news/anthropic-openai-and-google-held-talks-on-ai-safety-body-report-says/"
+  }
+]
