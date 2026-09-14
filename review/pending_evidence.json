@@ -1,35 +1,35 @@
 [
   {
-    "id": 426,
+    "id": 429,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "NZ services sector expands for third month as PSI rises to 51.2",
-    "description": "The data adds to a modest but building case that New Zealand's services sector is stabilising, which matters for the Reserve Bank of New Zealand's read on domestic demand heading into upcoming policy decisions. A third consecutive month of expansion, with the three month moving average also climbing, gives some support to the view that the earlier contraction has passed, though the breadth of the improvement remains limited given three of the five sub-indices are still below the 50 threshold. Soft employment and activity sub-indices, alongside a majority of respondent comments turning negative",
-    "published_at": "2026-09-13T22:43:37",
-    "source_url": "https://investinglive.com/news/nz-services-sector-expands-for-third-month-as-psi-rises-to-51-2/"
+    "title": "investingLive Asia-Pacific market news: Oil holds gap higher",
+    "description": "The heads of US frontier AI labs are terrified of China Anthropic, OpenAI and Google held talks on AI safety body, report says Ripple's RLUSD supply hits fresh all-time high as XRP price lags behind PBOC sets USD/ CNY reference rate for today at 6.7698 (vs. estimate at 6.7083) CICC warns $100 oil could bring demand destruction into view Musk highly confident SpaceX will launch Nvidia AI computers into orbit in 2027 Carney explores Canada as EU associate member, WSJ reports Trump wants future Iran talks focused on nuclear file, not Hormuz, sources say NZ services sector expands for third month ",
+    "published_at": "2026-09-14T03:56:12",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-oil-holds-gap-higher/"
   },
   {
-    "id": 425,
+    "id": 428,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Carney explores Canada as EU associate member, WSJ reports",
-    "description": "This is a longer horizon structural story rather than an immediate market mover, but it speaks to the ongoing repricing of Canada's trade relationships since the tariff dispute with Washington escalated. A deeper EU tie-up, if it advances, would represent a meaningful diversification of Canadian trade exposure away from the United States across goods, services, energy, and critical minerals, which could support the loonie over time by reducing dependence on a single, currently strained trading relationship. That said, the practical hurdles are significant. The EU has historically been inflexib",
-    "published_at": "2026-09-13T23:40:53",
-    "source_url": "https://investinglive.com/news/carney-explores-canada-as-eu-associate-member-wsj-reports/"
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than the Swiss PPI report. The data won't change anything for the SNB, so the market reaction will likely be muted.&nbsp; The focus is currently on oil prices, with WTI and Brent both trading above the $100 level amid disruptions in the Strait of Hormuz, Bab-el Mandeb and increased supply concerns after Saudi Arabia shut a key oil pipeline following drone attacks.&nbsp; Looking ahead, the developments in the Middle East and the FOMC rate decision on Wednesday are going to be key for markets.&nbsp; AMERICAN SESSION",
+    "published_at": "2026-09-14T06:26:33",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-41/"
   },
   {
-    "id": 424,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Anthropic, OpenAI and Google held talks on AI safety body, report says",
-    "description": "The report adds substance behind the wave of public safety commentary from AI industry leaders that surfaced over the weekend, suggesting the coordination is more advanced than a single essay or public statement implied. For markets, a credible move toward shared testing and auditing standards could be read two ways. On one hand, standardised pre-release safety reviews could reduce regulatory tail risk for the largest labs by getting ahead of government intervention, a dynamic that has previously supported valuations across the sector. On the other, several commentators have flagged that compl",
-    "published_at": "2026-09-14T02:21:11",
-    "source_url": "https://investinglive.com/news/anthropic-openai-and-google-held-talks-on-ai-safety-body-report-says/"
+    "id": 427,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Isabel Schnabel: Macroeconomic, fiscal and financial stability in a shock-prone world",
+    "description": "",
+    "published_at": "2026-09-14T09:15:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260914~0ffd556bc8.en.pdf"
   }
 ]
