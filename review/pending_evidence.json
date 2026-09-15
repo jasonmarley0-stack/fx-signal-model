@@ -1,35 +1,68 @@
 [
   {
-    "id": 447,
+    "id": 453,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "China home prices keep falling in August as property slump drags on",
-    "description": "The modest easing in the annual rate of decline, from a 3.2% drop in July to 3.0% in August, is unlikely to shift the broader narrative that China's property correction remains a persistent drag on domestic demand rather than a market approaching stabilisation. With real estate historically representing a large share of Chinese household wealth, continued price weakness keeps consumer sentiment and discretionary spending under pressure, reinforcing the deflationary dynamics policymakers have been trying to counter through targeted credit and easing measures. The divergence between stronger tie",
-    "published_at": "2026-09-15T01:38:16",
-    "source_url": "https://investinglive.com/news/china-home-prices-keep-falling-in-august-as-property-slump-drags-on/"
+    "title": "investingLive Asia-Pacific market news: Oil holds near highs",
+    "description": "Nikkei rebounds as Kospi slips, AI capex jitters split Asian markets China's factories outperform as consumption and investment lag behind BoE decision preview: Goldman sees hold, but watches for hawkish hints China August retail sales +0.4% y/y (expected +0.6%) Korea and Taiwan back in favour as BlackRock lifts emerging markets to overweight China home prices keep falling in August as property slump drags on Democrats split over Clarity Act as Senate vote nears PBOC sets USD/ CNY central rate at 6.7670 (vs. estimate at 6.7051) Why a Fed rate hike can't fix oil and diesel prices, but may still",
+    "published_at": "2026-09-15T03:43:41",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-oil-holds-near-highs-0/"
   },
   {
-    "id": 446,
+    "id": 452,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "China August retail sales +0.4% y/y (expected +0.6%)",
-    "description": "I'll be back with details and implications soon. Fixed Asset Investment (YTD) (YoY) (Aug) -7.2% expected -7.2%, prior&nbsp; -6.7% Retail Sales (YoY) (Aug) 0.4% expected 0.8%, prior&nbsp;0.6% Industrial Production (YoY) (Aug) 5.2% expected 4.8%, prior 4.5% This article was written by Eamonn Sheridan at investinglive.com.",
-    "published_at": "2026-09-15T02:02:33",
-    "source_url": "https://investinglive.com/news/china-august-retail-sales-0-4-y-y-expected-0-6/"
+    "title": "10-year Treasury yields hit 5.02% as bond market sends a warning ahead of the Fed",
+    "description": "If there's one thing to note from the way we are starting off the week, it is that&nbsp;the bond market isn't waiting around for the Fed. 10-year Treasury yields have now pushed up to 5.02%, continuing what has been a relentless climb in recent weeks on the back of stubborn inflation, higher oil prices, and the prospect of a more hawkish Fed. We're now bordering on breaking the highs last seen in October 2023 with a firmer push above 5.02% set to take yields&nbsp;into territory not properly explored since before the global financial crisis. We have already seen the kind of damage that it can d",
+    "published_at": "2026-09-15T05:22:54",
+    "source_url": "https://investinglive.com/news/10-year-treasury-yields-hit-5-02-as-bond-market-sends-a-warning-ahead-of-the-fed/"
   },
   {
-    "id": 445,
+    "id": 451,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "China's factories outperform as consumption and investment lag behind",
-    "description": "The data reinforces a now familiar pattern in China's recovery: export-facing industry holding up while domestic demand and investment lag, a mix that tends to support producer-heavy sectors and China-exposed exporters more than domestically focused consumer names. The investment miss, alongside retail sales undershooting forecasts, raises the likelihood of additional stimulus measures being unveiled before October's Golden Week, which markets are likely to watch for as the next catalyst. The narrowing pace of the annual home price decline, and the tier-one city improvement in particular, offe",
-    "published_at": "2026-09-15T02:54:10",
-    "source_url": "https://investinglive.com/news/china-s-factories-outperform-as-consumption-and-investment-lag-behind/"
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, the main highlight was the UK employment report. The data was basically in-line with expectations across the board and didn't change much in terms of BoE interest rate expectations. As a reminder, the market is pricing in 50 bps of tightening by year-end, with the first rate hike coming in November.&nbsp; Looking ahead, we don't have much on the agenda other than a few low-tier releases like French and Spanish final CPI data, the Italian and Eurozone trade balance and the German ZEW. None of the data is going to change anything for the ECB, so the mark",
+    "published_at": "2026-09-15T06:20:14",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-42/"
+  },
+  {
+    "id": 450,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "UK labour market cools further as payrolls fall and wage growth slows",
+    "description": "The key details: July ILO unemployment rate 4.9% vs 5.0% expected Prior 4.9% July employment change 67k vs 67k expected Prior 83k July average weekly earnings +3.9% vs +3.9% 3m/y expected Prior +4.1%; revised to +4.2% July average weekly earnings (ex bonus) +3.5% vs +3.5% 3m/y expected Prior +3.5% August payrolls change -26k Prior -13k; revised to -19k The UK labour market continues to show signs of cooling, although there isn't anything here that dramatically changes the picture for the BOE ahead of their Thursday decision. The jobless rate remains unchanged from the previous quarter while th",
+    "published_at": "2026-09-15T06:19:26",
+    "source_url": "https://investinglive.com/news/uk-labour-market-cools-further-as-payrolls-fall-and-wage-growth-slows/"
+  },
+  {
+    "id": 449,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "German investor morale continues to rise in September but less than expected - ZEW survey",
+    "description": "Germany September ZEW survey current conditions -47.1 vs -52.1 expected Prior -61.1 Germany September ZEW survey economic sentiment 34.7 vs 40.0 expected Prior 34.2 The breakdownThe uptick in the current conditions index is encouraging, as it is a beat on estimates. However, the economic sentiment indicator only showed a mild improvement compared to August. ZEW notes that this suggests that experts are cautiously optimistic about the economic recovery but persistently high energy prices and uncertainty from geopolitical tensions are still placing a burden on the outlook. What does the data mea",
+    "published_at": "2026-09-15T09:08:56",
+    "source_url": "https://investinglive.com/news/german-investor-morale-continues-to-rise-in-september-but-less-than-expected-zew-survey/"
+  },
+  {
+    "id": 448,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Minutes of the Securities Lending Committee meeting \u2013 March 2026",
+    "description": "The Securities Lending Committee is a forum for market participants and authorities to discuss the UK securities lending market.",
+    "published_at": "2026-09-15T08:09:58",
+    "source_url": "https://www.bankofengland.co.uk/minutes/2026/march/minutes-of-the-securities-lending-committee-meeting-march-2026"
   }
 ]
