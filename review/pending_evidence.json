@@ -1,24 +1,68 @@
 [
   {
-    "id": 464,
+    "id": 470,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Japan trade deficit widens as machinery orders unexpectedly fall",
-    "description": "The soft machinery orders print undercuts the case for near term Bank of Japan tightening, as a weaker leading capex signal suggests the investment side of the economy may be losing steam just as the BoJ weighs its next move on policy normalisation. I suspect, along with most everyone else that a rate hike this week is baked in: Preview: Goldman Sachs sees yen and Nikkei risk building on faster BoJ rate path That argues for a more cautious central bank stance, potentially delaying any further rate hike, perhaps in December. At the same time, the wider than expected trade deficit, driven by imp",
-    "published_at": "2026-09-15T23:59:05",
-    "source_url": "https://investinglive.com/news/japan-trade-deficit-widens-as-machinery-orders-unexpectedly-fall/"
+    "title": "investingLive Asia-Pacific market news: Oil steady, crypto weighed",
+    "description": "OpenAI in talks for funding round above $1.2 trillion valuation Ethereum retests broken resistance near $2,470 as exchange supply keeps shrinking Triple good news for Solana, sell the fact for SOL price PBOC's Pan signals shift away from China loan growth targets, looks to stabilise debt Staking and ETFs drain ether from exchanges, price impact unproven Australia: Westpac leading index signals softer but improving growth as RBA holds firm PBOC sets USD/ CNY central rate at 6.7628 (vs. estimate at 6.7148) Nikkei edged higher at open, then down. Kospi slips, as region awaits Fed decision Japan t",
+    "published_at": "2026-09-16T03:27:16",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-oil-steady-crypto-weighed/"
   },
   {
-    "id": 463,
+    "id": 469,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Australia: Westpac leading index signals softer but improving growth as RBA holds firm",
-    "description": "The improved but still below-trend reading gives the Reserve Bank some room to hold at its September meeting without abandoning its tightening bias, consistent with Westpac's own call for a very hawkish hold ahead of a further rate rise later this year. For AUD, the report's signal cuts both ways: firmer momentum and a resilient June quarter support the case for additional hikes, typically supportive for the currency on rate differential grounds, while the report's own caution that labour markets, financial markets, commodity prices and consumer sentiment remain soft leaves room for disappoint",
-    "published_at": "2026-09-16T00:52:18",
-    "source_url": "https://investinglive.com/news/australia-westpac-leading-index-signals-softer-but-improving-growth-as-rba-holds-firm/"
+    "title": "UK CPI preview: Inflation test lands just before the BOE rate decision",
+    "description": "The UK inflation report for August today is going to be the main highlight in terms of economic data releases in the European session later today. With it coming just a day before the BOE rate decision tomorrow, it is the last meaningful piece of the puzzle for policymakers before they cast their votes. To start off, let's see what the numbers have to say. Headline annual inflation is expected to rise to around 3.1% in August, up from 2.9% previously. That is roughly&nbsp;three tenths above the BOE's own forecast. Just on that alone, it sounds rather uncomfortable. However, I wouldn't get too ",
+    "published_at": "2026-09-16T04:12:38",
+    "source_url": "https://investinglive.com/news/uk-cpi-preview-inflation-test-lands-just-before-the-boe-rate-decision/"
+  },
+  {
+    "id": 468,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "UK headline inflation tops 3% again in August, but core prices remain steady",
+    "description": "UK August CPI +3.1% vs +3.1% y/y expected Prior +2.9% UK August core CPI +2.6% vs +2.6% y/y expected Prior +2.6% The main readings are all within estimates, with UK headline inflation seen picking up again in August - jumping above 3% for the first time since March. Higher energy prices was the biggest contributor, amid an increase in prices for diesel and petrol. For some context, diesel prices rose by 14.2 pence per litre in August 2026, compared with a rise of 0.8 pence per litre in August 2025. Meanwhile, the average price of petrol rose by 9.1 pence per litre between July and August 2026,",
+    "published_at": "2026-09-16T06:00:12",
+    "source_url": "https://investinglive.com/news/uk-headline-inflation-tops-3-again-in-august-but-core-prices-remain-steady/"
+  },
+  {
+    "id": 467,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, the main highlight was the UK CPI report . The data came mostly in line with expectations, with a slight miss on Services CPI measure. For now, the BoE has enough reasons to keep rates steady and maintain a tightening bias given the soft employment data and limited inflation spillover. The market is pricing in around 80% chance of no change in rates at tomorrow's meeting and a total of 45 bps of tigthening by year-end. The market is still betting on rate hikes due to elevated energy prices.&nbsp; AMERICAN SESSION In the American session, we have the US",
+    "published_at": "2026-09-16T06:30:11",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-43/"
+  },
+  {
+    "id": 466,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Canada could become the first 'associate member' of the EU, says EU chief von der Leyen",
+    "description": "This is a rather bold proposal coming from European Commission president, Ursula von der Leyen, in her&nbsp;her annual state of the European Union address in Strasbourg. She has opened the door&nbsp;for Canada to become the first \"associate member\" of the EU, backing Canadian prime minister, Mark Carney's pitch for a more \"unique security and economic alliance\" with Europe. \"Dear Mark, I said we must urgently reimagine our partnerships so I would like to work with you on opening the door for Canada to being the first associate member of the European Union. In short, we want to bring the relati",
+    "published_at": "2026-09-16T08:45:38",
+    "source_url": "https://investinglive.com/news/canada-could-become-the-first-associate-member-of-the-eu-says-eu-chief-von-der-leyen/"
+  },
+  {
+    "id": 465,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "ECB wage tracker at 2.7% in H1 2027, pointing to a modest uptick in negotiated wage growth",
+    "description": "",
+    "published_at": "2026-09-16T08:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr260916~7bc58ebef4.en.html"
   }
 ]
