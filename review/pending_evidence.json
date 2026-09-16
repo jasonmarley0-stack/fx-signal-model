@@ -1,68 +1,35 @@
 [
   {
-    "id": 459,
+    "id": 462,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive European news wrap: Crypto markets sink ahead of Clarity Act vote",
-    "description": "Headlines: USD/INR erases all RBI intervention gains as surging oil prices weigh on the Indian Rupee Oil remains supported as supply risks intensify and diplomatic progress stalls Bill Lipschutz's scale trading strategy: Why smart traders don't go all in at once Managing Currency Exposure With OANDA\u2019s Forex Trading Platform Zcash outperformed most cryptocurrencies following ETF launch, now focus shifts to Clarity Act and FOMC German investor morale continues to rise in September but less than expected - ZEW survey USD/JPY breaks above 155 as Treasury yields hit highest since 2007 EUR/USD falls",
-    "published_at": "2026-09-15T11:35:13",
-    "source_url": "https://investinglive.com/news/investinglive-european-news-wrap-crypto-markets-sink-ahead-of-clarity-act-vote/"
+    "title": "investingLive Americas market news wrap: Rising oil overshadows the Fed decision",
+    "description": "Explosions heard in Saudi Arabia Canadians continued to spend through August - RBC spending tracker shows US 20-year bond auction tails by 2 bps Bessent: For a nominal amount, the US Treasury was able to signal support for Japanese policies Senate leader Thune: I am open to considering an export ban on diesel Oil jumps after Libya says may declare force majure as protests suspend production Carney: Canada to allow immediate expensing for most new capital investment Canada wholesale trade for the month of July 0.3% versus -0.5% estimate September US Empire Fed manufacturing +7.6 vs +15.0 expect",
+    "published_at": "2026-09-15T20:24:49",
+    "source_url": "https://investinglive.com/news/investinglive-americas-market-news-wrap-rising-oil-overshadows-the-fed-decision/"
   },
   {
-    "id": 458,
+    "id": 461,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US ADP weekly employment estimate rises to 16,250 vs 12,000 expected",
-    "description": "U.S. ADP NER Pulse for the four weeks ending August 29: Weekly private employment change: +16,250 vs +12,000 expected. Prior +12,250 Four-week moving average, seasonally adjusted U.S. private employers added an average of 16,250 jobs per week during the four weeks ending August 29, according to ADP Research . The result was stronger than the 12,000 estimate and increased from 12,250 previously. ADP said hiring increased for the second consecutive week, although the preliminary figures may change as additional data becomes available. Quick analysis: The report points to some improvement in priv",
-    "published_at": "2026-09-15T12:28:28",
-    "source_url": "https://investinglive.com/news/us-adp-weekly-employment-estimate-rises-to-16-250-vs-12-000-expected/"
+    "title": "Economic and event calendar in Asia Wednesday, September 16, 2026. Busy, bit non-impactful.",
+    "description": "I think we can all agree it's a wating day for the FOMC. The Fed battleground is no longer Wednesday's meeting, but the ones afterwards Calendar for the session ahead: This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-15T20:42:41",
+    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-wednesday-september-16-2026-busy-bit-non-impactful/"
   },
   {
-    "id": 457,
+    "id": 460,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "September US Empire Fed manufacturing +7.6 vs +15.0 expected",
-    "description": "Prior was +20.6 New orders +2.0 vs +17.3 prior Prices paid +63.1 vs +58.6 prior Employment +10.6 vs +9.3 prior Six monthis index +29.0 vs +32.1 prior This report isn't a big market mover but it lands on the morning of the first day of the Fed meeting so it will be notable, particularly for the doves. There has been so much of this back-and-forth with economic data that it's easy to imagine either side digging in. The market is now 91% priced for a rate hike so it would be an incredible surprise if they went the other way but holdout doves just got a bit of ammunition. For the hawks, prices pai",
-    "published_at": "2026-09-15T12:31:22",
-    "source_url": "https://investinglive.com/news/september-us-empire-fed-manufacturing-7-6-vs-15-0-expected/"
-  },
-  {
-    "id": 456,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Canada wholesale trade for the month of July 0.3% versus -0.5% estimate",
-    "description": "Canada\u2019s July wholesale trade: Wholesale sales MoM: +0.3% vs -0.5% expected. Prior +2.8% Wholesale sales YoY: +7.9% Wholesale sales volumes MoM: -0.6% Wholesale inventories: Essentially unchanged at C$140.6 billion Inventory-to-sales ratio: 1.51 vs 1.52 in June Canadian wholesale sales increased 0.3% to C$93.1 billion in July, according to Statistics Canada . That was stronger than the 0.5% decline expected, although growth slowed sharply from June\u2019s 2.8% increase. Sales increased in three of seven subsectors. Building materials and supplies led the gains, rising 3.5%, helped by a 10.3% increa",
-    "published_at": "2026-09-15T12:34:38",
-    "source_url": "https://investinglive.com/news/canada-wholesale-trade-for-the-month-of-july-0-3-versus-0-5-estimate/"
-  },
-  {
-    "id": 455,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Carney: Canada to allow immediate expensing for most new capital investment",
-    "description": "The Canadain dollar is down for the fifth consecutive day as USD rises across the board on an expected Fed rate hike. Below the surface, Prime Minister Mark Carney is trying to lay the groundwork for an investment boom. He's hosting an investment summit in Canada this week and that's included a series of announcements on spending, including one on a data centre yesterday. Today's announcement is a nice carrot for companies thinking of putting money to work and mirrors what the Trump administration did in the Big, Beautiful Bill. Allowing immediate expensing on a longer-term investment gets the",
-    "published_at": "2026-09-15T13:29:46",
-    "source_url": "https://investinglive.com/news/carney-canada-to-allow-immediate-expensing-for-most-new-capital-investment/"
-  },
-  {
-    "id": 454,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Statistical Notice 2026/08 - Changes to the criteria for monthly form BT reporting",
-    "description": "Statistical Notices update the definitions and guidance contained in the Banking Statistics Yellow Folder",
-    "published_at": "2026-09-15T09:21:31",
-    "source_url": "https://www.bankofengland.co.uk/statistics/notice/2026/statistical-notice-2026-08"
+    "title": "Washington seeks cap on foreign parts in AI chips and servers",
+    "description": "The core of the US proposal is a hard cap on how much of an AI server, chip or related piece of hardware can be built from parts sourced outside North America, which would directly hit the assembly model many firms have used to route Chinese made components through Mexico. That threshold, once set, would raise costs and complexity for manufacturers who have shifted AI hardware production south of the border partly to keep goods moving into the US with lower tariff exposure than Chinese equivalents face. Chipmakers and contract manufacturers with cross border supply chains are the most exposed,",
+    "published_at": "2026-09-15T21:00:48",
+    "source_url": "https://investinglive.com/news/washington-seeks-cap-on-foreign-parts-in-ai-chips-and-servers/"
   }
 ]
