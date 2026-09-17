@@ -1,57 +1,24 @@
 [
   {
-    "id": 483,
+    "id": 485,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Americas market news wrap: Fed hikes rates for the first time in three years",
-    "description": "Fed's Warsh: The economy appears to be strengthening Fed dot plot signals another 2026 rate hike as growth strengthens and inflation remains elevated The full statement from the Federal Reserve Board for September 2026 FOMC rate decision: Fed hikes for the first time in three years BOC summary of deliberations: Governing Council agreed near-term inflation likely to stay elevated Atlanta Fed GDPNow estimate for Q3 growth jumps to 5.1% from 4.4% US July business inventories +0.8% vs +0.3% expected NAHB Housing market index for September 32 vs 34 estimate US August advance retail sales +1.2% vs +",
-    "published_at": "2026-09-16T19:37:34",
-    "source_url": "https://investinglive.com/news/investinglive-americas-market-news-wrap-fed-hikes-rates-for-the-first-time-in-three-years/"
+    "title": "Xi-Trump summit set for September 24, but Taiwan arms sale threat looms over it",
+    "description": "A cancelled or downgraded summit would likely revive the trade friction narrative that had eased since the two leaders' May meeting in Beijing, with implications for sectors tied to that fragile detente, including agricultural exporters awaiting the Chinese soybean and grain purchases promised earlier this year, and aerospace names exposed to the stalled Boeing order. Conversely, a summit that proceeds without a Taiwan flashpoint would likely be read as confirmation that both sides still prefer managed stability over confrontation, even without major new agreements. Given expectations are alre",
+    "published_at": "2026-09-16T22:41:47",
+    "source_url": "https://investinglive.com/news/xi-trump-summit-set-for-september-24-but-taiwan-arms-sale-threat-looms-over-it/"
   },
   {
-    "id": 482,
+    "id": 484,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Economic and event calendar in Asia Thursday, September 17, 2026. FOMC done, moving on!",
-    "description": "You know the people who think they are cool 'cause they have contrarian \"hot takes\" (after the event, of course ;-) )? Well, here's my effort: This is a boring week, nothing unexpected happened.&nbsp; Clarity bill failed - expected! FOMC hike - expected! NZ GDP the main info item today, I'll be back with a preview soon.&nbsp; This article was written by Eamonn Sheridan at investinglive.com.",
-    "published_at": "2026-09-16T20:12:16",
-    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-thursday-september-17-2026-fomc-done-moving-on/"
-  },
-  {
-    "id": 481,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "New Zealand Q2 GDP preview as RBNZ weighs timing of its next rate hike",
-    "description": "NZD/USD reaction is likely to hinge less on the more upbeat bank forecasts and more on how far the actual print diverges from the RBNZ's own flat, 0.0% q/q baseline, since that is the figure underpinning the central bank's current policy guidance. A print in line with or above that flat forecast would likely be read as mildly reassuring for the recovery without materially shifting rate expectations, given the RBNZ has already signalled room to defer its next OCR move until December. A downside miss would revive the softer growth narrative and add weight to that easing timeline. With more top t",
-    "published_at": "2026-09-16T20:20:02",
-    "source_url": "https://investinglive.com/news/new-zealand-q2-gdp-preview-as-rbnz-weighs-timing-of-its-next-rate-hike/"
-  },
-  {
-    "id": 480,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 2,
-    "source_id": 1,
-    "title": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
-    "description": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
-    "published_at": "2026-09-16T18:00:00",
-    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm"
-  },
-  {
-    "id": 479,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 2,
-    "source_id": 1,
-    "title": "Federal Reserve issues FOMC statement",
-    "description": "Federal Reserve issues FOMC statement",
-    "published_at": "2026-09-16T18:00:00",
-    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm"
+    "title": "New Zealand dollar pops a little on better than expected GDP data",
+    "description": "New Zealand Q2 GDP +2.6% y/y expected +2.3%, prior +1.7% +0.2% q/q expected +0.1%, prior +0.9% I'll have more to come on this separately ... added, here:&nbsp; NZ Q2 GDP beats forecasts at 2.6% y/y, easing RBNZ growth concerns This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-16T22:49:14",
+    "source_url": "https://investinglive.com/news/new-zealand-dollar-pops-a-little-on-better-than-expected-gdp-data/"
   }
 ]
