@@ -1,57 +1,145 @@
 [
   {
-    "id": 490,
+    "id": 503,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Asia-Pacific market news: Fed hike fallout dominates",
-    "description": "Nikkei, Kospi gain as expected Fed hike and lower oil ease market nerves TD forecast a Federal Reserve (FOMC) rate hike in October and January Goldman ditches one and done call, now sees a second Fed hike in October Saudi crude reroute via Oman pulls oil off four month highs PBOC sets USD/ CNY central rate at 6.7580 (vs. estimate at 6.7241) IMF says RBA may need more hikes as it urges Australia to cut spending NZ Q2 GDP beats forecasts at 2.6% y/y, easing RBNZ growth concerns OpenAI discloses six new AI safety incidents, unveils disclosure framework Trump to meet Gulf leaders on Iran war \"endg",
-    "published_at": "2026-09-17T03:36:34",
-    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-fed-hike-fallout-dominates/"
+    "title": "investingLive European session wrap: Markets rise as oil and bond yields ease after Fed, BOE holds rates",
+    "description": "Headlines: BOE leaves bank rate unchanged at 3.75% in 6-3 vote Long-end Treasury yields stay calm as markets digest the Fed Was the Fed really that hawkish or the market just overreacted? An objective overview Oil prices ease as Saudi Arabia projects to restore half pipeline capacity within days and Trump plans meeting with Gulf leaders S&amp;P 500 looks for a technical bounce as 100-day moving average holds after the Fed Gold (XAU/USD) analysis: The market overreacts to Fed decision; Middle East and data now in focus This XAUUSD gold analysis video shows where the gold trade is after the Fed ",
+    "published_at": "2026-09-17T12:03:35",
+    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-markets-rise-as-oil-and-bond-yields-ease-after-fed-boe-holds-rates/"
   },
   {
-    "id": 489,
+    "id": 502,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "What are the main events for today?",
-    "description": "EUROPEAN SESSION In the European session, we have the BoE rate decision. The central bank is expected to keep the Bank Rate unchanged at 3.75% with a 6-3 vote split, while keeping a tigthening bias. The BoE has enough reasons to stay put for now, following a soft UK employment report and benign inflation data. The market is pricing in 42 bps of tightening by year-end and a total of 102 bps by the end of 2027 (four rate hikes). AMERICAN SESSION In the American session, we get the latest US Jobless Claims figures. Initial Claims are expected at 206K vs 206K prior, while Continuing Claims are see",
-    "published_at": "2026-09-17T06:33:10",
-    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-44/"
+    "title": "China privately asks Iran to help rein in Houthis after Saudi appeal, sources say",
+    "description": "China has privately asked Iran to use its influence over Yemen's Houthis to help contain the group's military campaign, according to three Iranian sources familiar with the matter . The request reportedly followed an appeal from Saudi Arabia to Beijing as Houthi forces rapidly expanded their control along Yemen's Red Sea coast. According to the sources, Riyadh sought China's help after the Houthi offensive increased the threat to Saudi oil exports and shipping.&nbsp;China has publicly called for restraint, dialogue and the restoration of safe navigation. Its reported private message to Tehran ",
+    "published_at": "2026-09-17T12:10:29",
+    "source_url": "https://investinglive.com/news/china-privately-asks-iran-to-help-rein-in-houthis-after-saudi-appeal-sources-say/"
   },
   {
-    "id": 488,
+    "id": 501,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Trump reaches for tariffs again as EU opens door to Canada 'associate membership'",
-    "description": "After the EU talked about pulling Canada closer to its orbit yesterday, it was only a matter of time before we see Trump respond with his distaste and displeasure over the situation. And you can probably guess what his go-to response was to that. Yes, tariffs. Again. The EU opened the door for Canada to become the bloc's first-ever \"associate member\", in an attempt to deepen trade and security cooperation. While the proposal itself is still rather loosely defined, the political message is much easier to understand. And that is&nbsp;Europe and Canada wanting to work more closely together. Both ",
-    "published_at": "2026-09-17T06:42:23",
-    "source_url": "https://investinglive.com/news/trump-reaches-for-tariffs-again-as-eu-opens-door-to-canada-associate-membership/"
+    "title": "US September Philly Fed business index +37.8 vs +30.5 expected",
+    "description": "Prior was +47.4 Details: New orders 29.2 versus 30.1 last month Shipments 27.7 versus 27.7 last month Unfilled orders 20.4 versus 14.4 last month Delivery times 26.5 versus 3.7 last month Inventories -12.5 versus -3.7 last month Prices paid 48.6 versus 40.9 last month Prices received 31.3 versus 17.7 last month Number of employees 11.8 versus 27.9 last month Average employee workweek 18.0 versus 26.5 last month Six-months from now indicators: 6 month index 52.9 vs 73.6 last month Capex index 6-month forward 37.1 versus 48.2 last month New orders 62.3 versus 66.0 last month Shipments 61.1 versu",
+    "published_at": "2026-09-17T12:30:22",
+    "source_url": "https://investinglive.com/news/us-september-philly-fed-business-index-xx-vs-30-5-expected/"
   },
   {
-    "id": 487,
+    "id": 500,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Long-end Treasury yields stay calm as markets digest the Fed",
-    "description": "There are plenty of ways to pick apart the market reaction to the Fed, but I think the one that matters most right now is happening in the bond market. More specifically, at the long-end of the curve. 10-year Treasury yields are still hovering just below 5%&nbsp;after the Fed raised interest rates by 25 bps and delivered what was, on balance, a fairly hawkish message. It briefly dipped as low as around 4.94% overnight before moving back toward 5%, while 30-year yields have also backed away slightly from recent highs. Considering where markets were heading into the meeting, that is not a bad ou",
-    "published_at": "2026-09-17T07:16:37",
-    "source_url": "https://investinglive.com/news/long-end-treasury-yields-stay-calm-as-markets-digest-the-fed/"
+    "title": "US August housing starts 1.275m vs 1.309m expected",
+    "description": "Prior was 1.239m Prior starts were -12.4% Building permits 1.394m vs 1.410m expected Prior permits 1.433m US housing starts fell 2.6% and permits were lower by 2.7% as the pain in the US housing market continues. US 30-year mortgage rates are now about 7% so there's no help coming but with the Fed showing that it's serious about inflation, there might be some relief on the other side of the Iran war, if we ever get there. This article was written by Adam Button at investinglive.com.",
+    "published_at": "2026-09-17T12:30:23",
+    "source_url": "https://investinglive.com/news/us-august-housing-starts-vs-1-309m-expected/"
   },
   {
-    "id": 486,
+    "id": 499,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Euro area inflation nudges up in August to 3.2% as energy prices jump",
-    "description": "Eurozone August final CPI +3.2% vs +3.3% y/y expected Prior +2.9% Eurozone August final core CPI +2.4% vs +2.4% y/y expected Prior +2.5% The breakdownThe final estimate shows a mild revision lower to headline annual inflation, recording 3.2% in August. The monthly estimate still reaffirms a 0.4% move higher in consumer prices, pushing up the annual rate to the highest since May. Energy price inflation remains the main culprit here, with that rising 14.3% in August compared to 10.3% in July. Meanwhile, services inflation remains sticky at 3.0% in August but at least down from 3.3% in July. With",
-    "published_at": "2026-09-17T09:00:16",
-    "source_url": "https://investinglive.com/news/euro-area-inflation-nudges-up-in-august-to-3-2-as-energy-prices-jump/"
+    "title": "US initial jobless claims come in at 196K vs 208K estimate",
+    "description": "US jobless claims for the week ending September 12: Initial jobless claims: 196K vs 208K expected. Prior 206K Four-week average of initial claims: 203.25K vs 206K previously Continuing claims: 1.730M vs 1.780M expected. Prior revised to 1.769M from 1.774M Four-week average of continuing claims: 1.761M vs 1.778M previously Insured unemployment rate: 1.1% vs 1.2% previously US initial jobless claims fell by 10,000 to 196,000, coming in comfortably below the 208,000 estimate. The four-week moving average also declined, suggesting the improvement was not solely the result of volatility in one repo",
+    "published_at": "2026-09-17T12:30:21",
+    "source_url": "https://investinglive.com/news/us-initial-jobless-claims-come-in-at-196k-vs-208k-estimate/"
+  },
+  {
+    "id": 498,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Canada August producer price index +1.3% m/m vs +0.6% prior",
+    "description": "Prior was +0.6% Prices +13.5% y/y vs +12.4% prior Raw materials price index +3.1% m/m vs -2.1% prior Raw materials price index +22.8% y/y vs +18.2% prior Those are some real inflation pressures and help to explain why central banks are so worried. This article was written by Adam Button at investinglive.com.",
+    "published_at": "2026-09-17T12:30:12",
+    "source_url": "https://investinglive.com/news/canada-august-producer-price-index-vs-0-6-prior/"
+  },
+  {
+    "id": 497,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US August pending home sales +0.3% vs -0.6% expected",
+    "description": "Prior was -2.3% Index at vs 71.2 prior This article was written by Adam Button at investinglive.com.",
+    "published_at": "2026-09-17T14:01:38",
+    "source_url": "https://investinglive.com/news/us-august-pending-home-sales-0-3-vs-0-6-expected/"
+  },
+  {
+    "id": 496,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Asset Purchase Facility: Gilt Sales \u2013 Market Notice 17 September 2026",
+    "description": "This Market Notice outlines the Bank Executive\u2019s approach to implementing the Monetary Policy Committee\u2019s (MPC) decision to unwind the gilts held for monetary policy purposes in the Asset Purchase Facility (APF). As part of this, Bank APF auctions will be paused while the Bank reviews a model of selling gilts to the Government.",
+    "published_at": "2026-09-17T11:00:00",
+    "source_url": "https://www.bankofengland.co.uk/markets/market-notices/2026/asset-purchase-facility-gilt-sales-market-notice-17-september-2026"
+  },
+  {
+    "id": 495,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Bank rate maintained at 3.75% - September 2026 Monetary Policy Summary and Minutes",
+    "description": "The Bank of England\u2019s Monetary Policy Committee is responsible for making decisions about Bank Rate.",
+    "published_at": "2026-09-17T11:00:00",
+    "source_url": "https://www.bankofengland.co.uk/monetary-policy-summary-and-minutes/2026/september-2026"
+  },
+  {
+    "id": 494,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Exchange of letters between the Governor and the Chancellor regarding QT and the APF - September 2026",
+    "description": "Exchange of letters between the Governor and the Chancellor",
+    "published_at": "2026-09-17T11:00:00",
+    "source_url": "https://www.bankofengland.co.uk/letter/2026/exchange-of-letters-between-the-governor-and-the-chancellor-regarding-qt-and-the-apf"
+  },
+  {
+    "id": 493,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Exchange of letters between the Governor and the Chancellor regarding CPI Inflation - September 2026",
+    "description": "Exchange of letters between the Governor and the Chancellor",
+    "published_at": "2026-09-17T11:00:00",
+    "source_url": "https://www.bankofengland.co.uk/letter/2026/cpi-inflation-september-2026"
+  },
+  {
+    "id": 492,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Monetary Policy Committee dates for 2027",
+    "description": "2027 confirmed dates",
+    "published_at": "2026-09-17T13:30:00",
+    "source_url": "https://www.bankofengland.co.uk/news/2026/september/mpc-dates-for-2027"
+  },
+  {
+    "id": 491,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Transcript of the Governor's pooled broadcast interview given on 17 September 2026",
+    "description": "Following the publication of the Monetary Policy Summary and minutes of the Monetary Policy Committee meeting",
+    "published_at": "2026-09-17T13:30:00",
+    "source_url": "https://www.bankofengland.co.uk/news/2026/september/the-governor-interview-transcript-17-september-2026"
   }
 ]
