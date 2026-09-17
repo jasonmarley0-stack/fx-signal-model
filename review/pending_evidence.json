@@ -1,24 +1,57 @@
 [
   {
-    "id": 485,
+    "id": 490,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Xi-Trump summit set for September 24, but Taiwan arms sale threat looms over it",
-    "description": "A cancelled or downgraded summit would likely revive the trade friction narrative that had eased since the two leaders' May meeting in Beijing, with implications for sectors tied to that fragile detente, including agricultural exporters awaiting the Chinese soybean and grain purchases promised earlier this year, and aerospace names exposed to the stalled Boeing order. Conversely, a summit that proceeds without a Taiwan flashpoint would likely be read as confirmation that both sides still prefer managed stability over confrontation, even without major new agreements. Given expectations are alre",
-    "published_at": "2026-09-16T22:41:47",
-    "source_url": "https://investinglive.com/news/xi-trump-summit-set-for-september-24-but-taiwan-arms-sale-threat-looms-over-it/"
+    "title": "investingLive Asia-Pacific market news: Fed hike fallout dominates",
+    "description": "Nikkei, Kospi gain as expected Fed hike and lower oil ease market nerves TD forecast a Federal Reserve (FOMC) rate hike in October and January Goldman ditches one and done call, now sees a second Fed hike in October Saudi crude reroute via Oman pulls oil off four month highs PBOC sets USD/ CNY central rate at 6.7580 (vs. estimate at 6.7241) IMF says RBA may need more hikes as it urges Australia to cut spending NZ Q2 GDP beats forecasts at 2.6% y/y, easing RBNZ growth concerns OpenAI discloses six new AI safety incidents, unveils disclosure framework Trump to meet Gulf leaders on Iran war \"endg",
+    "published_at": "2026-09-17T03:36:34",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-fed-hike-fallout-dominates/"
   },
   {
-    "id": 484,
+    "id": 489,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "New Zealand dollar pops a little on better than expected GDP data",
-    "description": "New Zealand Q2 GDP +2.6% y/y expected +2.3%, prior +1.7% +0.2% q/q expected +0.1%, prior +0.9% I'll have more to come on this separately ... added, here:&nbsp; NZ Q2 GDP beats forecasts at 2.6% y/y, easing RBNZ growth concerns This article was written by Eamonn Sheridan at investinglive.com.",
-    "published_at": "2026-09-16T22:49:14",
-    "source_url": "https://investinglive.com/news/new-zealand-dollar-pops-a-little-on-better-than-expected-gdp-data/"
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we have the BoE rate decision. The central bank is expected to keep the Bank Rate unchanged at 3.75% with a 6-3 vote split, while keeping a tigthening bias. The BoE has enough reasons to stay put for now, following a soft UK employment report and benign inflation data. The market is pricing in 42 bps of tightening by year-end and a total of 102 bps by the end of 2027 (four rate hikes). AMERICAN SESSION In the American session, we get the latest US Jobless Claims figures. Initial Claims are expected at 206K vs 206K prior, while Continuing Claims are see",
+    "published_at": "2026-09-17T06:33:10",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-44/"
+  },
+  {
+    "id": 488,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Trump reaches for tariffs again as EU opens door to Canada 'associate membership'",
+    "description": "After the EU talked about pulling Canada closer to its orbit yesterday, it was only a matter of time before we see Trump respond with his distaste and displeasure over the situation. And you can probably guess what his go-to response was to that. Yes, tariffs. Again. The EU opened the door for Canada to become the bloc's first-ever \"associate member\", in an attempt to deepen trade and security cooperation. While the proposal itself is still rather loosely defined, the political message is much easier to understand. And that is&nbsp;Europe and Canada wanting to work more closely together. Both ",
+    "published_at": "2026-09-17T06:42:23",
+    "source_url": "https://investinglive.com/news/trump-reaches-for-tariffs-again-as-eu-opens-door-to-canada-associate-membership/"
+  },
+  {
+    "id": 487,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Long-end Treasury yields stay calm as markets digest the Fed",
+    "description": "There are plenty of ways to pick apart the market reaction to the Fed, but I think the one that matters most right now is happening in the bond market. More specifically, at the long-end of the curve. 10-year Treasury yields are still hovering just below 5%&nbsp;after the Fed raised interest rates by 25 bps and delivered what was, on balance, a fairly hawkish message. It briefly dipped as low as around 4.94% overnight before moving back toward 5%, while 30-year yields have also backed away slightly from recent highs. Considering where markets were heading into the meeting, that is not a bad ou",
+    "published_at": "2026-09-17T07:16:37",
+    "source_url": "https://investinglive.com/news/long-end-treasury-yields-stay-calm-as-markets-digest-the-fed/"
+  },
+  {
+    "id": 486,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Euro area inflation nudges up in August to 3.2% as energy prices jump",
+    "description": "Eurozone August final CPI +3.2% vs +3.3% y/y expected Prior +2.9% Eurozone August final core CPI +2.4% vs +2.4% y/y expected Prior +2.5% The breakdownThe final estimate shows a mild revision lower to headline annual inflation, recording 3.2% in August. The monthly estimate still reaffirms a 0.4% move higher in consumer prices, pushing up the annual rate to the highest since May. Energy price inflation remains the main culprit here, with that rising 14.3% in August compared to 10.3% in July. Meanwhile, services inflation remains sticky at 3.0% in August but at least down from 3.3% in July. With",
+    "published_at": "2026-09-17T09:00:16",
+    "source_url": "https://investinglive.com/news/euro-area-inflation-nudges-up-in-august-to-3-2-as-energy-prices-jump/"
   }
 ]
