@@ -1,24 +1,57 @@
 [
   {
-    "id": 508,
+    "id": 513,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "New Zealand data, food price inflation in August same as in July",
-    "description": "New Zealand August data.&nbsp; Trade Balance -1349mn Expected -1775mn, Prior -2118mn Annual Trade Balance -5.44bn Imports 8bn Prior 9.33bn Exports 6.66bn Prior 7.22bn&nbsp; --- Food Prices (y/y) 1.9% Prior 1.9% for the m/m +0.3% This article was written by Eamonn Sheridan at investinglive.com.",
-    "published_at": "2026-09-17T22:56:07",
-    "source_url": "https://investinglive.com/news/new-zealand-data-food-price-inflation-in-august-same-as-in-july/"
+    "title": "investingLive Asia-Pacific market news: BoJ hike and RBA hawkish tilt",
+    "description": "Yen weakens on BoJ hike as two dissents temper hawkish read Alt headlines: Bank of Japan (BOJ) raises policy rate by 25bp, as expected Re Airbus, Pratt &amp; Whitney: French airline has grounded a newly upgraded aircraft Goldman keeps $5,400 gold forecast intact despite Fed hike UBS sees two more RBA hikes to 4.85% terminal rate after Bullock's comments Bullock: RBA weighing whether policy is tight enough as oil pressures build US sanctions Iranian crypto exchange BitBank over IRGC Hormuz bitcoin transfers PBOC sets USD/ CNY reference rate for today at 6.7521 (vs. estimate at 6.7065) Seven way",
+    "published_at": "2026-09-18T03:37:22",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-boj-hike-and-rba-hawkish-tilt/"
   },
   {
-    "id": 507,
+    "id": 512,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Japan August inflation: Headline CPI 1.9% y/y (expected 2%)",
-    "description": "Just the data here, I'll have more to come on this separately. August y/y headline CPI 1.9% expected 2.0%, prior&nbsp;1.9% CPI Ex-Food and Energy (AKA core-core CPI) 1.7% expected 2.0%, prior 1.8% Ex-Food CPI (AKA core CPI) 1.7% expected 1.8%, prior&nbsp;1.8% Background: Preview: BoJ rate hike bet stays intact as Japan awaits August CPI Still to come: Preview: BoJ set to hike rates today, focus turns to pace and yen reaction This article was written by Eamonn Sheridan at investinglive.com.",
-    "published_at": "2026-09-17T23:30:22",
-    "source_url": "https://investinglive.com/news/japan-august-inflation-headline-cpi-y-y-expected-2/"
+    "title": "UK retail sales unexpectedly rise in August, backed by recovery in department stores, non-store retailers",
+    "description": "UK August retail sales +0.5% vs -0.2% m/m expected Prior -0.5% UK August retail sales +2.4% vs +1.9% y/y expected Prior +1.6%; revised to +1.2% UK August retail sales (ex autos, fuel) +0.6% vs -0.2% m/m expected Prior -0.9% UK August retail sales (ex autos, fuel) +2.7% vs +1.9% y/y expected Prior +2.3%; revised to +1.8% The breakdownThat's a considerable beat on retail sales, with a modest rise in broader categories from July to August. Department store sales were up by 1.8% on the month, recovering from July in which retailers attributed to stock availability issues. Meanwhile, non-store&nbsp",
+    "published_at": "2026-09-18T06:00:41",
+    "source_url": "https://investinglive.com/news/uk-retail-sales-unexpectedly-rise-in-august-backed-by-recovery-in-department-stores-non-store-retailers/"
+  },
+  {
+    "id": 511,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than a couple of low-tier releases like the Eurozone current account and Italian construction output. The data won't change anything for the ECB, so the market reaction will likely be muted.&nbsp; AMERICAN SESSION In the American session, we get the US industrial production data but it's not going to change anything for the Fed, so the market reaction is going to be muted. The focus now is on the Middle East, with Trump planning a meeting with Gulf leaders on the sidelines of the UN General Assembly in New York ne",
+    "published_at": "2026-09-18T06:33:41",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-45/"
+  },
+  {
+    "id": 510,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Boris Vuj\u010di\u0107: Interview with Reuters",
+    "description": "",
+    "published_at": "2026-09-18T06:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/inter/date/2026/html/ecb.in260918~33f023fe26.en.html"
+  },
+  {
+    "id": 509,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "ECB Consumer Expectations Survey results \u2013 August 2026",
+    "description": "",
+    "published_at": "2026-09-18T08:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr260918~295b3ab978.en.html"
   }
 ]
