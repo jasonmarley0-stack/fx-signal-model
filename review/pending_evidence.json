@@ -1,57 +1,57 @@
 [
   {
-    "id": 513,
+    "id": 518,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Asia-Pacific market news: BoJ hike and RBA hawkish tilt",
-    "description": "Yen weakens on BoJ hike as two dissents temper hawkish read Alt headlines: Bank of Japan (BOJ) raises policy rate by 25bp, as expected Re Airbus, Pratt &amp; Whitney: French airline has grounded a newly upgraded aircraft Goldman keeps $5,400 gold forecast intact despite Fed hike UBS sees two more RBA hikes to 4.85% terminal rate after Bullock's comments Bullock: RBA weighing whether policy is tight enough as oil pressures build US sanctions Iranian crypto exchange BitBank over IRGC Hormuz bitcoin transfers PBOC sets USD/ CNY reference rate for today at 6.7521 (vs. estimate at 6.7065) Seven way",
-    "published_at": "2026-09-18T03:37:22",
-    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-boj-hike-and-rba-hawkish-tilt/"
+    "title": "investingLive European session wrap: Yen slides after BOJ hike as markets stay on edge",
+    "description": "Headlines: USD/JPY jumps to 157 after BOJ rate hike as dovish dissents weigh on yen BOJ governor Ueda says will continue to tighten policy in response to economic, price developments BOJ governor Ueda says spring wage talks key to judging inflation trend ECB president Lagarde pushes back on automatic rate hikes as energy prices cloud outlook Gold price claws back toward $4,400 after dodging a deeper technical breakdown - what's next? Silver soars by more than 7% as the Fed's dot plot shows low appetite for rate hikes Ethereum is approaching the key $2,560 resistance again: Will it finally brea",
+    "published_at": "2026-09-18T12:07:07",
+    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-yen-slides-after-boj-hike-as-markets-stay-on-edge/"
   },
   {
-    "id": 512,
+    "id": 517,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "UK retail sales unexpectedly rise in August, backed by recovery in department stores, non-store retailers",
-    "description": "UK August retail sales +0.5% vs -0.2% m/m expected Prior -0.5% UK August retail sales +2.4% vs +1.9% y/y expected Prior +1.6%; revised to +1.2% UK August retail sales (ex autos, fuel) +0.6% vs -0.2% m/m expected Prior -0.9% UK August retail sales (ex autos, fuel) +2.7% vs +1.9% y/y expected Prior +2.3%; revised to +1.8% The breakdownThat's a considerable beat on retail sales, with a modest rise in broader categories from July to August. Department store sales were up by 1.8% on the month, recovering from July in which retailers attributed to stock availability issues. Meanwhile, non-store&nbsp",
-    "published_at": "2026-09-18T06:00:41",
-    "source_url": "https://investinglive.com/news/uk-retail-sales-unexpectedly-rise-in-august-backed-by-recovery-in-department-stores-non-store-retailers/"
+    "title": "US industrial production 0.0% versus 0.3% expected",
+    "description": "Prior month 0.2% US August industrial production and capacity utilization data: Industrial production MoM: 0.0% vs +0.3% expected. Prior +0.2% Manufacturing output MoM: -0.3% vs +0.3% expected. Prior +0.2% Capacity utilization: 76.3% vs 76.4% expected. Prior 76.3% US industrial activity was weaker than expected in August. Overall production was unchanged, missing expectations for a 0.3% increase, while manufacturing output fell 0.3% against expectations for a 0.3% gain. The manufacturing figure is the softest part of the report. The 0.6-percentage-point miss suggests factory activity lost mome",
+    "published_at": "2026-09-18T13:15:14",
+    "source_url": "https://investinglive.com/news/us-industrial-production-0-0-versus-0-3-expected/"
   },
   {
-    "id": 511,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "What are the main events for today?",
-    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than a couple of low-tier releases like the Eurozone current account and Italian construction output. The data won't change anything for the ECB, so the market reaction will likely be muted.&nbsp; AMERICAN SESSION In the American session, we get the US industrial production data but it's not going to change anything for the Fed, so the market reaction is going to be muted. The focus now is on the Middle East, with Trump planning a meeting with Gulf leaders on the sidelines of the UN General Assembly in New York ne",
-    "published_at": "2026-09-18T06:33:41",
-    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-45/"
-  },
-  {
-    "id": 510,
+    "id": 516,
     "status": "NORMALISED",
     "was_matched": true,
-    "company_id": 3,
-    "source_id": 2,
-    "title": "Boris Vuj\u010di\u0107: Interview with Reuters",
-    "description": "",
-    "published_at": "2026-09-18T06:00:00",
-    "source_url": "https://www.ecb.europa.eu//press/inter/date/2026/html/ecb.in260918~33f023fe26.en.html"
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Minutes of the Transaction and Post-trade Reporting Harmonisation Taskforce - July 2026",
+    "description": "The Transaction and Post-trade Reporting Harmonisation Taskforce, through its three working groups, will help inform the design of the Bank and FCA\u2019s long-term approach to harmonising UK MiFIR, UK EMIR and UK SFTR reporting requirements",
+    "published_at": "2026-09-18T11:00:00",
+    "source_url": "https://www.bankofengland.co.uk/minutes/2026/july/minutes-of-the-transaction-and-post-trade-reporting-harmonisation-taskforce-july-2026"
   },
   {
-    "id": 509,
+    "id": 515,
     "status": "NORMALISED",
     "was_matched": true,
-    "company_id": 3,
-    "source_id": 2,
-    "title": "ECB Consumer Expectations Survey results \u2013 August 2026",
-    "description": "",
-    "published_at": "2026-09-18T08:00:00",
-    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr260918~295b3ab978.en.html"
+    "company_id": 2,
+    "source_id": 1,
+    "title": "Federal Reserve Board issues enforcement actions with former employee of Northstar Bank, former employee of American Express Travel Related Services Company, Inc., and former employee of Regions Bank",
+    "description": "Federal Reserve Board issues enforcement actions with former employee of Northstar Bank, former employee of American Express Travel Related Services Company, Inc., and former employee of Regions Bank",
+    "published_at": "2026-09-18T15:00:00",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260918a.htm"
+  },
+  {
+    "id": 514,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 2,
+    "source_id": 1,
+    "title": "Federal Reserve Board announces termination of enforcement action with SNB Bancshares and Bank of Eufaula",
+    "description": "Federal Reserve Board announces termination of enforcement action with SNB Bancshares and Bank of Eufaula",
+    "published_at": "2026-09-18T15:00:00",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260918b.htm"
   }
 ]
