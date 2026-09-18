@@ -1,35 +1,24 @@
 [
   {
-    "id": 506,
+    "id": 508,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Trump says he faces a \u201cbig decision\u201d on whether to launch new attacks on Iran",
-    "description": "US President Trump told Axios he is at a \u201ccritical juncture\u201d regarding the war in Iran: The officials say Trump needs to decide soon on the way forward, partly because the US military can't stay in its current holding pattern much longer. \u201cAt some point you have to decide what is the end game.\u201d Trump and Hegseth have ordered the military to maintain its level of forces in the Middle East until the end of the year, to remain ready for a potential return to full-scale combat. Trump declined to say whether he'll decide on the path forward before or after the midterms. \u201cI have a big decision comin",
-    "published_at": "2026-09-17T17:15:23",
-    "source_url": "https://investinglive.com/news/trump-says-he-faces-a-big-decision-on-whether-to-launch-new-attacks-on-iran/"
+    "title": "New Zealand data, food price inflation in August same as in July",
+    "description": "New Zealand August data.&nbsp; Trade Balance -1349mn Expected -1775mn, Prior -2118mn Annual Trade Balance -5.44bn Imports 8bn Prior 9.33bn Exports 6.66bn Prior 7.22bn&nbsp; --- Food Prices (y/y) 1.9% Prior 1.9% for the m/m +0.3% This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-17T22:56:07",
+    "source_url": "https://investinglive.com/news/new-zealand-data-food-price-inflation-in-august-same-as-in-july/"
   },
   {
-    "id": 505,
+    "id": 507,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "A view on inflation is increasingly important",
-    "description": "The Fed has set out to tackle inflation and they certainly have the tools to get the job done. How aggressively they use those tools and how the economy responds is less certain, so is the geopolitical backdrop. At the moment, the market is pricing in the thinnest rate hike in US history so the consensus is that inflation will be tamed relatively easily. I think it's worth considering how much work needs to be done on inflation and what are the driving factors behind it. Here are five that I'm thinking about: 1) The Iran war No surprise at the top of the list. We had oil up in 11 of 12 days fr",
-    "published_at": "2026-09-17T19:11:17",
-    "source_url": "https://investinglive.com/news/a-view-on-inflation-is-increasingly-important/"
-  },
-  {
-    "id": 504,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "investingLive Americas FX news wrap 17 Sept",
-    "description": "US September Philly Fed business index +37.8 vs +30.5 expected US August housing starts 1.275m vs 1.309m expected US initial jobless claims come in at 196K vs 208K estimate Canada August producer price index +1.3% m/m vs +0.6% prior BOE's Bailey: Decision on rates will get more difficult the longer the Iran conflict continues US August pending home sales +0.3% vs -0.6% expected Former Atlanta Fed President: The inflation portion of the Fed mandate is far more concerning Trump says he faces a \u201cbig decision\u201d on whether to launch new attacks on Iran China privately asks Iran to help rein in Houth",
-    "published_at": "2026-09-17T20:31:34",
-    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-17-sept/"
+    "title": "Japan August inflation: Headline CPI 1.9% y/y (expected 2%)",
+    "description": "Just the data here, I'll have more to come on this separately. August y/y headline CPI 1.9% expected 2.0%, prior&nbsp;1.9% CPI Ex-Food and Energy (AKA core-core CPI) 1.7% expected 2.0%, prior 1.8% Ex-Food CPI (AKA core CPI) 1.7% expected 1.8%, prior&nbsp;1.8% Background: Preview: BoJ rate hike bet stays intact as Japan awaits August CPI Still to come: Preview: BoJ set to hike rates today, focus turns to pace and yen reaction This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-17T23:30:22",
+    "source_url": "https://investinglive.com/news/japan-august-inflation-headline-cpi-y-y-expected-2/"
   }
 ]
