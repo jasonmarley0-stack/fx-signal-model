@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-17T05:45:34.450299+00:00",
+  "generated_at": "2026-09-18T05:45:04.926313+00:00",
   "services": {
     "signal-scanner": {
       "active": "active",
@@ -18,70 +18,70 @@
     "rss-ingestion.timer": "active",
     "performance-scorer.timer": "active"
   },
-  "live_scan_age_seconds": 21.044202,
-  "performance_updated_at": "2026-09-17T05:32:35.497030+00:00",
+  "live_scan_age_seconds": 16.9547,
+  "performance_updated_at": "2026-09-18T05:38:43.199264+00:00",
   "performance_aggregates": {
     "7d": {
-      "total_signals": 305,
-      "resolved_signals": 290,
-      "win_rate": 0.5,
-      "avg_r": 0.0,
-      "directional_accuracy": 0.5375,
-      "directional_sample_size": 160,
+      "total_signals": 370,
+      "resolved_signals": 356,
+      "win_rate": 0.4101123595505618,
+      "avg_r": -0.1797752808988764,
+      "directional_accuracy": 0.5404040404040404,
+      "directional_sample_size": 198,
       "best_pair": "GBPCHF",
       "by_pair": {
         "AUDCAD": {
-          "signals": 7,
-          "win_rate": 0.2857142857142857,
-          "avg_r": -0.42857142857142855,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.25
-        },
-        "AUDCHF": {
-          "signals": 8,
-          "win_rate": 0.5,
-          "avg_r": 0.0,
+          "signals": 10,
+          "win_rate": 0.2,
+          "avg_r": -0.6,
           "best_r": 1.0,
           "worst_r": -1.0,
           "directional_accuracy": 0.3333333333333333
         },
-        "AUDJPY": {
-          "signals": 10,
-          "win_rate": 0.5,
-          "avg_r": 0.0,
+        "AUDCHF": {
+          "signals": 8,
+          "win_rate": 0.375,
+          "avg_r": -0.25,
           "best_r": 1.0,
           "worst_r": -1.0,
           "directional_accuracy": 0.8
         },
+        "AUDJPY": {
+          "signals": 11,
+          "win_rate": 0.45454545454545453,
+          "avg_r": -0.09090909090909091,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 1.0
+        },
         "AUDNZD": {
+          "signals": 15,
+          "win_rate": 0.13333333333333333,
+          "avg_r": -0.7333333333333333,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.5
+        },
+        "AUDUSD": {
+          "signals": 15,
+          "win_rate": 0.2,
+          "avg_r": -0.6,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.8888888888888888
+        },
+        "CADCHF": {
           "signals": 13,
           "win_rate": 0.23076923076923078,
           "avg_r": -0.5384615384615384,
           "best_r": 1.0,
           "worst_r": -1.0,
-          "directional_accuracy": 0.5714285714285714
-        },
-        "AUDUSD": {
-          "signals": 12,
-          "win_rate": 0.3333333333333333,
-          "avg_r": -0.3333333333333333,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.8333333333333334
-        },
-        "CADCHF": {
-          "signals": 9,
-          "win_rate": 0.3333333333333333,
-          "avg_r": -0.3333333333333333,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.8
+          "directional_accuracy": 0.6666666666666666
         },
         "CADJPY": {
           "signals": 5,
-          "win_rate": 0.6,
-          "avg_r": 0.2,
+          "win_rate": 0.4,
+          "avg_r": -0.2,
           "best_r": 1.0,
           "worst_r": -1.0,
           "directional_accuracy": 0.0
@@ -95,161 +95,161 @@
           "directional_accuracy": 0.25
         },
         "EURAUD": {
-          "signals": 17,
-          "win_rate": 0.625,
-          "avg_r": 0.25,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.6153846153846154
-        },
-        "EURCAD": {
           "signals": 12,
-          "win_rate": 0.3333333333333333,
-          "avg_r": -0.3333333333333333,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.5714285714285714
-        },
-        "EURCHF": {
-          "signals": 11,
-          "win_rate": 0.7,
-          "avg_r": 0.4,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.8333333333333334
-        },
-        "EURGBP": {
-          "signals": 19,
-          "win_rate": 0.47368421052631576,
-          "avg_r": -0.05263157894736842,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.14285714285714285
-        },
-        "EURJPY": {
-          "signals": 9,
-          "win_rate": 0.4444444444444444,
-          "avg_r": -0.1111111111111111,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.3333333333333333
-        },
-        "EURNZD": {
-          "signals": 15,
-          "win_rate": 0.5333333333333333,
-          "avg_r": 0.06666666666666667,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.4444444444444444
-        },
-        "EURUSD": {
-          "signals": 6,
-          "win_rate": 0.6666666666666666,
-          "avg_r": 0.3333333333333333,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.25
-        },
-        "GBPAUD": {
-          "signals": 15,
-          "win_rate": 0.8,
-          "avg_r": 0.6,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.42857142857142855
-        },
-        "GBPCAD": {
-          "signals": 7,
-          "win_rate": 0.6666666666666666,
-          "avg_r": 0.3333333333333333,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 1.0
-        },
-        "GBPCHF": {
-          "signals": 13,
-          "win_rate": 0.9,
-          "avg_r": 0.8,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 1.0
-        },
-        "GBPJPY": {
-          "signals": 9,
-          "win_rate": 0.7777777777777778,
-          "avg_r": 0.5555555555555556,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.8333333333333334
-        },
-        "GBPNZD": {
-          "signals": 10,
-          "win_rate": 0.8,
-          "avg_r": 0.6,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.3333333333333333
-        },
-        "GBPUSD": {
-          "signals": 14,
-          "win_rate": 0.36363636363636365,
-          "avg_r": -0.2727272727272727,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.3333333333333333
-        },
-        "NZDCAD": {
-          "signals": 10,
-          "win_rate": 0.2,
-          "avg_r": -0.6,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.75
-        },
-        "NZDCHF": {
-          "signals": 8,
-          "win_rate": 0.42857142857142855,
-          "avg_r": -0.14285714285714285,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 1.0
-        },
-        "NZDJPY": {
-          "signals": 13,
-          "win_rate": 0.46153846153846156,
-          "avg_r": -0.07692307692307693,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.42857142857142855
-        },
-        "NZDUSD": {
-          "signals": 13,
-          "win_rate": 0.38461538461538464,
-          "avg_r": -0.23076923076923078,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.5
-        },
-        "USDCAD": {
-          "signals": 11,
           "win_rate": 0.45454545454545453,
           "avg_r": -0.09090909090909091,
           "best_r": 1.0,
           "worst_r": -1.0,
-          "directional_accuracy": 1.0
-        },
-        "USDCHF": {
-          "signals": 9,
-          "win_rate": 0.4444444444444444,
-          "avg_r": -0.1111111111111111,
-          "best_r": 1.0,
-          "worst_r": -1.0,
           "directional_accuracy": 0.4
         },
-        "USDJPY": {
+        "EURCAD": {
           "signals": 12,
-          "win_rate": 0.5,
-          "avg_r": 0.0,
+          "win_rate": 0.45454545454545453,
+          "avg_r": -0.09090909090909091,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.8
+        },
+        "EURCHF": {
+          "signals": 7,
+          "win_rate": 0.5714285714285714,
+          "avg_r": 0.14285714285714285,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.2
+        },
+        "EURGBP": {
+          "signals": 16,
+          "win_rate": 0.375,
+          "avg_r": -0.25,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.3
+        },
+        "EURJPY": {
+          "signals": 8,
+          "win_rate": 0.375,
+          "avg_r": -0.25,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.16666666666666666
+        },
+        "EURNZD": {
+          "signals": 17,
+          "win_rate": 0.4117647058823529,
+          "avg_r": -0.17647058823529413,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.3333333333333333
+        },
+        "EURUSD": {
+          "signals": 15,
+          "win_rate": 0.26666666666666666,
+          "avg_r": -0.4666666666666667,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.5
+        },
+        "GBPAUD": {
+          "signals": 15,
+          "win_rate": 0.7,
+          "avg_r": 0.4,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.42857142857142855
+        },
+        "GBPCAD": {
+          "signals": 9,
+          "win_rate": 0.75,
+          "avg_r": 0.5,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 1.0
+        },
+        "GBPCHF": {
+          "signals": 12,
+          "win_rate": 0.8,
+          "avg_r": 0.6,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.25
+        },
+        "GBPJPY": {
+          "signals": 11,
+          "win_rate": 0.6363636363636364,
+          "avg_r": 0.2727272727272727,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 1.0
+        },
+        "GBPNZD": {
+          "signals": 11,
+          "win_rate": 0.7272727272727273,
+          "avg_r": 0.45454545454545453,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.375
+        },
+        "GBPUSD": {
+          "signals": 18,
+          "win_rate": 0.4,
+          "avg_r": -0.2,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.25
+        },
+        "NZDCAD": {
+          "signals": 14,
+          "win_rate": 0.21428571428571427,
+          "avg_r": -0.5714285714285714,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.42857142857142855
+        },
+        "NZDCHF": {
+          "signals": 12,
+          "win_rate": 0.36363636363636365,
+          "avg_r": -0.2727272727272727,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.8333333333333334
+        },
+        "NZDJPY": {
+          "signals": 15,
+          "win_rate": 0.4,
+          "avg_r": -0.2,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.5
+        },
+        "NZDUSD": {
+          "signals": 26,
+          "win_rate": 0.4230769230769231,
+          "avg_r": -0.15384615384615385,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.45454545454545453
+        },
+        "USDCAD": {
+          "signals": 15,
+          "win_rate": 0.3333333333333333,
+          "avg_r": -0.3333333333333333,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.7777777777777778
+        },
+        "USDCHF": {
+          "signals": 17,
+          "win_rate": 0.17647058823529413,
+          "avg_r": -0.6470588235294118,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.5714285714285714
+        },
+        "USDJPY": {
+          "signals": 23,
+          "win_rate": 0.6086956521739131,
+          "avg_r": 0.21739130434782608,
           "best_r": 1.0,
           "worst_r": -1.0,
           "directional_accuracy": 1.0
@@ -257,1529 +257,1859 @@
       },
       "cumulative_r_series": [
         {
-          "time": "2026-09-10T06:58:36.020512+00:00",
-          "pair": "EURAUD",
-          "cumulative_r": 1.0
-        },
-        {
-          "time": "2026-09-10T07:05:56.922624+00:00",
-          "pair": "EURAUD",
-          "cumulative_r": 2.0
-        },
-        {
-          "time": "2026-09-10T07:25:24.935609+00:00",
-          "pair": "EURCAD",
-          "cumulative_r": 1.0
-        },
-        {
-          "time": "2026-09-10T07:33:18.537037+00:00",
-          "pair": "EURCAD",
-          "cumulative_r": 0.0
-        },
-        {
-          "time": "2026-09-10T07:57:32.019962+00:00",
-          "pair": "EURAUD",
-          "cumulative_r": 1.0
-        },
-        {
-          "time": "2026-09-10T08:00:11.713235+00:00",
-          "pair": "NZDCAD",
-          "cumulative_r": 2.0
-        },
-        {
-          "time": "2026-09-10T08:30:11.268185+00:00",
-          "pair": "USDCHF",
-          "cumulative_r": 3.0
-        },
-        {
-          "time": "2026-09-10T08:30:11.742371+00:00",
-          "pair": "EURGBP",
-          "cumulative_r": 2.0
-        },
-        {
-          "time": "2026-09-10T08:30:11.880302+00:00",
-          "pair": "EURCHF",
-          "cumulative_r": 3.0
-        },
-        {
-          "time": "2026-09-10T08:31:15.597196+00:00",
-          "pair": "AUDCHF",
-          "cumulative_r": 2.0
-        },
-        {
-          "time": "2026-09-10T08:31:46.173171+00:00",
-          "pair": "GBPUSD",
-          "cumulative_r": 1.0
-        },
-        {
-          "time": "2026-09-10T09:00:14.948710+00:00",
-          "pair": "EURNZD",
-          "cumulative_r": 2.0
-        },
-        {
-          "time": "2026-09-10T09:00:15.152021+00:00",
-          "pair": "GBPCHF",
-          "cumulative_r": 3.0
-        },
-        {
-          "time": "2026-09-10T09:00:15.419221+00:00",
-          "pair": "GBPNZD",
-          "cumulative_r": 4.0
-        },
-        {
-          "time": "2026-09-10T09:08:41.487568+00:00",
-          "pair": "EURJPY",
-          "cumulative_r": 5.0
-        },
-        {
-          "time": "2026-09-10T09:08:41.703882+00:00",
-          "pair": "GBPJPY",
-          "cumulative_r": 6.0
-        },
-        {
-          "time": "2026-09-10T09:16:37.016080+00:00",
-          "pair": "EURUSD",
-          "cumulative_r": 5.0
-        },
-        {
-          "time": "2026-09-10T09:17:41.210866+00:00",
-          "pair": "CADJPY",
-          "cumulative_r": 6.0
-        },
-        {
-          "time": "2026-09-10T09:19:45.963522+00:00",
-          "pair": "EURCHF",
-          "cumulative_r": 7.0
-        },
-        {
-          "time": "2026-09-10T09:21:20.308491+00:00",
-          "pair": "USDJPY",
-          "cumulative_r": 8.0
-        },
-        {
-          "time": "2026-09-10T09:21:20.811798+00:00",
-          "pair": "NZDUSD",
-          "cumulative_r": 9.0
-        },
-        {
-          "time": "2026-09-10T09:23:26.068423+00:00",
-          "pair": "GBPAUD",
-          "cumulative_r": 10.0
-        },
-        {
-          "time": "2026-09-10T09:26:35.338149+00:00",
-          "pair": "EURAUD",
-          "cumulative_r": 11.0
-        },
-        {
-          "time": "2026-09-10T09:58:44.475788+00:00",
-          "pair": "AUDJPY",
-          "cumulative_r": 12.0
-        },
-        {
-          "time": "2026-09-10T10:04:32.907208+00:00",
-          "pair": "EURAUD",
-          "cumulative_r": 13.0
-        },
-        {
-          "time": "2026-09-10T10:18:13.874858+00:00",
-          "pair": "EURGBP",
-          "cumulative_r": 14.0
-        },
-        {
-          "time": "2026-09-10T10:30:21.150821+00:00",
-          "pair": "AUDUSD",
-          "cumulative_r": 15.0
-        },
-        {
-          "time": "2026-09-10T10:30:21.221843+00:00",
-          "pair": "USDCAD",
-          "cumulative_r": 16.0
-        },
-        {
-          "time": "2026-09-10T10:35:38.177388+00:00",
-          "pair": "CHFJPY",
-          "cumulative_r": 17.0
-        },
-        {
-          "time": "2026-09-10T10:38:44.554039+00:00",
-          "pair": "GBPUSD",
-          "cumulative_r": 18.0
-        },
-        {
-          "time": "2026-09-10T10:39:16.487800+00:00",
-          "pair": "GBPAUD",
-          "cumulative_r": 19.0
-        },
-        {
-          "time": "2026-09-10T10:51:52.668840+00:00",
-          "pair": "EURCHF",
-          "cumulative_r": 20.0
-        },
-        {
-          "time": "2026-09-10T10:59:19.001449+00:00",
-          "pair": "EURGBP",
-          "cumulative_r": 21.0
-        },
-        {
-          "time": "2026-09-10T11:24:02.842230+00:00",
-          "pair": "NZDJPY",
-          "cumulative_r": 20.0
-        },
-        {
-          "time": "2026-09-10T11:40:50.704034+00:00",
-          "pair": "EURGBP",
-          "cumulative_r": 21.0
-        },
-        {
-          "time": "2026-09-10T12:23:59.196114+00:00",
-          "pair": "EURCHF",
-          "cumulative_r": 22.0
-        },
-        {
-          "time": "2026-09-10T12:30:17.830583+00:00",
-          "pair": "AUDCHF",
-          "cumulative_r": 23.0
-        },
-        {
-          "time": "2026-09-10T12:31:21.195142+00:00",
-          "pair": "AUDNZD",
-          "cumulative_r": 24.0
-        },
-        {
-          "time": "2026-09-10T12:36:36.676284+00:00",
-          "pair": "EURGBP",
-          "cumulative_r": 25.0
-        },
-        {
-          "time": "2026-09-10T13:00:26.175579+00:00",
-          "pair": "AUDJPY",
-          "cumulative_r": 26.0
-        },
-        {
-          "time": "2026-09-10T13:00:26.433817+00:00",
-          "pair": "NZDJPY",
-          "cumulative_r": 27.0
-        },
-        {
-          "time": "2026-09-10T13:50:54.135841+00:00",
-          "pair": "EURCHF",
-          "cumulative_r": 26.0
-        },
-        {
-          "time": "2026-09-10T14:05:10.930313+00:00",
-          "pair": "EURGBP",
-          "cumulative_r": 27.0
-        },
-        {
-          "time": "2026-09-10T15:01:58.792848+00:00",
-          "pair": "GBPCHF",
-          "cumulative_r": 28.0
-        },
-        {
-          "time": "2026-09-10T15:13:30.275739+00:00",
-          "pair": "EURCAD",
-          "cumulative_r": 27.0
-        },
-        {
-          "time": "2026-09-10T15:49:45.104739+00:00",
-          "pair": "CHFJPY",
-          "cumulative_r": 26.0
-        },
-        {
           "time": "2026-09-11T08:00:12.306036+00:00",
           "pair": "GBPUSD",
-          "cumulative_r": 27.0
+          "cumulative_r": 1.0
         },
         {
           "time": "2026-09-11T08:48:13.516517+00:00",
           "pair": "USDCHF",
-          "cumulative_r": 28.0
+          "cumulative_r": 2.0
         },
         {
           "time": "2026-09-11T08:48:44.933245+00:00",
           "pair": "EURUSD",
-          "cumulative_r": 29.0
+          "cumulative_r": 3.0
         },
         {
           "time": "2026-09-11T08:50:51.800019+00:00",
           "pair": "USDCAD",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-11T08:57:42.259145+00:00",
           "pair": "NZDUSD",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-11T08:58:46.072360+00:00",
           "pair": "AUDUSD",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-11T08:59:19.031348+00:00",
           "pair": "NZDCAD",
-          "cumulative_r": 29.0
+          "cumulative_r": 3.0
         },
         {
           "time": "2026-09-11T09:00:24.877477+00:00",
           "pair": "CHFJPY",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-11T09:09:28.048464+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-11T09:15:16.902589+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": 32.0
+          "cumulative_r": 6.0
         },
         {
           "time": "2026-09-11T09:18:56.691826+00:00",
           "pair": "GBPJPY",
-          "cumulative_r": 33.0
+          "cumulative_r": 7.0
         },
         {
           "time": "2026-09-11T09:25:47.236316+00:00",
           "pair": "CHFJPY",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-11T09:26:17.681712+00:00",
           "pair": "EURJPY",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-11T09:26:50.245078+00:00",
           "pair": "AUDJPY",
-          "cumulative_r": 36.0
+          "cumulative_r": 10.0
         },
         {
           "time": "2026-09-11T09:26:50.525621+00:00",
           "pair": "CADJPY",
-          "cumulative_r": 37.0
+          "cumulative_r": 11.0
         },
         {
           "time": "2026-09-11T09:30:28.881903+00:00",
           "pair": "EURCHF",
-          "cumulative_r": 38.0
+          "cumulative_r": 12.0
         },
         {
           "time": "2026-09-11T09:30:29.850664+00:00",
           "pair": "CADCHF",
-          "cumulative_r": 37.0
+          "cumulative_r": 11.0
         },
         {
           "time": "2026-09-11T09:45:47.206612+00:00",
           "pair": "AUDCHF",
-          "cumulative_r": 38.0
+          "cumulative_r": 12.0
         },
         {
           "time": "2026-09-11T09:57:21.600629+00:00",
           "pair": "GBPCHF",
-          "cumulative_r": 39.0
+          "cumulative_r": 13.0
         },
         {
           "time": "2026-09-11T10:24:21.838742+00:00",
           "pair": "EURJPY",
-          "cumulative_r": 40.0
+          "cumulative_r": 14.0
         },
         {
           "time": "2026-09-11T10:29:06.920661+00:00",
           "pair": "CADJPY",
-          "cumulative_r": 41.0
+          "cumulative_r": 15.0
         },
         {
           "time": "2026-09-11T10:30:10.839020+00:00",
           "pair": "GBPAUD",
-          "cumulative_r": 42.0
+          "cumulative_r": 16.0
         },
         {
           "time": "2026-09-11T10:33:50.738593+00:00",
           "pair": "EURCAD",
-          "cumulative_r": 41.0
+          "cumulative_r": 15.0
         },
         {
           "time": "2026-09-11T10:58:38.111916+00:00",
           "pair": "NZDCHF",
-          "cumulative_r": 40.0
+          "cumulative_r": 14.0
         },
         {
           "time": "2026-09-11T11:00:13.314703+00:00",
           "pair": "USDJPY",
-          "cumulative_r": 39.0
+          "cumulative_r": 13.0
         },
         {
           "time": "2026-09-11T11:00:14.574817+00:00",
           "pair": "AUDCAD",
-          "cumulative_r": 38.0
+          "cumulative_r": 12.0
         },
         {
           "time": "2026-09-11T11:02:23.679423+00:00",
           "pair": "GBPCAD",
-          "cumulative_r": 39.0
+          "cumulative_r": 13.0
         },
         {
           "time": "2026-09-11T11:15:05.940505+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 40.0
+          "cumulative_r": 14.0
         },
         {
           "time": "2026-09-11T11:45:13.272860+00:00",
           "pair": "EURCAD",
-          "cumulative_r": 39.0
+          "cumulative_r": 13.0
         },
         {
           "time": "2026-09-11T11:53:37.361761+00:00",
           "pair": "EURCAD",
-          "cumulative_r": 38.0
+          "cumulative_r": 12.0
         },
         {
           "time": "2026-09-11T12:29:40.931387+00:00",
           "pair": "USDJPY",
-          "cumulative_r": 37.0
+          "cumulative_r": 11.0
         },
         {
           "time": "2026-09-11T12:43:57.079769+00:00",
           "pair": "EURCAD",
-          "cumulative_r": 36.0
+          "cumulative_r": 10.0
         },
         {
           "time": "2026-09-11T12:44:28.710860+00:00",
           "pair": "GBPCAD",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-11T12:51:54.532762+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-11T12:52:59.411876+00:00",
           "pair": "GBPNZD",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-11T12:57:44.355842+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 36.0
+          "cumulative_r": 10.0
         },
         {
           "time": "2026-09-11T13:28:39.124263+00:00",
           "pair": "NZDCAD",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-11T13:29:41.028475+00:00",
           "pair": "AUDUSD",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-11T13:37:35.453267+00:00",
           "pair": "GBPCAD",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-11T13:58:09.474342+00:00",
           "pair": "GBPCHF",
-          "cumulative_r": 36.0
+          "cumulative_r": 10.0
         },
         {
           "time": "2026-09-11T14:08:49.796586+00:00",
           "pair": "CADCHF",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-11T14:37:52.357896+00:00",
           "pair": "GBPCAD",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-11T14:54:14.968654+00:00",
           "pair": "GBPCHF",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-11T15:06:34.053540+00:00",
           "pair": "GBPCHF",
-          "cumulative_r": 36.0
+          "cumulative_r": 10.0
         },
         {
           "time": "2026-09-11T15:13:28.094268+00:00",
           "pair": "EURAUD",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-11T15:31:24.573734+00:00",
           "pair": "GBPCHF",
-          "cumulative_r": 36.0
+          "cumulative_r": 10.0
         },
         {
           "time": "2026-09-11T15:39:51.493859+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 37.0
+          "cumulative_r": 11.0
         },
         {
           "time": "2026-09-11T16:00:03.454421+00:00",
           "pair": "CADCHF",
-          "cumulative_r": 38.0
+          "cumulative_r": 12.0
         },
         {
           "time": "2026-09-14T08:00:09.232184+00:00",
           "pair": "NZDCHF",
-          "cumulative_r": 39.0
+          "cumulative_r": 13.0
         },
         {
           "time": "2026-09-14T08:00:39.686545+00:00",
           "pair": "EURUSD",
-          "cumulative_r": 40.0
+          "cumulative_r": 14.0
         },
         {
           "time": "2026-09-14T08:01:44.349304+00:00",
           "pair": "AUDCHF",
-          "cumulative_r": 41.0
+          "cumulative_r": 15.0
         },
         {
           "time": "2026-09-14T08:02:17.322637+00:00",
           "pair": "CADCHF",
-          "cumulative_r": 42.0
+          "cumulative_r": 16.0
         },
         {
           "time": "2026-09-14T08:06:29.603609+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 41.0
+          "cumulative_r": 15.0
         },
         {
           "time": "2026-09-14T08:07:33.432356+00:00",
           "pair": "EURCAD",
-          "cumulative_r": 40.0
+          "cumulative_r": 14.0
         },
         {
           "time": "2026-09-14T08:30:18.490611+00:00",
           "pair": "AUDUSD",
-          "cumulative_r": 41.0
+          "cumulative_r": 15.0
         },
         {
           "time": "2026-09-14T08:30:18.564379+00:00",
           "pair": "USDCAD",
-          "cumulative_r": 42.0
+          "cumulative_r": 16.0
         },
         {
           "time": "2026-09-14T08:30:19.861299+00:00",
           "pair": "NZDCAD",
-          "cumulative_r": 41.0
+          "cumulative_r": 15.0
         },
         {
           "time": "2026-09-14T08:31:54.357259+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": 40.0
+          "cumulative_r": 14.0
         },
         {
           "time": "2026-09-14T08:33:29.861460+00:00",
           "pair": "AUDCAD",
-          "cumulative_r": 39.0
+          "cumulative_r": 13.0
         },
         {
           "time": "2026-09-14T08:35:04.492114+00:00",
           "pair": "USDCHF",
-          "cumulative_r": 38.0
+          "cumulative_r": 12.0
         },
         {
           "time": "2026-09-14T08:43:29.982658+00:00",
           "pair": "NZDUSD",
-          "cumulative_r": 39.0
+          "cumulative_r": 13.0
         },
         {
           "time": "2026-09-14T08:48:14.591240+00:00",
           "pair": "USDJPY",
-          "cumulative_r": 40.0
+          "cumulative_r": 14.0
         },
         {
           "time": "2026-09-14T08:57:42.114459+00:00",
           "pair": "GBPUSD",
-          "cumulative_r": 39.0
+          "cumulative_r": 13.0
         },
         {
           "time": "2026-09-14T08:58:14.471501+00:00",
           "pair": "GBPNZD",
-          "cumulative_r": 40.0
+          "cumulative_r": 14.0
         },
         {
           "time": "2026-09-14T09:01:56.826785+00:00",
           "pair": "CADCHF",
-          "cumulative_r": 41.0
+          "cumulative_r": 15.0
         },
         {
           "time": "2026-09-14T09:15:38.814436+00:00",
           "pair": "CHFJPY",
-          "cumulative_r": 42.0
+          "cumulative_r": 16.0
         },
         {
           "time": "2026-09-14T09:20:23.628470+00:00",
           "pair": "GBPAUD",
-          "cumulative_r": 43.0
+          "cumulative_r": 17.0
         },
         {
           "time": "2026-09-14T09:28:19.652063+00:00",
           "pair": "GBPCAD",
-          "cumulative_r": 44.0
+          "cumulative_r": 18.0
         },
         {
           "time": "2026-09-14T09:43:34.695143+00:00",
           "pair": "EURAUD",
-          "cumulative_r": 45.0
+          "cumulative_r": 19.0
         },
         {
           "time": "2026-09-14T09:47:45.955181+00:00",
           "pair": "USDCHF",
-          "cumulative_r": 44.0
+          "cumulative_r": 18.0
         },
         {
           "time": "2026-09-14T09:50:56.195201+00:00",
           "pair": "AUDCAD",
-          "cumulative_r": 43.0
+          "cumulative_r": 17.0
         },
         {
           "time": "2026-09-14T09:51:58.541348+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 44.0
+          "cumulative_r": 18.0
         },
         {
           "time": "2026-09-14T10:01:27.457161+00:00",
           "pair": "GBPJPY",
-          "cumulative_r": 45.0
+          "cumulative_r": 19.0
         },
         {
           "time": "2026-09-14T10:25:14.938481+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 44.0
+          "cumulative_r": 18.0
         },
         {
           "time": "2026-09-14T10:53:39.728049+00:00",
           "pair": "GBPUSD",
-          "cumulative_r": 45.0
+          "cumulative_r": 19.0
         },
         {
           "time": "2026-09-14T11:00:30.073301+00:00",
           "pair": "GBPCAD",
-          "cumulative_r": 46.0
+          "cumulative_r": 20.0
         },
         {
           "time": "2026-09-14T11:29:32.355492+00:00",
           "pair": "GBPAUD",
-          "cumulative_r": 47.0
+          "cumulative_r": 21.0
         },
         {
           "time": "2026-09-14T11:30:04.153639+00:00",
           "pair": "EURAUD",
-          "cumulative_r": 48.0
+          "cumulative_r": 22.0
         },
         {
           "time": "2026-09-14T11:30:04.261311+00:00",
           "pair": "EURCAD",
-          "cumulative_r": 49.0
+          "cumulative_r": 23.0
         },
         {
           "time": "2026-09-14T12:14:23.894400+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 48.0
+          "cumulative_r": 22.0
         },
         {
           "time": "2026-09-14T12:30:45.254046+00:00",
           "pair": "EURCAD",
-          "cumulative_r": 49.0
+          "cumulative_r": 23.0
         },
         {
           "time": "2026-09-14T13:00:11.034704+00:00",
           "pair": "GBPUSD",
-          "cumulative_r": 48.0
+          "cumulative_r": 22.0
         },
         {
           "time": "2026-09-14T13:07:34.360726+00:00",
           "pair": "AUDCAD",
-          "cumulative_r": 47.0
+          "cumulative_r": 21.0
         },
         {
           "time": "2026-09-14T13:52:25.816411+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 46.0
+          "cumulative_r": 20.0
         },
         {
           "time": "2026-09-14T15:00:23.014542+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": 45.0
+          "cumulative_r": 19.0
         },
         {
           "time": "2026-09-14T16:18:15.739771+00:00",
           "pair": "EURAUD",
-          "cumulative_r": 44.0
+          "cumulative_r": 18.0
         },
         {
           "time": "2026-09-14T16:54:59.059788+00:00",
           "pair": "AUDJPY",
-          "cumulative_r": 43.0
+          "cumulative_r": 17.0
         },
         {
           "time": "2026-09-14T17:00:13.880554+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": 42.0
+          "cumulative_r": 16.0
         },
         {
           "time": "2026-09-14T17:00:45.288627+00:00",
           "pair": "AUDUSD",
-          "cumulative_r": 41.0
+          "cumulative_r": 15.0
         },
         {
           "time": "2026-09-14T17:05:28.238884+00:00",
           "pair": "GBPUSD",
-          "cumulative_r": 40.0
+          "cumulative_r": 14.0
         },
         {
           "time": "2026-09-14T17:10:13.011684+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 39.0
+          "cumulative_r": 13.0
         },
         {
           "time": "2026-09-14T17:29:40.910416+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 38.0
+          "cumulative_r": 12.0
         },
         {
           "time": "2026-09-14T17:59:32.437373+00:00",
           "pair": "GBPJPY",
-          "cumulative_r": 37.0
+          "cumulative_r": 11.0
         },
         {
           "time": "2026-09-14T18:12:38.843342+00:00",
           "pair": "GBPAUD",
-          "cumulative_r": 38.0
+          "cumulative_r": 12.0
         },
         {
           "time": "2026-09-14T18:57:13.013119+00:00",
           "pair": "EURAUD",
-          "cumulative_r": 37.0
+          "cumulative_r": 11.0
         },
         {
           "time": "2026-09-14T19:15:34.634707+00:00",
           "pair": "EURJPY",
-          "cumulative_r": 36.0
+          "cumulative_r": 10.0
         },
         {
           "time": "2026-09-14T20:10:43.590814+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-14T20:29:40.106014+00:00",
           "pair": "EURAUD",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-14T20:36:59.203579+00:00",
           "pair": "NZDUSD",
-          "cumulative_r": 33.0
+          "cumulative_r": 7.0
         },
         {
           "time": "2026-09-14T22:04:23.482394+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-14T22:36:23.177606+00:00",
           "pair": "EURAUD",
-          "cumulative_r": 33.0
+          "cumulative_r": 7.0
         },
         {
           "time": "2026-09-14T23:07:43.430370+00:00",
           "pair": "GBPUSD",
-          "cumulative_r": 32.0
+          "cumulative_r": 6.0
         },
         {
           "time": "2026-09-15T08:18:29.922206+00:00",
           "pair": "NZDUSD",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-15T08:19:04.429342+00:00",
           "pair": "NZDCAD",
-          "cumulative_r": 32.0
+          "cumulative_r": 6.0
         },
         {
           "time": "2026-09-15T08:22:17.240988+00:00",
           "pair": "EURAUD",
-          "cumulative_r": 33.0
+          "cumulative_r": 7.0
         },
         {
           "time": "2026-09-15T08:22:17.851439+00:00",
           "pair": "AUDCAD",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-15T08:23:55.283310+00:00",
           "pair": "NZDCHF",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-15T08:26:01.356922+00:00",
           "pair": "AUDUSD",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-15T08:31:19.207549+00:00",
           "pair": "AUDJPY",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-15T08:32:21.723274+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-15T08:32:22.227045+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": 33.0
+          "cumulative_r": 7.0
         },
         {
           "time": "2026-09-15T08:33:24.854187+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": 32.0
+          "cumulative_r": 6.0
         },
         {
           "time": "2026-09-15T08:34:27.080999+00:00",
           "pair": "EURCHF",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-15T08:40:45.308513+00:00",
           "pair": "USDCHF",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-15T08:46:01.320361+00:00",
           "pair": "CADCHF",
-          "cumulative_r": 29.0
+          "cumulative_r": 3.0
         },
         {
           "time": "2026-09-15T08:59:10.322144+00:00",
           "pair": "GBPAUD",
-          "cumulative_r": 28.0
+          "cumulative_r": 2.0
         },
         {
           "time": "2026-09-15T09:00:12.810362+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 27.0
+          "cumulative_r": 1.0
         },
         {
           "time": "2026-09-15T09:15:31.415537+00:00",
           "pair": "GBPJPY",
-          "cumulative_r": 28.0
+          "cumulative_r": 2.0
         },
         {
           "time": "2026-09-15T09:22:27.319390+00:00",
           "pair": "USDJPY",
-          "cumulative_r": 27.0
+          "cumulative_r": 1.0
         },
         {
           "time": "2026-09-15T09:23:02.123408+00:00",
           "pair": "GBPCHF",
-          "cumulative_r": 28.0
+          "cumulative_r": 2.0
         },
         {
           "time": "2026-09-15T09:25:41.089620+00:00",
           "pair": "GBPJPY",
-          "cumulative_r": 29.0
+          "cumulative_r": 3.0
         },
         {
           "time": "2026-09-15T10:10:52.372183+00:00",
           "pair": "AUDUSD",
-          "cumulative_r": 28.0
+          "cumulative_r": 2.0
         },
         {
           "time": "2026-09-15T10:22:01.095816+00:00",
           "pair": "EURCAD",
-          "cumulative_r": 29.0
+          "cumulative_r": 3.0
         },
         {
           "time": "2026-09-15T10:26:47.185182+00:00",
           "pair": "USDCAD",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-15T11:23:10.998081+00:00",
           "pair": "USDCHF",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-15T11:30:04.032291+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": 32.0
+          "cumulative_r": 6.0
         },
         {
           "time": "2026-09-15T11:34:46.871083+00:00",
           "pair": "GBPUSD",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-15T11:34:47.667201+00:00",
           "pair": "NZDUSD",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-15T11:41:08.668247+00:00",
           "pair": "EURUSD",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-15T11:54:17.340445+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-15T11:58:30.367164+00:00",
           "pair": "AUDJPY",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-15T12:00:05.379257+00:00",
           "pair": "GBPJPY",
-          "cumulative_r": 32.0
+          "cumulative_r": 6.0
         },
         {
           "time": "2026-09-15T12:00:05.765911+00:00",
           "pair": "GBPNZD",
-          "cumulative_r": 33.0
+          "cumulative_r": 7.0
         },
         {
           "time": "2026-09-15T12:03:18.312688+00:00",
           "pair": "GBPNZD",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-15T12:09:38.777355+00:00",
           "pair": "CADCHF",
-          "cumulative_r": 33.0
+          "cumulative_r": 7.0
         },
         {
           "time": "2026-09-15T12:30:20.074702+00:00",
           "pair": "EURJPY",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-15T12:30:20.322686+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-15T12:46:42.234219+00:00",
           "pair": "USDJPY",
-          "cumulative_r": 36.0
+          "cumulative_r": 10.0
         },
         {
           "time": "2026-09-15T13:02:03.675801+00:00",
           "pair": "CADCHF",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-15T13:39:41.003759+00:00",
           "pair": "NZDUSD",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-15T13:48:08.502866+00:00",
           "pair": "USDJPY",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-15T14:00:16.040668+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-15T14:27:50.086507+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 35.0
+          "cumulative_r": 9.0
         },
         {
           "time": "2026-09-15T14:30:29.575980+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 34.0
+          "cumulative_r": 8.0
         },
         {
           "time": "2026-09-15T14:33:08.640590+00:00",
           "pair": "CHFJPY",
-          "cumulative_r": 33.0
+          "cumulative_r": 7.0
         },
         {
           "time": "2026-09-15T14:44:09.630820+00:00",
           "pair": "NZDUSD",
-          "cumulative_r": 32.0
+          "cumulative_r": 6.0
         },
         {
           "time": "2026-09-15T14:44:41.398085+00:00",
           "pair": "GBPAUD",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-15T15:04:12.528107+00:00",
           "pair": "NZDCAD",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-15T15:08:23.029648+00:00",
           "pair": "USDJPY",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-15T15:09:26.690304+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-15T15:14:42.520896+00:00",
           "pair": "EURAUD",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-15T15:31:09.320556+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 32.0
+          "cumulative_r": 6.0
         },
         {
           "time": "2026-09-15T16:52:50.932051+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-15T17:00:09.327403+00:00",
           "pair": "EURUSD",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-15T17:37:01.064431+00:00",
           "pair": "CADJPY",
-          "cumulative_r": 29.0
+          "cumulative_r": 3.0
         },
         {
           "time": "2026-09-15T18:57:58.867588+00:00",
           "pair": "GBPUSD",
-          "cumulative_r": 28.0
+          "cumulative_r": 2.0
         },
         {
           "time": "2026-09-15T19:08:31.213780+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 29.0
+          "cumulative_r": 3.0
         },
         {
           "time": "2026-09-15T21:29:17.217401+00:00",
           "pair": "AUDUSD",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-15T21:36:38.559163+00:00",
           "pair": "GBPNZD",
-          "cumulative_r": 29.0
+          "cumulative_r": 3.0
         },
         {
           "time": "2026-09-15T22:13:46.682914+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 28.0
+          "cumulative_r": 2.0
         },
         {
           "time": "2026-09-15T23:30:18.034883+00:00",
           "pair": "NZDUSD",
-          "cumulative_r": 29.0
+          "cumulative_r": 3.0
         },
         {
           "time": "2026-09-15T23:30:18.547588+00:00",
           "pair": "GBPNZD",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-16T08:00:19.804336+00:00",
           "pair": "GBPUSD",
-          "cumulative_r": 31.0
+          "cumulative_r": 5.0
         },
         {
           "time": "2026-09-16T08:00:20.428109+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 30.0
+          "cumulative_r": 4.0
         },
         {
           "time": "2026-09-16T08:09:50.536285+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": 29.0
+          "cumulative_r": 3.0
         },
         {
           "time": "2026-09-16T08:10:21.598367+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 28.0
+          "cumulative_r": 2.0
         },
         {
           "time": "2026-09-16T08:11:25.885335+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": 27.0
+          "cumulative_r": 1.0
         },
         {
           "time": "2026-09-16T08:30:25.895377+00:00",
           "pair": "EURAUD",
-          "cumulative_r": 26.0
+          "cumulative_r": 0.0
         },
         {
           "time": "2026-09-16T08:30:26.478965+00:00",
           "pair": "AUDCHF",
-          "cumulative_r": 25.0
+          "cumulative_r": -1.0
         },
         {
           "time": "2026-09-16T08:34:37.683009+00:00",
           "pair": "AUDUSD",
-          "cumulative_r": 24.0
+          "cumulative_r": -2.0
         },
         {
           "time": "2026-09-16T08:39:21.547376+00:00",
           "pair": "GBPCHF",
-          "cumulative_r": 23.0
+          "cumulative_r": -3.0
         },
         {
           "time": "2026-09-16T08:58:49.426378+00:00",
           "pair": "EURCHF",
-          "cumulative_r": 24.0
+          "cumulative_r": -2.0
         },
         {
           "time": "2026-09-16T09:00:23.636485+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 25.0
+          "cumulative_r": -1.0
         },
         {
           "time": "2026-09-16T09:11:26.386742+00:00",
           "pair": "USDCAD",
-          "cumulative_r": 24.0
+          "cumulative_r": -2.0
         },
         {
           "time": "2026-09-16T09:23:34.811935+00:00",
           "pair": "GBPAUD",
-          "cumulative_r": 25.0
+          "cumulative_r": -1.0
         },
         {
           "time": "2026-09-16T09:24:05.527774+00:00",
           "pair": "EURUSD",
-          "cumulative_r": 26.0
+          "cumulative_r": 0.0
         },
         {
           "time": "2026-09-16T09:28:54.118040+00:00",
           "pair": "CADJPY",
-          "cumulative_r": 25.0
+          "cumulative_r": -1.0
         },
         {
           "time": "2026-09-16T09:29:24.873800+00:00",
           "pair": "EURCAD",
-          "cumulative_r": 26.0
+          "cumulative_r": 0.0
         },
         {
           "time": "2026-09-16T09:39:24.462545+00:00",
           "pair": "NZDCAD",
-          "cumulative_r": 25.0
+          "cumulative_r": -1.0
         },
         {
           "time": "2026-09-16T09:40:58.956085+00:00",
           "pair": "NZDUSD",
-          "cumulative_r": 24.0
+          "cumulative_r": -2.0
         },
         {
           "time": "2026-09-16T10:01:28.324516+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": 25.0
+          "cumulative_r": -1.0
         },
         {
           "time": "2026-09-16T10:13:03.537141+00:00",
           "pair": "GBPNZD",
-          "cumulative_r": 26.0
+          "cumulative_r": 0.0
         },
         {
           "time": "2026-09-16T10:14:37.908503+00:00",
           "pair": "NZDCHF",
-          "cumulative_r": 25.0
+          "cumulative_r": -1.0
         },
         {
           "time": "2026-09-16T10:25:10.260718+00:00",
           "pair": "USDJPY",
-          "cumulative_r": 24.0
+          "cumulative_r": -2.0
         },
         {
           "time": "2026-09-16T10:27:19.059553+00:00",
           "pair": "USDCHF",
-          "cumulative_r": 23.0
+          "cumulative_r": -3.0
         },
         {
           "time": "2026-09-16T10:30:31.745688+00:00",
           "pair": "AUDJPY",
-          "cumulative_r": 22.0
+          "cumulative_r": -4.0
         },
         {
           "time": "2026-09-16T10:53:36.782202+00:00",
           "pair": "AUDCHF",
-          "cumulative_r": 21.0
+          "cumulative_r": -5.0
         },
         {
           "time": "2026-09-16T10:58:51.360447+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": 20.0
+          "cumulative_r": -6.0
         },
         {
           "time": "2026-09-16T11:00:26.063167+00:00",
           "pair": "USDCAD",
-          "cumulative_r": 19.0
+          "cumulative_r": -7.0
         },
         {
           "time": "2026-09-16T11:30:31.134897+00:00",
           "pair": "EURGBP",
-          "cumulative_r": 20.0
+          "cumulative_r": -6.0
         },
         {
           "time": "2026-09-16T11:30:31.582193+00:00",
           "pair": "GBPCHF",
-          "cumulative_r": 21.0
+          "cumulative_r": -5.0
         },
         {
           "time": "2026-09-16T11:30:32.060923+00:00",
           "pair": "NZDCAD",
-          "cumulative_r": 20.0
+          "cumulative_r": -6.0
         },
         {
           "time": "2026-09-16T11:33:08.794958+00:00",
           "pair": "NZDUSD",
-          "cumulative_r": 19.0
+          "cumulative_r": -7.0
         },
         {
           "time": "2026-09-16T11:34:43.775720+00:00",
           "pair": "EURCHF",
-          "cumulative_r": 18.0
+          "cumulative_r": -8.0
         },
         {
           "time": "2026-09-16T12:19:24.077987+00:00",
           "pair": "USDCAD",
-          "cumulative_r": 17.0
+          "cumulative_r": -9.0
         },
         {
           "time": "2026-09-16T12:25:47.186430+00:00",
           "pair": "GBPJPY",
-          "cumulative_r": 16.0
+          "cumulative_r": -10.0
         },
         {
           "time": "2026-09-16T12:30:04.200924+00:00",
           "pair": "AUDJPY",
-          "cumulative_r": 15.0
+          "cumulative_r": -11.0
         },
         {
           "time": "2026-09-16T12:52:38.068896+00:00",
           "pair": "USDJPY",
-          "cumulative_r": 14.0
+          "cumulative_r": -12.0
         },
         {
           "time": "2026-09-16T13:00:30.741979+00:00",
           "pair": "CHFJPY",
-          "cumulative_r": 13.0
+          "cumulative_r": -13.0
         },
         {
           "time": "2026-09-16T13:43:45.785461+00:00",
           "pair": "USDCAD",
-          "cumulative_r": 12.0
+          "cumulative_r": -14.0
         },
         {
           "time": "2026-09-16T13:56:51.491986+00:00",
           "pair": "EURJPY",
-          "cumulative_r": 11.0
+          "cumulative_r": -15.0
         },
         {
           "time": "2026-09-16T13:59:59.972341+00:00",
           "pair": "USDCAD",
-          "cumulative_r": 10.0
+          "cumulative_r": -16.0
         },
         {
           "time": "2026-09-16T14:00:31.693806+00:00",
           "pair": "AUDUSD",
-          "cumulative_r": 9.0
+          "cumulative_r": -17.0
         },
         {
           "time": "2026-09-16T14:23:37.328980+00:00",
           "pair": "AUDUSD",
-          "cumulative_r": 8.0
+          "cumulative_r": -18.0
         },
         {
           "time": "2026-09-16T15:00:30.251897+00:00",
           "pair": "GBPJPY",
-          "cumulative_r": 9.0
+          "cumulative_r": -17.0
         },
         {
           "time": "2026-09-16T15:07:20.656285+00:00",
           "pair": "NZDUSD",
-          "cumulative_r": 8.0
+          "cumulative_r": -18.0
         },
         {
           "time": "2026-09-16T15:07:21.466639+00:00",
           "pair": "NZDCAD",
-          "cumulative_r": 7.0
+          "cumulative_r": -19.0
         },
         {
           "time": "2026-09-16T15:19:25.041170+00:00",
           "pair": "NZDCHF",
-          "cumulative_r": 6.0
+          "cumulative_r": -20.0
         },
         {
           "time": "2026-09-16T15:27:54.052835+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": 5.0
+          "cumulative_r": -21.0
         },
         {
           "time": "2026-09-16T16:30:26.874113+00:00",
           "pair": "AUDJPY",
-          "cumulative_r": 4.0
+          "cumulative_r": -22.0
         },
         {
           "time": "2026-09-16T16:39:21.819824+00:00",
           "pair": "AUDCHF",
-          "cumulative_r": 3.0
+          "cumulative_r": -23.0
         },
         {
           "time": "2026-09-16T16:39:52.352242+00:00",
           "pair": "USDCHF",
-          "cumulative_r": 2.0
+          "cumulative_r": -24.0
         },
         {
           "time": "2026-09-16T16:40:23.489879+00:00",
           "pair": "USDJPY",
-          "cumulative_r": 1.0
+          "cumulative_r": -25.0
         },
         {
           "time": "2026-09-16T17:00:16.259401+00:00",
           "pair": "USDCAD",
-          "cumulative_r": 0.0
+          "cumulative_r": -26.0
         },
         {
           "time": "2026-09-16T17:28:40.063700+00:00",
           "pair": "NZDCAD",
-          "cumulative_r": -1.0
+          "cumulative_r": -27.0
         },
         {
           "time": "2026-09-16T17:29:12.545835+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": -2.0
+          "cumulative_r": -28.0
         },
         {
           "time": "2026-09-16T18:00:05.676401+00:00",
           "pair": "AUDCAD",
-          "cumulative_r": -3.0
+          "cumulative_r": -29.0
         },
         {
           "time": "2026-09-16T18:00:06.207014+00:00",
           "pair": "CADCHF",
-          "cumulative_r": -4.0
+          "cumulative_r": -30.0
         },
         {
           "time": "2026-09-16T18:21:09.047527+00:00",
           "pair": "EURJPY",
-          "cumulative_r": -5.0
+          "cumulative_r": -31.0
         },
         {
           "time": "2026-09-16T18:30:10.194378+00:00",
           "pair": "USDJPY",
-          "cumulative_r": -4.0
+          "cumulative_r": -30.0
         },
         {
           "time": "2026-09-16T18:30:10.264828+00:00",
           "pair": "USDCHF",
-          "cumulative_r": -3.0
+          "cumulative_r": -29.0
         },
         {
           "time": "2026-09-16T18:30:10.343422+00:00",
           "pair": "AUDUSD",
-          "cumulative_r": -2.0
+          "cumulative_r": -28.0
         },
         {
           "time": "2026-09-16T18:30:10.504020+00:00",
           "pair": "USDCAD",
-          "cumulative_r": -1.0
+          "cumulative_r": -27.0
         },
         {
           "time": "2026-09-16T18:30:10.572237+00:00",
           "pair": "NZDUSD",
-          "cumulative_r": 0.0
+          "cumulative_r": -26.0
         },
         {
           "time": "2026-09-16T18:30:11.657851+00:00",
           "pair": "AUDCHF",
-          "cumulative_r": 1.0
+          "cumulative_r": -25.0
         },
         {
           "time": "2026-09-16T18:30:11.766913+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": 0.0
+          "cumulative_r": -26.0
         },
         {
           "time": "2026-09-16T18:45:57.121123+00:00",
           "pair": "CHFJPY",
-          "cumulative_r": -1.0
+          "cumulative_r": -27.0
         },
         {
           "time": "2026-09-16T19:04:53.371625+00:00",
           "pair": "EURCHF",
-          "cumulative_r": 0.0
+          "cumulative_r": -26.0
         },
         {
           "time": "2026-09-16T19:05:25.651051+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": 1.0
+          "cumulative_r": -25.0
         },
         {
           "time": "2026-09-16T19:08:02.909964+00:00",
           "pair": "AUDCAD",
-          "cumulative_r": 2.0
+          "cumulative_r": -24.0
         },
         {
           "time": "2026-09-16T19:09:38.354163+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 1.0
+          "cumulative_r": -25.0
         },
         {
           "time": "2026-09-16T19:39:16.306557+00:00",
           "pair": "NZDCHF",
-          "cumulative_r": 0.0
+          "cumulative_r": -26.0
         },
         {
           "time": "2026-09-16T19:40:51.687699+00:00",
           "pair": "GBPNZD",
-          "cumulative_r": -1.0
+          "cumulative_r": -27.0
         },
         {
           "time": "2026-09-16T20:00:13.898395+00:00",
           "pair": "EURJPY",
-          "cumulative_r": -2.0
+          "cumulative_r": -28.0
         },
         {
           "time": "2026-09-16T20:00:14.023595+00:00",
           "pair": "EURAUD",
-          "cumulative_r": -1.0
+          "cumulative_r": -27.0
         },
         {
           "time": "2026-09-16T20:00:14.528400+00:00",
           "pair": "AUDJPY",
-          "cumulative_r": -2.0
+          "cumulative_r": -28.0
         },
         {
           "time": "2026-09-16T20:03:55.085788+00:00",
           "pair": "GBPAUD",
-          "cumulative_r": -1.0
+          "cumulative_r": -27.0
+        },
+        {
+          "time": "2026-09-16T20:30:12.477769+00:00",
+          "pair": "GBPCHF",
+          "cumulative_r": -28.0
         },
         {
           "time": "2026-09-16T21:25:44.226537+00:00",
           "pair": "NZDCHF",
-          "cumulative_r": 0.0
+          "cumulative_r": -27.0
         },
         {
           "time": "2026-09-16T21:55:03.095753+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": 1.0
+          "cumulative_r": -26.0
+        },
+        {
+          "time": "2026-09-16T22:13:52.431236+00:00",
+          "pair": "EURCHF",
+          "cumulative_r": -27.0
         },
         {
           "time": "2026-09-16T22:21:42.813015+00:00",
           "pair": "EURJPY",
-          "cumulative_r": 0.0
+          "cumulative_r": -28.0
         },
         {
           "time": "2026-09-16T22:30:42.382971+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": 1.0
+          "cumulative_r": -27.0
         },
         {
           "time": "2026-09-16T22:32:47.874842+00:00",
           "pair": "GBPNZD",
-          "cumulative_r": 2.0
+          "cumulative_r": -26.0
         },
         {
           "time": "2026-09-16T23:16:44.754289+00:00",
           "pair": "EURNZD",
-          "cumulative_r": 1.0
+          "cumulative_r": -27.0
         },
         {
           "time": "2026-09-16T23:27:16.746213+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": 0.0
+          "cumulative_r": -28.0
+        },
+        {
+          "time": "2026-09-17T07:24:15.578799+00:00",
+          "pair": "GBPNZD",
+          "cumulative_r": -29.0
+        },
+        {
+          "time": "2026-09-17T07:24:15.914470+00:00",
+          "pair": "NZDCHF",
+          "cumulative_r": -28.0
+        },
+        {
+          "time": "2026-09-17T08:02:13.685267+00:00",
+          "pair": "GBPAUD",
+          "cumulative_r": -29.0
+        },
+        {
+          "time": "2026-09-17T08:06:24.134193+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -30.0
+        },
+        {
+          "time": "2026-09-17T08:14:50.586158+00:00",
+          "pair": "CHFJPY",
+          "cumulative_r": -29.0
+        },
+        {
+          "time": "2026-09-17T08:16:55.946651+00:00",
+          "pair": "NZDCHF",
+          "cumulative_r": -30.0
+        },
+        {
+          "time": "2026-09-17T08:19:01.653136+00:00",
+          "pair": "EURCHF",
+          "cumulative_r": -29.0
+        },
+        {
+          "time": "2026-09-17T08:26:57.775110+00:00",
+          "pair": "AUDCHF",
+          "cumulative_r": -30.0
+        },
+        {
+          "time": "2026-09-17T08:28:34.912312+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -31.0
+        },
+        {
+          "time": "2026-09-17T08:44:53.705835+00:00",
+          "pair": "AUDUSD",
+          "cumulative_r": -32.0
+        },
+        {
+          "time": "2026-09-17T08:45:25.146168+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -33.0
+        },
+        {
+          "time": "2026-09-17T08:54:22.035645+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -34.0
+        },
+        {
+          "time": "2026-09-17T08:56:59.868433+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -35.0
+        },
+        {
+          "time": "2026-09-17T08:57:32.389737+00:00",
+          "pair": "NZDCHF",
+          "cumulative_r": -36.0
+        },
+        {
+          "time": "2026-09-17T09:29:08.645406+00:00",
+          "pair": "EURGBP",
+          "cumulative_r": -35.0
+        },
+        {
+          "time": "2026-09-17T09:59:07.601928+00:00",
+          "pair": "CHFJPY",
+          "cumulative_r": -36.0
+        },
+        {
+          "time": "2026-09-17T10:00:08.924707+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -37.0
+        },
+        {
+          "time": "2026-09-17T10:00:09.364085+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -38.0
+        },
+        {
+          "time": "2026-09-17T10:12:47.903060+00:00",
+          "pair": "EURGBP",
+          "cumulative_r": -39.0
+        },
+        {
+          "time": "2026-09-17T10:12:48.150865+00:00",
+          "pair": "EURNZD",
+          "cumulative_r": -40.0
+        },
+        {
+          "time": "2026-09-17T10:14:22.457722+00:00",
+          "pair": "AUDUSD",
+          "cumulative_r": -41.0
+        },
+        {
+          "time": "2026-09-17T10:22:15.202381+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -40.0
+        },
+        {
+          "time": "2026-09-17T10:30:12.731826+00:00",
+          "pair": "AUDNZD",
+          "cumulative_r": -41.0
+        },
+        {
+          "time": "2026-09-17T11:14:59.222164+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -42.0
+        },
+        {
+          "time": "2026-09-17T11:16:02.754468+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -43.0
+        },
+        {
+          "time": "2026-09-17T11:30:19.807435+00:00",
+          "pair": "EURGBP",
+          "cumulative_r": -42.0
+        },
+        {
+          "time": "2026-09-17T11:30:20.891358+00:00",
+          "pair": "GBPNZD",
+          "cumulative_r": -41.0
+        },
+        {
+          "time": "2026-09-17T11:39:22.393392+00:00",
+          "pair": "GBPJPY",
+          "cumulative_r": -40.0
+        },
+        {
+          "time": "2026-09-17T11:40:57.315934+00:00",
+          "pair": "AUDCHF",
+          "cumulative_r": -41.0
+        },
+        {
+          "time": "2026-09-17T11:41:59.606874+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -42.0
+        },
+        {
+          "time": "2026-09-17T11:45:08.687835+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -43.0
+        },
+        {
+          "time": "2026-09-17T11:58:17.377079+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -44.0
+        },
+        {
+          "time": "2026-09-17T11:59:21.393900+00:00",
+          "pair": "GBPCAD",
+          "cumulative_r": -43.0
+        },
+        {
+          "time": "2026-09-17T11:59:52.658311+00:00",
+          "pair": "GBPAUD",
+          "cumulative_r": -42.0
+        },
+        {
+          "time": "2026-09-17T12:00:24.954250+00:00",
+          "pair": "NZDJPY",
+          "cumulative_r": -43.0
+        },
+        {
+          "time": "2026-09-17T12:00:56.410540+00:00",
+          "pair": "AUDJPY",
+          "cumulative_r": -44.0
+        },
+        {
+          "time": "2026-09-17T12:04:07.573300+00:00",
+          "pair": "EURCAD",
+          "cumulative_r": -43.0
+        },
+        {
+          "time": "2026-09-17T12:04:08.314395+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -44.0
+        },
+        {
+          "time": "2026-09-17T12:31:10.436626+00:00",
+          "pair": "EURNZD",
+          "cumulative_r": -45.0
+        },
+        {
+          "time": "2026-09-17T12:33:18.304066+00:00",
+          "pair": "CADJPY",
+          "cumulative_r": -46.0
+        },
+        {
+          "time": "2026-09-17T12:33:49.840092+00:00",
+          "pair": "AUDCAD",
+          "cumulative_r": -47.0
+        },
+        {
+          "time": "2026-09-17T12:51:46.766443+00:00",
+          "pair": "GBPJPY",
+          "cumulative_r": -48.0
+        },
+        {
+          "time": "2026-09-17T12:57:33.237030+00:00",
+          "pair": "AUDUSD",
+          "cumulative_r": -49.0
+        },
+        {
+          "time": "2026-09-17T12:58:36.686186+00:00",
+          "pair": "GBPCHF",
+          "cumulative_r": -48.0
+        },
+        {
+          "time": "2026-09-17T13:00:11.527092+00:00",
+          "pair": "GBPCAD",
+          "cumulative_r": -47.0
+        },
+        {
+          "time": "2026-09-17T13:02:18.961658+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -46.0
+        },
+        {
+          "time": "2026-09-17T13:58:45.240174+00:00",
+          "pair": "NZDJPY",
+          "cumulative_r": -45.0
+        },
+        {
+          "time": "2026-09-17T14:04:01.424669+00:00",
+          "pair": "AUDNZD",
+          "cumulative_r": -46.0
+        },
+        {
+          "time": "2026-09-17T14:14:36.391424+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -47.0
+        },
+        {
+          "time": "2026-09-17T14:25:38.637965+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -46.0
+        },
+        {
+          "time": "2026-09-17T14:26:44.609534+00:00",
+          "pair": "GBPJPY",
+          "cumulative_r": -47.0
+        },
+        {
+          "time": "2026-09-17T14:34:12.185968+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -46.0
+        },
+        {
+          "time": "2026-09-17T14:44:14.049844+00:00",
+          "pair": "AUDJPY",
+          "cumulative_r": -45.0
+        },
+        {
+          "time": "2026-09-17T15:13:38.448142+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -44.0
+        },
+        {
+          "time": "2026-09-17T15:19:26.515144+00:00",
+          "pair": "CADCHF",
+          "cumulative_r": -45.0
+        },
+        {
+          "time": "2026-09-17T15:28:22.369548+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -46.0
+        },
+        {
+          "time": "2026-09-17T15:30:31.561101+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -45.0
+        },
+        {
+          "time": "2026-09-17T15:59:57.574683+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -46.0
+        },
+        {
+          "time": "2026-09-17T16:00:30.010808+00:00",
+          "pair": "AUDJPY",
+          "cumulative_r": -45.0
+        },
+        {
+          "time": "2026-09-17T16:04:42.925599+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -44.0
+        },
+        {
+          "time": "2026-09-17T16:41:04.255852+00:00",
+          "pair": "NZDJPY",
+          "cumulative_r": -45.0
+        },
+        {
+          "time": "2026-09-17T16:46:48.932285+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -44.0
+        },
+        {
+          "time": "2026-09-17T17:00:29.213431+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -45.0
+        },
+        {
+          "time": "2026-09-17T17:00:30.627395+00:00",
+          "pair": "CADCHF",
+          "cumulative_r": -46.0
+        },
+        {
+          "time": "2026-09-17T17:21:00.486114+00:00",
+          "pair": "AUDNZD",
+          "cumulative_r": -47.0
+        },
+        {
+          "time": "2026-09-17T17:34:45.168481+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -48.0
+        },
+        {
+          "time": "2026-09-17T17:51:31.860701+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -49.0
+        },
+        {
+          "time": "2026-09-17T18:17:14.716158+00:00",
+          "pair": "EURCAD",
+          "cumulative_r": -50.0
+        },
+        {
+          "time": "2026-09-17T18:29:20.727863+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -51.0
+        },
+        {
+          "time": "2026-09-17T18:30:27.320012+00:00",
+          "pair": "CADCHF",
+          "cumulative_r": -52.0
+        },
+        {
+          "time": "2026-09-17T18:32:35.274995+00:00",
+          "pair": "AUDCAD",
+          "cumulative_r": -53.0
+        },
+        {
+          "time": "2026-09-17T18:49:26.351782+00:00",
+          "pair": "AUDUSD",
+          "cumulative_r": -54.0
+        },
+        {
+          "time": "2026-09-17T18:49:57.982613+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -55.0
+        },
+        {
+          "time": "2026-09-17T19:22:29.383419+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -56.0
+        },
+        {
+          "time": "2026-09-17T20:22:49.989918+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -57.0
+        },
+        {
+          "time": "2026-09-17T20:22:50.086601+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -58.0
+        },
+        {
+          "time": "2026-09-17T20:27:00.931759+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -59.0
+        },
+        {
+          "time": "2026-09-17T20:58:00.733865+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -60.0
+        },
+        {
+          "time": "2026-09-17T21:10:36.605140+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -61.0
+        },
+        {
+          "time": "2026-09-17T21:11:07.918303+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -62.0
+        },
+        {
+          "time": "2026-09-17T21:22:09.586102+00:00",
+          "pair": "EURNZD",
+          "cumulative_r": -63.0
+        },
+        {
+          "time": "2026-09-17T21:25:16.945445+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -62.0
+        },
+        {
+          "time": "2026-09-17T21:53:12.471427+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -61.0
+        },
+        {
+          "time": "2026-09-17T21:53:13.316177+00:00",
+          "pair": "CADCHF",
+          "cumulative_r": -62.0
+        },
+        {
+          "time": "2026-09-17T21:55:19.388372+00:00",
+          "pair": "NZDCHF",
+          "cumulative_r": -63.0
+        },
+        {
+          "time": "2026-09-17T21:56:53.226930+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -62.0
+        },
+        {
+          "time": "2026-09-17T22:02:40.531883+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -63.0
+        },
+        {
+          "time": "2026-09-17T22:31:07.639541+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -62.0
+        },
+        {
+          "time": "2026-09-17T22:55:16.493079+00:00",
+          "pair": "AUDCAD",
+          "cumulative_r": -63.0
+        },
+        {
+          "time": "2026-09-17T23:01:00.486116+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -62.0
+        },
+        {
+          "time": "2026-09-17T23:01:01.398700+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -61.0
+        },
+        {
+          "time": "2026-09-17T23:54:35.725768+00:00",
+          "pair": "NZDJPY",
+          "cumulative_r": -62.0
+        },
+        {
+          "time": "2026-09-17T23:56:09.383982+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -61.0
+        },
+        {
+          "time": "2026-09-17T23:57:11.527524+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -62.0
+        },
+        {
+          "time": "2026-09-18T00:03:33.764827+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -63.0
+        },
+        {
+          "time": "2026-09-18T00:10:23.432392+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -62.0
+        },
+        {
+          "time": "2026-09-18T00:41:32.667340+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -61.0
+        },
+        {
+          "time": "2026-09-18T00:46:14.984377+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -62.0
+        },
+        {
+          "time": "2026-09-18T01:10:55.078293+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -63.0
+        },
+        {
+          "time": "2026-09-18T01:11:57.917812+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -62.0
+        },
+        {
+          "time": "2026-09-18T01:29:19.166560+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -63.0
+        },
+        {
+          "time": "2026-09-18T01:46:48.850161+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -64.0
+        },
+        {
+          "time": "2026-09-18T02:06:47.778510+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -65.0
+        },
+        {
+          "time": "2026-09-18T02:15:42.351665+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -64.0
+        },
+        {
+          "time": "2026-09-18T02:28:19.586772+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -65.0
+        },
+        {
+          "time": "2026-09-18T02:37:21.687283+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -66.0
+        },
+        {
+          "time": "2026-09-18T02:54:14.627166+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -65.0
+        },
+        {
+          "time": "2026-09-18T03:03:15.160539+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -66.0
+        },
+        {
+          "time": "2026-09-18T03:05:22.208835+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -65.0
+        },
+        {
+          "time": "2026-09-18T04:13:34.447411+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -64.0
         }
       ]
     },
     "30d": {
-      "total_signals": 1045,
-      "resolved_signals": 1018,
-      "win_rate": 0.431237721021611,
-      "avg_r": -0.09970530451866613,
-      "directional_accuracy": 0.5386565272496832,
-      "directional_sample_size": 789,
+      "total_signals": 1156,
+      "resolved_signals": 1130,
+      "win_rate": 0.42123893805309737,
+      "avg_r": -0.1234513274336302,
+      "directional_accuracy": 0.5418098510882016,
+      "directional_sample_size": 873,
       "best_pair": "GBPJPY",
       "by_pair": {
         "AUDCAD": {
-          "signals": 39,
-          "win_rate": 0.39473684210526316,
-          "avg_r": -0.18750000000000544,
+          "signals": 42,
+          "win_rate": 0.36585365853658536,
+          "avg_r": -0.24695121951220014,
           "best_r": 1.8749999999997933,
           "worst_r": -1.0,
-          "directional_accuracy": 0.5625
+          "directional_accuracy": 0.5588235294117647
         },
         "AUDCHF": {
-          "signals": 27,
-          "win_rate": 0.32,
-          "avg_r": -0.3249999999999982,
+          "signals": 29,
+          "win_rate": 0.2962962962962963,
+          "avg_r": -0.3749999999999983,
           "best_r": 1.8750000000000462,
           "worst_r": -1.0,
-          "directional_accuracy": 0.47058823529411764
+          "directional_accuracy": 0.5238095238095238
         },
         "AUDJPY": {
-          "signals": 32,
-          "win_rate": 0.53125,
-          "avg_r": 0.14453125000000952,
+          "signals": 35,
+          "win_rate": 0.5428571428571428,
+          "avg_r": 0.1607142857142944,
           "best_r": 1.8750000000001685,
           "worst_r": -1.0,
-          "directional_accuracy": 0.75
+          "directional_accuracy": 0.7857142857142857
         },
         "AUDNZD": {
-          "signals": 31,
-          "win_rate": 0.2903225806451613,
-          "avg_r": -0.39112903225805645,
+          "signals": 34,
+          "win_rate": 0.2647058823529412,
+          "avg_r": -0.44485294117646323,
           "best_r": 1.8750000000002505,
           "worst_r": -1.0,
-          "directional_accuracy": 0.7083333333333334
+          "directional_accuracy": 0.6333333333333333
         },
         "AUDUSD": {
-          "signals": 52,
-          "win_rate": 0.46,
-          "avg_r": -0.0450000000000057,
+          "signals": 56,
+          "win_rate": 0.42592592592592593,
+          "avg_r": -0.11574074074074601,
           "best_r": 1.875,
           "worst_r": -1.0,
-          "directional_accuracy": 0.6486486486486487
+          "directional_accuracy": 0.6829268292682927
         },
         "CADCHF": {
-          "signals": 38,
-          "win_rate": 0.40540540540540543,
-          "avg_r": -0.14189189189188994,
+          "signals": 42,
+          "win_rate": 0.36585365853658536,
+          "avg_r": -0.22560975609755923,
           "best_r": 1.8750000000002487,
           "worst_r": -1.0,
-          "directional_accuracy": 0.5714285714285714
+          "directional_accuracy": 0.5517241379310345
         },
         "CADJPY": {
-          "signals": 22,
-          "win_rate": 0.36363636363636365,
-          "avg_r": -0.2727272727272727,
+          "signals": 23,
+          "win_rate": 0.34782608695652173,
+          "avg_r": -0.30434782608695654,
           "best_r": 1.0,
           "worst_r": -1.0,
-          "directional_accuracy": 0.5625
+          "directional_accuracy": 0.5294117647058824
         },
         "CHFJPY": {
-          "signals": 28,
-          "win_rate": 0.4642857142857143,
-          "avg_r": -0.04017857142857475,
+          "signals": 30,
+          "win_rate": 0.4666666666666667,
+          "avg_r": -0.0375000000000031,
           "best_r": 1.874999999999907,
           "worst_r": -1.0,
-          "directional_accuracy": 0.45
+          "directional_accuracy": 0.4090909090909091
         },
         "EURAUD": {
           "signals": 40,
@@ -1787,31 +2117,31 @@
           "avg_r": 0.023026315789467115,
           "best_r": 1.8749999999997504,
           "worst_r": -1.0,
-          "directional_accuracy": 0.6875
+          "directional_accuracy": 0.6764705882352942
         },
         "EURCAD": {
-          "signals": 43,
-          "win_rate": 0.37209302325581395,
-          "avg_r": -0.2151162790697625,
+          "signals": 46,
+          "win_rate": 0.37777777777777777,
+          "avg_r": -0.20555555555555083,
           "best_r": 1.8750000000001785,
           "worst_r": -1.0,
-          "directional_accuracy": 0.28125
+          "directional_accuracy": 0.30303030303030304
         },
         "EURCHF": {
-          "signals": 41,
-          "win_rate": 0.38461538461538464,
-          "avg_r": -0.23076923076923078,
+          "signals": 42,
+          "win_rate": 0.3902439024390244,
+          "avg_r": -0.21951219512195122,
           "best_r": 1.0,
           "worst_r": -1.0,
-          "directional_accuracy": 0.5666666666666667
+          "directional_accuracy": 0.5294117647058824
         },
         "EURGBP": {
-          "signals": 45,
-          "win_rate": 0.3333333333333333,
-          "avg_r": -0.3333333333333333,
+          "signals": 48,
+          "win_rate": 0.3541666666666667,
+          "avg_r": -0.2916666666666667,
           "best_r": 1.0,
           "worst_r": -1.0,
-          "directional_accuracy": 0.2972972972972973
+          "directional_accuracy": 0.3076923076923077
         },
         "EURJPY": {
           "signals": 35,
@@ -1819,127 +2149,127 @@
           "avg_r": -0.11785714285714816,
           "best_r": 1.8749999999998144,
           "worst_r": -1.0,
-          "directional_accuracy": 0.4583333333333333
+          "directional_accuracy": 0.39285714285714285
         },
         "EURNZD": {
-          "signals": 49,
-          "win_rate": 0.42857142857142855,
-          "avg_r": -0.12499999999999821,
+          "signals": 52,
+          "win_rate": 0.40384615384615385,
+          "avg_r": -0.17548076923076755,
           "best_r": 1.8750000000000877,
           "worst_r": -1.0,
-          "directional_accuracy": 0.7209302325581395
+          "directional_accuracy": 0.6808510638297872
         },
         "EURUSD": {
-          "signals": 56,
-          "win_rate": 0.4642857142857143,
-          "avg_r": -0.04017857142856929,
+          "signals": 66,
+          "win_rate": 0.3939393939393939,
+          "avg_r": -0.18560606060605878,
           "best_r": 1.8750000000001767,
           "worst_r": -1.0,
-          "directional_accuracy": 0.45098039215686275
+          "directional_accuracy": 0.46153846153846156
         },
         "GBPAUD": {
-          "signals": 36,
-          "win_rate": 0.5483870967741935,
-          "avg_r": 0.12499999999999908,
+          "signals": 38,
+          "win_rate": 0.5454545454545454,
+          "avg_r": 0.11742424242424156,
           "best_r": 1.8749999999999716,
           "worst_r": -1.0,
-          "directional_accuracy": 0.48
+          "directional_accuracy": 0.5185185185185185
         },
         "GBPCAD": {
-          "signals": 34,
-          "win_rate": 0.36363636363636365,
-          "avg_r": -0.2727272727272727,
+          "signals": 36,
+          "win_rate": 0.4,
+          "avg_r": -0.2,
           "best_r": 1.0,
           "worst_r": -1.0,
           "directional_accuracy": 0.6086956521739131
         },
         "GBPCHF": {
-          "signals": 38,
-          "win_rate": 0.5428571428571428,
-          "avg_r": 0.1357142857142668,
+          "signals": 39,
+          "win_rate": 0.5405405405405406,
+          "avg_r": 0.1283783783783605,
           "best_r": 1.8749999999998157,
           "worst_r": -1.0,
-          "directional_accuracy": 0.6153846153846154
+          "directional_accuracy": 0.5517241379310345
         },
         "GBPJPY": {
-          "signals": 37,
-          "win_rate": 0.5675675675675675,
-          "avg_r": 0.13513513513513514,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.6551724137931034
-        },
-        "GBPNZD": {
-          "signals": 36,
-          "win_rate": 0.47058823529411764,
-          "avg_r": -0.007352941176481364,
-          "best_r": 1.8749999999998261,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.5555555555555556
-        },
-        "GBPUSD": {
-          "signals": 36,
-          "win_rate": 0.36363636363636365,
-          "avg_r": -0.21969696969699323,
-          "best_r": 1.8749999999997542,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.3333333333333333
-        },
-        "NZDCAD": {
-          "signals": 34,
-          "win_rate": 0.29411764705882354,
-          "avg_r": -0.4117647058823529,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.6666666666666666
-        },
-        "NZDCHF": {
-          "signals": 27,
-          "win_rate": 0.4,
-          "avg_r": -0.12999999999998768,
-          "best_r": 1.875000000000226,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.631578947368421
-        },
-        "NZDJPY": {
-          "signals": 37,
-          "win_rate": 0.3783783783783784,
-          "avg_r": -0.19594594594594314,
-          "best_r": 1.875000000000066,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.42857142857142855
-        },
-        "NZDUSD": {
-          "signals": 45,
-          "win_rate": 0.45454545454545453,
-          "avg_r": 0.028409090909070598,
-          "best_r": 1.8750000000000888,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.34375
-        },
-        "USDCAD": {
-          "signals": 27,
-          "win_rate": 0.5185185185185185,
-          "avg_r": 0.0694444444444578,
-          "best_r": 1.8750000000003604,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.5294117647058824
-        },
-        "USDCHF": {
           "signals": 40,
           "win_rate": 0.55,
-          "avg_r": 0.2093750000000006,
+          "avg_r": 0.1,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.6774193548387096
+        },
+        "GBPNZD": {
+          "signals": 38,
+          "win_rate": 0.4722222222222222,
+          "avg_r": -0.006944444444454622,
+          "best_r": 1.8749999999998261,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.5666666666666667
+        },
+        "GBPUSD": {
+          "signals": 42,
+          "win_rate": 0.38461538461538464,
+          "avg_r": -0.1858974358974558,
+          "best_r": 1.8749999999997542,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.3548387096774194
+        },
+        "NZDCAD": {
+          "signals": 39,
+          "win_rate": 0.3076923076923077,
+          "avg_r": -0.38461538461538464,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.6129032258064516
+        },
+        "NZDCHF": {
+          "signals": 31,
+          "win_rate": 0.3793103448275862,
+          "avg_r": -0.1810344827586101,
+          "best_r": 1.875000000000226,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.6521739130434783
+        },
+        "NZDJPY": {
+          "signals": 41,
+          "win_rate": 0.36585365853658536,
+          "avg_r": -0.22560975609755846,
+          "best_r": 1.875000000000066,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.45454545454545453
+        },
+        "NZDUSD": {
+          "signals": 59,
+          "win_rate": 0.46551724137931033,
+          "avg_r": 0.021551724137915625,
+          "best_r": 1.8750000000000888,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.3611111111111111
+        },
+        "USDCAD": {
+          "signals": 32,
+          "win_rate": 0.46875,
+          "avg_r": -0.03515624999998874,
+          "best_r": 1.8750000000003604,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.5833333333333334
+        },
+        "USDCHF": {
+          "signals": 49,
+          "win_rate": 0.4489795918367347,
+          "avg_r": -0.012755102040815855,
           "best_r": 1.8750000000001597,
           "worst_r": -1.0,
-          "directional_accuracy": 0.5333333333333333
+          "directional_accuracy": 0.5757575757575758
         },
         "USDJPY": {
-          "signals": 40,
-          "win_rate": 0.425,
-          "avg_r": -0.08437500000000667,
+          "signals": 52,
+          "win_rate": 0.5,
+          "avg_r": 0.0504807692307641,
           "best_r": 1.8750000000003917,
           "worst_r": -1.0,
-          "directional_accuracy": 0.6206896551724138
+          "directional_accuracy": 0.6666666666666666
         }
       },
       "cumulative_r_series": [
@@ -6999,114 +7329,674 @@
           "cumulative_r": -102.5
         },
         {
+          "time": "2026-09-16T20:30:12.477769+00:00",
+          "pair": "GBPCHF",
+          "cumulative_r": -103.5
+        },
+        {
           "time": "2026-09-16T21:25:44.226537+00:00",
           "pair": "NZDCHF",
-          "cumulative_r": -101.5
+          "cumulative_r": -102.5
         },
         {
           "time": "2026-09-16T21:55:03.095753+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": -100.5
+          "cumulative_r": -101.5
+        },
+        {
+          "time": "2026-09-16T22:13:52.431236+00:00",
+          "pair": "EURCHF",
+          "cumulative_r": -102.5
         },
         {
           "time": "2026-09-16T22:21:42.813015+00:00",
           "pair": "EURJPY",
-          "cumulative_r": -101.5
+          "cumulative_r": -103.5
         },
         {
           "time": "2026-09-16T22:30:42.382971+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": -100.5
+          "cumulative_r": -102.5
         },
         {
           "time": "2026-09-16T22:32:47.874842+00:00",
           "pair": "GBPNZD",
-          "cumulative_r": -99.5
+          "cumulative_r": -101.5
         },
         {
           "time": "2026-09-16T23:16:44.754289+00:00",
           "pair": "EURNZD",
-          "cumulative_r": -100.5
+          "cumulative_r": -102.5
         },
         {
           "time": "2026-09-16T23:27:16.746213+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": -101.5
+          "cumulative_r": -103.5
+        },
+        {
+          "time": "2026-09-17T07:24:15.578799+00:00",
+          "pair": "GBPNZD",
+          "cumulative_r": -104.5
+        },
+        {
+          "time": "2026-09-17T07:24:15.914470+00:00",
+          "pair": "NZDCHF",
+          "cumulative_r": -103.5
+        },
+        {
+          "time": "2026-09-17T08:02:13.685267+00:00",
+          "pair": "GBPAUD",
+          "cumulative_r": -104.5
+        },
+        {
+          "time": "2026-09-17T08:06:24.134193+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -105.5
+        },
+        {
+          "time": "2026-09-17T08:14:50.586158+00:00",
+          "pair": "CHFJPY",
+          "cumulative_r": -104.5
+        },
+        {
+          "time": "2026-09-17T08:16:55.946651+00:00",
+          "pair": "NZDCHF",
+          "cumulative_r": -105.5
+        },
+        {
+          "time": "2026-09-17T08:19:01.653136+00:00",
+          "pair": "EURCHF",
+          "cumulative_r": -104.5
+        },
+        {
+          "time": "2026-09-17T08:26:57.775110+00:00",
+          "pair": "AUDCHF",
+          "cumulative_r": -105.5
+        },
+        {
+          "time": "2026-09-17T08:28:34.912312+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -106.5
+        },
+        {
+          "time": "2026-09-17T08:44:53.705835+00:00",
+          "pair": "AUDUSD",
+          "cumulative_r": -107.5
+        },
+        {
+          "time": "2026-09-17T08:45:25.146168+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -108.5
+        },
+        {
+          "time": "2026-09-17T08:54:22.035645+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -109.5
+        },
+        {
+          "time": "2026-09-17T08:56:59.868433+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -110.5
+        },
+        {
+          "time": "2026-09-17T08:57:32.389737+00:00",
+          "pair": "NZDCHF",
+          "cumulative_r": -111.5
+        },
+        {
+          "time": "2026-09-17T09:29:08.645406+00:00",
+          "pair": "EURGBP",
+          "cumulative_r": -110.5
+        },
+        {
+          "time": "2026-09-17T09:59:07.601928+00:00",
+          "pair": "CHFJPY",
+          "cumulative_r": -111.5
+        },
+        {
+          "time": "2026-09-17T10:00:08.924707+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -112.5
+        },
+        {
+          "time": "2026-09-17T10:00:09.364085+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -113.5
+        },
+        {
+          "time": "2026-09-17T10:12:47.903060+00:00",
+          "pair": "EURGBP",
+          "cumulative_r": -114.5
+        },
+        {
+          "time": "2026-09-17T10:12:48.150865+00:00",
+          "pair": "EURNZD",
+          "cumulative_r": -115.5
+        },
+        {
+          "time": "2026-09-17T10:14:22.457722+00:00",
+          "pair": "AUDUSD",
+          "cumulative_r": -116.5
+        },
+        {
+          "time": "2026-09-17T10:22:15.202381+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -115.5
+        },
+        {
+          "time": "2026-09-17T10:30:12.731826+00:00",
+          "pair": "AUDNZD",
+          "cumulative_r": -116.5
+        },
+        {
+          "time": "2026-09-17T11:14:59.222164+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -117.5
+        },
+        {
+          "time": "2026-09-17T11:16:02.754468+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -118.5
+        },
+        {
+          "time": "2026-09-17T11:30:19.807435+00:00",
+          "pair": "EURGBP",
+          "cumulative_r": -117.5
+        },
+        {
+          "time": "2026-09-17T11:30:20.891358+00:00",
+          "pair": "GBPNZD",
+          "cumulative_r": -116.5
+        },
+        {
+          "time": "2026-09-17T11:39:22.393392+00:00",
+          "pair": "GBPJPY",
+          "cumulative_r": -115.5
+        },
+        {
+          "time": "2026-09-17T11:40:57.315934+00:00",
+          "pair": "AUDCHF",
+          "cumulative_r": -116.5
+        },
+        {
+          "time": "2026-09-17T11:41:59.606874+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -117.5
+        },
+        {
+          "time": "2026-09-17T11:45:08.687835+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -118.5
+        },
+        {
+          "time": "2026-09-17T11:58:17.377079+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -119.5
+        },
+        {
+          "time": "2026-09-17T11:59:21.393900+00:00",
+          "pair": "GBPCAD",
+          "cumulative_r": -118.5
+        },
+        {
+          "time": "2026-09-17T11:59:52.658311+00:00",
+          "pair": "GBPAUD",
+          "cumulative_r": -117.5
+        },
+        {
+          "time": "2026-09-17T12:00:24.954250+00:00",
+          "pair": "NZDJPY",
+          "cumulative_r": -118.5
+        },
+        {
+          "time": "2026-09-17T12:00:56.410540+00:00",
+          "pair": "AUDJPY",
+          "cumulative_r": -119.5
+        },
+        {
+          "time": "2026-09-17T12:04:07.573300+00:00",
+          "pair": "EURCAD",
+          "cumulative_r": -118.5
+        },
+        {
+          "time": "2026-09-17T12:04:08.314395+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -119.5
+        },
+        {
+          "time": "2026-09-17T12:31:10.436626+00:00",
+          "pair": "EURNZD",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T12:33:18.304066+00:00",
+          "pair": "CADJPY",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T12:33:49.840092+00:00",
+          "pair": "AUDCAD",
+          "cumulative_r": -122.5
+        },
+        {
+          "time": "2026-09-17T12:51:46.766443+00:00",
+          "pair": "GBPJPY",
+          "cumulative_r": -123.5
+        },
+        {
+          "time": "2026-09-17T12:57:33.237030+00:00",
+          "pair": "AUDUSD",
+          "cumulative_r": -124.5
+        },
+        {
+          "time": "2026-09-17T12:58:36.686186+00:00",
+          "pair": "GBPCHF",
+          "cumulative_r": -123.5
+        },
+        {
+          "time": "2026-09-17T13:00:11.527092+00:00",
+          "pair": "GBPCAD",
+          "cumulative_r": -122.5
+        },
+        {
+          "time": "2026-09-17T13:02:18.961658+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T13:58:45.240174+00:00",
+          "pair": "NZDJPY",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T14:04:01.424669+00:00",
+          "pair": "AUDNZD",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T14:14:36.391424+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -122.5
+        },
+        {
+          "time": "2026-09-17T14:25:38.637965+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T14:26:44.609534+00:00",
+          "pair": "GBPJPY",
+          "cumulative_r": -122.5
+        },
+        {
+          "time": "2026-09-17T14:34:12.185968+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T14:44:14.049844+00:00",
+          "pair": "AUDJPY",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T15:13:38.448142+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -119.5
+        },
+        {
+          "time": "2026-09-17T15:19:26.515144+00:00",
+          "pair": "CADCHF",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T15:28:22.369548+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T15:30:31.561101+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T15:59:57.574683+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T16:00:30.010808+00:00",
+          "pair": "AUDJPY",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T16:04:42.925599+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -119.5
+        },
+        {
+          "time": "2026-09-17T16:41:04.255852+00:00",
+          "pair": "NZDJPY",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T16:46:48.932285+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -119.5
+        },
+        {
+          "time": "2026-09-17T17:00:29.213431+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T17:00:30.627395+00:00",
+          "pair": "CADCHF",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T17:21:00.486114+00:00",
+          "pair": "AUDNZD",
+          "cumulative_r": -122.5
+        },
+        {
+          "time": "2026-09-17T17:34:45.168481+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -123.5
+        },
+        {
+          "time": "2026-09-17T17:51:31.860701+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -124.5
+        },
+        {
+          "time": "2026-09-17T18:17:14.716158+00:00",
+          "pair": "EURCAD",
+          "cumulative_r": -125.5
+        },
+        {
+          "time": "2026-09-17T18:29:20.727863+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -126.5
+        },
+        {
+          "time": "2026-09-17T18:30:27.320012+00:00",
+          "pair": "CADCHF",
+          "cumulative_r": -127.5
+        },
+        {
+          "time": "2026-09-17T18:32:35.274995+00:00",
+          "pair": "AUDCAD",
+          "cumulative_r": -128.5
+        },
+        {
+          "time": "2026-09-17T18:49:26.351782+00:00",
+          "pair": "AUDUSD",
+          "cumulative_r": -129.5
+        },
+        {
+          "time": "2026-09-17T18:49:57.982613+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -130.5
+        },
+        {
+          "time": "2026-09-17T19:22:29.383419+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -131.5
+        },
+        {
+          "time": "2026-09-17T20:22:49.989918+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -132.5
+        },
+        {
+          "time": "2026-09-17T20:22:50.086601+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -133.5
+        },
+        {
+          "time": "2026-09-17T20:27:00.931759+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -134.5
+        },
+        {
+          "time": "2026-09-17T20:58:00.733865+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -135.5
+        },
+        {
+          "time": "2026-09-17T21:10:36.605140+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -136.5
+        },
+        {
+          "time": "2026-09-17T21:11:07.918303+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T21:22:09.586102+00:00",
+          "pair": "EURNZD",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-17T21:25:16.945445+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T21:53:12.471427+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -136.5
+        },
+        {
+          "time": "2026-09-17T21:53:13.316177+00:00",
+          "pair": "CADCHF",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T21:55:19.388372+00:00",
+          "pair": "NZDCHF",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-17T21:56:53.226930+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T22:02:40.531883+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-17T22:31:07.639541+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T22:55:16.493079+00:00",
+          "pair": "AUDCAD",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-17T23:01:00.486116+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T23:01:01.398700+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -136.5
+        },
+        {
+          "time": "2026-09-17T23:54:35.725768+00:00",
+          "pair": "NZDJPY",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T23:56:09.383982+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -136.5
+        },
+        {
+          "time": "2026-09-17T23:57:11.527524+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-18T00:03:33.764827+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-18T00:10:23.432392+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-18T00:41:32.667340+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -136.5
+        },
+        {
+          "time": "2026-09-18T00:46:14.984377+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-18T01:10:55.078293+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-18T01:11:57.917812+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-18T01:29:19.166560+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-18T01:46:48.850161+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -139.5
+        },
+        {
+          "time": "2026-09-18T02:06:47.778510+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -140.5
+        },
+        {
+          "time": "2026-09-18T02:15:42.351665+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -139.5
+        },
+        {
+          "time": "2026-09-18T02:28:19.586772+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -140.5
+        },
+        {
+          "time": "2026-09-18T02:37:21.687283+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -141.5
+        },
+        {
+          "time": "2026-09-18T02:54:14.627166+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -140.5
+        },
+        {
+          "time": "2026-09-18T03:03:15.160539+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -141.5
+        },
+        {
+          "time": "2026-09-18T03:05:22.208835+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -140.5
+        },
+        {
+          "time": "2026-09-18T04:13:34.447411+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -139.5
         }
       ]
     },
     "all": {
-      "total_signals": 1045,
-      "resolved_signals": 1018,
-      "win_rate": 0.431237721021611,
-      "avg_r": -0.09970530451866613,
-      "directional_accuracy": 0.5386565272496832,
-      "directional_sample_size": 789,
+      "total_signals": 1156,
+      "resolved_signals": 1130,
+      "win_rate": 0.42123893805309737,
+      "avg_r": -0.1234513274336302,
+      "directional_accuracy": 0.5418098510882016,
+      "directional_sample_size": 873,
       "best_pair": "GBPJPY",
       "by_pair": {
         "AUDCAD": {
-          "signals": 39,
-          "win_rate": 0.39473684210526316,
-          "avg_r": -0.18750000000000544,
+          "signals": 42,
+          "win_rate": 0.36585365853658536,
+          "avg_r": -0.24695121951220014,
           "best_r": 1.8749999999997933,
           "worst_r": -1.0,
-          "directional_accuracy": 0.5625
+          "directional_accuracy": 0.5588235294117647
         },
         "AUDCHF": {
-          "signals": 27,
-          "win_rate": 0.32,
-          "avg_r": -0.3249999999999982,
+          "signals": 29,
+          "win_rate": 0.2962962962962963,
+          "avg_r": -0.3749999999999983,
           "best_r": 1.8750000000000462,
           "worst_r": -1.0,
-          "directional_accuracy": 0.47058823529411764
+          "directional_accuracy": 0.5238095238095238
         },
         "AUDJPY": {
-          "signals": 32,
-          "win_rate": 0.53125,
-          "avg_r": 0.14453125000000952,
+          "signals": 35,
+          "win_rate": 0.5428571428571428,
+          "avg_r": 0.1607142857142944,
           "best_r": 1.8750000000001685,
           "worst_r": -1.0,
-          "directional_accuracy": 0.75
+          "directional_accuracy": 0.7857142857142857
         },
         "AUDNZD": {
-          "signals": 31,
-          "win_rate": 0.2903225806451613,
-          "avg_r": -0.39112903225805645,
+          "signals": 34,
+          "win_rate": 0.2647058823529412,
+          "avg_r": -0.44485294117646323,
           "best_r": 1.8750000000002505,
           "worst_r": -1.0,
-          "directional_accuracy": 0.7083333333333334
+          "directional_accuracy": 0.6333333333333333
         },
         "AUDUSD": {
-          "signals": 52,
-          "win_rate": 0.46,
-          "avg_r": -0.0450000000000057,
+          "signals": 56,
+          "win_rate": 0.42592592592592593,
+          "avg_r": -0.11574074074074601,
           "best_r": 1.875,
           "worst_r": -1.0,
-          "directional_accuracy": 0.6486486486486487
+          "directional_accuracy": 0.6829268292682927
         },
         "CADCHF": {
-          "signals": 38,
-          "win_rate": 0.40540540540540543,
-          "avg_r": -0.14189189189188994,
+          "signals": 42,
+          "win_rate": 0.36585365853658536,
+          "avg_r": -0.22560975609755923,
           "best_r": 1.8750000000002487,
           "worst_r": -1.0,
-          "directional_accuracy": 0.5714285714285714
+          "directional_accuracy": 0.5517241379310345
         },
         "CADJPY": {
-          "signals": 22,
-          "win_rate": 0.36363636363636365,
-          "avg_r": -0.2727272727272727,
+          "signals": 23,
+          "win_rate": 0.34782608695652173,
+          "avg_r": -0.30434782608695654,
           "best_r": 1.0,
           "worst_r": -1.0,
-          "directional_accuracy": 0.5625
+          "directional_accuracy": 0.5294117647058824
         },
         "CHFJPY": {
-          "signals": 28,
-          "win_rate": 0.4642857142857143,
-          "avg_r": -0.04017857142857475,
+          "signals": 30,
+          "win_rate": 0.4666666666666667,
+          "avg_r": -0.0375000000000031,
           "best_r": 1.874999999999907,
           "worst_r": -1.0,
-          "directional_accuracy": 0.45
+          "directional_accuracy": 0.4090909090909091
         },
         "EURAUD": {
           "signals": 40,
@@ -7114,31 +8004,31 @@
           "avg_r": 0.023026315789467115,
           "best_r": 1.8749999999997504,
           "worst_r": -1.0,
-          "directional_accuracy": 0.6875
+          "directional_accuracy": 0.6764705882352942
         },
         "EURCAD": {
-          "signals": 43,
-          "win_rate": 0.37209302325581395,
-          "avg_r": -0.2151162790697625,
+          "signals": 46,
+          "win_rate": 0.37777777777777777,
+          "avg_r": -0.20555555555555083,
           "best_r": 1.8750000000001785,
           "worst_r": -1.0,
-          "directional_accuracy": 0.28125
+          "directional_accuracy": 0.30303030303030304
         },
         "EURCHF": {
-          "signals": 41,
-          "win_rate": 0.38461538461538464,
-          "avg_r": -0.23076923076923078,
+          "signals": 42,
+          "win_rate": 0.3902439024390244,
+          "avg_r": -0.21951219512195122,
           "best_r": 1.0,
           "worst_r": -1.0,
-          "directional_accuracy": 0.5666666666666667
+          "directional_accuracy": 0.5294117647058824
         },
         "EURGBP": {
-          "signals": 45,
-          "win_rate": 0.3333333333333333,
-          "avg_r": -0.3333333333333333,
+          "signals": 48,
+          "win_rate": 0.3541666666666667,
+          "avg_r": -0.2916666666666667,
           "best_r": 1.0,
           "worst_r": -1.0,
-          "directional_accuracy": 0.2972972972972973
+          "directional_accuracy": 0.3076923076923077
         },
         "EURJPY": {
           "signals": 35,
@@ -7146,127 +8036,127 @@
           "avg_r": -0.11785714285714816,
           "best_r": 1.8749999999998144,
           "worst_r": -1.0,
-          "directional_accuracy": 0.4583333333333333
+          "directional_accuracy": 0.39285714285714285
         },
         "EURNZD": {
-          "signals": 49,
-          "win_rate": 0.42857142857142855,
-          "avg_r": -0.12499999999999821,
+          "signals": 52,
+          "win_rate": 0.40384615384615385,
+          "avg_r": -0.17548076923076755,
           "best_r": 1.8750000000000877,
           "worst_r": -1.0,
-          "directional_accuracy": 0.7209302325581395
+          "directional_accuracy": 0.6808510638297872
         },
         "EURUSD": {
-          "signals": 56,
-          "win_rate": 0.4642857142857143,
-          "avg_r": -0.04017857142856929,
+          "signals": 66,
+          "win_rate": 0.3939393939393939,
+          "avg_r": -0.18560606060605878,
           "best_r": 1.8750000000001767,
           "worst_r": -1.0,
-          "directional_accuracy": 0.45098039215686275
+          "directional_accuracy": 0.46153846153846156
         },
         "GBPAUD": {
-          "signals": 36,
-          "win_rate": 0.5483870967741935,
-          "avg_r": 0.12499999999999908,
+          "signals": 38,
+          "win_rate": 0.5454545454545454,
+          "avg_r": 0.11742424242424156,
           "best_r": 1.8749999999999716,
           "worst_r": -1.0,
-          "directional_accuracy": 0.48
+          "directional_accuracy": 0.5185185185185185
         },
         "GBPCAD": {
-          "signals": 34,
-          "win_rate": 0.36363636363636365,
-          "avg_r": -0.2727272727272727,
+          "signals": 36,
+          "win_rate": 0.4,
+          "avg_r": -0.2,
           "best_r": 1.0,
           "worst_r": -1.0,
           "directional_accuracy": 0.6086956521739131
         },
         "GBPCHF": {
-          "signals": 38,
-          "win_rate": 0.5428571428571428,
-          "avg_r": 0.1357142857142668,
+          "signals": 39,
+          "win_rate": 0.5405405405405406,
+          "avg_r": 0.1283783783783605,
           "best_r": 1.8749999999998157,
           "worst_r": -1.0,
-          "directional_accuracy": 0.6153846153846154
+          "directional_accuracy": 0.5517241379310345
         },
         "GBPJPY": {
-          "signals": 37,
-          "win_rate": 0.5675675675675675,
-          "avg_r": 0.13513513513513514,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.6551724137931034
-        },
-        "GBPNZD": {
-          "signals": 36,
-          "win_rate": 0.47058823529411764,
-          "avg_r": -0.007352941176481364,
-          "best_r": 1.8749999999998261,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.5555555555555556
-        },
-        "GBPUSD": {
-          "signals": 36,
-          "win_rate": 0.36363636363636365,
-          "avg_r": -0.21969696969699323,
-          "best_r": 1.8749999999997542,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.3333333333333333
-        },
-        "NZDCAD": {
-          "signals": 34,
-          "win_rate": 0.29411764705882354,
-          "avg_r": -0.4117647058823529,
-          "best_r": 1.0,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.6666666666666666
-        },
-        "NZDCHF": {
-          "signals": 27,
-          "win_rate": 0.4,
-          "avg_r": -0.12999999999998768,
-          "best_r": 1.875000000000226,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.631578947368421
-        },
-        "NZDJPY": {
-          "signals": 37,
-          "win_rate": 0.3783783783783784,
-          "avg_r": -0.19594594594594314,
-          "best_r": 1.875000000000066,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.42857142857142855
-        },
-        "NZDUSD": {
-          "signals": 45,
-          "win_rate": 0.45454545454545453,
-          "avg_r": 0.028409090909070598,
-          "best_r": 1.8750000000000888,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.34375
-        },
-        "USDCAD": {
-          "signals": 27,
-          "win_rate": 0.5185185185185185,
-          "avg_r": 0.0694444444444578,
-          "best_r": 1.8750000000003604,
-          "worst_r": -1.0,
-          "directional_accuracy": 0.5294117647058824
-        },
-        "USDCHF": {
           "signals": 40,
           "win_rate": 0.55,
-          "avg_r": 0.2093750000000006,
+          "avg_r": 0.1,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.6774193548387096
+        },
+        "GBPNZD": {
+          "signals": 38,
+          "win_rate": 0.4722222222222222,
+          "avg_r": -0.006944444444454622,
+          "best_r": 1.8749999999998261,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.5666666666666667
+        },
+        "GBPUSD": {
+          "signals": 42,
+          "win_rate": 0.38461538461538464,
+          "avg_r": -0.1858974358974558,
+          "best_r": 1.8749999999997542,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.3548387096774194
+        },
+        "NZDCAD": {
+          "signals": 39,
+          "win_rate": 0.3076923076923077,
+          "avg_r": -0.38461538461538464,
+          "best_r": 1.0,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.6129032258064516
+        },
+        "NZDCHF": {
+          "signals": 31,
+          "win_rate": 0.3793103448275862,
+          "avg_r": -0.1810344827586101,
+          "best_r": 1.875000000000226,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.6521739130434783
+        },
+        "NZDJPY": {
+          "signals": 41,
+          "win_rate": 0.36585365853658536,
+          "avg_r": -0.22560975609755846,
+          "best_r": 1.875000000000066,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.45454545454545453
+        },
+        "NZDUSD": {
+          "signals": 59,
+          "win_rate": 0.46551724137931033,
+          "avg_r": 0.021551724137915625,
+          "best_r": 1.8750000000000888,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.3611111111111111
+        },
+        "USDCAD": {
+          "signals": 32,
+          "win_rate": 0.46875,
+          "avg_r": -0.03515624999998874,
+          "best_r": 1.8750000000003604,
+          "worst_r": -1.0,
+          "directional_accuracy": 0.5833333333333334
+        },
+        "USDCHF": {
+          "signals": 49,
+          "win_rate": 0.4489795918367347,
+          "avg_r": -0.012755102040815855,
           "best_r": 1.8750000000001597,
           "worst_r": -1.0,
-          "directional_accuracy": 0.5333333333333333
+          "directional_accuracy": 0.5757575757575758
         },
         "USDJPY": {
-          "signals": 40,
-          "win_rate": 0.425,
-          "avg_r": -0.08437500000000667,
+          "signals": 52,
+          "win_rate": 0.5,
+          "avg_r": 0.0504807692307641,
           "best_r": 1.8750000000003917,
           "worst_r": -1.0,
-          "directional_accuracy": 0.6206896551724138
+          "directional_accuracy": 0.6666666666666666
         }
       },
       "cumulative_r_series": [
@@ -12326,78 +13216,655 @@
           "cumulative_r": -102.5
         },
         {
+          "time": "2026-09-16T20:30:12.477769+00:00",
+          "pair": "GBPCHF",
+          "cumulative_r": -103.5
+        },
+        {
           "time": "2026-09-16T21:25:44.226537+00:00",
           "pair": "NZDCHF",
-          "cumulative_r": -101.5
+          "cumulative_r": -102.5
         },
         {
           "time": "2026-09-16T21:55:03.095753+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": -100.5
+          "cumulative_r": -101.5
+        },
+        {
+          "time": "2026-09-16T22:13:52.431236+00:00",
+          "pair": "EURCHF",
+          "cumulative_r": -102.5
         },
         {
           "time": "2026-09-16T22:21:42.813015+00:00",
           "pair": "EURJPY",
-          "cumulative_r": -101.5
+          "cumulative_r": -103.5
         },
         {
           "time": "2026-09-16T22:30:42.382971+00:00",
           "pair": "NZDJPY",
-          "cumulative_r": -100.5
+          "cumulative_r": -102.5
         },
         {
           "time": "2026-09-16T22:32:47.874842+00:00",
           "pair": "GBPNZD",
-          "cumulative_r": -99.5
+          "cumulative_r": -101.5
         },
         {
           "time": "2026-09-16T23:16:44.754289+00:00",
           "pair": "EURNZD",
-          "cumulative_r": -100.5
+          "cumulative_r": -102.5
         },
         {
           "time": "2026-09-16T23:27:16.746213+00:00",
           "pair": "AUDNZD",
-          "cumulative_r": -101.5
+          "cumulative_r": -103.5
+        },
+        {
+          "time": "2026-09-17T07:24:15.578799+00:00",
+          "pair": "GBPNZD",
+          "cumulative_r": -104.5
+        },
+        {
+          "time": "2026-09-17T07:24:15.914470+00:00",
+          "pair": "NZDCHF",
+          "cumulative_r": -103.5
+        },
+        {
+          "time": "2026-09-17T08:02:13.685267+00:00",
+          "pair": "GBPAUD",
+          "cumulative_r": -104.5
+        },
+        {
+          "time": "2026-09-17T08:06:24.134193+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -105.5
+        },
+        {
+          "time": "2026-09-17T08:14:50.586158+00:00",
+          "pair": "CHFJPY",
+          "cumulative_r": -104.5
+        },
+        {
+          "time": "2026-09-17T08:16:55.946651+00:00",
+          "pair": "NZDCHF",
+          "cumulative_r": -105.5
+        },
+        {
+          "time": "2026-09-17T08:19:01.653136+00:00",
+          "pair": "EURCHF",
+          "cumulative_r": -104.5
+        },
+        {
+          "time": "2026-09-17T08:26:57.775110+00:00",
+          "pair": "AUDCHF",
+          "cumulative_r": -105.5
+        },
+        {
+          "time": "2026-09-17T08:28:34.912312+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -106.5
+        },
+        {
+          "time": "2026-09-17T08:44:53.705835+00:00",
+          "pair": "AUDUSD",
+          "cumulative_r": -107.5
+        },
+        {
+          "time": "2026-09-17T08:45:25.146168+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -108.5
+        },
+        {
+          "time": "2026-09-17T08:54:22.035645+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -109.5
+        },
+        {
+          "time": "2026-09-17T08:56:59.868433+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -110.5
+        },
+        {
+          "time": "2026-09-17T08:57:32.389737+00:00",
+          "pair": "NZDCHF",
+          "cumulative_r": -111.5
+        },
+        {
+          "time": "2026-09-17T09:29:08.645406+00:00",
+          "pair": "EURGBP",
+          "cumulative_r": -110.5
+        },
+        {
+          "time": "2026-09-17T09:59:07.601928+00:00",
+          "pair": "CHFJPY",
+          "cumulative_r": -111.5
+        },
+        {
+          "time": "2026-09-17T10:00:08.924707+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -112.5
+        },
+        {
+          "time": "2026-09-17T10:00:09.364085+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -113.5
+        },
+        {
+          "time": "2026-09-17T10:12:47.903060+00:00",
+          "pair": "EURGBP",
+          "cumulative_r": -114.5
+        },
+        {
+          "time": "2026-09-17T10:12:48.150865+00:00",
+          "pair": "EURNZD",
+          "cumulative_r": -115.5
+        },
+        {
+          "time": "2026-09-17T10:14:22.457722+00:00",
+          "pair": "AUDUSD",
+          "cumulative_r": -116.5
+        },
+        {
+          "time": "2026-09-17T10:22:15.202381+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -115.5
+        },
+        {
+          "time": "2026-09-17T10:30:12.731826+00:00",
+          "pair": "AUDNZD",
+          "cumulative_r": -116.5
+        },
+        {
+          "time": "2026-09-17T11:14:59.222164+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -117.5
+        },
+        {
+          "time": "2026-09-17T11:16:02.754468+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -118.5
+        },
+        {
+          "time": "2026-09-17T11:30:19.807435+00:00",
+          "pair": "EURGBP",
+          "cumulative_r": -117.5
+        },
+        {
+          "time": "2026-09-17T11:30:20.891358+00:00",
+          "pair": "GBPNZD",
+          "cumulative_r": -116.5
+        },
+        {
+          "time": "2026-09-17T11:39:22.393392+00:00",
+          "pair": "GBPJPY",
+          "cumulative_r": -115.5
+        },
+        {
+          "time": "2026-09-17T11:40:57.315934+00:00",
+          "pair": "AUDCHF",
+          "cumulative_r": -116.5
+        },
+        {
+          "time": "2026-09-17T11:41:59.606874+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -117.5
+        },
+        {
+          "time": "2026-09-17T11:45:08.687835+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -118.5
+        },
+        {
+          "time": "2026-09-17T11:58:17.377079+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -119.5
+        },
+        {
+          "time": "2026-09-17T11:59:21.393900+00:00",
+          "pair": "GBPCAD",
+          "cumulative_r": -118.5
+        },
+        {
+          "time": "2026-09-17T11:59:52.658311+00:00",
+          "pair": "GBPAUD",
+          "cumulative_r": -117.5
+        },
+        {
+          "time": "2026-09-17T12:00:24.954250+00:00",
+          "pair": "NZDJPY",
+          "cumulative_r": -118.5
+        },
+        {
+          "time": "2026-09-17T12:00:56.410540+00:00",
+          "pair": "AUDJPY",
+          "cumulative_r": -119.5
+        },
+        {
+          "time": "2026-09-17T12:04:07.573300+00:00",
+          "pair": "EURCAD",
+          "cumulative_r": -118.5
+        },
+        {
+          "time": "2026-09-17T12:04:08.314395+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -119.5
+        },
+        {
+          "time": "2026-09-17T12:31:10.436626+00:00",
+          "pair": "EURNZD",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T12:33:18.304066+00:00",
+          "pair": "CADJPY",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T12:33:49.840092+00:00",
+          "pair": "AUDCAD",
+          "cumulative_r": -122.5
+        },
+        {
+          "time": "2026-09-17T12:51:46.766443+00:00",
+          "pair": "GBPJPY",
+          "cumulative_r": -123.5
+        },
+        {
+          "time": "2026-09-17T12:57:33.237030+00:00",
+          "pair": "AUDUSD",
+          "cumulative_r": -124.5
+        },
+        {
+          "time": "2026-09-17T12:58:36.686186+00:00",
+          "pair": "GBPCHF",
+          "cumulative_r": -123.5
+        },
+        {
+          "time": "2026-09-17T13:00:11.527092+00:00",
+          "pair": "GBPCAD",
+          "cumulative_r": -122.5
+        },
+        {
+          "time": "2026-09-17T13:02:18.961658+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T13:58:45.240174+00:00",
+          "pair": "NZDJPY",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T14:04:01.424669+00:00",
+          "pair": "AUDNZD",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T14:14:36.391424+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -122.5
+        },
+        {
+          "time": "2026-09-17T14:25:38.637965+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T14:26:44.609534+00:00",
+          "pair": "GBPJPY",
+          "cumulative_r": -122.5
+        },
+        {
+          "time": "2026-09-17T14:34:12.185968+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T14:44:14.049844+00:00",
+          "pair": "AUDJPY",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T15:13:38.448142+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -119.5
+        },
+        {
+          "time": "2026-09-17T15:19:26.515144+00:00",
+          "pair": "CADCHF",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T15:28:22.369548+00:00",
+          "pair": "GBPUSD",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T15:30:31.561101+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T15:59:57.574683+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T16:00:30.010808+00:00",
+          "pair": "AUDJPY",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T16:04:42.925599+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -119.5
+        },
+        {
+          "time": "2026-09-17T16:41:04.255852+00:00",
+          "pair": "NZDJPY",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T16:46:48.932285+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -119.5
+        },
+        {
+          "time": "2026-09-17T17:00:29.213431+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -120.5
+        },
+        {
+          "time": "2026-09-17T17:00:30.627395+00:00",
+          "pair": "CADCHF",
+          "cumulative_r": -121.5
+        },
+        {
+          "time": "2026-09-17T17:21:00.486114+00:00",
+          "pair": "AUDNZD",
+          "cumulative_r": -122.5
+        },
+        {
+          "time": "2026-09-17T17:34:45.168481+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -123.5
+        },
+        {
+          "time": "2026-09-17T17:51:31.860701+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -124.5
+        },
+        {
+          "time": "2026-09-17T18:17:14.716158+00:00",
+          "pair": "EURCAD",
+          "cumulative_r": -125.5
+        },
+        {
+          "time": "2026-09-17T18:29:20.727863+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -126.5
+        },
+        {
+          "time": "2026-09-17T18:30:27.320012+00:00",
+          "pair": "CADCHF",
+          "cumulative_r": -127.5
+        },
+        {
+          "time": "2026-09-17T18:32:35.274995+00:00",
+          "pair": "AUDCAD",
+          "cumulative_r": -128.5
+        },
+        {
+          "time": "2026-09-17T18:49:26.351782+00:00",
+          "pair": "AUDUSD",
+          "cumulative_r": -129.5
+        },
+        {
+          "time": "2026-09-17T18:49:57.982613+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -130.5
+        },
+        {
+          "time": "2026-09-17T19:22:29.383419+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -131.5
+        },
+        {
+          "time": "2026-09-17T20:22:49.989918+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -132.5
+        },
+        {
+          "time": "2026-09-17T20:22:50.086601+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -133.5
+        },
+        {
+          "time": "2026-09-17T20:27:00.931759+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -134.5
+        },
+        {
+          "time": "2026-09-17T20:58:00.733865+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -135.5
+        },
+        {
+          "time": "2026-09-17T21:10:36.605140+00:00",
+          "pair": "USDCAD",
+          "cumulative_r": -136.5
+        },
+        {
+          "time": "2026-09-17T21:11:07.918303+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T21:22:09.586102+00:00",
+          "pair": "EURNZD",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-17T21:25:16.945445+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T21:53:12.471427+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -136.5
+        },
+        {
+          "time": "2026-09-17T21:53:13.316177+00:00",
+          "pair": "CADCHF",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T21:55:19.388372+00:00",
+          "pair": "NZDCHF",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-17T21:56:53.226930+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T22:02:40.531883+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-17T22:31:07.639541+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T22:55:16.493079+00:00",
+          "pair": "AUDCAD",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-17T23:01:00.486116+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T23:01:01.398700+00:00",
+          "pair": "NZDCAD",
+          "cumulative_r": -136.5
+        },
+        {
+          "time": "2026-09-17T23:54:35.725768+00:00",
+          "pair": "NZDJPY",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-17T23:56:09.383982+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -136.5
+        },
+        {
+          "time": "2026-09-17T23:57:11.527524+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-18T00:03:33.764827+00:00",
+          "pair": "EURUSD",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-18T00:10:23.432392+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-18T00:41:32.667340+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -136.5
+        },
+        {
+          "time": "2026-09-18T00:46:14.984377+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-18T01:10:55.078293+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-18T01:11:57.917812+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -137.5
+        },
+        {
+          "time": "2026-09-18T01:29:19.166560+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -138.5
+        },
+        {
+          "time": "2026-09-18T01:46:48.850161+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -139.5
+        },
+        {
+          "time": "2026-09-18T02:06:47.778510+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -140.5
+        },
+        {
+          "time": "2026-09-18T02:15:42.351665+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -139.5
+        },
+        {
+          "time": "2026-09-18T02:28:19.586772+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -140.5
+        },
+        {
+          "time": "2026-09-18T02:37:21.687283+00:00",
+          "pair": "USDCHF",
+          "cumulative_r": -141.5
+        },
+        {
+          "time": "2026-09-18T02:54:14.627166+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -140.5
+        },
+        {
+          "time": "2026-09-18T03:03:15.160539+00:00",
+          "pair": "NZDUSD",
+          "cumulative_r": -141.5
+        },
+        {
+          "time": "2026-09-18T03:05:22.208835+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -140.5
+        },
+        {
+          "time": "2026-09-18T04:13:34.447411+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -139.5
         }
       ]
     }
   },
   "alerts_stored_count": 50,
   "most_recent_alert": {
-    "id": "1789601268451-AUDNZD",
-    "time": "2026-09-16T23:27:48.451979+00:00",
-    "pair": "AUDNZD",
+    "id": "1789704877237-USDJPY",
+    "time": "2026-09-18T04:14:37.237797+00:00",
+    "pair": "USDJPY",
     "direction": "no_trade",
     "confidence": "low",
-    "combined_score": -0.09600000000000002,
-    "entry": 1.2383250000000001,
-    "message": "AUDNZD: back to no_trade",
-    "reason": "tech=-0.16, pestle=+0.00, combined=-0.10",
+    "combined_score": 0.3336701327992129,
+    "entry": 157.00799999999998,
+    "message": "USDJPY: back to no_trade",
+    "reason": "tech=+0.30, pestle=+0.38, combined=+0.33",
     "tech": {
       "orb": 0.0,
-      "trend": 0.0,
-      "pattern": -0.8,
-      "composite": -0.16000000000000003
+      "trend": 1.0,
+      "pattern": 0.0,
+      "composite": 0.3
     },
     "pestle": {
-      "pair": "AUDNZD",
-      "pestle_score": 0.0,
+      "pair": "USDJPY",
+      "pestle_score": 0.3841753319980323,
       "base": {
-        "currency": "AUD",
-        "score": 0.0,
+        "currency": "USD",
+        "score": 0.3841753319980323,
         "categories": {
           "political": 0.0,
-          "economic": 0.0,
-          "social": 0.0,
+          "economic": 0.9246585234355577,
+          "social": 0.14311922623809206,
           "technological": 0.0,
           "legal_regulatory": 0.0,
           "environmental": 0.0
         },
-        "evidence": []
+        "evidence": [
+          {
+            "title": "Employment data beats forecast",
+            "source_url": "https://investinglive.com/news/us-initial-jobless-claims-come-in-at-196k-vs-208k-estimate/",
+            "observed_at": "2026-09-17T12:30:21+00:00",
+            "signal_type_code": "EMPLOYMENT_STRONG",
+            "category": "economic",
+            "polarity": 1
+          },
+          {
+            "title": "Central bank rate hike / hawkish surprise",
+            "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+            "observed_at": "2026-09-16T18:00:00+00:00",
+            "signal_type_code": "RATE_HIKE",
+            "category": "economic",
+            "polarity": 1
+          }
+        ]
       },
       "quote": {
-        "currency": "NZD",
+        "currency": "JPY",
         "score": 0.0,
         "categories": {
           "political": 0.0,
@@ -12411,17 +13878,17 @@
       }
     },
     "stop_loss_range": [
-      1.2383250000000001,
-      1.2383250000000001
+      157.00799999999998,
+      157.00799999999998
     ],
     "take_profit_range": [
-      1.2383250000000001,
-      1.2383250000000001
+      157.00799999999998,
+      157.00799999999998
     ],
     "window": {
-      "session": "London",
-      "generated_at_gmt_str": "23:00 GMT, 16 Sep 2026",
-      "valid_until_gmt_str": "16:00 GMT, 16 Sep 2026"
+      "session": "Tokyo",
+      "generated_at_gmt_str": "04:00 GMT, 18 Sep 2026",
+      "valid_until_gmt_str": "05:30 GMT, 18 Sep 2026"
     }
   }
 }
