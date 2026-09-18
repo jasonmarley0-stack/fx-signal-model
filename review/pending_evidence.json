@@ -1,145 +1,35 @@
 [
   {
-    "id": 503,
+    "id": 506,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive European session wrap: Markets rise as oil and bond yields ease after Fed, BOE holds rates",
-    "description": "Headlines: BOE leaves bank rate unchanged at 3.75% in 6-3 vote Long-end Treasury yields stay calm as markets digest the Fed Was the Fed really that hawkish or the market just overreacted? An objective overview Oil prices ease as Saudi Arabia projects to restore half pipeline capacity within days and Trump plans meeting with Gulf leaders S&amp;P 500 looks for a technical bounce as 100-day moving average holds after the Fed Gold (XAU/USD) analysis: The market overreacts to Fed decision; Middle East and data now in focus This XAUUSD gold analysis video shows where the gold trade is after the Fed ",
-    "published_at": "2026-09-17T12:03:35",
-    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-markets-rise-as-oil-and-bond-yields-ease-after-fed-boe-holds-rates/"
+    "title": "Trump says he faces a \u201cbig decision\u201d on whether to launch new attacks on Iran",
+    "description": "US President Trump told Axios he is at a \u201ccritical juncture\u201d regarding the war in Iran: The officials say Trump needs to decide soon on the way forward, partly because the US military can't stay in its current holding pattern much longer. \u201cAt some point you have to decide what is the end game.\u201d Trump and Hegseth have ordered the military to maintain its level of forces in the Middle East until the end of the year, to remain ready for a potential return to full-scale combat. Trump declined to say whether he'll decide on the path forward before or after the midterms. \u201cI have a big decision comin",
+    "published_at": "2026-09-17T17:15:23",
+    "source_url": "https://investinglive.com/news/trump-says-he-faces-a-big-decision-on-whether-to-launch-new-attacks-on-iran/"
   },
   {
-    "id": 502,
+    "id": 505,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "China privately asks Iran to help rein in Houthis after Saudi appeal, sources say",
-    "description": "China has privately asked Iran to use its influence over Yemen's Houthis to help contain the group's military campaign, according to three Iranian sources familiar with the matter . The request reportedly followed an appeal from Saudi Arabia to Beijing as Houthi forces rapidly expanded their control along Yemen's Red Sea coast. According to the sources, Riyadh sought China's help after the Houthi offensive increased the threat to Saudi oil exports and shipping.&nbsp;China has publicly called for restraint, dialogue and the restoration of safe navigation. Its reported private message to Tehran ",
-    "published_at": "2026-09-17T12:10:29",
-    "source_url": "https://investinglive.com/news/china-privately-asks-iran-to-help-rein-in-houthis-after-saudi-appeal-sources-say/"
+    "title": "A view on inflation is increasingly important",
+    "description": "The Fed has set out to tackle inflation and they certainly have the tools to get the job done. How aggressively they use those tools and how the economy responds is less certain, so is the geopolitical backdrop. At the moment, the market is pricing in the thinnest rate hike in US history so the consensus is that inflation will be tamed relatively easily. I think it's worth considering how much work needs to be done on inflation and what are the driving factors behind it. Here are five that I'm thinking about: 1) The Iran war No surprise at the top of the list. We had oil up in 11 of 12 days fr",
+    "published_at": "2026-09-17T19:11:17",
+    "source_url": "https://investinglive.com/news/a-view-on-inflation-is-increasingly-important/"
   },
   {
-    "id": 501,
+    "id": 504,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US September Philly Fed business index +37.8 vs +30.5 expected",
-    "description": "Prior was +47.4 Details: New orders 29.2 versus 30.1 last month Shipments 27.7 versus 27.7 last month Unfilled orders 20.4 versus 14.4 last month Delivery times 26.5 versus 3.7 last month Inventories -12.5 versus -3.7 last month Prices paid 48.6 versus 40.9 last month Prices received 31.3 versus 17.7 last month Number of employees 11.8 versus 27.9 last month Average employee workweek 18.0 versus 26.5 last month Six-months from now indicators: 6 month index 52.9 vs 73.6 last month Capex index 6-month forward 37.1 versus 48.2 last month New orders 62.3 versus 66.0 last month Shipments 61.1 versu",
-    "published_at": "2026-09-17T12:30:22",
-    "source_url": "https://investinglive.com/news/us-september-philly-fed-business-index-xx-vs-30-5-expected/"
-  },
-  {
-    "id": 500,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "US August housing starts 1.275m vs 1.309m expected",
-    "description": "Prior was 1.239m Prior starts were -12.4% Building permits 1.394m vs 1.410m expected Prior permits 1.433m US housing starts fell 2.6% and permits were lower by 2.7% as the pain in the US housing market continues. US 30-year mortgage rates are now about 7% so there's no help coming but with the Fed showing that it's serious about inflation, there might be some relief on the other side of the Iran war, if we ever get there. This article was written by Adam Button at investinglive.com.",
-    "published_at": "2026-09-17T12:30:23",
-    "source_url": "https://investinglive.com/news/us-august-housing-starts-vs-1-309m-expected/"
-  },
-  {
-    "id": 499,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "US initial jobless claims come in at 196K vs 208K estimate",
-    "description": "US jobless claims for the week ending September 12: Initial jobless claims: 196K vs 208K expected. Prior 206K Four-week average of initial claims: 203.25K vs 206K previously Continuing claims: 1.730M vs 1.780M expected. Prior revised to 1.769M from 1.774M Four-week average of continuing claims: 1.761M vs 1.778M previously Insured unemployment rate: 1.1% vs 1.2% previously US initial jobless claims fell by 10,000 to 196,000, coming in comfortably below the 208,000 estimate. The four-week moving average also declined, suggesting the improvement was not solely the result of volatility in one repo",
-    "published_at": "2026-09-17T12:30:21",
-    "source_url": "https://investinglive.com/news/us-initial-jobless-claims-come-in-at-196k-vs-208k-estimate/"
-  },
-  {
-    "id": 498,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Canada August producer price index +1.3% m/m vs +0.6% prior",
-    "description": "Prior was +0.6% Prices +13.5% y/y vs +12.4% prior Raw materials price index +3.1% m/m vs -2.1% prior Raw materials price index +22.8% y/y vs +18.2% prior Those are some real inflation pressures and help to explain why central banks are so worried. This article was written by Adam Button at investinglive.com.",
-    "published_at": "2026-09-17T12:30:12",
-    "source_url": "https://investinglive.com/news/canada-august-producer-price-index-vs-0-6-prior/"
-  },
-  {
-    "id": 497,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "US August pending home sales +0.3% vs -0.6% expected",
-    "description": "Prior was -2.3% Index at vs 71.2 prior This article was written by Adam Button at investinglive.com.",
-    "published_at": "2026-09-17T14:01:38",
-    "source_url": "https://investinglive.com/news/us-august-pending-home-sales-0-3-vs-0-6-expected/"
-  },
-  {
-    "id": 496,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Asset Purchase Facility: Gilt Sales \u2013 Market Notice 17 September 2026",
-    "description": "This Market Notice outlines the Bank Executive\u2019s approach to implementing the Monetary Policy Committee\u2019s (MPC) decision to unwind the gilts held for monetary policy purposes in the Asset Purchase Facility (APF). As part of this, Bank APF auctions will be paused while the Bank reviews a model of selling gilts to the Government.",
-    "published_at": "2026-09-17T11:00:00",
-    "source_url": "https://www.bankofengland.co.uk/markets/market-notices/2026/asset-purchase-facility-gilt-sales-market-notice-17-september-2026"
-  },
-  {
-    "id": 495,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Bank rate maintained at 3.75% - September 2026 Monetary Policy Summary and Minutes",
-    "description": "The Bank of England\u2019s Monetary Policy Committee is responsible for making decisions about Bank Rate.",
-    "published_at": "2026-09-17T11:00:00",
-    "source_url": "https://www.bankofengland.co.uk/monetary-policy-summary-and-minutes/2026/september-2026"
-  },
-  {
-    "id": 494,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Exchange of letters between the Governor and the Chancellor regarding QT and the APF - September 2026",
-    "description": "Exchange of letters between the Governor and the Chancellor",
-    "published_at": "2026-09-17T11:00:00",
-    "source_url": "https://www.bankofengland.co.uk/letter/2026/exchange-of-letters-between-the-governor-and-the-chancellor-regarding-qt-and-the-apf"
-  },
-  {
-    "id": 493,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Exchange of letters between the Governor and the Chancellor regarding CPI Inflation - September 2026",
-    "description": "Exchange of letters between the Governor and the Chancellor",
-    "published_at": "2026-09-17T11:00:00",
-    "source_url": "https://www.bankofengland.co.uk/letter/2026/cpi-inflation-september-2026"
-  },
-  {
-    "id": 492,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Monetary Policy Committee dates for 2027",
-    "description": "2027 confirmed dates",
-    "published_at": "2026-09-17T13:30:00",
-    "source_url": "https://www.bankofengland.co.uk/news/2026/september/mpc-dates-for-2027"
-  },
-  {
-    "id": 491,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Transcript of the Governor's pooled broadcast interview given on 17 September 2026",
-    "description": "Following the publication of the Monetary Policy Summary and minutes of the Monetary Policy Committee meeting",
-    "published_at": "2026-09-17T13:30:00",
-    "source_url": "https://www.bankofengland.co.uk/news/2026/september/the-governor-interview-transcript-17-september-2026"
+    "title": "investingLive Americas FX news wrap 17 Sept",
+    "description": "US September Philly Fed business index +37.8 vs +30.5 expected US August housing starts 1.275m vs 1.309m expected US initial jobless claims come in at 196K vs 208K estimate Canada August producer price index +1.3% m/m vs +0.6% prior BOE's Bailey: Decision on rates will get more difficult the longer the Iran conflict continues US August pending home sales +0.3% vs -0.6% expected Former Atlanta Fed President: The inflation portion of the Fed mandate is far more concerning Trump says he faces a \u201cbig decision\u201d on whether to launch new attacks on Iran China privately asks Iran to help rein in Houth",
+    "published_at": "2026-09-17T20:31:34",
+    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-17-sept/"
   }
 ]
