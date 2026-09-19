@@ -1,57 +1,24 @@
 [
   {
-    "id": 518,
+    "id": 520,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive European session wrap: Yen slides after BOJ hike as markets stay on edge",
-    "description": "Headlines: USD/JPY jumps to 157 after BOJ rate hike as dovish dissents weigh on yen BOJ governor Ueda says will continue to tighten policy in response to economic, price developments BOJ governor Ueda says spring wage talks key to judging inflation trend ECB president Lagarde pushes back on automatic rate hikes as energy prices cloud outlook Gold price claws back toward $4,400 after dodging a deeper technical breakdown - what's next? Silver soars by more than 7% as the Fed's dot plot shows low appetite for rate hikes Ethereum is approaching the key $2,560 resistance again: Will it finally brea",
-    "published_at": "2026-09-18T12:07:07",
-    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-yen-slides-after-boj-hike-as-markets-stay-on-edge/"
+    "title": "Oil finishes lower as the market sniffs out a TACO",
+    "description": "WTI crude oil on the November contract is trading down $1.64 to $95.60. That's something of a win for the bears, as it finished last week at $95.94. Since then, we've had a mixed series of updates on the pipeline attacks in Saudi Arabia but the latest ones say they're doing bypasses of the damaged pumping stations and could soon have half of the lost supply back online. I'd take those reports with the usual grain of salt but coupled with large transits through Hormuz and there's a plausible case for the bears. The x-factor remains Hormuz. Republicans are polling badly and this is a deeply unpo",
+    "published_at": "2026-09-18T19:05:21",
+    "source_url": "https://investinglive.com/news/oil-finishes-lower-as-the-market-sniffs-out-a-taco/"
   },
   {
-    "id": 517,
+    "id": 519,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US industrial production 0.0% versus 0.3% expected",
-    "description": "Prior month 0.2% US August industrial production and capacity utilization data: Industrial production MoM: 0.0% vs +0.3% expected. Prior +0.2% Manufacturing output MoM: -0.3% vs +0.3% expected. Prior +0.2% Capacity utilization: 76.3% vs 76.4% expected. Prior 76.3% US industrial activity was weaker than expected in August. Overall production was unchanged, missing expectations for a 0.3% increase, while manufacturing output fell 0.3% against expectations for a 0.3% gain. The manufacturing figure is the softest part of the report. The 0.6-percentage-point miss suggests factory activity lost mome",
-    "published_at": "2026-09-18T13:15:14",
-    "source_url": "https://investinglive.com/news/us-industrial-production-0-0-versus-0-3-expected/"
-  },
-  {
-    "id": 516,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Minutes of the Transaction and Post-trade Reporting Harmonisation Taskforce - July 2026",
-    "description": "The Transaction and Post-trade Reporting Harmonisation Taskforce, through its three working groups, will help inform the design of the Bank and FCA\u2019s long-term approach to harmonising UK MiFIR, UK EMIR and UK SFTR reporting requirements",
-    "published_at": "2026-09-18T11:00:00",
-    "source_url": "https://www.bankofengland.co.uk/minutes/2026/july/minutes-of-the-transaction-and-post-trade-reporting-harmonisation-taskforce-july-2026"
-  },
-  {
-    "id": 515,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 2,
-    "source_id": 1,
-    "title": "Federal Reserve Board issues enforcement actions with former employee of Northstar Bank, former employee of American Express Travel Related Services Company, Inc., and former employee of Regions Bank",
-    "description": "Federal Reserve Board issues enforcement actions with former employee of Northstar Bank, former employee of American Express Travel Related Services Company, Inc., and former employee of Regions Bank",
-    "published_at": "2026-09-18T15:00:00",
-    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260918a.htm"
-  },
-  {
-    "id": 514,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 2,
-    "source_id": 1,
-    "title": "Federal Reserve Board announces termination of enforcement action with SNB Bancshares and Bank of Eufaula",
-    "description": "Federal Reserve Board announces termination of enforcement action with SNB Bancshares and Bank of Eufaula",
-    "published_at": "2026-09-18T15:00:00",
-    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260918b.htm"
+    "title": "investingLive Americas market news wrap: Bonds slump again, yen rate check adds intrigue after BOJ",
+    "description": "US industrial production 0.0% versus 0.3% expected Kansas City Fed's Schmid: recent data suggest inflation trending above 3% Japan conducted an FX rate check earlier - report How have interest rate expectations changed after this week's events? Markets: Gold up $41 to $4381 US 10-year yields up 6 bps to 5.01% WTI crude oil down $1.66 to $95.56 AUD leads, JPY lags US stocks finish flat Bitcoin up 6% The newsflow was fairly light in North America but the market moves weren't. Eyes remained on bonds in the aftermath of the FOMC decision and the tug-of-war continued, this time pushing yields back ",
+    "published_at": "2026-09-18T20:29:40",
+    "source_url": "https://investinglive.com/news/investinglive-americas-market-news-wrap-bonds-slump-again-yen-rate-check-adds-intrigue-after-boj/"
   }
 ]
