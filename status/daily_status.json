@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-20T05:45:00.400625+00:00",
+  "generated_at": "2026-09-21T05:45:08.797284+00:00",
   "services": {
     "signal-scanner": {
       "active": "active",
@@ -18,14 +18,14 @@
     "rss-ingestion.timer": "active",
     "performance-scorer.timer": "active"
   },
-  "live_scan_age_seconds": 16.289106,
-  "performance_updated_at": "2026-09-20T04:50:18.789299+00:00",
+  "live_scan_age_seconds": 16.165289,
+  "performance_updated_at": "2026-09-21T04:58:42.143718+00:00",
   "performance_aggregates": {
     "7d": {
-      "total_signals": 381,
-      "resolved_signals": 374,
-      "win_rate": 0.393048128342246,
-      "avg_r": -0.21390374331550802,
+      "total_signals": 382,
+      "resolved_signals": 375,
+      "win_rate": 0.392,
+      "avg_r": -0.216,
       "directional_accuracy": 0.5107142857142857,
       "directional_sample_size": 280,
       "best_pair": "GBPCAD",
@@ -247,9 +247,9 @@
           "directional_accuracy": 0.3333333333333333
         },
         "USDJPY": {
-          "signals": 25,
-          "win_rate": 0.6,
-          "avg_r": 0.2,
+          "signals": 26,
+          "win_rate": 0.5769230769230769,
+          "avg_r": 0.15384615384615385,
           "best_r": 1.0,
           "worst_r": -1.0,
           "directional_accuracy": 1.0
@@ -2125,14 +2125,19 @@
           "time": "2026-09-18T16:38:19.618266+00:00",
           "pair": "USDCHF",
           "cumulative_r": -80.0
+        },
+        {
+          "time": "2026-09-20T23:59:11.372808+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -81.0
         }
       ]
     },
     "30d": {
-      "total_signals": 1228,
-      "resolved_signals": 1196,
-      "win_rate": 0.42391304347826086,
-      "avg_r": -0.11998327759197502,
+      "total_signals": 1229,
+      "resolved_signals": 1197,
+      "win_rate": 0.42355889724310775,
+      "avg_r": -0.12071846282372777,
       "directional_accuracy": 0.5329842931937173,
       "directional_sample_size": 955,
       "best_pair": "GBPJPY",
@@ -2354,9 +2359,9 @@
           "directional_accuracy": 0.5
         },
         "USDJPY": {
-          "signals": 56,
-          "win_rate": 0.48214285714285715,
-          "avg_r": 0.011160714285709519,
+          "signals": 57,
+          "win_rate": 0.47368421052631576,
+          "avg_r": -0.006578947368425735,
           "best_r": 1.8750000000003917,
           "worst_r": -1.0,
           "directional_accuracy": 0.7105263157894737
@@ -8342,14 +8347,19 @@
           "time": "2026-09-18T16:38:19.618266+00:00",
           "pair": "USDCHF",
           "cumulative_r": -143.5
+        },
+        {
+          "time": "2026-09-20T23:59:11.372808+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -144.5
         }
       ]
     },
     "all": {
-      "total_signals": 1228,
-      "resolved_signals": 1196,
-      "win_rate": 0.42391304347826086,
-      "avg_r": -0.11998327759197502,
+      "total_signals": 1229,
+      "resolved_signals": 1197,
+      "win_rate": 0.42355889724310775,
+      "avg_r": -0.12071846282372777,
       "directional_accuracy": 0.5329842931937173,
       "directional_sample_size": 955,
       "best_pair": "GBPJPY",
@@ -8571,9 +8581,9 @@
           "directional_accuracy": 0.5
         },
         "USDJPY": {
-          "signals": 56,
-          "win_rate": 0.48214285714285715,
-          "avg_r": 0.011160714285709519,
+          "signals": 57,
+          "win_rate": 0.47368421052631576,
+          "avg_r": -0.006578947368425735,
           "best_r": 1.8750000000003917,
           "worst_r": -1.0,
           "directional_accuracy": 0.7105263157894737
@@ -14559,49 +14569,71 @@
           "time": "2026-09-18T16:38:19.618266+00:00",
           "pair": "USDCHF",
           "cumulative_r": -143.5
+        },
+        {
+          "time": "2026-09-20T23:59:11.372808+00:00",
+          "pair": "USDJPY",
+          "cumulative_r": -144.5
         }
       ]
     }
   },
   "alerts_stored_count": 50,
   "most_recent_alert": {
-    "id": "1789763431701-AUDNZD",
-    "time": "2026-09-18T20:30:31.701322+00:00",
-    "pair": "AUDNZD",
+    "id": "1789948782674-USDJPY",
+    "time": "2026-09-20T23:59:42.674986+00:00",
+    "pair": "USDJPY",
     "direction": "no_trade",
     "confidence": "low",
-    "combined_score": 0.03418424653825965,
-    "entry": 1.244785,
-    "message": "AUDNZD: back to no_trade",
-    "reason": "tech=+0.16, pestle=-0.15, combined=+0.03",
+    "combined_score": 0.13977098442826785,
+    "entry": 157.007,
+    "message": "USDJPY: back to no_trade",
+    "reason": "tech=+0.14, pestle=+0.14, combined=+0.14",
     "tech": {
       "orb": 0.0,
-      "trend": 0.0,
-      "pattern": 0.8,
-      "composite": 0.16000000000000003
+      "trend": 1.0,
+      "pattern": -0.8,
+      "composite": 0.13999999999999996
     },
     "pestle": {
-      "pair": "AUDNZD",
-      "pestle_score": -0.1545393836543509,
+      "pair": "USDJPY",
+      "pestle_score": 0.13942746107066967,
       "base": {
-        "currency": "AUD",
-        "score": 0.0,
+        "currency": "USD",
+        "score": 0.09111004453519965,
         "categories": {
           "political": 0.0,
-          "economic": 0.0,
-          "social": 0.0,
+          "economic": 0.21806774301564713,
+          "social": 0.03882947328940786,
           "technological": 0.0,
           "legal_regulatory": 0.0,
           "environmental": 0.0
         },
-        "evidence": []
+        "evidence": [
+          {
+            "title": "Employment data beats forecast",
+            "source_url": "https://investinglive.com/news/us-initial-jobless-claims-come-in-at-196k-vs-208k-estimate/",
+            "observed_at": "2026-09-17T12:30:21+00:00",
+            "signal_type_code": "EMPLOYMENT_STRONG",
+            "category": "economic",
+            "polarity": 1
+          },
+          {
+            "title": "Central bank rate hike / hawkish surprise",
+            "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+            "observed_at": "2026-09-16T18:00:00+00:00",
+            "signal_type_code": "RATE_HIKE",
+            "category": "economic",
+            "polarity": 1
+          }
+        ]
       },
       "quote": {
-        "currency": "NZD",
-        "score": 0.1545393836543509,
+        "currency": "JPY",
+        "score": -0.04831741653547002,
         "categories": {
           "political": 0.0,
-          "economic": 0.5151312788478364,
+          "economic": -0.12079354133867504,
           "social": 0.0,
           "technological": 0.0,
           "legal_regulatory": 0.0,
@@ -14609,36 +14641,28 @@
         },
         "evidence": [
           {
-            "title": "Trade balance improves",
-            "source_url": "https://investinglive.com/news/new-zealand-data-food-price-inflation-in-august-same-as-in-july/",
-            "observed_at": "2026-09-17T22:56:07+00:00",
-            "signal_type_code": "TRADE_BALANCE_IMPROVE",
+            "title": "Inflation below forecast",
+            "source_url": "https://investinglive.com/news/japan-august-inflation-headline-cpi-y-y-expected-2/",
+            "observed_at": "2026-09-17T23:30:22+00:00",
+            "signal_type_code": "CPI_BELOW_FORECAST",
             "category": "economic",
-            "polarity": 1
-          },
-          {
-            "title": "GDP growth beats forecast",
-            "source_url": "https://investinglive.com/news/new-zealand-dollar-pops-a-little-on-better-than-expected-gdp-data/",
-            "observed_at": "2026-09-16T22:49:14+00:00",
-            "signal_type_code": "GDP_BEAT",
-            "category": "economic",
-            "polarity": 1
+            "polarity": -1
           }
         ]
       }
     },
     "stop_loss_range": [
-      1.244785,
-      1.244785
+      157.007,
+      157.007
     ],
     "take_profit_range": [
-      1.244785,
-      1.244785
+      157.007,
+      157.007
     ],
     "window": {
-      "session": "London",
-      "generated_at_gmt_str": "20:30 GMT, 18 Sep 2026",
-      "valid_until_gmt_str": "16:00 GMT, 18 Sep 2026"
+      "session": "Tokyo",
+      "generated_at_gmt_str": "23:30 GMT, 20 Sep 2026",
+      "valid_until_gmt_str": "09:00 GMT, 20 Sep 2026"
     }
   }
 }
