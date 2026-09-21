@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": 521,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Bessent calls US-China talks very successful, Board of Trade operational ahead of summit",
+    "description": "The tone is constructive, but the reported outcomes are procedural and no tariff rates or purchase volumes have been given, so markets are unlikely to treat this as a breakthrough. US energy and agricultural exporters are the obvious sentiment beneficiaries if goods in those categories end up on the final Board of Trade list, though that depends on Chinese demand and tariff treatment that has yet to be spelled out. The emphasis on consumer and low-tech items suggests tariff relief is aimed at non-strategic goods, leaving the sensitive areas of chips and rare earths outside the mechanism for no",
+    "published_at": "2026-09-21T00:01:35",
+    "source_url": "https://investinglive.com/news/bessent-calls-us-china-talks-very-successful-board-of-trade-operational-ahead-of-summit/"
+  }
+]
