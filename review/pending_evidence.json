@@ -1,13 +1,46 @@
 [
   {
-    "id": 521,
+    "id": 525,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Bessent calls US-China talks very successful, Board of Trade operational ahead of summit",
-    "description": "The tone is constructive, but the reported outcomes are procedural and no tariff rates or purchase volumes have been given, so markets are unlikely to treat this as a breakthrough. US energy and agricultural exporters are the obvious sentiment beneficiaries if goods in those categories end up on the final Board of Trade list, though that depends on Chinese demand and tariff treatment that has yet to be spelled out. The emphasis on consumer and low-tech items suggests tariff relief is aimed at non-strategic goods, leaving the sensitive areas of chips and rare earths outside the mechanism for no",
-    "published_at": "2026-09-21T00:01:35",
-    "source_url": "https://investinglive.com/news/bessent-calls-us-china-talks-very-successful-board-of-trade-operational-ahead-of-summit/"
+    "title": "investingLive Asia-Pacific market news: Oil gapped higher at open but soon fell",
+    "description": "Trump flips twice on Houthi airstrikes after call with Saudi crown prince ICYMI: JPMorgan says Middle East oil flows holding up despite Saudi pipeline outage Blackstone's Gray says India is its best private equity market, nearing a tipping point All four major Australian banks now forecast RBA hike to 4.60% on September 29 US urges Americans to leave Iran as Trump weighs response to Tehran's war-ending terms ICYMI: BofA keeps call for Fed hikes in October and December as spending runs hot Goldman warns TTF and JKM gas could hit 105 euros and $35 if Gulf LNG stays constrained PBOC sets USD/ CNY",
+    "published_at": "2026-09-21T03:48:12",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-oil-gapped-higher-at-open-but-soon-fell/"
+  },
+  {
+    "id": 524,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China holds its ground as markets eye trade truce ahead of Trump-Xi summit",
+    "description": "US president Trump and China president Xi will be meeting in Washington on 24 September this week. And from a markets perspective, I think the most interesting part isn't necessarily what gets signed. It is instead the position in which both leaders are negotiating from. On the one hand, China president Xi looks relatively comfortable coming into the meeting.&nbsp;China's export machine has weathered the trade war far better than Washington might have hoped, with its global trade surplus on course to exceed $1 trillion for a second straight year. If anything,&nbsp;Beijing has shown that it has",
+    "published_at": "2026-09-21T05:04:35",
+    "source_url": "https://investinglive.com/news/china-holds-its-ground-as-markets-eye-trade-truce-ahead-of-trump-xi-summit/"
+  },
+  {
+    "id": 523,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we don't have anything on the agenda today as markets will likely remain in rangebound mode ahead of the UN General Assembly tomorrow and Trump-Xi meeting on Thursday. The most important one for markets should be the UN General Assembly as Trump is expected to hold a meeting with Gulf leaders to discuss the next steps in the war with Iran. Notably, the Iranian delegation was allowed to participate at the General Assembly, so Trump should also meet with Iran's President Pezeshkian. Traders will be on the lookout for de-escalatory headlines.&nbsp; AMERIC",
+    "published_at": "2026-09-21T06:35:36",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-46/"
+  },
+  {
+    "id": 522,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China\u2019s fifth plenum set for October 26-29 as markets watch for economic signals",
+    "description": "According to Xinhua news agency, China has now put a firm date on its next major political gathering. The fifth plenary session of the 20th Central Committee will reportedly run from 26 to 29 October in Beijing. The agenda is expected to centre again on strengthening self-governance, but I'd still expect markets to pay close attention to the economic signals coming out of the meeting. That is especially relevant given the timing and the broader backdrop. China president Xi is set to meet with US president Trump this week,&nbsp;with trade, AI, critical minerals and supply chains all expected to",
+    "published_at": "2026-09-21T06:52:57",
+    "source_url": "https://investinglive.com/news/china-s-fifth-plenum-set-for-october-26-29-as-markets-watch-for-economic-signals/"
   }
 ]
