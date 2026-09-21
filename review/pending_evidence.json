@@ -1,46 +1,79 @@
 [
   {
-    "id": 525,
+    "id": 532,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Asia-Pacific market news: Oil gapped higher at open but soon fell",
-    "description": "Trump flips twice on Houthi airstrikes after call with Saudi crown prince ICYMI: JPMorgan says Middle East oil flows holding up despite Saudi pipeline outage Blackstone's Gray says India is its best private equity market, nearing a tipping point All four major Australian banks now forecast RBA hike to 4.60% on September 29 US urges Americans to leave Iran as Trump weighs response to Tehran's war-ending terms ICYMI: BofA keeps call for Fed hikes in October and December as spending runs hot Goldman warns TTF and JKM gas could hit 105 euros and $35 if Gulf LNG stays constrained PBOC sets USD/ CNY",
-    "published_at": "2026-09-21T03:48:12",
-    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-oil-gapped-higher-at-open-but-soon-fell/"
+    "title": "investingLive European session wrap: Oil extends fall, Bitcoin jumps to highest since January",
+    "description": "Headlines: Crude oil falls on de-escalation hopes as focus shifts to the US General Assembly. What's next? Brent crude cools from recent highs, but $100 oil keeps bond markets on edge USD/JPY intervention risk grows as Japan holiday leaves yen exposed in thin liquidity Gold (XAU/USD) analysis: Consolidation ahead of key talks on the Iran war at the UN General Assembly China holds its ground as markets eye trade truce ahead of Trump-Xi summit China\u2019s fifth plenum set for October 26-29 as markets watch for economic signals Fed policymaker Goolsbee warns strong demand may be fueling US inflation ",
+    "published_at": "2026-09-21T12:02:22",
+    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-oil-extends-fall-bitcoin-jumps-to-highest-since-january/"
   },
   {
-    "id": 524,
+    "id": 531,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "China holds its ground as markets eye trade truce ahead of Trump-Xi summit",
-    "description": "US president Trump and China president Xi will be meeting in Washington on 24 September this week. And from a markets perspective, I think the most interesting part isn't necessarily what gets signed. It is instead the position in which both leaders are negotiating from. On the one hand, China president Xi looks relatively comfortable coming into the meeting.&nbsp;China's export machine has weathered the trade war far better than Washington might have hoped, with its global trade surplus on course to exceed $1 trillion for a second straight year. If anything,&nbsp;Beijing has shown that it has",
-    "published_at": "2026-09-21T05:04:35",
-    "source_url": "https://investinglive.com/news/china-holds-its-ground-as-markets-eye-trade-truce-ahead-of-trump-xi-summit/"
+    "title": "Yemen President spoke to Trump but Trump made no pledge of military support",
+    "description": "Reuters -- citing two sources -- reports that Yemen's President spoke to US President Donald Trump on Sunday. Yeme's President asked for miliary help but Trump made no pledges. Oil is down $3.38 to $92.77 today on hopes for a new round of diplomacy to find a way for the US and Iran to end hostilities. That move is boosting the entire risk complex. This article was written by Adam Button at investinglive.com.",
+    "published_at": "2026-09-21T13:30:54",
+    "source_url": "https://investinglive.com/news/yemen-president-spoke-to-trump-but-trump-made-no-pledge-of-military-support/"
   },
   {
-    "id": 523,
+    "id": 530,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "What are the main events for today?",
-    "description": "EUROPEAN SESSION In the European session, we don't have anything on the agenda today as markets will likely remain in rangebound mode ahead of the UN General Assembly tomorrow and Trump-Xi meeting on Thursday. The most important one for markets should be the UN General Assembly as Trump is expected to hold a meeting with Gulf leaders to discuss the next steps in the war with Iran. Notably, the Iranian delegation was allowed to participate at the General Assembly, so Trump should also meet with Iran's President Pezeshkian. Traders will be on the lookout for de-escalatory headlines.&nbsp; AMERIC",
-    "published_at": "2026-09-21T06:35:36",
-    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-46/"
+    "title": "Bank of Canada\u2019s Macklem: US tariffs could roughly halve fourth-quarter growth to below 1%",
+    "description": "Comments from Bank of Canada Governor Tiff Macklem cross the wires: If new US tariffs remain in place, Q4 growth could be roughly halved to below 1% If oil prices stay near $100 a barrel, we'd expect inflation to edge up in coming months Fuel prices have risen more than we'd normally expect, reflecting damage to global refining capacity Recent gas prices have been more consistent with an oil price almost $40 higher than where it has been So far we haven't seen evidence that higher oil prices are spreading to other goods and services We don't want to raise rates and restrain growth if inflation",
+    "published_at": "2026-09-21T15:10:56",
+    "source_url": "https://investinglive.com/news/bank-of-canada-s-macklem-us-tariffs-could-roughly-halve-fourth-quarter-growth-to-below-1/"
   },
   {
-    "id": 522,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "China\u2019s fifth plenum set for October 26-29 as markets watch for economic signals",
-    "description": "According to Xinhua news agency, China has now put a firm date on its next major political gathering. The fifth plenary session of the 20th Central Committee will reportedly run from 26 to 29 October in Beijing. The agenda is expected to centre again on strengthening self-governance, but I'd still expect markets to pay close attention to the economic signals coming out of the meeting. That is especially relevant given the timing and the broader backdrop. China president Xi is set to meet with US president Trump this week,&nbsp;with trade, AI, critical minerals and supply chains all expected to",
-    "published_at": "2026-09-21T06:52:57",
-    "source_url": "https://investinglive.com/news/china-s-fifth-plenum-set-for-october-26-29-as-markets-watch-for-economic-signals/"
+    "id": 529,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Foreign Currency Reserves 2026 \u2013 Market Notice 21 September 2026",
+    "description": "Not for distribution, directly or indirectly, in or into the United States, Canada, Australia, Japan or any other jurisdiction where it is unlawful to distribute this announcement",
+    "published_at": "2026-09-21T11:30:00",
+    "source_url": "https://www.bankofengland.co.uk/markets/market-notices/2026/september/foreign-currency-reserves-2026-market-notice-21-september-2026"
+  },
+  {
+    "id": 528,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Bank of England announces new office space in Leeds",
+    "description": "The Bank of England has secured a new long-term premises in Leeds, marking a major milestone in its commitment to build its presence in the region.",
+    "published_at": "2026-09-21T12:00:00",
+    "source_url": "https://www.bankofengland.co.uk/news/2026/september/bank-of-england-announces-new-office-space-in-leeds"
+  },
+  {
+    "id": 527,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Eurosystem brings central bank money to tokenised finance",
+    "description": "",
+    "published_at": "2026-09-21T10:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr260921~e754847a7b.en.html"
+  },
+  {
+    "id": 526,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "ECB to invest part of own funds in tokenised securities, with settlement via Pontes",
+    "description": "",
+    "published_at": "2026-09-21T10:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr260921_1~5a011ecbea.en.html"
   }
 ]
