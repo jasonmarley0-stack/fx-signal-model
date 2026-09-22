@@ -1,24 +1,68 @@
 [
   {
-    "id": 537,
+    "id": 543,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Australian state slaps tight restrictions on data centers: 150 metre buffer, self power, water curbs",
-    "description": "The rules add a fresh layer of regulatory cost and complexity for data centre developers operating in Victoria, potentially slowing approvals or raising build costs for companies required to source dedicated renewable energy and non-drinking water supplies. Because the changes are not retrospective, already approved projects and applications currently before the minister are shielded from the new requirements, limiting near term disruption to committed pipelines. For companies like Amazon and Microsoft with a stated interest in Victorian data centre investment, the new guardrails introduce pla",
-    "published_at": "2026-09-22T00:37:47",
-    "source_url": "https://investinglive.com/news/australian-state-slaps-tight-restrictions-on-data-centers-150-metre-buffer-self-power-water-curbs/"
+    "title": "investingLive Asia-Pacific market news: Central bankers flag inflation risks",
+    "description": "RBA's Bullock says supply shocks hard for policy to manage, flags second round risk Low expectations set for Trump-Xi meeting as trade truce set to be extended RBNZ's Breman says higher oil prices point to firmer near-term inflation ICYMI: Bessent says all Iranian airlines will be shut down worldwide from September 23 ICYMI: Fed's Musalem says more rate hikes likely needed as inflation risks stay elevated Australian state slaps tight restrictions on data centers: 150 metre buffer, self power, water curbs Deutsche Bank says markets underpricing scale of global rate hiking cycle Goldman's 8,000 ",
+    "published_at": "2026-09-22T03:40:11",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-central-bankers-flag-inflation-risks/"
   },
   {
-    "id": 536,
+    "id": 542,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Low expectations set for Trump-Xi meeting as trade truce set to be extended",
-    "description": "With both sides signalling modest ambitions, markets are unlikely to see a major trade breakthrough from this week's meeting, reducing the odds of a sharp risk on move tied to US-China relations specifically. The expected extension of the Busan trade truce, due to expire in November, removes a near term tail risk of renewed triple digit tariffs and disrupted rare earths access, both of which weighed heavily on bilateral trade last year. Any progress on the Board of Trade 's proposed tariff carve outs for up to $30 billion in Chinese exports, spanning US agriculture, energy and medical products",
-    "published_at": "2026-09-22T02:49:29",
-    "source_url": "https://investinglive.com/news/low-expectations-set-for-trump-xi-meeting-as-trade-truce-set-to-be-extended/"
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than a couple of low-tier releases like the Swiss current account and Spanish balance of trade. The data won't change anything for the respective central banks, so the market reaction will be muted.&nbsp;The price action might stay mostly rangebound as traders await Trump's speech at the UN General Assembly and the meetings with global leaders. AMERICAN SESSION In the American session, we have lots of Fed speakers today but the focus will be on the UN General Assembly.&nbsp;Trump is expected to deliver his speech ",
+    "published_at": "2026-09-22T06:37:25",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-47/"
+  },
+  {
+    "id": 541,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "10-year Treasury yields stay near 5%, what would trigger the next break higher?",
+    "description": "After all the hype and talk about the Fed, somehow stocks&nbsp;are finding some breathing room again. The Nasdaq closed at a record high on Monday as AI optimism returned, while the S&amp;P 500 also posted a strong rebound. Lower oil prices and a mild retreat in Treasury yields have helped improve the mood after last week's volatility. However,&nbsp;I don't think broader markets are completely out of the woods just yet. 10-year Treasury yields are continuing to sit&nbsp;uncomfortably close to the 5% mark, having briefly pushed above it last week for the first time since 2023.&nbsp;And as long ",
+    "published_at": "2026-09-22T08:23:54",
+    "source_url": "https://investinglive.com/news/10-year-treasury-yields-stay-near-5-what-would-trigger-the-next-break-higher/"
+  },
+  {
+    "id": 540,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Iran offers to reopen Strait of Hormuz within seven days if US eases blockade",
+    "description": "Iran has offered to reopen the Strait of Hormuz within seven days if the United States takes steps to ease military and economic pressure on Tehran, according to a senior Iranian government official cited by Kyodo News . The proposal was reportedly conveyed to Washington through intermediaries as diplomatic efforts intensify around the UN General Assembly in New York. Under the proposal, Iran would reopen the strategic waterway if the US lifts its blockade of Iranian ports and announces a plan to halt military operations around the strait. Tehran is also seeking renewed negotiations aimed at r",
+    "published_at": "2026-09-22T08:52:30",
+    "source_url": "https://investinglive.com/news/iran-offers-to-reopen-strait-of-hormuz-within-seven-days-if-us-eases-blockade/"
+  },
+  {
+    "id": 539,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 5,
+    "source_id": 5,
+    "title": "2026-09-22 - Swiss balance of payments and international investment position",
+    "description": "",
+    "published_at": "2026-09-22T07:00:00",
+    "source_url": "https://www.snb.ch/en/publications/communication/press-releases/2026/pre_20260922"
+  },
+  {
+    "id": 538,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Philip R. Lane: Interview with Le Temps",
+    "description": "",
+    "published_at": "2026-09-22T05:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/inter/date/2026/html/ecb.in260922~5f89d300ee.en.html"
   }
 ]
