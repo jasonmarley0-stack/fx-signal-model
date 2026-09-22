@@ -1,79 +1,35 @@
 [
   {
-    "id": 532,
+    "id": 535,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive European session wrap: Oil extends fall, Bitcoin jumps to highest since January",
-    "description": "Headlines: Crude oil falls on de-escalation hopes as focus shifts to the US General Assembly. What's next? Brent crude cools from recent highs, but $100 oil keeps bond markets on edge USD/JPY intervention risk grows as Japan holiday leaves yen exposed in thin liquidity Gold (XAU/USD) analysis: Consolidation ahead of key talks on the Iran war at the UN General Assembly China holds its ground as markets eye trade truce ahead of Trump-Xi summit China\u2019s fifth plenum set for October 26-29 as markets watch for economic signals Fed policymaker Goolsbee warns strong demand may be fueling US inflation ",
-    "published_at": "2026-09-21T12:02:22",
-    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-oil-extends-fall-bitcoin-jumps-to-highest-since-january/"
+    "title": "Expect the News Headlines from Trump and the administration to be fast and furious going into the elections",
+    "description": "Treasury Secretary Scott Bessent hit the news circuit today and followed up with a post on X touting economic gains under the administration. Meanwhile, President Trump has been posting a mix of combative press criticism, upbeat trade/policy announcements, and walked back escalatory war rhetoric on Iran \u2014 a pattern likely to accelerate as the midterms approach. Bessent's X post \u2014 economic messaging Credits the administration's \"pro-growth agenda\" with \"restoring purchasing power for working families\" (paraphrased from his post) Claims real weekly earnings are up 4.1% for blue-collar manufactur",
+    "published_at": "2026-09-21T15:40:38",
+    "source_url": "https://investinglive.com/news/expect-the-news-headlines-from-trump-and-the-administration-to-be-fast-and-furious-going-into-the-elections/"
   },
   {
-    "id": 531,
+    "id": 534,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Yemen President spoke to Trump but Trump made no pledge of military support",
-    "description": "Reuters -- citing two sources -- reports that Yemen's President spoke to US President Donald Trump on Sunday. Yeme's President asked for miliary help but Trump made no pledges. Oil is down $3.38 to $92.77 today on hopes for a new round of diplomacy to find a way for the US and Iran to end hostilities. That move is boosting the entire risk complex. This article was written by Adam Button at investinglive.com.",
-    "published_at": "2026-09-21T13:30:54",
-    "source_url": "https://investinglive.com/news/yemen-president-spoke-to-trump-but-trump-made-no-pledge-of-military-support/"
+    "title": "Trump proposes USD 5 billion fund to help rebuild Gulf energy sites \u2014 WSJ",
+    "description": "The Trump administration\u2019s proposal was reported by the Wall Street Journal, citing U.S. and Middle Eastern officials and documents: The Trump administration has proposed investing USD 5 billion in a new fund that would help Middle Eastern countries rebuild energy infrastructure battered in the Iran war and reduce their reliance on the Strait of Hormuz to transport oil and gas, according to U.S. and Middle Eastern officials and documents seen by the WSJ. Proposal is under discussion with several Middle Eastern countries, including Saudi Arabia and the U.A.E. Analysis: The proposal appears desi",
+    "published_at": "2026-09-21T19:32:06",
+    "source_url": "https://investinglive.com/news/trump-proposes-usd-5-billion-fund-to-help-rebuild-gulf-energy-sites-wsj/"
   },
   {
-    "id": 530,
+    "id": 533,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Bank of Canada\u2019s Macklem: US tariffs could roughly halve fourth-quarter growth to below 1%",
-    "description": "Comments from Bank of Canada Governor Tiff Macklem cross the wires: If new US tariffs remain in place, Q4 growth could be roughly halved to below 1% If oil prices stay near $100 a barrel, we'd expect inflation to edge up in coming months Fuel prices have risen more than we'd normally expect, reflecting damage to global refining capacity Recent gas prices have been more consistent with an oil price almost $40 higher than where it has been So far we haven't seen evidence that higher oil prices are spreading to other goods and services We don't want to raise rates and restrain growth if inflation",
-    "published_at": "2026-09-21T15:10:56",
-    "source_url": "https://investinglive.com/news/bank-of-canada-s-macklem-us-tariffs-could-roughly-halve-fourth-quarter-growth-to-below-1/"
-  },
-  {
-    "id": 529,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Foreign Currency Reserves 2026 \u2013 Market Notice 21 September 2026",
-    "description": "Not for distribution, directly or indirectly, in or into the United States, Canada, Australia, Japan or any other jurisdiction where it is unlawful to distribute this announcement",
-    "published_at": "2026-09-21T11:30:00",
-    "source_url": "https://www.bankofengland.co.uk/markets/market-notices/2026/september/foreign-currency-reserves-2026-market-notice-21-september-2026"
-  },
-  {
-    "id": 528,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Bank of England announces new office space in Leeds",
-    "description": "The Bank of England has secured a new long-term premises in Leeds, marking a major milestone in its commitment to build its presence in the region.",
-    "published_at": "2026-09-21T12:00:00",
-    "source_url": "https://www.bankofengland.co.uk/news/2026/september/bank-of-england-announces-new-office-space-in-leeds"
-  },
-  {
-    "id": 527,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 3,
-    "source_id": 2,
-    "title": "Eurosystem brings central bank money to tokenised finance",
-    "description": "",
-    "published_at": "2026-09-21T10:00:00",
-    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr260921~e754847a7b.en.html"
-  },
-  {
-    "id": 526,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 3,
-    "source_id": 2,
-    "title": "ECB to invest part of own funds in tokenised securities, with settlement via Pontes",
-    "description": "",
-    "published_at": "2026-09-21T10:00:00",
-    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr260921_1~5a011ecbea.en.html"
+    "title": "investingLive Americas FX news wrap 21 Sept: Nasdaq closes at a record,oil slides, Fed officials discuss more hikes",
+    "description": "Fed's Collins pencils in second hike this year, then expects rates on hold in 2027 Nasdaq Composite closes at a record as Meta and chip stocks surge Trump proposes USD 5 billion fund to help rebuild Gulf energy sites \u2014 WSJ St. Louis Fed\u2019s Musalem: Interest rates likely need to rise further to tame inflation Meta shares surge more than 10% as Muse excitement triggers a major technical breakout BOC\u2019s Macklem: It could take some time for higher fuel margins to normalise Expect the News Headlines from Trump and the administration to be fast and furious going into the elections Bank of Canada\u2019s Mac",
+    "published_at": "2026-09-21T21:12:53",
+    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-21-sept-nasdaq-closes-at-a-record-oil-slides-fed-officials-discuss-more-hikes/"
   }
 ]
