@@ -1,35 +1,24 @@
 [
   {
-    "id": 535,
+    "id": 537,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Expect the News Headlines from Trump and the administration to be fast and furious going into the elections",
-    "description": "Treasury Secretary Scott Bessent hit the news circuit today and followed up with a post on X touting economic gains under the administration. Meanwhile, President Trump has been posting a mix of combative press criticism, upbeat trade/policy announcements, and walked back escalatory war rhetoric on Iran \u2014 a pattern likely to accelerate as the midterms approach. Bessent's X post \u2014 economic messaging Credits the administration's \"pro-growth agenda\" with \"restoring purchasing power for working families\" (paraphrased from his post) Claims real weekly earnings are up 4.1% for blue-collar manufactur",
-    "published_at": "2026-09-21T15:40:38",
-    "source_url": "https://investinglive.com/news/expect-the-news-headlines-from-trump-and-the-administration-to-be-fast-and-furious-going-into-the-elections/"
+    "title": "Australian state slaps tight restrictions on data centers: 150 metre buffer, self power, water curbs",
+    "description": "The rules add a fresh layer of regulatory cost and complexity for data centre developers operating in Victoria, potentially slowing approvals or raising build costs for companies required to source dedicated renewable energy and non-drinking water supplies. Because the changes are not retrospective, already approved projects and applications currently before the minister are shielded from the new requirements, limiting near term disruption to committed pipelines. For companies like Amazon and Microsoft with a stated interest in Victorian data centre investment, the new guardrails introduce pla",
+    "published_at": "2026-09-22T00:37:47",
+    "source_url": "https://investinglive.com/news/australian-state-slaps-tight-restrictions-on-data-centers-150-metre-buffer-self-power-water-curbs/"
   },
   {
-    "id": 534,
+    "id": 536,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Trump proposes USD 5 billion fund to help rebuild Gulf energy sites \u2014 WSJ",
-    "description": "The Trump administration\u2019s proposal was reported by the Wall Street Journal, citing U.S. and Middle Eastern officials and documents: The Trump administration has proposed investing USD 5 billion in a new fund that would help Middle Eastern countries rebuild energy infrastructure battered in the Iran war and reduce their reliance on the Strait of Hormuz to transport oil and gas, according to U.S. and Middle Eastern officials and documents seen by the WSJ. Proposal is under discussion with several Middle Eastern countries, including Saudi Arabia and the U.A.E. Analysis: The proposal appears desi",
-    "published_at": "2026-09-21T19:32:06",
-    "source_url": "https://investinglive.com/news/trump-proposes-usd-5-billion-fund-to-help-rebuild-gulf-energy-sites-wsj/"
-  },
-  {
-    "id": 533,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "investingLive Americas FX news wrap 21 Sept: Nasdaq closes at a record,oil slides, Fed officials discuss more hikes",
-    "description": "Fed's Collins pencils in second hike this year, then expects rates on hold in 2027 Nasdaq Composite closes at a record as Meta and chip stocks surge Trump proposes USD 5 billion fund to help rebuild Gulf energy sites \u2014 WSJ St. Louis Fed\u2019s Musalem: Interest rates likely need to rise further to tame inflation Meta shares surge more than 10% as Muse excitement triggers a major technical breakout BOC\u2019s Macklem: It could take some time for higher fuel margins to normalise Expect the News Headlines from Trump and the administration to be fast and furious going into the elections Bank of Canada\u2019s Mac",
-    "published_at": "2026-09-21T21:12:53",
-    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-21-sept-nasdaq-closes-at-a-record-oil-slides-fed-officials-discuss-more-hikes/"
+    "title": "Low expectations set for Trump-Xi meeting as trade truce set to be extended",
+    "description": "With both sides signalling modest ambitions, markets are unlikely to see a major trade breakthrough from this week's meeting, reducing the odds of a sharp risk on move tied to US-China relations specifically. The expected extension of the Busan trade truce, due to expire in November, removes a near term tail risk of renewed triple digit tariffs and disrupted rare earths access, both of which weighed heavily on bilateral trade last year. Any progress on the Board of Trade 's proposed tariff carve outs for up to $30 billion in Chinese exports, spanning US agriculture, energy and medical products",
+    "published_at": "2026-09-22T02:49:29",
+    "source_url": "https://investinglive.com/news/low-expectations-set-for-trump-xi-meeting-as-trade-truce-set-to-be-extended/"
   }
 ]
