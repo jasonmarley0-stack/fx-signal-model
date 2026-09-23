@@ -1,0 +1,10 @@
+[Unit]
+Description=Primary live scanner — H4, majors, spread-floored stop (see live_scanner.py)
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/fx-signal-model
+EnvironmentFile=/root/fx-signal-model/setup/oanda.env
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/live_scanner.py

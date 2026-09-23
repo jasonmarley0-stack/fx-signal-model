@@ -11,19 +11,14 @@ from combiner import combine_signal
 from narrative import technical_narrative, pestle_narrative
 from calendar_events import upcoming_events_for_pair
 
-# The original 7 majors, plus every cross pair among the 8 tracked currencies
-# (GBP/USD/EUR/JPY/CHF/AUD/CAD/NZD) — the full standard 28-pair matrix OANDA
-# itself offers. No new PESTLE currency onboarding needed for any of these:
-# scoring reuses the same 8 currency caches regardless of how many pairs use
-# them (see streaming_scanner.py's per-currency PESTLE cache).
+# Reverted to the original 7 majors (2026-09-23, see NEXT_STEPS.md
+# "transaction cost modeling") — the 28-pair cross expansion was found
+# structurally cost-unviable: spread/risk ratios of 2-6x on minor/exotic
+# crosses, regardless of stop width or signal quality (checked against 822
+# real live-fired signals). Majors + a spread-floored stop is what the
+# cost-aware backtest actually validated (see live_scanner.py).
 DEFAULT_PAIRS = [
     "EURUSD", "GBPUSD", "USDJPY", "USDCHF", "AUDUSD", "USDCAD", "NZDUSD",
-    "EURGBP", "EURJPY", "EURCHF", "EURAUD", "EURCAD", "EURNZD",
-    "GBPJPY", "GBPCHF", "GBPAUD", "GBPCAD", "GBPNZD",
-    "AUDJPY", "AUDCHF", "AUDCAD", "AUDNZD",
-    "NZDJPY", "NZDCHF", "NZDCAD",
-    "CADJPY", "CADCHF",
-    "CHFJPY",
 ]
 
 

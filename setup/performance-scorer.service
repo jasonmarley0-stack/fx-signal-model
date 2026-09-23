@@ -1,6 +1,6 @@
 [Unit]
 Description=Score fired signals against real OANDA price action (trade-outcome + directional accuracy)
-After=network.target signal-scanner.service
+After=network.target live-scanner.service
 
 [Service]
 Type=oneshot
