@@ -1,57 +1,101 @@
 [
   {
-    "id": 559,
+    "id": 568,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "ECB says China's industrial rise is squeezing German manufacturers out of global markets",
-    "description": "The findings reinforce the structural case against Germany's export-heavy industrial base, a headwind for autos, machinery and capital goods names that a cyclical recovery may only partly offset. For the ECB, cheaper Chinese imports are a potential source of downward pressure on goods prices, which could complicate the inflation outlook at a time when energy costs are pushing the other way. Central European economies tied into German supply chains face knock-on exposure. Weaker export competitiveness also offers little support for the euro over the longer term, even if near-term moves stay dri",
-    "published_at": "2026-09-22T22:35:33",
-    "source_url": "https://investinglive.com/news/ecb-says-china-s-industrial-rise-is-squeezing-german-manufacturers-out-of-global-markets/"
+    "title": "ADB holds China growth forecast at 4.6%, cuts inflation view as demand softens",
+    "description": "A China inflation forecast below 1% for both this year and next underlines how little price pressure the world's second-largest economy is generating, keeping deflation risk in view and leaving room for further policy support from Beijing. That contrasts with much of the rest of the region, where energy costs tied to the Middle East conflict keep inflation elevated and limit central banks' scope to ease. For commodity markets, an unchanged China growth path offers little sign of a demand-led lift, leaving energy prices driven mainly by supply disruptions. The ADB's expectation of diverging pol",
+    "published_at": "2026-09-23T03:54:52",
+    "source_url": "https://investinglive.com/news/adb-holds-china-growth-forecast-at-4-6-cuts-inflation-view-as-demand-softens/"
   },
   {
-    "id": 558,
+    "id": 567,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Australia flash PMI: growth slows to Q3 low as factories contract and firms cut jobs",
-    "description": "The survey hands the RBA a mixed signal days before its 29 September decision: softer demand and job cuts argue for caution, while faster growth in output prices keeps the inflation case for a hike alive. With markets already heavily priced for a move, the data may do more to shape expectations for November than for next week. Energy remains the key transmission channel, with Middle East-driven fuel costs cited as the main source of input price pressure, so oil prices stay central to Australia's inflation outlook. For the Australian dollar, weaker growth momentum is a modest headwind, although",
-    "published_at": "2026-09-22T23:07:25",
-    "source_url": "https://investinglive.com/news/australia-flash-pmi-growth-slows-to-q3-low-as-factories-contract-and-firms-cut-jobs/"
+    "title": "investingLive Asia-Pacific market news: Oil slips as US and Iran hold Qatar-mediated talks",
+    "description": "Australia jobs preview: CBA sees 15,000 gain, unemployment steady at 4.5% Morgan Stanley prefers Nokia as it turns bearish on Ericsson Australia jobs preview: employment seen rebounding in August, jobless rate at 4.5% Gold edges up or goes nowhere? Headlines clash as rates and oil pull in opposite ways PBOC sets USD/ CNY mid-point today at 6.7468 (vs. estimate at 6.6971) How private credit fund redemption gates work, and why Apollo investors still wait Follow up ... Trump weighs diesel export ban: can a limited curb avoid the backlash? Oil eases as Witkoff says indirect US-Iran talks at UN com",
+    "published_at": "2026-09-23T03:44:41",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-oil-slips-as-us-and-iran-hold-qatar-mediated-talks/"
   },
   {
-    "id": 557,
+    "id": 566,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Australia jobs preview: employment seen rebounding in August, jobless rate at 4.5%",
-    "description": "The data land days before the Reserve Bank of Australia's 29 September meeting, where a rate increase is widely expected, so a result near or above forecasts would do little to shift near-term pricing but could firm expectations for further tightening in November. A second straight fall in employment, or a jump in unemployment, would challenge the case for a follow-up hike and could weigh on the Australian dollar and short-dated bond yields. With the forecast range spanning 10,000 to 47,000, the scope for surprise is wide in both directions. Traders are also likely to weigh the release against",
-    "published_at": "2026-09-23T02:08:07",
-    "source_url": "https://investinglive.com/news/australia-jobs-preview-employment-seen-rebounding-in-august-jobless-rate-at-4-5/"
+    "title": "Euro area PMIs put inflation pressures and the ECB rate path in focus",
+    "description": "We will be getting the preliminary PMI data for September for France, Germany, and the overall Eurozone later today. In terms of key estimates, markets are looking for: Manufacturing PMI: France 50.9 (prior 51.1), Germany 54.0 (prior 54.3), Eurozone 52.6 (prior 52.7) Services PMI: France 48.3 (prior 48.0), Germany 50.0 (prior 49.7), Eurozone 51.5 (prior 51.6) Composite PMI: France 48.7 (prior 48.5), Germany 51.8 (prior 51.8), Eurozone 51.7 (prior 52.0) The headline numbers will tell us whether euro area growth is holding up, but I think the bigger market question is what the report might say a",
+    "published_at": "2026-09-23T06:06:19",
+    "source_url": "https://investinglive.com/news/euro-area-pmis-put-inflation-pressures-and-the-ecb-rate-path-in-focus/"
   },
   {
-    "id": 556,
+    "id": 565,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Australia jobs preview: CBA sees 15,000 gain, unemployment steady at 4.5%",
-    "description": "With CBA below consensus and Westpac above it , the major banks bracket the market's 20,000 forecast, so a result anywhere in that band is unlikely to move rate expectations much ahead of next week's widely expected RBA hike. The bigger swing factor is the unemployment rate: CBA's view that it needs to drift higher to curb inflation means a surprise dip would strengthen the case for further tightening beyond September, supporting the Australian dollar and short-end yields. A jump toward 4.6% or above would do the opposite, reinforcing the idea that the RBA is nearing the end of its cycle. The ",
-    "published_at": "2026-09-23T03:05:32",
-    "source_url": "https://investinglive.com/news/australia-jobs-preview-cba-sees-15-000-gain-unemployment-steady-at-4-5/"
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we get the Flash PMIs for the major Eurozone economies and the UK. The market focus might now shift to growth, given the aggressive tightening already priced in. Inflation data remains at the top of the list, but if the economic activity data starts surprising to the downside, then we might see a dovish repricing for the 2027 curve which could weigh on the respective currencies.&nbsp; AMERICAN SESSION In the American session, we have the US Flash PMIs and again, the focus will be on whether economic activity continues to hold or it's starting to deteri",
+    "published_at": "2026-09-23T06:36:15",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-48/"
   },
   {
-    "id": 555,
+    "id": 564,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "France PMI jumps back into expansion in September but inflation pressures complicate the ECB outlook",
+    "description": "France September flash services PMI 51.4 vs 48.3 expected Prior 48.0 France September flash manufacturing PMI 50.3 vs 50.9 expected Prior 51.1 France September flash composite PMI 51.2 vs 48.7 expected Prior 48.5 That is a strong read as French business activity moved back into expansion territory (&gt;50.0) in September, bolstered by a stronger performance in the services sector. Of note, the headline estimate for the services print is the highest in 10 months. That drove the overall expansion to being the quickest in just over two years. Of note, demand conditions improved and that&nbsp;refl",
+    "published_at": "2026-09-23T07:16:03",
+    "source_url": "https://investinglive.com/news/france-pmi-jumps-back-into-expansion-in-september-but-inflation-pressures-complicate-the-ecb-outlook/"
+  },
+  {
+    "id": 563,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Germany September flash manufacturing PMI 53.8 vs 54.0 expected",
+    "description": "Prior 54.3 Services PMI 52.9 vs 50.0 expected Prior 49.7 Composite PMI 53.8 vs 51.8 expected Prior 51.8 Comment: Phil Smith, Economics Associate Director at S&amp;P Global Market Intelligence said&nbsp; \"German businesses reported further signs of resilience in September, with output growth picking up speed, expectations towards the outlook holding steady and employment rising for a second month running, all despite renewed pressure on the inflation front. \"The flash data pointed to the strongest rise in business activity for almost a year, with the service sector finally rejoining manufacturi",
+    "published_at": "2026-09-23T07:30:16",
+    "source_url": "https://investinglive.com/news/germany-september-flash-manufacturing-pmi-xx-vs-54-0-expected/"
+  },
+  {
+    "id": 562,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "UK September flash services PMI 51.7 vs 52.0 expected",
+    "description": "Prior 52.5 Manufacturing PMI 52.0 vs 51.5 expected Prior 51.7 Composite PMI 51.7 vs 52.0 expected Prior 52.5 Comment: Chris Williamson, Chief Business Economist at S&amp;P Global Market Intelligence said: \u201cSeptember is seeing a worrying combination of disappointingly sluggish economic growth and intensifying inflationary pressures, with subdued business confidence and high costs meanwhile continuing to discourage hiring. \"Output growth across the manufacturing and services PMI surveys has slowed to a pace consistent with the economy growing at a mere 0.1% quarterly rate. Growth, business confi",
+    "published_at": "2026-09-23T08:30:11",
+    "source_url": "https://investinglive.com/news/uk-september-flash-services-pmi-xx-vs-52-0-expected/"
+  },
+  {
+    "id": 561,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Eurozone PMI jumps as services surge, price pressures keep ECB October rate hike in play",
+    "description": "Eurozone September flash services PMI 53.0 vs 51.5 expected Prior 51.6 Eurozone September flash manufacturing PMI 52.7 vs 52.6 expected Prior 52.7 Eurozone September flash composite PMI 53.1 vs 51.7 expected Prior 52.0 Following the stronger showings in both France and Germany earlier, the more robust business activity in the overall euro area here was very much expected. The latest reading signalled a third consecutive monthly expansion in business activity in the region, with it being the fastest in almost three-and-a-half years. Solid growth was registered across both the manufacturing and ",
+    "published_at": "2026-09-23T08:01:00",
+    "source_url": "https://investinglive.com/news/eurozone-pmi-jumps-as-services-surge-price-pressures-keep-ecb-october-rate-hike-in-play/"
+  },
+  {
+    "id": 560,
     "status": "NORMALISED",
     "was_matched": true,
-    "company_id": 6,
-    "source_id": 6,
-    "title": "Assessment of ASX Clearing and Settlement Facilities - September 2026",
-    "description": "Media Release Number 2026-26: The Reserve Bank of Australia today released the 2026 Assessment of the ASX Clearing and Settlement (CS) Facilities. This assesses the performance of the ASX CS facilities against the RBA's Financial Stability Standards (Standards).",
-    "published_at": "2026-09-23T01:30:00",
-    "source_url": "https://www.rba.gov.au/media-releases/2026/mr-26-26.html"
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Almost ten million people took part in ECB survey on new euro banknotes",
+    "description": "",
+    "published_at": "2026-09-23T09:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr260923~6ebddaf01e.en.html"
   }
 ]
