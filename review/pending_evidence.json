@@ -1,57 +1,57 @@
 [
   {
-    "id": 554,
+    "id": 559,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US treasury sells $69 billion of two-year notes at a high yield of 4.787%",
-    "description": "High yield&nbsp;of 4.787% WI level at the time of the auction 4.785% Tail&nbsp;0.2 basis points versus average of 0.1 basis point Bid to cover 2.63X average of 2.61X Directs&nbsp;29.2% versus average of 28.3% Indirects&nbsp;57.79% versus average of 58.6% Dealers&nbsp;13.19% versus average of 13.1% Auction grade: C The auction was close to average overall. The high yield of 4.787% was 0.2 basis points above the when-issued level, a slightly larger tail than the 0.1-basis-point average. Demand was modestly better on the bid-to-cover ratio at 2.63 times versus 2.61 times, and direct bidders took ",
-    "published_at": "2026-09-22T17:03:56",
-    "source_url": "https://investinglive.com/news/us-treasury-sells-69-billion-of-two-year-notes-at-a-high-yield-of-4-787/"
+    "title": "ECB says China's industrial rise is squeezing German manufacturers out of global markets",
+    "description": "The findings reinforce the structural case against Germany's export-heavy industrial base, a headwind for autos, machinery and capital goods names that a cyclical recovery may only partly offset. For the ECB, cheaper Chinese imports are a potential source of downward pressure on goods prices, which could complicate the inflation outlook at a time when energy costs are pushing the other way. Central European economies tied into German supply chains face knock-on exposure. Weaker export competitiveness also offers little support for the euro over the longer term, even if near-term moves stay dri",
+    "published_at": "2026-09-22T22:35:33",
+    "source_url": "https://investinglive.com/news/ecb-says-china-s-industrial-rise-is-squeezing-german-manufacturers-out-of-global-markets/"
   },
   {
-    "id": 553,
+    "id": 558,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Americas market news wrap: US and Iran officials meet at UN",
-    "description": "Recap: US and Iran meet in New York on UNGA sidelines, Hormuz conditions on the table Trump and Bessent talk about a diesel export ban. Also says spoke with Iran for 3 hours Fed's Barkin says he thinks the hiking cycle could be like the Greenspan \"mid-cycle adjustment\" US treasury sells $69 billion of two-year notes at a high yield of 4.787% Richmond Fed\u2019s Barkin says inflation risks outweighed employment risks in last week\u2019s rate hike Trump: I believe we will make a deal with Iran right after US election Fed's Williams doesn't comment on monetary policy or economic outlook US September Richmo",
-    "published_at": "2026-09-22T20:07:02",
-    "source_url": "https://investinglive.com/news/investinglive-americas-market-news-wrap-us-and-iran-officials-meet-at-un/"
+    "title": "Australia flash PMI: growth slows to Q3 low as factories contract and firms cut jobs",
+    "description": "The survey hands the RBA a mixed signal days before its 29 September decision: softer demand and job cuts argue for caution, while faster growth in output prices keeps the inflation case for a hike alive. With markets already heavily priced for a move, the data may do more to shape expectations for November than for next week. Energy remains the key transmission channel, with Middle East-driven fuel costs cited as the main source of input price pressure, so oil prices stay central to Australia's inflation outlook. For the Australian dollar, weaker growth momentum is a modest headwind, although",
+    "published_at": "2026-09-22T23:07:25",
+    "source_url": "https://investinglive.com/news/australia-flash-pmi-growth-slows-to-q3-low-as-factories-contract-and-firms-cut-jobs/"
   },
   {
-    "id": 552,
+    "id": 557,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Economic and event calendar in Asia Wednesday, September 23, 2026: Australian flash PMIs",
-    "description": "Australia flash PMIs preview: September data arrive days before an expected RBA hike. Australia's preliminary S&amp;P Global purchasing managers' indexes for September are due at 23:00 GMT (7pm US Eastern) on Wednesday, which is 9am Thursday on the east coast of Australia.&nbsp; August's final readings showed the private sector still growing, but a little more slowly than in July. The services PMI slipped to 53.2 from 53.6 in July, although it remained above the 50 level that separates expansion from contraction, and the final figure was an upgrade on a flash estimate of 52.9. Manufacturing he",
-    "published_at": "2026-09-22T20:33:00",
-    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-wednesday-september-23-2026-australian-flash-pmis/"
+    "title": "Australia jobs preview: employment seen rebounding in August, jobless rate at 4.5%",
+    "description": "The data land days before the Reserve Bank of Australia's 29 September meeting, where a rate increase is widely expected, so a result near or above forecasts would do little to shift near-term pricing but could firm expectations for further tightening in November. A second straight fall in employment, or a jump in unemployment, would challenge the case for a follow-up hike and could weigh on the Australian dollar and short-dated bond yields. With the forecast range spanning 10,000 to 47,000, the scope for surprise is wide in both directions. Traders are also likely to weigh the release against",
+    "published_at": "2026-09-23T02:08:07",
+    "source_url": "https://investinglive.com/news/australia-jobs-preview-employment-seen-rebounding-in-august-jobless-rate-at-4-5/"
   },
   {
-    "id": 551,
+    "id": 556,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Australia jobs preview: CBA sees 15,000 gain, unemployment steady at 4.5%",
+    "description": "With CBA below consensus and Westpac above it , the major banks bracket the market's 20,000 forecast, so a result anywhere in that band is unlikely to move rate expectations much ahead of next week's widely expected RBA hike. The bigger swing factor is the unemployment rate: CBA's view that it needs to drift higher to curb inflation means a surprise dip would strengthen the case for further tightening beyond September, supporting the Australian dollar and short-end yields. A jump toward 4.6% or above would do the opposite, reinforcing the idea that the RBA is nearing the end of its cycle. The ",
+    "published_at": "2026-09-23T03:05:32",
+    "source_url": "https://investinglive.com/news/australia-jobs-preview-cba-sees-15-000-gain-unemployment-steady-at-4-5/"
+  },
+  {
+    "id": 555,
     "status": "NORMALISED",
     "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Foreign Currency Reserves 2026 \u2013 Market Notice 22 September 2026",
-    "description": "Not for distribution, directly or indirectly, in or into the United States, Canada, Australia, Japan or any other jurisdiction where it is unlawful to distribute this announcement",
-    "published_at": "2026-09-22T15:30:00",
-    "source_url": "https://www.bankofengland.co.uk/markets/market-notices/2026/september/foreign-currency-reserves-2026-market-notice-22-september-2026"
-  },
-  {
-    "id": 550,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 2,
-    "source_id": 1,
-    "title": "Federal Reserve Board announces approval of application by BancFirst Corporation",
-    "description": "Federal Reserve Board announces approval of application by BancFirst Corporation",
-    "published_at": "2026-09-22T20:30:00",
-    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/orders20260922a.htm"
+    "company_id": 6,
+    "source_id": 6,
+    "title": "Assessment of ASX Clearing and Settlement Facilities - September 2026",
+    "description": "Media Release Number 2026-26: The Reserve Bank of Australia today released the 2026 Assessment of the ASX Clearing and Settlement (CS) Facilities. This assesses the performance of the ASX CS facilities against the RBA's Financial Stability Standards (Standards).",
+    "published_at": "2026-09-23T01:30:00",
+    "source_url": "https://www.rba.gov.au/media-releases/2026/mr-26-26.html"
   }
 ]
