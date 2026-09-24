@@ -1,46 +1,68 @@
 [
   {
-    "id": 572,
+    "id": 578,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive European session wrap: Brent crude retakes $100 as dollar rises, yields climb and stocks slip",
-    "description": "Headlines: Oil slips below $100 as US-Iran talks put crude prices and Treasury yields at a crossroads The selloff in oil prices stalls as Trump pours cold water on expectations of an earlier end to the conflict Gold falls back to the major $4,300 support ahead of key US data as traders await new US-Iran developments USD/JPY holds above 157 despite BOJ rate hike; intervention risk refuses to disappear France PMI jumps back into expansion in September but inflation pressures complicate the ECB outlook Germany September flash manufacturing PMI 53.8 vs 54.0 expected Eurozone PMI jumps as services ",
-    "published_at": "2026-09-23T11:58:43",
-    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-brent-crude-retakes-100-as-dollar-rises-yields-climb-and-stocks-slip/"
+    "title": "US yields move to multi year highs as the wall of worry is growing.",
+    "description": "US Treasury yields are trading at highs across the curve. The 10-year yield is above 5.09%, and the 30-year is near 5.39%. The question for traders is whether yields can stay at these levels as the market weighs strong growth against the risk of more inflation. At the time of the yield snapshot: 2-year: 4.8952%. The last comparable daily reading was 4.92% on May 30, 2024. 5-year: 4.9828%. The last comparable daily reading was 5.01% on July 13, 2007. 10-year: 5.0913%. The last comparable daily reading was 5.11% on July 13, 2007. 30-year: 5.3891%. The last comparable historical reading was 5.42%",
+    "published_at": "2026-09-23T17:01:43",
+    "source_url": "https://investinglive.com/news/us-yields-move-to-multi-year-highs-as-the-wall-of-worry-is-growing/"
   },
   {
-    "id": 571,
+    "id": 577,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US September S&P Global flash services PMI 58.7 vs 56.0 expected",
-    "description": "Prior was 56.8 Manufacturing 57.0 vs 53.6 exp Prior manufacturing 53.2 Composite 58.4 vs 56.0 prior Employment growth strongest since June 2022 Input cost inflation highest since October 2022 This is a nice jump and underscores the Fed's rate hike and hawkish stance. These are five-year highs across the board. Services continue to lead but manufacturing output picked up sharply, with factory hiring rising at the fastest pace since February 2021.&nbsp; The demand is largely coming from home. Goods exports continued to decline and services exports rose only modestly, yet new orders in both secto",
-    "published_at": "2026-09-23T13:51:27",
-    "source_url": "https://investinglive.com/news/us-september-s-p-global-flash-services-pmi-58-7-vs-56-0-expected/"
+    "title": "US treasury sells $70 billion of 5 year notes at a high yield of 5.033%",
+    "description": "The Treasury sold $70 billion of five-year notes at a high yield of 5.033%, compared with a when-issued (WI) yield of 5.002% just before the auction. That is a 3.1-basis-point tail, well above the six-auction average of 0.6 basis points. Bid-to-cover: 2.21X versus the 2.33X average Direct bidders: 29.92% versus the 21.8% average Indirect bidders: 54.31% versus the 65.2% average Dealers: 15.77% versus the 12.9% average Auction grade: D. Direct bidders stepped up, but that was not enough to offset weaker indirect demand. The lower bid-to-cover ratio and the sizable tail show that buyers required",
+    "published_at": "2026-09-23T17:07:38",
+    "source_url": "https://investinglive.com/news/us-treasury-sells-70-billion-of-5-year-notes-at-a-high-yield-of-5-033/"
   },
   {
-    "id": 570,
+    "id": 576,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Iranian president says Iran is open to diplomacy but will defend its interests in Hormuz",
-    "description": "It is Iran's turn at the UN with Iran Pres. Pezeshkian taking the stage today. Note that US officials walked out of the UNGA hall ahead of his speech.&nbsp; In summary, Iranian President Masoud Pezeshkian said Iran needs nuclear energy, not a nuclear bomb, and argued that the nuclear issue cannot be settled on the battlefield. He said Iran has shown a commitment to negotiations, but will not surrender to military pressure. He described Iran\u2019s military posture as defensive and said the country must be strong enough to respond to attacks. On the Strait of Hormuz, Pezeshkian said Iran cannot allo",
-    "published_at": "2026-09-23T14:53:16",
-    "source_url": "https://investinglive.com/news/iranian-president-says-iran-is-open-to-diplomacy-but-will-defend-its-interests-in-hormuz/"
+    "title": "investingLive Americas market news wrap: Strong US services PMI leads to a big breakdown in bonds",
+    "description": "US September S&amp;P Global flash services PMI 58.7 vs 56.0 expected US treasury sells $70 billion of 5 year notes at a high yield of 5.033% Iranian president says Iran is open to diplomacy but will defend its interests in Hormuz Iranian official says reopening the Strait of Hormuz was discussed in U.S. talks Fed's Barr: Further rate hikes are likely needed to ensure timely return to 2% inflation Markets: WTI crude up $1.61 to $89.59 US 10-year yields up 14.5 bps to 5.11% Gold down $71 to $4283 S&amp;P 500 down 0.8% USD leads, AUD lags It was an important day in markets as the 5% dam in US 10-",
+    "published_at": "2026-09-23T19:47:20",
+    "source_url": "https://investinglive.com/news/investinglive-americas-market-news-wrap-strong-us-services-pmi-leads-to-a-big-breakdown-in-bonds/"
   },
   {
-    "id": 569,
+    "id": 575,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Iranian official says reopening the Strait of Hormuz was discussed in U.S. talks",
-    "description": "A senior Iranian official told Reuters about Tuesday\u2019s indirect talks with the United States: Reopening the Strait of Hormuz and lifting the U.S. blockade were discussed. Iran\u2019s key priorities are permanently ending hostilities and lifting the U.S. naval blockade. Still many differences remain between Iran, US positions, but diplomacy continues Meanwhile Secretary of State Rubio adds that talks on Iran on Tuesday were largely an exchange of ideas and messages. Analysis: The important word for traders is discussed. Reopening Hormuz is on the table, but these comments do not say the two sides re",
-    "published_at": "2026-09-23T14:59:10",
-    "source_url": "https://investinglive.com/news/iranian-official-says-reopening-the-strait-of-hormuz-was-discussed-in-u-s-talks/"
+    "title": "Economic and event calendar in Asia Thursday, September 24, 2026: Australian jobs report",
+    "description": "Previews of the Australian jobs data are here: Australia jobs preview: CBA sees 15,000 gain, unemployment steady at 4.5% Australia jobs preview: employment seen rebounding in August, jobless rate at 4.5% AUD looks ready for a bounce back if the jobs data is strong. I'll have more to come on this separately. In the meantime: AUD is the biggest mover vs the USD at -1.02%. What next technically? This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-23T20:04:45",
+    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-thursday-september-24-2026-australian-jobs-report/"
+  },
+  {
+    "id": 574,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "The digitalisation of money, payments and finance",
+    "description": "",
+    "published_at": "2026-09-23T16:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260923~87850778f5.en.pdf"
+  },
+  {
+    "id": 573,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Philip R. Lane: The Outlook for the Euro Area Economy",
+    "description": "",
+    "published_at": "2026-09-23T16:30:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260923_1~ac21bf46e3.en.pdf"
   }
 ]
