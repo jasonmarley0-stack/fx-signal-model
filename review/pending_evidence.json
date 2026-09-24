@@ -1,47 +1,80 @@
 [
   {
-    "id": 591,
+    "id": 598,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Asia-Pacific market news: Xi lands for Trump summit",
-    "description": "From 500 jets to salvage mode: Boeing's China hopes shrink ahead of summit Google readies Gemini 4 launch as it seeks to regain ground in the AI model race AUD little changed: Australia jobless rate hits 4.6%, highest since 2021, participation outpaces jobs beat Australian jobs data for August 2026. Unemployment rate 4.6% (expected 4.5%, prior 4.5%) Heads up: China markets shut Friday for Mid-Autumn Festival, with week-long Golden Week break ahead PBOC sets USD/ CNY reference rate for today at 6.7489 vs. estimate at 6.7184) Japan flash PMI: growth slows to four-month low as price pressures sta",
-    "published_at": "2026-09-24T03:33:32",
-    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-xi-lands-for-trump-summit/"
+    "title": "investingLive European session wrap: Higher oil prices, bond yields continue to pressure markets",
+    "description": "Headlines: Brent crude above $100 and 10-year Treasury yields above 5% give markets a double test SNB leaves policy rate unchanged at 0% in September meeting, as widely expected USD/JPY races to three-week high above 158 as buyers eye a technical break higher Gold prices slide toward last week\u2019s lows as 10-year Treasury yields blow past 5.10% Crude oil extends gains as expectations for an earlier end to the Iran war fade. What's next? How to trade Nasdaq today: Three areas worth watching while you wait for opportunity Fed policymaker Williams says another rate hike this year is \"reasonable\" as",
+    "published_at": "2026-09-24T11:52:03",
+    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-higher-oil-prices-bond-yields-continue-to-pressure-markets/"
   },
   {
-    "id": 590,
+    "id": 597,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Brent crude above $100 and 10-year Treasury yields above 5% give markets a double test",
-    "description": "This week has basically revolved around two questions for broader markets. The first being can oil prices keep below $100? And the second being can 10-year Treasury yields stay below the 5% mark? Today, we are starting to&nbsp;get an answer to both. And by the looks of it,&nbsp;neither is going in the direction that markets would have preferred. Brent crude is back above $102 after a push higher in overnight trading, while 10-year Treasury yields have broken through 5% to hit 5.11% - the highest since 2007. And the moves here definitely did not go unnoticed. Stocks fell in Wall Street, with th",
-    "published_at": "2026-09-24T04:38:11",
-    "source_url": "https://investinglive.com/news/brent-crude-above-100-and-10-year-treasury-yields-above-5-give-markets-a-double-test/"
+    "title": "US initial jobless claims 197K vs 201K expected",
+    "description": "Prior was 196K (revised to 198K) Continuing claims 1719K vs 1745K expected Prior was 1730K (revised to 1717K) US initial jobless claims came in at 197K, below the 201K expected by economists, pointing to continued resilience in the US labor market.&nbsp;The previous week's reading was revised higher to 198K from 196K, nevertheless, claims remain at historically low levels, indicating that layoffs remain contained. The picture was even stronger in continuing claims, which fell to 1.719 million, well below the 1.745 million expected. The previous reading was revised to 1.717 million from 1.730 m",
+    "published_at": "2026-09-24T12:29:41",
+    "source_url": "https://investinglive.com/news/us-initial-jobless-claims-197k-vs-201k-expected/"
   },
   {
-    "id": 589,
+    "id": 596,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "What are the main events for today?",
-    "description": "EUROPEAN SESSION In the European session, we have the SNB rate decision and the German IFO survey. The SNB is widely expected to keep the policy rate unchanged at 0.00%, so the focus will be on inflation forecast, assessment of the oil shock, CHF intervention language and guidance for 2027. Inflation has surprised to the upside recently but&nbsp;a large part of the increase was energy-related, with petroleum prices up 25.2% YoY. Excluding petroleum, headline inflation was only around 0.3%, which suggests the shock has not yet generated second-round effects.&nbsp;Therefore, the consensus expect",
-    "published_at": "2026-09-24T06:37:06",
-    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-49/"
+    "title": "Canada retail sales for the month of July -0.7% vs -0.8% estimate",
+    "description": "Prior month 0.6% The advanced August reading comes in at 1.3% Details from Statistics Canada:&nbsp; Retail sales:\u22120.7% to C$73.7 billion vs \u22120.8% expected. Prior +0.6%. Retail sales excluding autos:\u22120.7% vs \u22120.5% expected. Prior +0.5%. Core retail sales:\u22120.7% after +1.2% in June. This measure excludes both autos and gasoline. Sales volume:\u22121.1%. Canadian retail sales fell slightly less than expected in July, but the details were weaker. According to Statistics Canada\u2019s July retail sales report , sales declined in eight of nine subsectors. The larger drop in volume than in dollar sales suggests",
+    "published_at": "2026-09-24T12:30:14",
+    "source_url": "https://investinglive.com/news/canada-retail-sales-for-the-month-of-july-0-7-vs-0-8-estimate/"
   },
   {
-    "id": 588,
+    "id": 595,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "France confidence stays weak in September as inflation pressures cloud the outlook",
-    "description": "The latest business and household confidence data released today: France September consumer confidence 86 vs 85 expected Prior 86 France September business confidence 96 vs 97 expected Prior 98 French consumer sentiment is seen holding steady in September, although still keeping well below the long-term average reading of 100. The details reveal a slight rebound in&nbsp;households' opinion on future standard of living. The corresponding balance has risen by two points to -60, though also still well below the long-term average of -29. Meanwhile, unemployment prospects also showed an improvement",
-    "published_at": "2026-09-24T06:45:23",
-    "source_url": "https://investinglive.com/news/france-confidence-stays-weak-in-september-as-inflation-pressures-cloud-the-outlook/"
+    "title": "US new-home sales for the month of August 0.684 million versus 0.615 million estimate",
+    "description": "Prior month 0.643 million revised from 0.607 million August new home sales beat expectations, according to figures released jointly by the U.S. Census Bureau and the Department of Housing and Urban Development. The July revision also changes the picture: the 6.4% August gain is measured from 643,000, rather than the 607,000 initially reported for July. August details compared with July: Homes for sale:483,000 vs 483,000 last month. Months\u2019 supply:8.5 months vs 9.0 months last month. Median sales price:$393,700 vs $392,200 last month. Average sales price:$478,700 vs $526,400 last month. Invento",
+    "published_at": "2026-09-24T14:01:24",
+    "source_url": "https://investinglive.com/news/us-new-home-sales-for-the-month-of-august-0-684-million-versus-0-615-million-estimate/"
+  },
+  {
+    "id": 594,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Trump and Xi meet at the White House: What traders should watch",
+    "description": "President Donald Trump is hosting Chinese President Xi Jinping at the White House during Xi\u2019s three-day U.S. state visit. The leaders are expected to discuss trade, technology, Taiwan and the war with Iran. No outcome from today\u2019s talks should be assumed yet. Trade starts from a better position than it did a day ago. Treasury Secretary Scott Bessent said Wednesday that the U.S. and China had agreed to extend their existing \u201cBusan agreement\u201d through January 10. That reduces the immediate risk of renewed tariff escalation. The question for the summit is whether Trump and Xi can add anything subs",
+    "published_at": "2026-09-24T14:38:30",
+    "source_url": "https://investinglive.com/news/trump-and-xi-meet-at-the-white-house-what-traders-should-watch/"
+  },
+  {
+    "id": 593,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "ECB Executive Board member Isabel Schnabel to resign to take senior role at IMF",
+    "description": "",
+    "published_at": "2026-09-24T12:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr260924~bea1dd9824.en.html"
+  },
+  {
+    "id": 592,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 2,
+    "source_id": 1,
+    "title": "Federal Reserve Board issues enforcement action with former employee of Sandy Spring Bank",
+    "description": "Federal Reserve Board issues enforcement action with former employee of Sandy Spring Bank",
+    "published_at": "2026-09-24T15:00:00",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260924a.htm"
   },
   {
     "id": 587,
@@ -53,27 +86,5 @@
     "description": "Germany September Ifo business climate index 89.9 vs 89.1 expected Prior 88.8 Germany September Ifo business expectations 90.4 vs 89.3 expected Prior 89.1; revised to 89.0 Germany September Ifo current assessment index 89.5 vs 89.0 expected Prior 88.5 Things are looking on the up in Germany as the latest business climate index surveyed by Ifo rises further in September to its highest since May 2023. Meanwhile, the outlook/expectations index also climbed further on the month in posting its fifth consecutive rise to the highest since February. That continues to underscore improving sentiment tow",
     "published_at": "2026-09-24T08:01:37",
     "source_url": "https://investinglive.com/news/germany-business-sentiment-improves-further-in-september-despite-price-concerns-ifo/"
-  },
-  {
-    "id": 586,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 5,
-    "source_id": 5,
-    "title": "2026-09-24 - Monetary policy assessment of 24 September 2026",
-    "description": "",
-    "published_at": "2026-09-24T07:30:00",
-    "source_url": "https://www.snb.ch/en/publications/communication/press-releases-restricted/pre_20260924"
-  },
-  {
-    "id": 585,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 3,
-    "source_id": 2,
-    "title": "Philip R. Lane: The outlook for the euro area economy",
-    "description": "",
-    "published_at": "2026-09-24T09:00:00",
-    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260924~e0eceef02c.en.pdf"
   }
 ]
