@@ -33,7 +33,15 @@ STOP_Z = 3.0  # hard stop if the ratio keeps extending past this, added 2026-09-
 # 82 mean/10.5 std), and a 20-day time-based exit alone held through most of that move at up to 4x leverage.
 # This exits on further extension, not just on time, before a genuine tail event fully develops.
 
-XAU_SPREAD, XAG_SPREAD = 19.560000, 0.122000
+# Spread modeled as a PROPORTION of price, not a fixed dollar amount — bug
+# found 2026-09-25: gold ran from ~$800 (2009) to ~$4,550 (today) over this
+# backtest window, so today's $19.56 absolute spread was costing ~2.0% per
+# leg in 2009 vs ~0.43% today, a ~5x distortion that, compounded over 196
+# round-trips, was the dominant cause of a -97% "result" that had nothing
+# to do with the strategy. Spread as % of current price is far more stable
+# over time than a fixed dollar amount, and is applied against each
+# historical day's own price below, not a frozen current one.
+XAU_SPREAD_PCT, XAG_SPREAD_PCT = 19.560000 / 4273.8, 0.122000 / 63.857  # today's live spread / today's live price
 # live OANDA financing rates, 2026-09-25 snapshot (see module docstring)
 XAU_LONG_RATE, XAU_SHORT_RATE = -0.0562, 0.0323
 XAG_LONG_RATE, XAG_SHORT_RATE = -0.0562, 0.0316
@@ -88,8 +96,7 @@ def main() -> None:
             stopped_out = (position == -1 and zt is not None and zt >= STOP_Z) or \
                           (position == 1 and zt is not None and zt <= -STOP_Z)
             if reverted or timed_out or stopped_out:
-                exit_cost = (XAU_SPREAD / xau["close"].loc[today]) * xau_weight.loc[yesterday] + \
-                           (XAG_SPREAD / xag["close"].loc[today]) * xag_weight.loc[yesterday]
+                exit_cost = XAU_SPREAD_PCT * xau_weight.loc[yesterday] + XAG_SPREAD_PCT * xag_weight.loc[yesterday]
                 net_returns.loc[today] -= exit_cost
                 reason = "reverted" if reverted else ("stopped_out" if stopped_out else "timed_out")
                 trades.append({"direction": "ratio_up" if position == 1 else "ratio_down",
@@ -104,8 +111,7 @@ def main() -> None:
             new_position = -1 if ENTRY_Z < zt < STOP_Z else (1 if -STOP_Z < zt < -ENTRY_Z else 0)
             if new_position != 0:
                 position, days_in_trade, entry_ratio = new_position, 0, ratio.loc[yesterday]
-                entry_cost = (XAU_SPREAD / xau["close"].loc[yesterday]) * xau_weight.loc[yesterday] + \
-                            (XAG_SPREAD / xag["close"].loc[yesterday]) * xag_weight.loc[yesterday]
+                entry_cost = XAU_SPREAD_PCT * xau_weight.loc[yesterday] + XAG_SPREAD_PCT * xag_weight.loc[yesterday]
                 net_returns.loc[today] -= entry_cost
 
     print(f"\n{len(trades)} completed trades")
