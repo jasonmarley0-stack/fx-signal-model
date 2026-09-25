@@ -20,19 +20,26 @@ scrutiny — rightly, since this position flips on/off a lot (13.1% of all
 periods for BTC, 300 of 506 negative-funding runs are a single isolated
 8h blip), making the result unusually sensitive to the exact cost
 assumption:
-  - Fees: checked Binance's real published standard (non-VIP) taker
-    schedule — spot 0.10%, USDT-M futures 0.05% — round trip on both legs
-    (open+close spot, open+close perp) = 2x0.10% + 2x0.05% = 0.30%, not
-    the 0.08% first assumed (~3.75x higher).
   - Spread: checked live via Binance's public book-ticker endpoint —
     genuinely tiny for BTC/ETH (spot ~0.001%, perp ~0.01%), confirmed
-    negligible next to the fee cost rather than assumed away.
-  - Persistence filter: added MIN_PERSISTENCE — don't flip state until
-    the new sign has held for that many consecutive periods, so a single
-    negative 8h blip surrounded by positive periods doesn't trigger a
-    full exit+re-entry (paying the ~0.30% round trip) to avoid one small
-    negative accrual. Same debounce principle as the FX signal work
-    months ago, applied to time-persistence instead of score magnitude.
+    negligible next to fees rather than assumed away.
+  - Persistence filter: MIN_PERSISTENCE — don't flip state until the new
+    sign has held for that many consecutive periods, so a single negative
+    8h blip surrounded by positive periods doesn't trigger a full
+    exit+re-entry to avoid one small negative accrual. Same debounce
+    principle as the FX signal work months ago, time-persistence instead
+    of score magnitude.
+  - Fees, corrected twice now: first pass assumed 0.08% (too low). Second
+    pass used 0.30%, assuming taker fees on both legs (spot 0.10% x2 +
+    futures 0.05% x2) — real, but the worst case, not the realistic one.
+    Verified via search (tradersunion.com/Binance's own fee page): futures
+    actually has a real maker/taker split (maker 0.02% vs taker 0.05%),
+    and spot gets a 25% BNB discount (0.10% -> 0.075%). This position
+    holds for hours to days, not seconds, so there's no real reason to
+    pay taker on the futures leg. Two variants reported, not one picked
+    number: REALISTIC (spot taker, since that leg needs to fill promptly
+    to hedge the perp; futures maker) and BEST_CASE (both maker, BNB
+    discount on both legs).
 """
 from __future__ import annotations
 import time
@@ -40,7 +47,12 @@ import requests
 import pandas as pd
 
 SYMBOLS = ["BTCUSDT", "ETHUSDT"]
-ROUND_TRIP_COST = 0.0030  # real fee schedule + measured spread — see module docstring
+COST_VARIANTS = {
+    # spot taker (0.10% x2, needs to fill promptly to hedge the perp) + futures maker (0.02% x2)
+    "REALISTIC (spot taker + futures maker)": 2 * 0.0010 + 2 * 0.0002,
+    # both legs maker, BNB discount applied to both (spot 0.075% x2, futures 0.02%*0.9 x2)
+    "BEST_CASE (both maker + BNB discount)": 2 * 0.00075 + 2 * 0.00018,
+}
 MIN_PERSISTENCE = 2  # consecutive periods the new sign must hold before actually flipping
 FUNDING_INTERVALS_PER_YEAR = 365 * 3  # 8h funding, 3x/day
 
@@ -98,7 +110,7 @@ def print_stats(s: dict) -> None:
           f"CAGR={s['cagr']*100:+.2f}% sharpe={s['sharpe']:.2f} max_dd={s['max_dd']*100:.1f}%")
 
 
-def walk_with_persistence(funding: pd.Series) -> pd.Series:
+def walk_with_persistence(funding: pd.Series, round_trip_cost: float) -> pd.Series:
     """Debounced version of 'on = funding > 0' — requires the new sign to
     hold for MIN_PERSISTENCE consecutive periods before actually flipping
     state, so isolated single-period blips don't trigger a full round-trip
@@ -117,7 +129,7 @@ def walk_with_persistence(funding: pd.Series) -> pd.Series:
             else:
                 pending_sign, pending_run = sign_positive, 1
             if pending_run >= MIN_PERSISTENCE:
-                net_return.loc[t] -= ROUND_TRIP_COST  # pay the flip cost on the period the switch actually happens
+                net_return.loc[t] -= round_trip_cost  # pay the flip cost on the period the switch actually happens
                 state_on = sign_positive
                 pending_sign, pending_run = None, 0
         if state_on:
@@ -126,25 +138,27 @@ def walk_with_persistence(funding: pd.Series) -> pd.Series:
 
 
 def main() -> None:
-    per_symbol = {}
+    funding_by_symbol = {}
     for symbol in SYMBOLS:
         print(f"Fetching full funding-rate history for {symbol}...")
         funding = fetch_all_funding(symbol)
         print(f"  {len(funding)} funding events, {funding.index.min().date()} to {funding.index.max().date()}")
         print(f"  positive funding: {(funding > 0).mean()*100:.1f}% of periods, "
               f"mean when positive={funding[funding>0].mean()*FUNDING_INTERVALS_PER_YEAR*100:.1f}%/yr annualized")
+        funding_by_symbol[symbol] = funding
 
-        net_return = walk_with_persistence(funding)
+    for variant_name, cost in COST_VARIANTS.items():
+        print(f"\n########## {variant_name}: round_trip_cost={cost*100:.3f}% ##########")
+        per_symbol = {}
+        for symbol, funding in funding_by_symbol.items():
+            net_return = walk_with_persistence(funding, cost)
+            per_symbol[symbol] = net_return
+            print_stats(stats(net_return, FUNDING_INTERVALS_PER_YEAR, f"{symbol} net"))
 
-        per_symbol[symbol] = net_return
-        print_stats(stats(net_return, FUNDING_INTERVALS_PER_YEAR, f"{symbol} net"))
-        print()
-
-    combined = pd.concat(per_symbol, axis=1)
-    n_active = combined.notna().sum(axis=1).clip(lower=1)
-    portfolio = combined.fillna(0).sum(axis=1) / n_active
-    print("=== PORTFOLIO (equal-weighted across symbols) ===")
-    print_stats(stats(portfolio, FUNDING_INTERVALS_PER_YEAR, "PORTFOLIO"))
+        combined = pd.concat(per_symbol, axis=1)
+        n_active = combined.notna().sum(axis=1).clip(lower=1)
+        portfolio = combined.fillna(0).sum(axis=1) / n_active
+        print_stats(stats(portfolio, FUNDING_INTERVALS_PER_YEAR, "PORTFOLIO"))
 
 
 if __name__ == "__main__":
