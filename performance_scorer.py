@@ -76,7 +76,13 @@ def load_all_signals() -> list[dict]:
 
     seen: dict[tuple, dict] = {}
     for e in raw:
-        key = (e["pair"], e.get("window", {}).get("generated_at_utc") or e["logged_at"],
+        # e.get("window", {}) only falls back to {} when the key is MISSING —
+        # live_scanner.py (2026-09-23) writes "window": None explicitly, so
+        # that returns None itself and .get() on it crashes. Confirmed this
+        # broke performance_scorer.py on every run for ~33h straight
+        # starting from the first signal logged under the new scanner —
+        # performance.json was completely frozen the whole time.
+        key = (e["pair"], (e.get("window") or {}).get("generated_at_utc") or e["logged_at"],
                e["direction"], e["confidence"])
         seen[key] = e
     return list(seen.values())
