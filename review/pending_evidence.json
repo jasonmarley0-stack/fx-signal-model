@@ -1,68 +1,24 @@
 [
   {
-    "id": 604,
+    "id": 606,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US/Iran discussed phasing in a deal to reopen Hormuz and end the US blockade",
-    "description": "Reuters, citing sources, reports on discussions over a phased arrangement between Washington and Tehran: Gulf states reject Iranian control of the strait. Iran signals flexibility on fees, not on the Strait of Hormuz. Neither side wants to surrender leverage driving diplomacy. A senior Iranian official said the most plausible way to end the impasse would be a phased arrangement, with Iran allowing navigation through Hormuz in return for the US lifting its economic blockade and Tehran potentially gaining access to frozen assets. Analysis: The key word is phased. Iran wants relief as ships regai",
-    "published_at": "2026-09-24T16:27:27",
-    "source_url": "https://investinglive.com/news/us-iran-discussed-phasing-in-a-deal-to-reopen-hormuz-and-end-the-us-blockade/"
+    "title": "China shuts for Mid-Autumn Festival holiday today, a preview of the week-long National Day gap to come",
+    "description": "AUD is the most exposed of the major currencies. It usually trades partly as a proxy for China, and with onshore markets shut it loses that anchor and has to lean more on oil, Treasury yields and the RBA. With Dalian iron ore futures closed, iron ore price discovery shifts to the Singapore contract, which is thinner. Gold also loses one of its biggest sources of Asia-time demand. With the Shanghai Gold Exchange shut, Chinese physical and speculative buying steps aside, leaving prices more exposed to Treasury yields and the US dollar until mainland buyers return. Asian equity desks may see ligh",
+    "published_at": "2026-09-24T22:14:42",
+    "source_url": "https://investinglive.com/news/china-shuts-for-mid-autumn-festival-holiday-today-a-preview-of-the-week-long-national-day-gap-to-come/"
   },
   {
-    "id": 603,
+    "id": 605,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US treasury sells $44 billion of 7 year notes at a high yield of 5.085%",
-    "description": "WI level at the time of the auction: 5.078% High yield: 5.085% Tail: 0.7 basis points vs the average of 0.2 basis points Bid to cover: 2.42X vs the average of 2.49X Directs: 30.27% vs the average of 23.3% Indirects: 57.2% vs the average of 64.6% Dealers: 12.53% vs the average of 12.1% Auction grade: C\u2212 The auction was a little softer than average. The 0.7-basis-point tail was wider than the 0.2-basis-point average, meaning buyers required a slightly higher yield than the WI level going into the sale. The bid to cover was also below average. Direct demand was strong, but indirect demand fell we",
-    "published_at": "2026-09-24T17:05:43",
-    "source_url": "https://investinglive.com/news/us-treasury-sells-44-billion-of-7-year-notes-at-a-high-yield-of-5-085/"
-  },
-  {
-    "id": 602,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Iran\u2019s Pezeshkian wants a deal with the US before the midterm elections, NBC reports",
-    "description": "Iranian President Masoud Pezeshkian spoke briefly with NBC News and other news organizations on the sidelines of the United Nations General Assembly: \u201cWe wish Americans to return to the MOU before the midterms.\u201d \u201cWe don\u2019t want it to get to the midterm elections.\u201d Analysis: The timing is the message. Pezeshkian is signaling that Tehran would prefer progress before the US midterms. For traders, the next question is whether the two sides take concrete steps toward talks. His comments alone do not establish that an agreement is close. Fox News is expected to air an interview with Pezeshkian at 6 p",
-    "published_at": "2026-09-24T19:11:39",
-    "source_url": "https://investinglive.com/news/iran-s-pezeshkian-wants-a-deal-with-the-us-before-the-midterm-elections-nbc-reports-4/"
-  },
-  {
-    "id": 601,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "investingLive Americas FX news wrap 24 Sept: USD and Treasury yields climb as Iran headlines lift stocks off their lows",
-    "description": "US stocks finish mixed as Meta\u2019s Muse rally helps mask the losers. Iran\u2019s Pezeshkian wants a deal with the US before the midterm elections, NBC reports Meta shares approach all-time highs as the Muse rally begins yet another leg higher US treasury sells $44 billion of 7 year notes at a high yield of 5.085% US/Iran discussed phasing in a deal to reopen Hormuz and end the US blockade Bitcoin trades lower but holds support near the high of a swing area target. What next? Trump and Xi meet at the White House: What traders should watch Fed\u2019s Anna Paulson says another rate hike may be needed to lowe",
-    "published_at": "2026-09-24T20:39:59",
-    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-24-sept-usd-and-treasury-yields-climb-as-iran-headlines-lift-stocks-off-their-lows/"
-  },
-  {
-    "id": 600,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Trump and Xi buy two more months of trade truce, leaving tariffs and rare earths in limbo",
-    "description": "A two-month extension avoids a November tariff cliff, but it gives markets no lasting relief, and the January 10 deadline now becomes the next risk event for trade-sensitive assets. The Australian dollar , as a liquid proxy for China's growth, is likely to take its lead from progress at the Shenzhen and Miami summits more than from this week's ceremony. Farm purchases lagging and rare-earth deliveries falling short give Washington grounds to push harder, which keeps risk alive in soybeans and in supply chains that depend on critical minerals. Xi's push for tougher US language on Taiwan adds a ",
-    "published_at": "2026-09-24T20:56:23",
-    "source_url": "https://investinglive.com/news/trump-and-xi-buy-two-more-months-of-trade-truce-leaving-tariffs-and-rare-earths-in-limbo/"
-  },
-  {
-    "id": 599,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 2,
-    "source_id": 1,
-    "title": "Federal Reserve Board requests public comment on two proposals related to establishing a regulatory framework for Board-supervised payment stablecoin issuers under the GENIUS Act",
-    "description": "Federal Reserve Board requests public comment on two proposals related to establishing a regulatory framework for Board-supervised payment stablecoin issuers under the GENIUS Act",
-    "published_at": "2026-09-24T18:30:00",
-    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260924a.htm"
+    "title": "Recession signal flashes on Oxford Economics' US indicator, but spending shows no sign of cracking",
+    "description": "A recession signal against a backdrop of strong data makes it a useful counterpoint for bond markets. It gives Treasury bulls an argument just as 10-year yields sit above 5.2% and Fed hike odds are rising. Markets are unlikely to react much for now, because Oxford itself plays down the signal and current data points the other way. The warning matters more as a sign of what could go wrong if energy prices stay high and borrowing costs keep rising. Any softening in spending data would give it far more weight quickly. --- Oxford Economics' US indicator says recession, but consumers and AI spendin",
+    "published_at": "2026-09-25T02:25:04",
+    "source_url": "https://investinglive.com/news/recession-signal-flashes-on-oxford-economics-us-indicator-but-spending-shows-no-sign-of-cracking/"
   }
 ]
