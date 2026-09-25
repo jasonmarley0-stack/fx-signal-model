@@ -1,79 +1,46 @@
 [
   {
-    "id": 613,
+    "id": 617,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive Asia-Pacific market news: Iran offers seven-day Hormuz dea",
-    "description": "Nikkei gains 1.2% as chip stocks and dividend buying lift Tokyo, SoftBank slips on Oracle Goldman stays bullish on AI as cloud giants' spending heads towards $1.2 trillion Katayama says Trump raised weak yen concerns with Takaichi, USD/JPY eases below 158.50 Recession signal flashes on Oxford Economics' US indicator, but spending shows no sign of cracking Tether confirms funds stuck at troubled offshore bank EQIBank, says exposure is tiny Bitget hack: attackers faked transfers, not keys, as CEO points to North Korea Goldman cuts USD/JPY forecasts, sees 150 in a year as BOJ tightening boosts ye",
-    "published_at": "2026-09-25T03:38:37",
-    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-iran-offers-seven-day-hormuz-dea/"
+    "title": "investingLive European session wrap: Yen jumps, oil slides as bond risks linger",
+    "description": "Headlines: USD/JPY falls below 158.00 as Takaichi says Trump flagged weak yen pressure Crude oil falls on reports of potential phased US-Iran deal that would reopen the Strait of Hormuz Trump-Xi summit extends the trade truce but leaves the biggest market questions unresolved How have interest rate expectations changed after this week's events? Fed's Williams: Persistent supply shocks are making the inflation fight harder German consumer climate darkens ahead of October as higher energy costs bite Ethereum struggles amid macro headwinds, but renewed US-Iran hopes limit the downside Month-end F",
+    "published_at": "2026-09-25T11:52:39",
+    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-yen-jumps-oil-slides-as-bond-risks-linger/"
   },
   {
-    "id": 612,
+    "id": 616,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US Treasury yields continue to break higher - is 6% now in play?",
-    "description": "The selloff in the bond market isn't&nbsp;showing much sign of letting up. 10-year Treasury yields have pushed up to 5.18%, extending the breakout above 5% and putting another important technical area firmly into view. The next major hurdle on the chart sits around the 5.25% to 5.30% region,&nbsp;roughly where yields topped out during 2006-07. So, what's next from here? Well, if the 2006-07 highs give way, I reckon&nbsp;the conversation around 6% Treasury yields will then start becoming a lot less theoretical. It's a level that is in the back of everyone's mind right now but how plausible is i",
-    "published_at": "2026-09-25T04:28:01",
-    "source_url": "https://investinglive.com/news/us-treasury-yields-continue-to-break-higher-is-6-now-in-play/"
+    "title": "US August durable goods orders 0.0% vs -0.4% expected",
+    "description": "Prior was +1.1% Ex-transport +0.3% vs +0.6% expected Prior ex-transport +0.4% Ex-defense +0.1% vs +1.3% prior Non-defense capital goods orders ex-air +1.6% vs +0.5% expected Prior +0.2% The big data point this week was the S&amp;P Global PMI that showed an accelerating US economy. The headline here is flat but the core orders matter much more of the underlying direction of the economy and that's a great number that helps to back up the bullish view on the economy. The market reaction has been nil but this is another brick in the hawkish pyramid. This article was written by Adam Button at inves",
+    "published_at": "2026-09-25T12:30:12",
+    "source_url": "https://investinglive.com/news/us-august-durable-goods-orders-0-0-vs-0-4-expected/"
   },
   {
-    "id": 611,
+    "id": 615,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Trump-Xi summit extends the trade truce but leaves the biggest market questions unresolved",
-    "description": "And so the Trump-Xi summit this week delivered&nbsp;what markets probably needed most. That being no fresh escalation between the two largest economies in the world. But beyond that, there wasn't much of any breakthrough either. The clearest takeaway is the extension of the existing US-China trade truce by another two months to 10 January. That keeps the existing tariffs regime in place and gives both sides more time to negotiate what Bessent has described as a potentially broader agreement. So for now though,&nbsp;the difficult issues haven't really gone anywhere. The US still wants China to ",
-    "published_at": "2026-09-25T05:00:36",
-    "source_url": "https://investinglive.com/news/trump-xi-summit-extends-the-trade-truce-but-leaves-the-biggest-market-questions-unresolved/"
+    "title": "USTR's Greer: We have reached agreements with China on a sub-set of goods we can trade",
+    "description": "Speaking on CNBC, Greer said the US will release on Monday the details of negotiations between China and the US. I wouldn't expect to be overwhelmed but at least it's all on the rails. Meanwhile Trump is tweeting. It seems we're at the stage of his Presidency, where he's all about re-naming things. Very productive meeting with President Xi for both the U.S.A. and China. Tremendous things will be happening. Like almost everyone else, he seemed to like calling the poorly and inaccurately named Artificial Intelligence to a far more accurate and important name, SUPER INTELLIGENCE. That would be \u201cS",
+    "published_at": "2026-09-25T12:47:20",
+    "source_url": "https://investinglive.com/news/ustr-s-greer-we-have-reached-agreements-with-china-on-a-sub-set-of-goods-we-can-trade/"
   },
   {
-    "id": 610,
+    "id": 614,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "German consumer climate darkens ahead of October as higher energy costs bite",
-    "description": "Germany October GfK consumer climate -30.6 vs -27.4 expected Prior -26.6; revised to -26.8 The breakdownThat is a notable miss on estimates as German consumer sentiment weakens more sharply than expected heading into October. The main culprit is rising energy prices and that is weighing on purchasing power of households especially. Besides that, the sub-index for income expectations also fell sharply from 1.7 to -15.0 in the latest survey. That marks the lowest level since April, shortly before a fuel discount was introduced. Meanwhile, the sub-index measuring households' willingness to save a",
-    "published_at": "2026-09-25T06:00:14",
-    "source_url": "https://investinglive.com/news/german-consumer-climate-darkens-ahead-of-october-as-higher-energy-costs-bite/"
-  },
-  {
-    "id": 609,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "What are the main events for today?",
-    "description": "EUROPEAN SESSION In the European session, we have the final Spain's Q2 GDP which is expected to confirm a 0.7% quarterly growth vs 0.7% in the preliminary reading. The data won't change anything for the ECB, though, so the market reaction will likely be muted.&nbsp; The markets are currently focused on renewed hopes for quick de-escalation and the reopening of the Strait of Hormuz following yesterday's news that&nbsp;Iran has put a fast-track offer on the table, promising to reopen the Strait of Hormuz within seven days if the US meets its terms. Iran's Foreign Minister Araghchi is staying in ",
-    "published_at": "2026-09-25T06:28:41",
-    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-50/"
-  },
-  {
-    "id": 608,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Spain Q2 GDP confirmed at 0.7% as domestic demand keeps growth resilient",
-    "description": "Spain Q2 final GDP +0.7% vs +0.7% q/q expected Prior +0.6% The breakdownThe final estimate confirms that the Spanish economy grew by 0.7% in the second quarter,&nbsp;accelerating slightly from 0.6% growth in Q1. Domestic demand remains the main engine of the economy, contributing 1.1% to quarterly GDP growth. By aggregate demand, household consumption increased by 1.2% and government consumption by 0.5%. Meanwhile, gross fixed capital formation registered a variation of 1.7%. External demand remains the weak spot, subtracting 0.5% from quarterly GDP growth&nbsp;as imports continued to outpace ",
-    "published_at": "2026-09-25T07:00:15",
-    "source_url": "https://investinglive.com/news/spain-q2-gdp-confirmed-at-0-7-as-domestic-demand-keeps-growth-resilient/"
-  },
-  {
-    "id": 607,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 1,
-    "source_id": 3,
-    "title": "Minutes of the Market Participants Group meeting \u2013 24 September 2026",
-    "description": "The Market Participants Group (MPG) is a senior-level forum for financial market participants to share their views on relevant themes and narratives in financial markets with members of the Bank of England\u2019s Monetary Policy Committee.",
-    "published_at": "2026-09-25T06:30:00",
-    "source_url": "https://www.bankofengland.co.uk/minutes/2026/september/market-participants-group-meeting-25-september-2026"
+    "title": "September final UMich consumer sentiment 48.1 vs 47.6 expected",
+    "description": "Prelim was 47.8 Prior was 51.7 Current conditions 50.9 vs 50.9 prelim (51.9 prior) Expectations 46.3 vs 45.8 prelim (51.5 prior) One-year inflation expectations 4.6% vs 4.6% prelim (prior 4.0%) Five-year inflation expectations 3.4% vs 3.4% prelim (prior 3.4%) These 'beat' the consensus but these are thinly-forecast indicators so the prelim numbers are a better metric to go by. There was a slight improvement on the headline and expectations but the inflation numbers -- more important right now -- stayed high. That's not a surprise given there's a correlation with gasoline prices. In any case, U",
+    "published_at": "2026-09-25T14:00:09",
+    "source_url": "https://investinglive.com/news/september-final-umich-consumer-sentiment-48-1-vs-47-6-expected/"
   }
 ]
