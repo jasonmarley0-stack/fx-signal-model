@@ -33,13 +33,20 @@ FUNDING_INTERVALS_PER_YEAR = 365 * 3  # 8h funding, 3x/day
 
 def fetch_all_funding(symbol: str) -> pd.Series:
     """Paginates through Binance's funding-rate history to get the full
-    series, not just the most recent page."""
+    series, not just the most recent page.
+
+    Bug fixed 2026-09-25: omitting startTime on the first request doesn't
+    return the oldest data — it returns only a recent window (~500
+    events, ~6 months), and the old exit condition (`len(rows) < 1000`)
+    then stopped immediately, silently truncating the whole history to 6
+    months. Confirmed via direct curl that startTime=2017-01-01 correctly
+    returns data back to Sept 2019 (BTCUSDT's real listing date for
+    perpetuals) — seeding an explicit old startTime is required, not
+    optional."""
     all_rows = []
-    start_time = None
+    start_time = 1483228800000  # 2017-01-01 UTC — before any of these symbols existed, so page from the true start
     while True:
-        params = {"symbol": symbol, "limit": 1000}
-        if start_time is not None:
-            params["startTime"] = start_time
+        params = {"symbol": symbol, "limit": 1000, "startTime": start_time}
         resp = requests.get("https://fapi.binance.com/fapi/v1/fundingRate", params=params, timeout=30)
         resp.raise_for_status()
         rows = resp.json()
@@ -88,7 +95,7 @@ def main() -> None:
 
         on = funding > 0
         raw_return = funding.where(on, 0.0)
-        flipped = on != on.shift(1).fillna(False)
+        flipped = on != on.shift(1, fill_value=False)
         cost = pd.Series(0.0, index=funding.index)
         cost[flipped] = ROUND_TRIP_COST
         net_return = raw_return - cost
