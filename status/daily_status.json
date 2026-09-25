@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T05:45:08.798304+00:00",
+  "generated_at": "2026-09-25T05:45:28.805135+00:00",
   "services": {
     "signal-scanner": {
       "active": "inactive",
@@ -18,7 +18,7 @@
     "rss-ingestion.timer": "active",
     "performance-scorer.timer": "active"
   },
-  "live_scan_age_seconds": 929.526816,
+  "live_scan_age_seconds": 209.477666,
   "performance_updated_at": "2026-09-23T21:31:57.042297+00:00",
   "performance_aggregates": {
     "7d": {
@@ -15350,44 +15350,44 @@
   },
   "alerts_stored_count": 50,
   "most_recent_alert": {
-    "id": "1790227781601-GBPUSD",
-    "time": "2026-09-24T05:29:41.601816+00:00",
-    "pair": "GBPUSD",
+    "id": "1790255020200-USDCHF",
+    "time": "2026-09-24T13:03:40.200757+00:00",
+    "pair": "USDCHF",
     "direction": "no_trade",
     "confidence": "low",
-    "combined_score": 0.0,
-    "entry": 1.32416,
-    "message": "GBPUSD: back to no_trade",
-    "reason": "tech=+0.00, pestle=+0.00, combined=+0.00",
+    "combined_score": 0.3,
+    "entry": 0.82734,
+    "message": "USDCHF: back to no_trade",
+    "reason": "tech=+0.30, pestle=+0.00, combined=+0.30",
     "tech": {
       "orb": 0.0,
-      "trend": 0.0,
+      "trend": 1.0,
       "pattern": 0.0,
-      "composite": 0.0
+      "composite": 0.3
     },
     "pestle": {
-      "pair": "GBPUSD",
+      "pair": "USDCHF",
       "pestle_score": 0.0,
       "base": {
-        "currency": "GBP",
+        "currency": "USD",
         "score": 0.0,
         "categories": {},
         "evidence": []
       },
       "quote": {
-        "currency": "USD",
+        "currency": "CHF",
         "score": 0.0,
         "categories": {},
         "evidence": []
       }
     },
     "stop_loss_range": [
-      1.32416,
-      1.32416
+      0.82734,
+      0.82734
     ],
     "take_profit_range": [
-      1.32416,
-      1.32416
+      0.82734,
+      0.82734
     ],
     "window": null
   }
