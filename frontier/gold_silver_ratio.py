@@ -28,6 +28,10 @@ SMA_PERIOD = 20
 ENTRY_Z = 2.0
 EXIT_Z = 0.0
 MAX_HOLD_DAYS = 20
+STOP_Z = 3.0  # hard stop if the ratio keeps extending past this, added 2026-09-25 after the first run showed
+# max_dd=-97% — the March 2020 COVID crash pushed the real ratio to z~4.0 (an all-time record, 124 vs an
+# 82 mean/10.5 std), and a 20-day time-based exit alone held through most of that move at up to 4x leverage.
+# This exits on further extension, not just on time, before a genuine tail event fully develops.
 
 XAU_SPREAD, XAG_SPREAD = 19.560000, 0.122000
 # live OANDA financing rates, 2026-09-25 snapshot (see module docstring)
@@ -81,17 +85,23 @@ def main() -> None:
             reverted = (position == 1 and zt is not None and zt >= EXIT_Z) or \
                        (position == -1 and zt is not None and zt <= EXIT_Z)
             timed_out = days_in_trade >= MAX_HOLD_DAYS
-            if reverted or timed_out:
+            stopped_out = (position == -1 and zt is not None and zt >= STOP_Z) or \
+                          (position == 1 and zt is not None and zt <= -STOP_Z)
+            if reverted or timed_out or stopped_out:
                 exit_cost = (XAU_SPREAD / xau["close"].loc[today]) * xau_weight.loc[yesterday] + \
                            (XAG_SPREAD / xag["close"].loc[today]) * xag_weight.loc[yesterday]
                 net_returns.loc[today] -= exit_cost
+                reason = "reverted" if reverted else ("stopped_out" if stopped_out else "timed_out")
                 trades.append({"direction": "ratio_up" if position == 1 else "ratio_down",
                                "entry_ratio": entry_ratio, "exit_ratio": ratio.loc[today],
-                               "days_held": days_in_trade, "reason": "reverted" if reverted else "timed_out"})
+                               "days_held": days_in_trade, "reason": reason})
                 position, days_in_trade, entry_ratio = 0, 0, None
 
         if position == 0 and zt is not None:
-            new_position = -1 if zt > ENTRY_Z else (1 if zt < -ENTRY_Z else 0)
+            # entry band is (ENTRY_Z, STOP_Z) not entry_z alone — otherwise a
+            # just-stopped-out extreme immediately re-triggers the same trade
+            # the stop was meant to escape
+            new_position = -1 if ENTRY_Z < zt < STOP_Z else (1 if -STOP_Z < zt < -ENTRY_Z else 0)
             if new_position != 0:
                 position, days_in_trade, entry_ratio = new_position, 0, ratio.loc[yesterday]
                 entry_cost = (XAU_SPREAD / xau["close"].loc[yesterday]) * xau_weight.loc[yesterday] + \
@@ -106,7 +116,11 @@ def main() -> None:
                 (t["direction"] == "ratio_down" and t["exit_ratio"] < t["entry_ratio"]) or
                 (t["direction"] == "ratio_up" and t["exit_ratio"] > t["entry_ratio"])]
         reverted = [t for t in trades if t["reason"] == "reverted"]
+        stopped = [t for t in trades if t["reason"] == "stopped_out"]
+        timed_out = [t for t in trades if t["reason"] == "timed_out"]
         print(f"win_rate={len(wins)/len(trades):.3f}  reverted={len(reverted)} ({len(reverted)/len(trades)*100:.0f}%)  "
+              f"stopped_out={len(stopped)} ({len(stopped)/len(trades)*100:.0f}%)  "
+              f"timed_out={len(timed_out)} ({len(timed_out)/len(trades)*100:.0f}%)  "
               f"avg_days_held={sum(t['days_held'] for t in trades)/len(trades):.1f}")
 
 
