@@ -1,90 +1,68 @@
 [
   {
-    "id": 598,
+    "id": 604,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "investingLive European session wrap: Higher oil prices, bond yields continue to pressure markets",
-    "description": "Headlines: Brent crude above $100 and 10-year Treasury yields above 5% give markets a double test SNB leaves policy rate unchanged at 0% in September meeting, as widely expected USD/JPY races to three-week high above 158 as buyers eye a technical break higher Gold prices slide toward last week\u2019s lows as 10-year Treasury yields blow past 5.10% Crude oil extends gains as expectations for an earlier end to the Iran war fade. What's next? How to trade Nasdaq today: Three areas worth watching while you wait for opportunity Fed policymaker Williams says another rate hike this year is \"reasonable\" as",
-    "published_at": "2026-09-24T11:52:03",
-    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-higher-oil-prices-bond-yields-continue-to-pressure-markets/"
+    "title": "US/Iran discussed phasing in a deal to reopen Hormuz and end the US blockade",
+    "description": "Reuters, citing sources, reports on discussions over a phased arrangement between Washington and Tehran: Gulf states reject Iranian control of the strait. Iran signals flexibility on fees, not on the Strait of Hormuz. Neither side wants to surrender leverage driving diplomacy. A senior Iranian official said the most plausible way to end the impasse would be a phased arrangement, with Iran allowing navigation through Hormuz in return for the US lifting its economic blockade and Tehran potentially gaining access to frozen assets. Analysis: The key word is phased. Iran wants relief as ships regai",
+    "published_at": "2026-09-24T16:27:27",
+    "source_url": "https://investinglive.com/news/us-iran-discussed-phasing-in-a-deal-to-reopen-hormuz-and-end-the-us-blockade/"
   },
   {
-    "id": 597,
+    "id": 603,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US initial jobless claims 197K vs 201K expected",
-    "description": "Prior was 196K (revised to 198K) Continuing claims 1719K vs 1745K expected Prior was 1730K (revised to 1717K) US initial jobless claims came in at 197K, below the 201K expected by economists, pointing to continued resilience in the US labor market.&nbsp;The previous week's reading was revised higher to 198K from 196K, nevertheless, claims remain at historically low levels, indicating that layoffs remain contained. The picture was even stronger in continuing claims, which fell to 1.719 million, well below the 1.745 million expected. The previous reading was revised to 1.717 million from 1.730 m",
-    "published_at": "2026-09-24T12:29:41",
-    "source_url": "https://investinglive.com/news/us-initial-jobless-claims-197k-vs-201k-expected/"
+    "title": "US treasury sells $44 billion of 7 year notes at a high yield of 5.085%",
+    "description": "WI level at the time of the auction: 5.078% High yield: 5.085% Tail: 0.7 basis points vs the average of 0.2 basis points Bid to cover: 2.42X vs the average of 2.49X Directs: 30.27% vs the average of 23.3% Indirects: 57.2% vs the average of 64.6% Dealers: 12.53% vs the average of 12.1% Auction grade: C\u2212 The auction was a little softer than average. The 0.7-basis-point tail was wider than the 0.2-basis-point average, meaning buyers required a slightly higher yield than the WI level going into the sale. The bid to cover was also below average. Direct demand was strong, but indirect demand fell we",
+    "published_at": "2026-09-24T17:05:43",
+    "source_url": "https://investinglive.com/news/us-treasury-sells-44-billion-of-7-year-notes-at-a-high-yield-of-5-085/"
   },
   {
-    "id": 596,
+    "id": 602,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Canada retail sales for the month of July -0.7% vs -0.8% estimate",
-    "description": "Prior month 0.6% The advanced August reading comes in at 1.3% Details from Statistics Canada:&nbsp; Retail sales:\u22120.7% to C$73.7 billion vs \u22120.8% expected. Prior +0.6%. Retail sales excluding autos:\u22120.7% vs \u22120.5% expected. Prior +0.5%. Core retail sales:\u22120.7% after +1.2% in June. This measure excludes both autos and gasoline. Sales volume:\u22121.1%. Canadian retail sales fell slightly less than expected in July, but the details were weaker. According to Statistics Canada\u2019s July retail sales report , sales declined in eight of nine subsectors. The larger drop in volume than in dollar sales suggests",
-    "published_at": "2026-09-24T12:30:14",
-    "source_url": "https://investinglive.com/news/canada-retail-sales-for-the-month-of-july-0-7-vs-0-8-estimate/"
+    "title": "Iran\u2019s Pezeshkian wants a deal with the US before the midterm elections, NBC reports",
+    "description": "Iranian President Masoud Pezeshkian spoke briefly with NBC News and other news organizations on the sidelines of the United Nations General Assembly: \u201cWe wish Americans to return to the MOU before the midterms.\u201d \u201cWe don\u2019t want it to get to the midterm elections.\u201d Analysis: The timing is the message. Pezeshkian is signaling that Tehran would prefer progress before the US midterms. For traders, the next question is whether the two sides take concrete steps toward talks. His comments alone do not establish that an agreement is close. Fox News is expected to air an interview with Pezeshkian at 6 p",
+    "published_at": "2026-09-24T19:11:39",
+    "source_url": "https://investinglive.com/news/iran-s-pezeshkian-wants-a-deal-with-the-us-before-the-midterm-elections-nbc-reports-4/"
   },
   {
-    "id": 595,
+    "id": 601,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "US new-home sales for the month of August 0.684 million versus 0.615 million estimate",
-    "description": "Prior month 0.643 million revised from 0.607 million August new home sales beat expectations, according to figures released jointly by the U.S. Census Bureau and the Department of Housing and Urban Development. The July revision also changes the picture: the 6.4% August gain is measured from 643,000, rather than the 607,000 initially reported for July. August details compared with July: Homes for sale:483,000 vs 483,000 last month. Months\u2019 supply:8.5 months vs 9.0 months last month. Median sales price:$393,700 vs $392,200 last month. Average sales price:$478,700 vs $526,400 last month. Invento",
-    "published_at": "2026-09-24T14:01:24",
-    "source_url": "https://investinglive.com/news/us-new-home-sales-for-the-month-of-august-0-684-million-versus-0-615-million-estimate/"
+    "title": "investingLive Americas FX news wrap 24 Sept: USD and Treasury yields climb as Iran headlines lift stocks off their lows",
+    "description": "US stocks finish mixed as Meta\u2019s Muse rally helps mask the losers. Iran\u2019s Pezeshkian wants a deal with the US before the midterm elections, NBC reports Meta shares approach all-time highs as the Muse rally begins yet another leg higher US treasury sells $44 billion of 7 year notes at a high yield of 5.085% US/Iran discussed phasing in a deal to reopen Hormuz and end the US blockade Bitcoin trades lower but holds support near the high of a swing area target. What next? Trump and Xi meet at the White House: What traders should watch Fed\u2019s Anna Paulson says another rate hike may be needed to lowe",
+    "published_at": "2026-09-24T20:39:59",
+    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-24-sept-usd-and-treasury-yields-climb-as-iran-headlines-lift-stocks-off-their-lows/"
   },
   {
-    "id": 594,
+    "id": 600,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Trump and Xi meet at the White House: What traders should watch",
-    "description": "President Donald Trump is hosting Chinese President Xi Jinping at the White House during Xi\u2019s three-day U.S. state visit. The leaders are expected to discuss trade, technology, Taiwan and the war with Iran. No outcome from today\u2019s talks should be assumed yet. Trade starts from a better position than it did a day ago. Treasury Secretary Scott Bessent said Wednesday that the U.S. and China had agreed to extend their existing \u201cBusan agreement\u201d through January 10. That reduces the immediate risk of renewed tariff escalation. The question for the summit is whether Trump and Xi can add anything subs",
-    "published_at": "2026-09-24T14:38:30",
-    "source_url": "https://investinglive.com/news/trump-and-xi-meet-at-the-white-house-what-traders-should-watch/"
+    "title": "Trump and Xi buy two more months of trade truce, leaving tariffs and rare earths in limbo",
+    "description": "A two-month extension avoids a November tariff cliff, but it gives markets no lasting relief, and the January 10 deadline now becomes the next risk event for trade-sensitive assets. The Australian dollar , as a liquid proxy for China's growth, is likely to take its lead from progress at the Shenzhen and Miami summits more than from this week's ceremony. Farm purchases lagging and rare-earth deliveries falling short give Washington grounds to push harder, which keeps risk alive in soybeans and in supply chains that depend on critical minerals. Xi's push for tougher US language on Taiwan adds a ",
+    "published_at": "2026-09-24T20:56:23",
+    "source_url": "https://investinglive.com/news/trump-and-xi-buy-two-more-months-of-trade-truce-leaving-tariffs-and-rare-earths-in-limbo/"
   },
   {
-    "id": 593,
-    "status": "NORMALISED",
-    "was_matched": true,
-    "company_id": 3,
-    "source_id": 2,
-    "title": "ECB Executive Board member Isabel Schnabel to resign to take senior role at IMF",
-    "description": "",
-    "published_at": "2026-09-24T12:00:00",
-    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr260924~bea1dd9824.en.html"
-  },
-  {
-    "id": 592,
+    "id": 599,
     "status": "NORMALISED",
     "was_matched": true,
     "company_id": 2,
     "source_id": 1,
-    "title": "Federal Reserve Board issues enforcement action with former employee of Sandy Spring Bank",
-    "description": "Federal Reserve Board issues enforcement action with former employee of Sandy Spring Bank",
-    "published_at": "2026-09-24T15:00:00",
-    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260924a.htm"
-  },
-  {
-    "id": 587,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "Germany business sentiment improves further in September despite price concerns - Ifo",
-    "description": "Germany September Ifo business climate index 89.9 vs 89.1 expected Prior 88.8 Germany September Ifo business expectations 90.4 vs 89.3 expected Prior 89.1; revised to 89.0 Germany September Ifo current assessment index 89.5 vs 89.0 expected Prior 88.5 Things are looking on the up in Germany as the latest business climate index surveyed by Ifo rises further in September to its highest since May 2023. Meanwhile, the outlook/expectations index also climbed further on the month in posting its fifth consecutive rise to the highest since February. That continues to underscore improving sentiment tow",
-    "published_at": "2026-09-24T08:01:37",
-    "source_url": "https://investinglive.com/news/germany-business-sentiment-improves-further-in-september-despite-price-concerns-ifo/"
+    "title": "Federal Reserve Board requests public comment on two proposals related to establishing a regulatory framework for Board-supervised payment stablecoin issuers under the GENIUS Act",
+    "description": "Federal Reserve Board requests public comment on two proposals related to establishing a regulatory framework for Board-supervised payment stablecoin issuers under the GENIUS Act",
+    "published_at": "2026-09-24T18:30:00",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260924a.htm"
   }
 ]
