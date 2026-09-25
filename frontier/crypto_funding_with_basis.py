@@ -85,6 +85,12 @@ def main() -> None:
     for symbol in SYMBOLS:
         print(f"Fetching funding + aligned spot/perp candles for {symbol}...")
         funding = fetch_all_funding(symbol)
+        # Bug found 2026-09-25: funding settlement timestamps carry real
+        # sub-second jitter (e.g. 16:00:00.002 instead of .000) on ~43% of
+        # events — an exact-match intersection with kline timestamps
+        # silently dropped all of them as "no data", when the data was
+        # there all along. Floor to the second before aligning.
+        funding.index = funding.index.floor("s")
         spot_close = fetch_klines("https://api.binance.com/api/v3/klines", symbol, start_time)
         perp_close = fetch_klines("https://fapi.binance.com/fapi/v1/klines", symbol, start_time)
         spot_return = spot_close.pct_change().fillna(0.0)
