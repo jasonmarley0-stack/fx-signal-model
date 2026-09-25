@@ -1,0 +1,9 @@
+[Unit]
+Description=Run the carry shadow ledger once daily, after the NY close (22:00 UTC — standard FX day-close convention)
+
+[Timer]
+OnCalendar=*-*-* 22:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

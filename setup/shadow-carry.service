@@ -1,0 +1,10 @@
+[Unit]
+Description=Shadow/forward test for JPY-crosses carry — daily mark-to-market ledger
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/fx-signal-model/carry_system
+EnvironmentFile=/root/fx-signal-model/setup/oanda.env
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/carry_system/shadow_carry.py
