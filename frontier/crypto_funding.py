@@ -15,11 +15,24 @@ hidden one — it means this only captures the "usual" side of the trade
 funding has historically been the common case), and probably understates
 what a fully two-sided version could earn.
 
-Cost model: no live bid-ask spread history is available from these public
-endpoints (unlike OANDA), so round-trip transaction cost is a reasoned
-estimate — 0.08% combined taker fees across both legs (spot + perp),
-roughly in line with Binance's standard published fee schedule — applied
-only when the position actually opens or closes, not fabricated in.
+Cost model, corrected 2026-09-25 after the first pass (Sharpe ~2) drew
+scrutiny — rightly, since this position flips on/off a lot (13.1% of all
+periods for BTC, 300 of 506 negative-funding runs are a single isolated
+8h blip), making the result unusually sensitive to the exact cost
+assumption:
+  - Fees: checked Binance's real published standard (non-VIP) taker
+    schedule — spot 0.10%, USDT-M futures 0.05% — round trip on both legs
+    (open+close spot, open+close perp) = 2x0.10% + 2x0.05% = 0.30%, not
+    the 0.08% first assumed (~3.75x higher).
+  - Spread: checked live via Binance's public book-ticker endpoint —
+    genuinely tiny for BTC/ETH (spot ~0.001%, perp ~0.01%), confirmed
+    negligible next to the fee cost rather than assumed away.
+  - Persistence filter: added MIN_PERSISTENCE — don't flip state until
+    the new sign has held for that many consecutive periods, so a single
+    negative 8h blip surrounded by positive periods doesn't trigger a
+    full exit+re-entry (paying the ~0.30% round trip) to avoid one small
+    negative accrual. Same debounce principle as the FX signal work
+    months ago, applied to time-persistence instead of score magnitude.
 """
 from __future__ import annotations
 import time
@@ -27,7 +40,8 @@ import requests
 import pandas as pd
 
 SYMBOLS = ["BTCUSDT", "ETHUSDT"]
-ROUND_TRIP_COST = 0.0008  # combined taker fees, both legs, disclosed estimate — see module docstring
+ROUND_TRIP_COST = 0.0030  # real fee schedule + measured spread — see module docstring
+MIN_PERSISTENCE = 2  # consecutive periods the new sign must hold before actually flipping
 FUNDING_INTERVALS_PER_YEAR = 365 * 3  # 8h funding, 3x/day
 
 
@@ -84,6 +98,33 @@ def print_stats(s: dict) -> None:
           f"CAGR={s['cagr']*100:+.2f}% sharpe={s['sharpe']:.2f} max_dd={s['max_dd']*100:.1f}%")
 
 
+def walk_with_persistence(funding: pd.Series) -> pd.Series:
+    """Debounced version of 'on = funding > 0' — requires the new sign to
+    hold for MIN_PERSISTENCE consecutive periods before actually flipping
+    state, so isolated single-period blips don't trigger a full round-trip
+    exit+re-entry. Costed on the state actually held, not the raw sign."""
+    net_return = pd.Series(0.0, index=funding.index)
+    state_on = False
+    pending_sign = None
+    pending_run = 0
+    for t, rate in funding.items():
+        sign_positive = rate > 0
+        if sign_positive == state_on:
+            pending_run = 0  # already in the matching state, nothing pending
+        else:
+            if pending_sign == sign_positive:
+                pending_run += 1
+            else:
+                pending_sign, pending_run = sign_positive, 1
+            if pending_run >= MIN_PERSISTENCE:
+                net_return.loc[t] -= ROUND_TRIP_COST  # pay the flip cost on the period the switch actually happens
+                state_on = sign_positive
+                pending_sign, pending_run = None, 0
+        if state_on:
+            net_return.loc[t] += rate
+    return net_return
+
+
 def main() -> None:
     per_symbol = {}
     for symbol in SYMBOLS:
@@ -93,12 +134,7 @@ def main() -> None:
         print(f"  positive funding: {(funding > 0).mean()*100:.1f}% of periods, "
               f"mean when positive={funding[funding>0].mean()*FUNDING_INTERVALS_PER_YEAR*100:.1f}%/yr annualized")
 
-        on = funding > 0
-        raw_return = funding.where(on, 0.0)
-        flipped = on != on.shift(1, fill_value=False)
-        cost = pd.Series(0.0, index=funding.index)
-        cost[flipped] = ROUND_TRIP_COST
-        net_return = raw_return - cost
+        net_return = walk_with_persistence(funding)
 
         per_symbol[symbol] = net_return
         print_stats(stats(net_return, FUNDING_INTERVALS_PER_YEAR, f"{symbol} net"))
