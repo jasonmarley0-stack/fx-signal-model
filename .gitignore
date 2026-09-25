@@ -10,5 +10,6 @@ alerts.json
 performance.json
 *.log
 setup/oanda.env
+setup/fred.env
 signals_log/
 setup/dashboard.env
