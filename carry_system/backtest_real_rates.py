@@ -17,8 +17,11 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent / "trend_system"))
 sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).parent.parent / "trend_system"))
+# trend_system inserted last (resolved first) — carry_system has its own
+# backtest.py (v1) which would otherwise shadow trend_system/backtest.py
+# under the same import name, same issue hit in mean_reversion_fx
 
 import pandas as pd  # noqa: E402
 
