@@ -27,8 +27,11 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent / "trend_system"))
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "trend_system"))
+# trend_system inserted last (so it's resolved first) — src/backtest.py is a
+# pre-existing, unrelated module that would otherwise shadow
+# trend_system/backtest.py under the same import name
 
 import pandas as pd  # noqa: E402
 
