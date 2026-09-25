@@ -1,24 +1,79 @@
 [
   {
-    "id": 606,
+    "id": 613,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "China shuts for Mid-Autumn Festival holiday today, a preview of the week-long National Day gap to come",
-    "description": "AUD is the most exposed of the major currencies. It usually trades partly as a proxy for China, and with onshore markets shut it loses that anchor and has to lean more on oil, Treasury yields and the RBA. With Dalian iron ore futures closed, iron ore price discovery shifts to the Singapore contract, which is thinner. Gold also loses one of its biggest sources of Asia-time demand. With the Shanghai Gold Exchange shut, Chinese physical and speculative buying steps aside, leaving prices more exposed to Treasury yields and the US dollar until mainland buyers return. Asian equity desks may see ligh",
-    "published_at": "2026-09-24T22:14:42",
-    "source_url": "https://investinglive.com/news/china-shuts-for-mid-autumn-festival-holiday-today-a-preview-of-the-week-long-national-day-gap-to-come/"
+    "title": "investingLive Asia-Pacific market news: Iran offers seven-day Hormuz dea",
+    "description": "Nikkei gains 1.2% as chip stocks and dividend buying lift Tokyo, SoftBank slips on Oracle Goldman stays bullish on AI as cloud giants' spending heads towards $1.2 trillion Katayama says Trump raised weak yen concerns with Takaichi, USD/JPY eases below 158.50 Recession signal flashes on Oxford Economics' US indicator, but spending shows no sign of cracking Tether confirms funds stuck at troubled offshore bank EQIBank, says exposure is tiny Bitget hack: attackers faked transfers, not keys, as CEO points to North Korea Goldman cuts USD/JPY forecasts, sees 150 in a year as BOJ tightening boosts ye",
+    "published_at": "2026-09-25T03:38:37",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-iran-offers-seven-day-hormuz-dea/"
   },
   {
-    "id": 605,
+    "id": 612,
     "status": "UNMATCHED",
     "was_matched": false,
     "company_id": null,
     "source_id": 7,
-    "title": "Recession signal flashes on Oxford Economics' US indicator, but spending shows no sign of cracking",
-    "description": "A recession signal against a backdrop of strong data makes it a useful counterpoint for bond markets. It gives Treasury bulls an argument just as 10-year yields sit above 5.2% and Fed hike odds are rising. Markets are unlikely to react much for now, because Oxford itself plays down the signal and current data points the other way. The warning matters more as a sign of what could go wrong if energy prices stay high and borrowing costs keep rising. Any softening in spending data would give it far more weight quickly. --- Oxford Economics' US indicator says recession, but consumers and AI spendin",
-    "published_at": "2026-09-25T02:25:04",
-    "source_url": "https://investinglive.com/news/recession-signal-flashes-on-oxford-economics-us-indicator-but-spending-shows-no-sign-of-cracking/"
+    "title": "US Treasury yields continue to break higher - is 6% now in play?",
+    "description": "The selloff in the bond market isn't&nbsp;showing much sign of letting up. 10-year Treasury yields have pushed up to 5.18%, extending the breakout above 5% and putting another important technical area firmly into view. The next major hurdle on the chart sits around the 5.25% to 5.30% region,&nbsp;roughly where yields topped out during 2006-07. So, what's next from here? Well, if the 2006-07 highs give way, I reckon&nbsp;the conversation around 6% Treasury yields will then start becoming a lot less theoretical. It's a level that is in the back of everyone's mind right now but how plausible is i",
+    "published_at": "2026-09-25T04:28:01",
+    "source_url": "https://investinglive.com/news/us-treasury-yields-continue-to-break-higher-is-6-now-in-play/"
+  },
+  {
+    "id": 611,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Trump-Xi summit extends the trade truce but leaves the biggest market questions unresolved",
+    "description": "And so the Trump-Xi summit this week delivered&nbsp;what markets probably needed most. That being no fresh escalation between the two largest economies in the world. But beyond that, there wasn't much of any breakthrough either. The clearest takeaway is the extension of the existing US-China trade truce by another two months to 10 January. That keeps the existing tariffs regime in place and gives both sides more time to negotiate what Bessent has described as a potentially broader agreement. So for now though,&nbsp;the difficult issues haven't really gone anywhere. The US still wants China to ",
+    "published_at": "2026-09-25T05:00:36",
+    "source_url": "https://investinglive.com/news/trump-xi-summit-extends-the-trade-truce-but-leaves-the-biggest-market-questions-unresolved/"
+  },
+  {
+    "id": 610,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "German consumer climate darkens ahead of October as higher energy costs bite",
+    "description": "Germany October GfK consumer climate -30.6 vs -27.4 expected Prior -26.6; revised to -26.8 The breakdownThat is a notable miss on estimates as German consumer sentiment weakens more sharply than expected heading into October. The main culprit is rising energy prices and that is weighing on purchasing power of households especially. Besides that, the sub-index for income expectations also fell sharply from 1.7 to -15.0 in the latest survey. That marks the lowest level since April, shortly before a fuel discount was introduced. Meanwhile, the sub-index measuring households' willingness to save a",
+    "published_at": "2026-09-25T06:00:14",
+    "source_url": "https://investinglive.com/news/german-consumer-climate-darkens-ahead-of-october-as-higher-energy-costs-bite/"
+  },
+  {
+    "id": 609,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we have the final Spain's Q2 GDP which is expected to confirm a 0.7% quarterly growth vs 0.7% in the preliminary reading. The data won't change anything for the ECB, though, so the market reaction will likely be muted.&nbsp; The markets are currently focused on renewed hopes for quick de-escalation and the reopening of the Strait of Hormuz following yesterday's news that&nbsp;Iran has put a fast-track offer on the table, promising to reopen the Strait of Hormuz within seven days if the US meets its terms. Iran's Foreign Minister Araghchi is staying in ",
+    "published_at": "2026-09-25T06:28:41",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-50/"
+  },
+  {
+    "id": 608,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Spain Q2 GDP confirmed at 0.7% as domestic demand keeps growth resilient",
+    "description": "Spain Q2 final GDP +0.7% vs +0.7% q/q expected Prior +0.6% The breakdownThe final estimate confirms that the Spanish economy grew by 0.7% in the second quarter,&nbsp;accelerating slightly from 0.6% growth in Q1. Domestic demand remains the main engine of the economy, contributing 1.1% to quarterly GDP growth. By aggregate demand, household consumption increased by 1.2% and government consumption by 0.5%. Meanwhile, gross fixed capital formation registered a variation of 1.7%. External demand remains the weak spot, subtracting 0.5% from quarterly GDP growth&nbsp;as imports continued to outpace ",
+    "published_at": "2026-09-25T07:00:15",
+    "source_url": "https://investinglive.com/news/spain-q2-gdp-confirmed-at-0-7-as-domestic-demand-keeps-growth-resilient/"
+  },
+  {
+    "id": 607,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Minutes of the Market Participants Group meeting \u2013 24 September 2026",
+    "description": "The Market Participants Group (MPG) is a senior-level forum for financial market participants to share their views on relevant themes and narratives in financial markets with members of the Bank of England\u2019s Monetary Policy Committee.",
+    "published_at": "2026-09-25T06:30:00",
+    "source_url": "https://www.bankofengland.co.uk/minutes/2026/september/market-participants-group-meeting-25-september-2026"
   }
 ]
