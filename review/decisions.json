@@ -1,0 +1,27 @@
+[
+  {
+    "evidence_id": 622,
+    "action": "reject",
+    "notes": "Vague diplomatic rhetoric from Xi/Trump meeting, no finalized agreement or concrete outcome; China/CNY not in tracked currency set."
+  },
+  {
+    "evidence_id": 621,
+    "action": "reject",
+    "notes": "Preliminary report on Iran-US talks 'atmosphere' - negotiations ongoing, no finalized de-escalation event or agreement; too speculative to publish."
+  },
+  {
+    "evidence_id": 620,
+    "action": "reject",
+    "notes": "Calendar/scheduling item - future Trump-Xi meeting announced, no finalized outcome or policy change."
+  },
+  {
+    "evidence_id": 619,
+    "action": "reject",
+    "notes": "Market-wrap roundup covering many unrelated headlines; not a single verifiable event."
+  },
+  {
+    "evidence_id": 618,
+    "action": "reject",
+    "notes": "Routine bank-application approval by Fed for Peoples Bancorp - administrative/procedural content, explicitly out of scope."
+  }
+]
