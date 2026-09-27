@@ -27,6 +27,11 @@ Writes to the SAME production paths streaming_scanner.py used
 existing performance_scorer.py) — the dashboard and performance scoring
 don't need to change, only what feeds them does.
 
+Also writes, additively, to alert_lifecycle_log.jsonl on every poll (not
+only on a direction change) via alert_lifecycle.py — an immutable,
+revision/cancellation-aware record of exactly what was published, scored
+separately by alert_scorer.py. See IMPLEMENTATION_NOTE_ALERT_LIFECYCLE.md.
+
 Usage:
     python3 live_scanner.py
 
@@ -45,6 +50,7 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 from data.oanda import fetch_oanda_candles, fetch_current_price  # noqa: E402
 from strategies.composite import technical_score  # noqa: E402
 from combiner import combine_signal  # noqa: E402
+from alert_lifecycle import AlertLifecycleStore, classify_and_record  # noqa: E402
 
 PAIRS = ["EURUSD", "GBPUSD", "USDJPY", "USDCHF", "AUDUSD", "USDCAD", "NZDUSD"]
 GRANULARITY = "H4"
@@ -52,11 +58,44 @@ HISTORY_BARS = 300  # ~50 days — plenty of warmup for EMA50/ATR14
 SPARKLINE_BARS = 48  # ~8 days of H4 bars for the Live tab trendline
 ALPHA = 1.0  # tech-only — see module docstring
 
+# Bump this string whenever the live configuration meaningfully changes
+# (pairs, granularity, weights, alpha) — alert_performance_view.py keys
+# every aggregate off it so different configurations are never blended.
+SCANNER_VERSION = "H4_majors_baseline_v1"
+
 STATE_PATH = Path(__file__).parent / ".live_scanner_state.json"
 SIGNALS_LOG_DIR = Path(__file__).parent / "signals_log"
 ALERTS_PATH = Path(__file__).parent / "alerts.json"
 LIVE_SCAN_PATH = Path(__file__).parent / "live_scan.json"
+ALERT_LIFECYCLE_PATH = Path(__file__).parent / "alert_lifecycle_log.jsonl"
 MAX_ALERTS = 50
+
+_alert_store = AlertLifecycleStore(ALERT_LIFECYCLE_PATH)
+
+
+def record_alert_lifecycle(pair: str, sig, tech_dict: dict, atr_value: float, now: datetime) -> None:
+    """Additive only: records this poll's classification (issued / revised
+    / cancelled, or nothing at all for a cosmetic refresh) into a SEPARATE
+    append-only store, independent of the direction-change gate
+    log_signal()/push_alert() use below — so a same-direction re-level is
+    still captured as a revision, which that gate alone would miss. Callers
+    wrap this in try/except so a bug here can never affect the existing
+    signals_log/alerts.json/live_scan.json write path. See
+    IMPLEMENTATION_NOTE_ALERT_LIFECYCLE.md."""
+    if sig.direction == "long":
+        stop, target = sig.stop_loss_range[1], sig.take_profit_range[1]
+    elif sig.direction == "short":
+        stop, target = sig.stop_loss_range[0], sig.take_profit_range[0]
+    else:
+        stop, target = None, None
+    classify_and_record(
+        _alert_store,
+        scanner_version=SCANNER_VERSION, pair=pair, direction=sig.direction,
+        confidence=sig.confidence, combined_score=sig.combined_score,
+        entry_price=sig.entry, atr_value=atr_value, stop=stop, target=target,
+        technical_inputs=tech_dict, pestle_inputs=None, pestle_used=False,
+        reason=sig.reason, calculated_at=now, published_at=now,
+    )
 
 
 def load_state() -> dict:
@@ -160,6 +199,11 @@ def main() -> None:
             tech_dict = {"orb": float(latest["orb"]), "trend": float(latest["trend"]),
                          "pattern": float(latest["pattern"]), "composite": float(latest["tech_score"])}
             pestle_dict = empty_pestle(pair)
+
+            try:
+                record_alert_lifecycle(pair, sig, tech_dict, float(latest["atr"]), now)
+            except Exception as lifecycle_ex:
+                print(f"  {pair}: alert-lifecycle recording error (non-fatal, existing behaviour unaffected) — {lifecycle_ex}")
 
             prev = state.get(pair)
             state[pair] = sig.direction

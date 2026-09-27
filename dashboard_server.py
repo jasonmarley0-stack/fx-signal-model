@@ -45,6 +45,11 @@ import uvicorn
 LIVE_SCAN_PATH = Path(__file__).parent / "live_scan.json"
 ALERTS_PATH = Path(__file__).parent / "alerts.json"
 PERFORMANCE_PATH = Path(__file__).parent / "performance.json"
+# Additive — see IMPLEMENTATION_NOTE_ALERT_LIFECYCLE.md. Written by
+# alert_performance_scorer.py (not deployed/scheduled by this change), read
+# the same defensive way PERFORMANCE_PATH is below: never calls OANDA or
+# any scorer itself, only reads whatever snapshot already exists on disk.
+ALERT_PERFORMANCE_PATH = Path(__file__).parent / "alert_performance.json"
 app = FastAPI()
 security = HTTPBasic()
 security_optional = HTTPBasic(auto_error=False)  # for routes that also accept the monitor API key
@@ -763,6 +768,23 @@ def performance(_: None = Depends(check_auth_or_monitor_key)) -> dict:
         return json.loads(PERFORMANCE_PATH.read_text())
     except json.JSONDecodeError:
         return {"updated_at": None, "signals": [], "aggregates": {}}
+
+
+@app.get("/api/alert-performance", response_class=JSONResponse)
+def alert_performance(_: None = Depends(check_auth_or_monitor_key)) -> dict:
+    """Additive — see IMPLEMENTATION_NOTE_ALERT_LIFECYCLE.md. Separate from
+    /api/performance: this reads alert_performance.json, whose
+    by_scanner_version block is always split per scanner_version (the
+    current H4 config's 3 signals are never blended with the legacy
+    M30/28-pair scanner's counts). Returns an empty shape, not an error, if
+    the file doesn't exist yet — the same convention /api/performance
+    already uses."""
+    if not ALERT_PERFORMANCE_PATH.exists():
+        return {"updated_at": None, "scored_versions": [], "by_scanner_version": {}}
+    try:
+        return json.loads(ALERT_PERFORMANCE_PATH.read_text())
+    except json.JSONDecodeError:
+        return {"updated_at": None, "scored_versions": [], "by_scanner_version": {}}
 
 
 @app.get("/api/health", response_class=JSONResponse)
