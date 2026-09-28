@@ -9,14 +9,33 @@ see src/data/oanda.py, price="M" only), "assumed entered" is exactly that,
 an assumption for scoring purposes, and notification delay is scored as 0
 seconds because no delivery timestamp exists anywhere in this system. None
 of this is a realised subscriber return.
+
+Entry/exit discipline (corrected per Codex's review of the first version):
+an M30 bar's high/low merely touching the entry range does not establish
+an executable fill — only a bar whose OWN OPEN lands inside the range does,
+since that is a real, known price at a known time. A range that is only
+ever touched, never confirmed by an open, is reported as `insufficient_data`
+rather than priced at that bar's close (which can be arbitrarily far
+outside the entry condition). Likewise, a bar whose high/low crosses BOTH
+the stop and the target cannot have its order determined from OHLC alone
+and is reported as `ambiguous_intrabar_exit` rather than assumed
+stop-first. A revision or cancellation closes a version's window to NEW
+entries only — it does not truncate the post-entry stop/target/time-exit
+scan for a subscriber assumed to have already entered under that version
+(see IMPLEMENTATION_NOTE_ALERT_LIFECYCLE.md requirement 4).
 """
 from __future__ import annotations
-from dataclasses import dataclass
 from datetime import datetime, timedelta
 import pandas as pd
 
 ENTRY_QUOTE_SIDE_ASSUMPTION = "midpoint_no_bidask_available"
 NOTIFICATION_DELAY_ASSUMPTION_SECONDS = 0  # not a measurement — no delivery timestamp is recorded anywhere in this system
+
+BASE_CAVEATS = [
+    "Scored against OANDA midpoint candles only — no bid/ask observed for this alert.",
+    "Entry is an assumption for scoring purposes — Signal IQ has no record of whether any subscriber actually entered.",
+    "Notification delay assumed to be 0 seconds — no delivery timestamp is recorded anywhere in this system.",
+]
 
 
 def _parse(t: str) -> datetime:
@@ -35,7 +54,9 @@ def group_lineages(events: list[dict]) -> dict[str, list[dict]]:
 def effective_entry_window_end(version: dict, lineage_sorted: list[dict]) -> tuple[datetime, str]:
     """min(this version's own entry_expiry_utc, the next version's
     publication time if any, a cancellation targeting this exact
-    alert_id if any) — see IMPLEMENTATION_NOTE_ALERT_LIFECYCLE.md."""
+    alert_id if any) — see IMPLEMENTATION_NOTE_ALERT_LIFECYCLE.md. This
+    only bounds NEW entries; it never bounds the post-entry exit scan for
+    a subscriber assumed to have already entered (requirement 4)."""
     own_expiry = _parse(version["entry_expiry_utc"])
     idx = lineage_sorted.index(version)
     candidates = [(own_expiry, "entry_expiry")]
@@ -49,20 +70,36 @@ def effective_entry_window_end(version: dict, lineage_sorted: list[dict]) -> tup
     return min(candidates, key=lambda c: c[0])
 
 
-def _first_bar_in_range(candles: pd.DataFrame, start: datetime, end: datetime, lo: float, hi: float):
-    window = candles[(candles.index >= pd.Timestamp(start)) & (candles.index <= pd.Timestamp(end))]
+def _candle_interval(candles: pd.DataFrame) -> timedelta:
+    if len(candles.index) >= 2:
+        return candles.index[1] - candles.index[0]
+    return timedelta(minutes=30)  # this system only ever uses M30 for scoring; a safe fallback for a single-bar fixture
+
+
+def _find_entry(candles: pd.DataFrame, start: datetime, end: datetime, lo: float, hi: float):
+    """window is [start, end) — `end` (entry_expiry / next-version /
+    cancellation boundary) is EXCLUSIVE, so a bar starting at or after the
+    boundary is never treated as pre-expiry entry activity (the boundary
+    bug Codex flagged). Only a bar whose OWN OPEN lands in [lo, hi] confirms
+    an entry price; a bar that merely intersects the range without its open
+    landing inside it is reported as 'touched', not priced."""
+    window = candles[(candles.index >= pd.Timestamp(start)) & (candles.index < pd.Timestamp(end))]
+    touched = False
     for ts, bar in window.iterrows():
         if bar["low"] <= hi and bar["high"] >= lo:
-            return ts.to_pydatetime(), float(bar["close"])
-    return None, None
+            touched = True
+            if lo <= bar["open"] <= hi:
+                return ts.to_pydatetime(), float(bar["open"]), "confirmed"
+    return None, None, ("touched" if touched else "never_reached")
 
 
 def score_version(version: dict, lineage_sorted: list[dict], candles: pd.DataFrame, now: datetime) -> dict:
     """`candles` must be M30 (or finer) OANDA-shaped OHLC, tz-aware UTC
-    index, spanning from this version's publication through at least
-    max_holding_time_hours past its entry_expiry — injected by the caller
-    (live callers fetch it from OANDA; tests pass a synthetic DataFrame) so
-    this function has no network dependency and is fully unit-testable."""
+    index — injected by the caller (live callers fetch it from OANDA; tests
+    pass a synthetic DataFrame) so this function has no network dependency
+    and is fully unit-testable. Coverage is checked explicitly: this
+    function never assumes data it wasn't given (see 'incomplete_coverage'
+    below) rather than silently treating missing bars as "nothing happened"."""
     published_at = _parse(version["recorded_at_utc"])
     window_end, window_end_reason = effective_entry_window_end(version, lineage_sorted)
 
@@ -78,23 +115,34 @@ def score_version(version: dict, lineage_sorted: list[dict], candles: pd.DataFra
         "result_type": "estimate",
         "state": None, "assumed_entry_time_utc": None, "assumed_entry_price": None,
         "exit_time_utc": None, "exit_price": None, "r_multiple": None,
-        "caveats": ["Scored against OANDA midpoint candles only — no bid/ask observed for this alert.",
-                    "Entry is an assumption for scoring purposes — Signal IQ has no record of whether any subscriber actually entered.",
-                    "Notification delay assumed to be 0 seconds — no delivery timestamp is recorded anywhere in this system."],
+        "caveats": list(BASE_CAVEATS),
     }
 
     if window_end_reason == "cancelled" and window_end <= published_at:
         result["state"] = "cancelled"
         return result
 
-    entry_time, entry_price = _first_bar_in_range(
+    have_coverage_to_window_end = not candles.empty and candles.index[-1] >= pd.Timestamp(window_end) - _candle_interval(candles)
+
+    entry_time, entry_price, entry_status = _find_entry(
         candles, published_at, window_end, version["entry_condition_lo"], version["entry_condition_hi"])
 
     if entry_time is None:
+        if entry_status == "touched":
+            result["state"] = "insufficient_data_entry"
+            result["caveats"].append(
+                "Price intersected the entry condition range within this window, but no candle's OPEN "
+                "confirmed a price inside it — the exact fill point cannot be determined from M30 OHLC "
+                "alone, so no entry is assumed rather than inventing one.")
+            return result
         if window_end_reason == "cancelled":
             result["state"] = "cancelled"
+        elif window_end <= now:
+            result["state"] = "expired_no_entry" if have_coverage_to_window_end else "insufficient_data_entry"
+            if not have_coverage_to_window_end:
+                result["caveats"].append("Candle coverage does not reach this version's entry-window end — cannot confirm expiry without entry.")
         else:
-            result["state"] = "expired_no_entry" if window_end <= now else "actionable_open"
+            result["state"] = "actionable_open"
         return result
 
     result["assumed_entry_time_utc"] = entry_time.isoformat()
@@ -109,6 +157,12 @@ def score_version(version: dict, lineage_sorted: list[dict], candles: pd.DataFra
     for ts, bar in post_entry.iterrows():
         hit_stop = (bar["low"] <= stop) if direction == 1 else (bar["high"] >= stop)
         hit_target = (bar["high"] >= target) if direction == 1 else (bar["low"] <= target)
+        if hit_stop and hit_target:
+            result["state"] = "ambiguous_intrabar_exit"
+            result["caveats"].append(
+                f"The bar at {ts.isoformat()} crossed both stop and target — M30 OHLC cannot establish "
+                f"which was hit first, so no outcome is assumed for this bar rather than guessing.")
+            return result
         if hit_stop:
             result.update(state="stopped", exit_time_utc=ts.to_pydatetime().isoformat(), exit_price=stop,
                           r_multiple=(direction * (stop - entry_price) / risk if risk else None))
@@ -119,28 +173,49 @@ def score_version(version: dict, lineage_sorted: list[dict], candles: pd.DataFra
             return result
 
     if max_exit_time <= now:
+        interval = _candle_interval(candles)
         exit_bars = candles[candles.index <= pd.Timestamp(max_exit_time)]
-        if not exit_bars.empty:
+        if not exit_bars.empty and (pd.Timestamp(max_exit_time) - exit_bars.index[-1]) <= interval:
             exit_price = float(exit_bars.iloc[-1]["close"])
             result.update(state="time_exited", exit_time_utc=max_exit_time.isoformat(), exit_price=exit_price,
                           r_multiple=(direction * (exit_price - entry_price) / risk if risk else None))
         else:
-            result.update(state="time_exited", exit_time_utc=max_exit_time.isoformat(), exit_price=None, r_multiple=None)
+            # Coverage doesn't reach max_exit_time — using the nearest older
+            # bar would report a stale price as if it were current. Report
+            # the gap honestly instead (requirement: "never use an old
+            # candle as the price at a later exit").
+            result["state"] = "incomplete_coverage"
+            result["caveats"].append(
+                f"No candle within one bar-interval of the time-exit boundary ({max_exit_time.isoformat()}) "
+                f"— cannot price this exit without using a stale bar.")
     else:
         result["state"] = "open"
     return result
 
 
-def score_all(events: list[dict], candles_by_pair: dict[str, pd.DataFrame], now: datetime) -> list[dict]:
+def score_all(events: list[dict], candles_by_pair: dict[str, pd.DataFrame], now: datetime, fetch_errors: dict[str, str] | None = None) -> list[dict]:
     """candles_by_pair: {pair: OHLC DataFrame} — one fetch per pair reused
-    across every version/lineage for that pair, not one fetch per alert."""
+    across every version/lineage for that pair, not one fetch per alert.
+    fetch_errors: {pair: error message} for pairs whose candle fetch
+    failed — those pairs' versions are scored 'fetch_error' explicitly
+    rather than silently omitted or given a plausible-looking result, and
+    an error for one pair does not stop any other pair from being scored."""
+    fetch_errors = fetch_errors or {}
     out = []
     for lineage in group_lineages(events).values():
         versions = [e for e in lineage if e["event_type"] in ("issued", "revised")]
         for v in versions:
-            candles = candles_by_pair.get(v["pair"])
+            pair = v["pair"]
+            if pair in fetch_errors:
+                out.append({"alert_id": v.get("alert_id"), "lineage_id": v.get("lineage_id"),
+                            "scanner_version": v.get("scanner_version"), "pair": pair, "direction": v.get("direction"),
+                            "state": "fetch_error", "result_type": "estimate",
+                            "caveats": [f"OANDA candle fetch failed for {pair}: {fetch_errors[pair]}"]})
+                continue
+            candles = candles_by_pair.get(pair)
             if candles is None or candles.empty:
-                out.append({**{k: v.get(k) for k in ("alert_id", "lineage_id", "scanner_version", "pair", "direction")},
+                out.append({"alert_id": v.get("alert_id"), "lineage_id": v.get("lineage_id"),
+                            "scanner_version": v.get("scanner_version"), "pair": pair, "direction": v.get("direction"),
                             "state": "no_data", "result_type": "estimate",
                             "caveats": ["No OANDA candle data available for this pair/window."]})
                 continue

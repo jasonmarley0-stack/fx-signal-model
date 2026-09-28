@@ -43,7 +43,8 @@ def _issue(store, **overrides):
         calculated_at=T0, published_at=T0,
     )
     base.update(overrides)
-    return classify_and_record(store, **base)
+    events = classify_and_record(store, **base)
+    return events[-1] if events else None  # classify_and_record now returns a list (see reversal handling); existing single-event tests use the last one
 
 
 def _flat_candles(start: datetime, hours: int, price: float, step_minutes: int = 30) -> pd.DataFrame:

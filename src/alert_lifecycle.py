@@ -96,6 +96,44 @@ class AlertLifecycleStore:
                 out.append(json.loads(line))
         return out
 
+    def feed_publish_status_by_event_id(self) -> dict[str, str]:
+        """Latest feed_publish_result status per source lifecycle event_id
+        (issued/revised/cancelled). Used both to decide what still needs
+        (re)publishing and, in tests, to assert nothing was silently
+        dropped between persistence and the user-facing feed."""
+        status: dict[str, str] = {}
+        for e in self.read_all():
+            if e.get("event_type") == "feed_publish_result":
+                status[e["source_event_id"]] = e["status"]
+        return status
+
+    def unpublished_events(self) -> list[dict]:
+        """issued/revised/cancelled lifecycle events with no 'delivered'
+        feed_publish_result — i.e. events that may exist only in this log,
+        which the core acceptance rule says must not happen silently. A
+        caller (live_scanner.py at the top of its next poll, or an
+        operator running a recovery pass) can retry publishing these."""
+        status = self.feed_publish_status_by_event_id()
+        return [e for e in self.read_all()
+                if e.get("event_type") in ("issued", "revised", "cancelled")
+                and status.get(e["event_id"]) != "delivered"]
+
+    def record_feed_publish_result(self, source_event: dict, status: str, error: str | None = None) -> dict:
+        """Appends a feed_publish_result record linked to the lifecycle
+        event it corresponds to. Never mutates the original event — keeps
+        the append-only/immutable guarantee while making publish
+        failures visible (status='failed') and recoverable (re-run
+        unpublished_events() and retry) instead of silently assuming a
+        written log line means a subscriber was notified."""
+        return self.append({
+            "event_id": new_id(), "event_type": "feed_publish_result",
+            "source_event_id": source_event["event_id"],
+            "alert_id": source_event["alert_id"], "lineage_id": source_event["lineage_id"],
+            "pair": source_event["pair"],
+            "status": status, "error": error,
+            "recorded_at_utc": _utcnow().isoformat(),
+        })
+
     def active_version_for_pair(self, pair: str, as_of: datetime | None = None) -> dict | None:
         """The most recent issued/revised event for `pair` whose lineage has
         not been cancelled and whose own entry window has not yet closed as
@@ -105,7 +143,8 @@ class AlertLifecycleStore:
         replays full history independently (see alert_scorer.py) rather
         than trusting this convenience view."""
         as_of = as_of or _utcnow()
-        events = [e for e in self.read_all() if e["pair"] == pair]
+        events = [e for e in self.read_all()
+                  if e.get("pair") == pair and e["event_type"] in ("issued", "revised", "cancelled")]
         if not events:
             return None
         by_lineage: dict[str, list[dict]] = {}
@@ -129,6 +168,31 @@ def _within_tolerance(a: float, b: float, atr: float) -> bool:
     return abs(a - b) <= ENTRY_REFRESH_TOLERANCE_ATR_MULTIPLE * atr
 
 
+# The stated policy for requirement 4: a revision or cancellation only ever
+# closes a version's ENTRY window (no NEW entries under the old levels from
+# that instant on). It never changes what happens to a subscriber who
+# already entered under the version being superseded/cancelled — that
+# assumed position keeps its OWN original stop, target and time exit,
+# unaffected. alert_scorer.py's post-entry scan is not truncated at a
+# later revision's timestamp for exactly this reason (see score_version).
+EXISTING_POSITION_POLICY = "retain_original_stop_target_time_exit"
+
+
+def _existing_position_snapshot(active: dict) -> dict:
+    """Embedded in every revised/cancelled event so the published update
+    can state, in the alert itself, exactly what an already-entered
+    subscriber's original trade still looks like — not just link to it."""
+    return {
+        "alert_id": active["alert_id"],
+        "policy": EXISTING_POSITION_POLICY,
+        "original_stop": active["stop"],
+        "original_target": active["target"],
+        "original_max_holding_time_hours": active["max_holding_time_hours"],
+        "original_entry_condition_lo": active["entry_condition_lo"],
+        "original_entry_condition_hi": active["entry_condition_hi"],
+    }
+
+
 def classify_and_record(
     store: AlertLifecycleStore,
     *,
@@ -149,40 +213,49 @@ def classify_and_record(
     published_at: datetime | None = None,
     entry_tolerance: float | None = None,
     max_holding_time_hours: float = DEFAULT_MAX_HOLDING_HOURS,
-) -> dict | None:
-    """The single entry point live_scanner.py calls. Returns the event
-    written (issued/revised/cancelled), or None if this was classified as a
-    cosmetic refresh (nothing written — see IMPLEMENTATION_NOTE, "repeated
-    polls / confidence flicker must not silently replace an alert" is
-    satisfied by writing NOTHING for a no-op refresh, not by writing a
-    heartbeat that could itself be mistaken for a new instruction)."""
+) -> list[dict]:
+    """The single entry point live_scanner.py calls. Returns EVERY event
+    written this call, in order — normally zero (cosmetic refresh, nothing
+    written) or one (issue/revise/cancel), but a direction reversal writes
+    TWO (a cancellation of the old lineage, then a fresh issuance) and both
+    must reach the caller so both reach the user-facing feed; returning
+    only the last one was a real bug (the cancellation existed only in
+    this log) fixed here per Codex's review. "Repeated polls / confidence
+    flicker must not silently replace an alert" is satisfied by writing
+    NOTHING for a cosmetic no-op, not by writing a heartbeat that could
+    itself be mistaken for a new instruction."""
     published_at = published_at or calculated_at
     active = store.active_version_for_pair(pair, as_of=published_at)
+    events: list[dict] = []
 
     if direction == "no_trade":
         if active is not None:
-            return store.append({
+            events.append(store.append({
                 "event_id": new_id(), "event_type": "cancelled",
                 "alert_id": active["alert_id"], "lineage_id": active["lineage_id"],
                 "cancelled_alert_id": active["alert_id"],
                 "cancellation_reason": "scanner reverted to no_trade",
                 "scanner_version": scanner_version, "pair": pair, "direction": direction,
                 "recorded_at_utc": published_at.isoformat(),
-            })
-        return None  # no active alert to cancel, and no_trade never gets issued in the first place
+                "existing_position": _existing_position_snapshot(active),
+            }))
+        return events  # no active alert to cancel, and no_trade never gets issued in the first place
 
+    revision_source = active
     if active is not None and active["direction"] != direction:
         # reversal: a different trade thesis, not an update to this one —
         # cancel the old lineage, then fall through to issue a fresh one
-        store.append({
+        events.append(store.append({
             "event_id": new_id(), "event_type": "cancelled",
             "alert_id": active["alert_id"], "lineage_id": active["lineage_id"],
             "cancelled_alert_id": active["alert_id"],
             "cancellation_reason": f"direction reversed to {direction}",
             "scanner_version": scanner_version, "pair": pair, "direction": active["direction"],
             "recorded_at_utc": published_at.isoformat(),
-        })
+            "existing_position": _existing_position_snapshot(active),
+        }))
         active = None
+        revision_source = None
 
     if active is not None:
         same_confidence = active["confidence"] == confidence
@@ -192,7 +265,7 @@ def classify_and_record(
             and _within_tolerance(active["target"], target, atr_value)
         )
         if same_confidence and levels_close:
-            return None  # cosmetic refresh: repeated poll / confidence flicker on an unchanged setup — write nothing
+            return events  # cosmetic refresh: repeated poll / confidence flicker on an unchanged setup — write nothing else
 
     tol = entry_tolerance if entry_tolerance is not None else max(0.1 * atr_value, 0.0)
     levels = AlertLevels(
@@ -217,6 +290,7 @@ def classify_and_record(
             "revision_reason": ("confidence tier changed" if not same_confidence else "published levels moved beyond tolerance"),
             "scanner_version": scanner_version, "pair": pair, "direction": direction,
             "recorded_at_utc": published_at.isoformat(),
+            "existing_position": _existing_position_snapshot(revision_source),
             **asdict(levels),
         }
     else:
@@ -227,6 +301,8 @@ def classify_and_record(
             "revises_alert_id": None, "revision_reason": None,
             "scanner_version": scanner_version, "pair": pair, "direction": direction,
             "recorded_at_utc": published_at.isoformat(),
+            "existing_position": None,
             **asdict(levels),
         }
-    return store.append(event)
+    events.append(store.append(event))
+    return events

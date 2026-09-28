@@ -27,10 +27,15 @@ Writes to the SAME production paths streaming_scanner.py used
 existing performance_scorer.py) — the dashboard and performance scoring
 don't need to change, only what feeds them does.
 
-Also writes, additively, to alert_lifecycle_log.jsonl on every poll (not
-only on a direction change) via alert_lifecycle.py — an immutable,
+Also writes, on every poll (not only on a direction change), to
+alert_lifecycle_log.jsonl via alert_lifecycle.py — an immutable,
 revision/cancellation-aware record of exactly what was published, scored
-separately by alert_scorer.py. See IMPLEMENTATION_NOTE_ALERT_LIFECYCLE.md.
+separately by alert_scorer.py. signals_log/alerts.json are now driven by
+that SAME classification (via alert_feed_publisher.record_and_publish),
+not a second, independently-gated check — a same-direction revision (a
+real, meaningful re-level, not noise) reaches the feed exactly like a
+direction change always did; a cosmetic refresh reaches neither. See
+IMPLEMENTATION_NOTE_ALERT_LIFECYCLE.md and CODEX_ALERT_LIFECYCLE_CORRECTIONS.md.
 
 Usage:
     python3 live_scanner.py
@@ -40,7 +45,6 @@ setup/live-scanner.service + .timer), not interactively.
 """
 from __future__ import annotations
 import json
-import time
 from datetime import datetime, timezone
 from pathlib import Path
 import sys
@@ -50,7 +54,8 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 from data.oanda import fetch_oanda_candles, fetch_current_price  # noqa: E402
 from strategies.composite import technical_score  # noqa: E402
 from combiner import combine_signal  # noqa: E402
-from alert_lifecycle import AlertLifecycleStore, classify_and_record  # noqa: E402
+from alert_lifecycle import AlertLifecycleStore  # noqa: E402
+from alert_feed_publisher import record_and_publish, retry_unpublished  # noqa: E402
 
 PAIRS = ["EURUSD", "GBPUSD", "USDJPY", "USDCHF", "AUDUSD", "USDCAD", "NZDUSD"]
 GRANULARITY = "H4"
@@ -68,28 +73,27 @@ SIGNALS_LOG_DIR = Path(__file__).parent / "signals_log"
 ALERTS_PATH = Path(__file__).parent / "alerts.json"
 LIVE_SCAN_PATH = Path(__file__).parent / "live_scan.json"
 ALERT_LIFECYCLE_PATH = Path(__file__).parent / "alert_lifecycle_log.jsonl"
-MAX_ALERTS = 50
 
 _alert_store = AlertLifecycleStore(ALERT_LIFECYCLE_PATH)
 
 
-def record_alert_lifecycle(pair: str, sig, tech_dict: dict, atr_value: float, now: datetime) -> None:
-    """Additive only: records this poll's classification (issued / revised
-    / cancelled, or nothing at all for a cosmetic refresh) into a SEPARATE
-    append-only store, independent of the direction-change gate
-    log_signal()/push_alert() use below — so a same-direction re-level is
-    still captured as a revision, which that gate alone would miss. Callers
-    wrap this in try/except so a bug here can never affect the existing
-    signals_log/alerts.json/live_scan.json write path. See
-    IMPLEMENTATION_NOTE_ALERT_LIFECYCLE.md."""
+def record_alert_lifecycle_and_publish(pair: str, sig, tech_dict: dict, pestle_dict: dict, atr_value: float, now: datetime) -> list[dict]:
+    """The single call that both persists (alert_lifecycle_log.jsonl) and
+    publishes to the user-facing feed (alerts.json) for this poll's
+    classification — issued / revised / cancelled (possibly both a
+    cancellation and a fresh issuance, on a direction reversal), or nothing
+    for a cosmetic refresh. Callers wrap this in try/except so a bug here
+    can never affect live_scan.json (the table view), which is written
+    unconditionally regardless of this call's outcome. See
+    IMPLEMENTATION_NOTE_ALERT_LIFECYCLE.md / CODEX_ALERT_LIFECYCLE_CORRECTIONS.md."""
     if sig.direction == "long":
         stop, target = sig.stop_loss_range[1], sig.take_profit_range[1]
     elif sig.direction == "short":
         stop, target = sig.stop_loss_range[0], sig.take_profit_range[0]
     else:
         stop, target = None, None
-    classify_and_record(
-        _alert_store,
+    return record_and_publish(
+        _alert_store, ALERTS_PATH, tech_dict, pestle_dict,
         scanner_version=SCANNER_VERSION, pair=pair, direction=sig.direction,
         confidence=sig.confidence, combined_score=sig.combined_score,
         entry_price=sig.entry, atr_value=atr_value, stop=stop, target=target,
@@ -145,32 +149,6 @@ def log_signal(pair: str, sig) -> None:
     print(f"[fire] {pair}: {sig.direction.upper()} ({sig.confidence}) @ {sig.entry:.5f} — {sig.reason}")
 
 
-def push_alert(pair: str, sig, tech: dict, pestle: dict) -> None:
-    alerts = []
-    if ALERTS_PATH.exists():
-        try:
-            alerts = json.loads(ALERTS_PATH.read_text()).get("alerts", [])
-        except json.JSONDecodeError:
-            alerts = []
-    label = f"{sig.direction.upper()} ({sig.confidence}) @ {sig.entry:.5f}" if sig.direction != "no_trade" else "back to no_trade"
-    entry = {
-        "id": f"{int(time.time() * 1000)}-{pair}",
-        "time": datetime.now(timezone.utc).isoformat(),
-        "pair": pair, "direction": sig.direction, "confidence": sig.confidence,
-        "combined_score": sig.combined_score, "entry": sig.entry,
-        "message": f"{pair}: {label}", "reason": sig.reason,
-        "tech": tech, "pestle": pestle,
-        "stop_loss_range": list(sig.stop_loss_range),
-        "take_profit_range": list(sig.take_profit_range),
-        "window": None,
-    }
-    alerts.append(entry)
-    alerts = alerts[-MAX_ALERTS:]
-    tmp = ALERTS_PATH.with_suffix(".json.tmp")
-    tmp.write_text(json.dumps({"alerts": alerts}, indent=2))
-    tmp.replace(ALERTS_PATH)
-
-
 def write_live_scan(now: datetime, rows: list[dict]) -> None:
     payload = {"generated_at": now.isoformat(), "rows": rows}
     tmp_path = LIVE_SCAN_PATH.with_suffix(".json.tmp")
@@ -182,6 +160,13 @@ def main() -> None:
     state = load_state()
     rows = []
     now = datetime.now(timezone.utc)
+
+    try:
+        retried = retry_unpublished(_alert_store, ALERTS_PATH)
+        if retried:
+            print(f"[recovery] republished {len(retried)} lifecycle event(s) that hadn't reached the feed")
+    except Exception as retry_ex:
+        print(f"  alert-feed recovery pass error (non-fatal) — {retry_ex}")
 
     for pair in PAIRS:
         try:
@@ -200,16 +185,24 @@ def main() -> None:
                          "pattern": float(latest["pattern"]), "composite": float(latest["tech_score"])}
             pestle_dict = empty_pestle(pair)
 
-            try:
-                record_alert_lifecycle(pair, sig, tech_dict, float(latest["atr"]), now)
-            except Exception as lifecycle_ex:
-                print(f"  {pair}: alert-lifecycle recording error (non-fatal, existing behaviour unaffected) — {lifecycle_ex}")
-
-            prev = state.get(pair)
+            # state[pair] is kept for observability only — gating now comes
+            # entirely from alert_lifecycle_log.jsonl's own history (via
+            # classify_and_record's active_version_for_pair), which is why
+            # a genuine FIRST issuance for a pair now fires correctly
+            # instead of being silently suppressed the way the old
+            # prev-is-None guard used to suppress it.
             state[pair] = sig.direction
-            if prev is not None and sig.direction != prev:
-                log_signal(pair, sig)
-                push_alert(pair, sig, tech_dict, pestle_dict)
+            try:
+                lifecycle_events = record_alert_lifecycle_and_publish(
+                    pair, sig, tech_dict, pestle_dict, float(latest["atr"]), now)
+            except Exception as lifecycle_ex:
+                lifecycle_events = []
+                print(f"  {pair}: alert-lifecycle error (non-fatal, live_scan.json table still updates) — {lifecycle_ex}")
+            # legacy signals_log — driven by the SAME classification as the
+            # feed now, not a second independent direction-change check
+            for event in lifecycle_events:
+                if event["event_type"] in ("issued", "revised"):
+                    log_signal(pair, sig)
 
             sparkline = [round(float(v), 6) for v in df["close"].tail(SPARKLINE_BARS).tolist()]
             rows.append({
