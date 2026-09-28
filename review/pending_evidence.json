@@ -1,5 +1,71 @@
 [
   {
+    "id": 634,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Best Broker or Prop Firm? Vote in the Finance Magnates Awards 2026",
+    "description": "Which broker or prop firm gets your vote? The Finance Magnates Awards 2026 voting is now live, giving traders the chance to recognise the brokers and prop firms they know, use and trust. Whether you have been trading with the same broker for years, recently joined a prop firm, or have a brand you believe deserves more recognition, now is the time to have your say. Voting closes on 16 October 2026. VOTE NOW Your Broker. Your Vote. Traders interact with brokers and prop firms every day. From execution and trading platforms to account conditions, customer support and the overall trading experienc",
+    "published_at": "2026-09-28T10:14:00",
+    "source_url": "https://investinglive.com/news/best-broker-or-prop-firm-vote-in-the-finance-magnates-awards-2026/"
+  },
+  {
+    "id": 633,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive European session wrap: Higher yields hit gold as oil rallies and tech futures fall",
+    "description": "Headlines: Gold price breaks below $4,200 as surging Treasury yields deepen the technical damage Gold collapses as Trump rejects Iran's proposal to reopen Strait of Hormuz and signals new bombings Japanese yen jumps as top currency diplomat Mimura reiterates strong currency alliance with the US US jobs report could decide how much higher Treasury yields can go Stock earnings pick of the week: Can Micron earnings keep the AI memory boom running? Market outlook for the week of 28th September - 2nd October BoE's Ramsden warns persistent elevated energy prices could warrant a rate hike Markets: Go",
+    "published_at": "2026-09-28T11:55:49",
+    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-higher-yields-hit-gold-as-oil-rallies-and-tech-futures-fall/"
+  },
+  {
+    "id": 632,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Oil falls on reports of renewed US-Iran talks focused on amended version of Iran's seven-day proposal",
+    "description": "Diplomatic efforts between the US and Iran could resume as early as Monday or Tuesday, with mediators expected to hold separate discussions with both sides, according to an official briefed on the negotiations. Iranian Foreign MinisterAraghchi and Qatari mediators are expected to remain in the US as the talks take place. The discussions are reportedly focused on an amended version of Iran's seven-day proposal to reopen the Strait of Hormuz, which Tehran presented on the sidelines of the UN General Assembly. The development comes after hopes for a diplomatic breakthrough were revived over the w",
+    "published_at": "2026-09-28T12:27:27",
+    "source_url": "https://investinglive.com/news/oil-falls-on-reports-of-renewed-us-iran-talks-focused-on-amended-version-of-iran-s-seven-day-proposal/"
+  },
+  {
+    "id": 631,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "September Dallas Fed manufacturing business index 9.8 vs 11.6 prior",
+    "description": "Prior was 11.6 New orders 30.7 vs 22.0 prior Shipments 24.8 vs 14.1 prior Employment 15.1 vs 8.0 prior Capex 8.5 vs 8.2 prior Production 29.5 vs 16.1 prior Outlook 8.7 vs 19.2 prior The production index, a key measure of state manufacturing conditions, jumped 13 points to 29.5, which is a nice pickup but executives remain pessimistic. Here are the comments in the report: Beverage and tobacco product manufacturing Tariffs and fuel prices are affecting incoming and outgoing products/costs. Customers have hit the limit on what they can pay. We are getting pushback and cancellations. Machinery man",
+    "published_at": "2026-09-28T14:32:19",
+    "source_url": "https://investinglive.com/news/september-dallas-fed-manufacturing-business-index-9-8-vs-11-6-prior/"
+  },
+  {
+    "id": 630,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Iran foreign minister's stay in NY has not been extended",
+    "description": "Irib reports -- and it was confirmed by an Iranian spokesman -- that Aragchi's New York stay has not been extended. he met with mediators today but I imagine they relayed that the US hadn't accepted their proposal and hadn't offered anything constructive back. Oil shot higher on the report. This article was written by Adam Button at investinglive.com.",
+    "published_at": "2026-09-28T15:02:47",
+    "source_url": "https://investinglive.com/news/iran-foreign-minister-s-stay-in-ny-has-not-been-extended/"
+  },
+  {
+    "id": 629,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Christine Lagarde: Hearing of the Committee on Economic and Monetary Affairs of the European Parliament",
+    "description": "",
+    "published_at": "2026-09-28T13:30:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260928~a875675544.en.html"
+  },
+  {
     "id": 628,
     "status": "UNMATCHED",
     "was_matched": false,
