@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "id": 624,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China and U.S. to set up Trade Council and extend trade truce to January 2027",
+    "description": "An extended truce lowers the risk of a tariff flare-up in the near term, which tends to support risk sentiment across Asian equities and China-linked currencies. The agriculture working group and the comments on U.S. coal point to possible demand for American farm and energy exports, though no volumes or purchase commitments were disclosed. The tariff-reduction framework is the item traders will watch most closely, as its scope and timing are still undefined. The statements also leave the truce open to a further extension decision by year-end, so headlines from high-level contacts in coming mo",
+    "published_at": "2026-09-28T01:30:28",
+    "source_url": "https://investinglive.com/news/china-and-u-s-to-set-up-trade-council-and-extend-trade-truce-to-january-2027/"
+  },
+  {
+    "id": 623,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China industrial profits rise 4.2% in August, weakest monthly gain this year",
+    "description": "The slowdown in August puts the focus back on how much support Beijing will offer to protect corporate earnings, and economists quoted in the reports expect it to lean harder on stimulus. Any move would matter for Chinese and broader Asian equities, particularly industrial and materials names exposed to weak domestic demand. The persistent rise in energy costs cited in the reports is a further squeeze on margins for energy-intensive manufacturers, and it links the profit picture to crude oil. The strength in chips and computing equipment shows how narrow the earnings recovery is, so traders wi",
+    "published_at": "2026-09-28T01:59:09",
+    "source_url": "https://investinglive.com/news/china-industrial-profits-rise-4-2-in-august-weakest-monthly-gain-this-year/"
+  }
+]
