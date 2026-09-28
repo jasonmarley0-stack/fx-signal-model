@@ -1,5 +1,49 @@
 [
   {
+    "id": 628,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Asia-Pacific market news: Gold hit hard, under $4200 again",
+    "description": "Nikkei gives up early gains as Nasdaq futures slip before Micron earnings Treasury's $202 billion settlement is routine, not a Bitcoin trigger Goldman: US diesel export ban would cut US prices about 4%, lift European cost (d'uh) China industrial profits rise 4.2% in August, weakest monthly gain this year China and U.S. to set up Trade Council and extend trade truce to January 2027 PBOC sets USD/ CNY reference rate for today at 6.7399 (vs. estimate at 6.7085) Gold breaks key support, slides below $4,230 as danger zone gives way Japan services producer prices rise 3.7% in August, fastest pace in",
+    "published_at": "2026-09-28T03:44:22",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-gold-hit-hard-under-4200-again/"
+  },
+  {
+    "id": 627,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we don't have anything on the agenda today, so the markets will likely continue to trade based on the latest geopolitical developments. The week started on a negative note as Trump rejected Iran's latest proposal that would have reopened the Strait of Hormuz within seven days. Trump said that the conditions were unacceptable, but those conditions have been the same since the Memorandum of Understanding signed in June and that is the release of fronze Iranian funds, the lift of the sanctions and the US blockade, and finally the cessation of all hostilit",
+    "published_at": "2026-09-28T06:22:26",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-51/"
+  },
+  {
+    "id": 626,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US jobs report could decide how much higher Treasury yields can go",
+    "description": "It's only Monday but it feels like markets already have plenty to digest this week. Geopolitical tensions remain up in the air. Higher oil prices. Surging bond yields. Stocks and gold under threat again. It's all to play for with month-end and quarter-end volatility also set to kick into gear. But in terms of macro catalysts, the big one is arguably the US jobs report that will only come on Friday. The main worry for markets right now isn't that employment conditions suddenly look weak. It's almost the opposite. US economic activity has remained surprisingly resilient despite higher rates, and",
+    "published_at": "2026-09-28T06:27:41",
+    "source_url": "https://investinglive.com/news/us-jobs-report-could-decide-how-much-higher-treasury-yields-can-go/"
+  },
+  {
+    "id": 625,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Japanese yen jumps as top currency diplomat Mimura reiterates strong currency alliance with the US",
+    "description": "Japan is maintaining a close watch on the yen, with its top currency diplomat, Mimura, reiterating that authorities remain concerned about the currency's underlying moves and are prepared to respond if necessary . Mimura said that Japan, the finance minister and the US have sent a clear message regarding the yen, highlighting the close coordination between the two countries. He also pushed back against concerns that funding constraints could limit Japan's ability to conduct yen-buying intervention, saying he has \"absolutely no such concern\". The comments highlights that Japanese authorities co",
+    "published_at": "2026-09-28T08:17:49",
+    "source_url": "https://investinglive.com/news/japanese-yen-jumps-as-top-currency-diplomat-mimura-reiterates-strong-currency-alliance-with-the-us/"
+  },
+  {
     "id": 624,
     "status": "UNMATCHED",
     "was_matched": false,
