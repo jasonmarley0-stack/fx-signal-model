@@ -13,3 +13,4 @@ setup/oanda.env
 setup/fred.env
 signals_log/
 setup/dashboard.env
+.DS_Store
