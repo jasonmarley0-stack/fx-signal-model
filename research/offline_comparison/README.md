@@ -14,9 +14,12 @@ Takes under a minute. Reads the frozen dataset already committed at `research/of
 
 ```bash
 .venv/bin/python3 research/offline_comparison/test_replay_correctness.py
+.venv/bin/python3 research/offline_comparison/test_replay_engine_correctness.py
 ```
 
-Synthetic-fixture checks for timing (entry-window boundary exclusivity), cost accounting (ask-in/bid-out for a long, and vice versa for a short, spread visibly reducing R), ambiguity handling, and position-accounting suppression logic. These establish the *harness* behaves as specified — they are not strategy evidence (see `RESULTS.md`, which uses only the real dataset).
+The first: synthetic-fixture checks for timing (entry-window boundary exclusivity, entry-candle exits, holding-boundary open-vs-close pricing, gap handling), cost accounting (ask-in/bid-out for a long, and vice versa for a short), ambiguity handling, and position-accounting suppression/occupancy logic. The second: checks against the real dataset — decision timing (candle completion, not open), no-entry-before-earliest-permitted-time, lookahead-immunity (mutating every candle after a decision point cannot change that decision), and baseline parity with the real `combine_signal()` including its spread floor. Both establish the *harness* behaves as specified — they are not strategy evidence (see `RESULTS.md`, which is the only place strategy conclusions are drawn).
+
+`output_superseded_v1/` holds the pre-correction run, kept for the record with `SUPERSEDED.md` explaining why — do not draw conclusions from it.
 
 ## File map
 
@@ -33,8 +36,11 @@ Synthetic-fixture checks for timing (entry-window boundary exclusivity), cost ac
 | `metrics.py` | Aggregation: denominators, avg R, drawdown, by-month/by-pair, unknown-outcome bounds |
 | `sensitivity.py` | Cost and execution-delay sensitivity (re-scores existing issued versions, no new signal generation) |
 | `run_experiment.py` | The one command above |
+| `test_replay_correctness.py` | Synthetic-fixture scorer checks (timing, cost, ambiguity, gap handling, position accounting) |
+| `test_replay_engine_correctness.py` | Real-dataset engine checks (decision timing, lookahead-immunity, baseline/combine_signal parity) |
 | `RESULTS.md` | The actual findings, comparison table, recommendation, roadmap |
 | `ISSUES.md` | Consolidated issue list — fixed, deliberate-scope, and deferred |
+| `output_superseded_v1/` | The pre-correction run, kept for the record — see its `SUPERSEDED.md` |
 
 ## To re-fetch the dataset (not needed to reproduce the existing results)
 

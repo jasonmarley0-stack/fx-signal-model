@@ -43,30 +43,34 @@ def run_all_candidates(pair_data_by_pair: dict, dataset_end) -> list[dict]:
     return ledger
 
 
-def make_plots(candidate: str, dev_rows: list[dict], holdout_rows: list[dict], out_path: Path) -> None:
+def make_plots(candidate: str, dev_rows: list[dict], holdout_rows: list[dict], out_path: Path,
+                n_unknown_dev: int, n_unknown_holdout: int) -> None:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     dev_curve = m.cumulative_r_and_drawdown(dev_rows)
     holdout_curve = m.cumulative_r_and_drawdown(holdout_rows)
+    partial = (n_unknown_dev + n_unknown_holdout) > 0
 
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 6), sharex=False,
                                     gridspec_kw={"height_ratios": [2, 1]})
     offset = 0.0
-    for label, curve, color in (("dev", dev_curve, "tab:blue"), ("holdout", holdout_curve, "tab:orange")):
+    for label, curve, color, n_unk in (("dev", dev_curve, "tab:blue", n_unknown_dev),
+                                        ("holdout", holdout_curve, "tab:orange", n_unknown_holdout)):
         if curve.empty:
             continue
         x = range(len(curve))
-        ax1.plot(x, curve["cumulative_r"] + offset, label=f"{label} (n={len(curve)})", color=color)
+        ax1.plot(x, curve["cumulative_r"] + offset, label=f"{label} (n={len(curve)} completed, {n_unk} unknown excluded)", color=color)
         ax2.fill_between(x, curve["drawdown_r"], 0, color=color, alpha=0.5, step=None)
-    ax1.set_title(f"{candidate}: cumulative net R (resolved trades, chronological by exit)")
+    title_prefix = "PARTIAL — completed trades only, unknown-outcome trades excluded\n" if partial else ""
+    ax1.set_title(f"{title_prefix}{candidate}: cumulative net R (completed trades, chronological by exit)", fontsize=10)
     ax1.set_ylabel("Cumulative R")
-    ax1.legend()
+    ax1.legend(fontsize=8)
     ax1.axhline(0, color="gray", linewidth=0.5)
-    ax2.set_title("Drawdown (R)")
+    ax2.set_title("Drawdown (R) — same partial, completed-trades-only basis", fontsize=10)
     ax2.set_ylabel("Drawdown R")
-    ax2.set_xlabel("Resolved trade #")
+    ax2.set_xlabel("Completed trade #")
     fig.tight_layout()
     fig.savefig(out_path)
     plt.close(fig)
@@ -90,13 +94,17 @@ def main() -> None:
                                          ("full", DEV_START, HOLDOUT_END)):
             rows = m.candidate_ledger(ledger, candidate, start, end)
             s = m.summarize(rows)
-            bounds = m.unknown_outcome_bounds(rows)
+            scenario = m.unknown_outcome_sensitivity(rows)
             curve = m.cumulative_r_and_drawdown(rows)
-            max_dd = curve["drawdown_r"].min() if not curve.empty else None
-            summary_rows.append({"candidate": candidate, "period": period_name, **s,
-                                  "max_drawdown_r": max_dd,
-                                  "unknown_best_case_avg_r": bounds["best_case_avg_r"],
-                                  "unknown_worst_case_avg_r": bounds["worst_case_avg_r"]})
+            max_dd_r = curve["drawdown_r"].min() if not curve.empty else None
+            summary_rows.append({
+                "candidate": candidate, "period": period_name, **s,
+                "max_drawdown_r_PARTIAL_completed_trades_only": max_dd_r,
+                "max_drawdown_r_label": "R drawdown on completed trades only (partial if unknown_total>0) — NOT an account-percentage drawdown",
+                "unknown_outcome_scenario_assumption": scenario["assumption"],
+                "unknown_outcome_scenario_best_observed_avg_r": scenario["scenario_all_best_observed_avg_r"],
+                "unknown_outcome_scenario_worst_observed_avg_r": scenario["scenario_all_worst_observed_avg_r"],
+            })
 
         by_month_df = m.by_month(m.candidate_ledger(ledger, candidate, DEV_START, HOLDOUT_END),
                                   period_start=DEV_START, period_end=HOLDOUT_END)
@@ -106,7 +114,9 @@ def main() -> None:
 
         dev_rows = m.candidate_ledger(ledger, candidate, DEV_START, DEV_END)
         holdout_rows = m.candidate_ledger(ledger, candidate, HOLDOUT_START, HOLDOUT_END)
-        make_plots(candidate, dev_rows, holdout_rows, OUT_DIR / f"equity_{candidate}.png")
+        n_unknown_dev = m.summarize(dev_rows)["unknown_total"]
+        n_unknown_holdout = m.summarize(holdout_rows)["unknown_total"]
+        make_plots(candidate, dev_rows, holdout_rows, OUT_DIR / f"equity_{candidate}.png", n_unknown_dev, n_unknown_holdout)
 
     summary_df = pd.DataFrame(summary_rows)
     summary_df.to_csv(OUT_DIR / "summary_by_candidate_period.csv", index=False)
@@ -130,11 +140,11 @@ def main() -> None:
 
         sensitivity_rows.append({
             "candidate": candidate,
-            "avg_r_real_bid_ask": base_avg, "n_real": len(base_r),
-            "avg_r_zero_cost_mid": mid_avg, "n_mid": len(mid_r),
-            "cost_impact_r": (base_avg - mid_avg) if (base_avg is not None and mid_avg is not None) else None,
-            "avg_r_plus_30min_delay": delay_avg, "n_delay": len(delay_r),
-            "delay_impact_r": (delay_avg - base_avg) if (base_avg is not None and delay_avg is not None) else None,
+            "avg_r_per_completed_trade_real_bid_ask": base_avg, "n_completed_real": len(base_r),
+            "avg_r_per_completed_trade_zero_cost_mid": mid_avg, "n_completed_mid": len(mid_r),
+            "cost_impact_r_per_completed_trade": (base_avg - mid_avg) if (base_avg is not None and mid_avg is not None) else None,
+            "avg_r_per_completed_trade_plus_30min_delay": delay_avg, "n_completed_delay": len(delay_r),
+            "delay_impact_r_per_completed_trade": (delay_avg - base_avg) if (base_avg is not None and delay_avg is not None) else None,
         })
     sensitivity_df = pd.DataFrame(sensitivity_rows)
     sensitivity_df.to_csv(OUT_DIR / "sensitivity.csv", index=False)

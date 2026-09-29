@@ -13,6 +13,7 @@ rule, not to a difference in execution assumptions.
 """
 from __future__ import annotations
 from dataclasses import dataclass, field
+from datetime import timedelta
 
 BASELINE_COMMIT = "ef5d480"          # alert-lifecycle-prospective-scoring tip this research branch was cut from
 FETCH_DATE = "2026-09-29"            # when fetch_research_data.py pulled the OANDA bid/ask dataset this replay uses
@@ -20,6 +21,22 @@ FETCH_DATE = "2026-09-29"            # when fetch_research_data.py pulled the OA
 # --- Evaluation contract (identical across all three candidates) ---
 DECISION_GRANULARITY = "H4"          # signals are decided once per H4 bar close, matching the live scanner's cadence
 OUTCOME_GRANULARITY = "M30"          # entry/exit checked at M30 resolution, matching performance_scorer.py's existing precedent
+
+# OANDA candle `time` is the candle's OPEN. A fixed-duration candle type's
+# completion is always open + its own duration -- computed directly, never
+# inferred from "the next row present in the dataset", which would be
+# wrong across a data gap (e.g. a weekend) where the next available
+# candle's own timestamp is not open+duration later.
+CANDLE_DURATIONS = {"H4": timedelta(hours=4), "M30": timedelta(minutes=30)}
+
+# The earliest a decision could be published is once its own H4 candle has
+# actually closed (source_candle_completion). EXECUTION_DELAY_MINUTES is
+# an explicit, separate, fixed additional delay before that decision may
+# be acted on -- 0 under this contract (decision time IS the earliest
+# permitted entry time), recorded as its own field on every ledger row
+# regardless, so decision time and earliest-permitted-entry time are never
+# conflated even though they are numerically equal here.
+EXECUTION_DELAY_MINUTES = 0
 ENTRY_VALIDITY_HOURS = 4.0           # "do not enter after this time" -- one H4 bar's worth; a fixed, stated choice, not tuned
 MAX_HOLDING_TIME_HOURS = 30.0        # matches performance_scorer.py's MAX_LOOKAHEAD_HOURS, for continuity, not re-validated here
 ENTRY_TOLERANCE_ATR_MULTIPLE = 0.10  # entry condition = decision bar's own close +/- this fraction of ATR

@@ -29,41 +29,36 @@ from data_loader import PairData, WARMUP_START  # noqa: E402
 import configs as cfg  # noqa: E402
 from replay_scorer import score_replay_version  # noqa: E402
 from alert_lifecycle import AlertLifecycleStore, classify_and_record, guarded_entry_expiry  # noqa: E402
+from combiner import combine_signal  # noqa: E402  (the ACTUAL frozen production combiner -- see _combiner_levels)
 
 from strategies.composite import technical_score  # noqa: E402  (existing, unmodified baseline)
 from genuine_orb import genuine_orb_technical_score  # noqa: E402
 from trend_pullback import trend_pullback_levels  # noqa: E402
 
 
-def _confidence_and_rr(magnitude: float) -> tuple[str, float]:
-    """Baseline/genuine_orb confidence tiering -- identical to src/combiner.py's
-    thresholds (CONFIDENCE_MEDIUM=0.35, CONFIDENCE_HIGH=0.6, STRONG_AGREEMENT=0.75,
-    rr=2.0 only if high AND magnitude>=0.75 else 1.5), imported as constants
-    here rather than re-importing combiner.py's whole signal-generation path,
-    which also needs an `entry`/`atr_value` this replay computes itself."""
-    if magnitude >= 0.6:
-        confidence = "high"
-    elif magnitude >= 0.35:
-        confidence = "medium"
-    else:
-        confidence = "low"
-    rr = 2.0 if (confidence == "high" and magnitude >= 0.75) else 1.5
-    return confidence, rr
-
-
-def _baseline_or_orb_levels(tech_row: pd.Series, entry_price: float, atr_value: float) -> dict | None:
+def _combiner_levels(pair: str, tech_row: pd.Series, entry_price: float, atr_value: float) -> dict | None:
+    """Calls the ACTUAL frozen production combine_signal() (src/combiner.py),
+    not a hand-rolled reimplementation of its thresholds/formula. The
+    earlier version of this function reimplemented the confidence tiers
+    and SL/TP formula by hand and, in doing so, silently omitted the
+    spread floor (MIN_RISK_SPREAD_MULTIPLE) combine_signal() applies --
+    corrected by calling the real function directly, so parity with
+    production is guaranteed by construction rather than approximated.
+    Used for both baseline and genuine_orb (both reuse the same combiner;
+    only their tech_score input differs). alpha=1.0 and pestle_score=0.0
+    match live_scanner.py's actual deployed configuration exactly (tech-
+    only, no PESTLE) -- NOT combiner.py's own default alpha=0.6."""
     score = tech_row["tech_score"]
-    if abs(score) < 0.35 or pd.isna(score) or pd.isna(atr_value) or atr_value == 0:
+    if pd.isna(score) or pd.isna(atr_value) or atr_value == 0:
         return None
-    direction = "long" if score > 0 else "short"
-    confidence, rr = _confidence_and_rr(abs(score))
-    sl_near, sl_far = 1.5 * atr_value, 2.25 * atr_value
-    tp_far = rr * atr_value
-    if direction == "long":
-        stop, target = entry_price - sl_near, entry_price + tp_far
-    else:
-        stop, target = entry_price + sl_near, entry_price - tp_far
-    return {"direction": direction, "confidence": confidence, "combined_score": float(score),
+    sig = combine_signal(pair=pair, entry=entry_price, atr_value=atr_value,
+                          tech_score=float(score), pestle_score=0.0, alpha=1.0, generated_at=None)
+    if sig.direction == "no_trade":
+        return None
+    sl_lo, sl_hi = sig.stop_loss_range
+    tp_lo, tp_hi = sig.take_profit_range
+    stop, target = (sl_hi, tp_hi) if sig.direction == "long" else (sl_lo, tp_lo)
+    return {"direction": sig.direction, "confidence": sig.confidence, "combined_score": float(sig.combined_score),
             "entry": entry_price, "stop": stop, "target": target, "atr": atr_value}
 
 
@@ -81,7 +76,7 @@ def compute_signal_series(candidate: str, pair_data: PairData) -> pd.DataFrame:
     rows = []
     for ts, bar in h4_mid.iterrows():
         tech_row = tech.loc[ts]
-        levels = _baseline_or_orb_levels(tech_row, entry_price=float(bar["close"]), atr_value=float(tech_row["atr"]))
+        levels = _combiner_levels(pair_data.pair, tech_row, entry_price=float(bar["close"]), atr_value=float(tech_row["atr"]))
         if levels is None:
             rows.append({"direction": "no_trade", "confidence": None, "combined_score": float(tech_row["tech_score"]) if not pd.isna(tech_row["tech_score"]) else 0.0,
                           "entry": None, "stop": None, "target": None, "atr": float(tech_row["atr"]) if not pd.isna(tech_row["atr"]) else None,
@@ -128,20 +123,40 @@ def run_replay(candidate: str, pair_data: PairData, dataset_end: datetime) -> li
         store.path.unlink()
 
     ledger: list[dict] = []
-    open_position: dict | None = None  # {"exit_time": datetime|None, "version": dict} while unresolved
+    open_position: dict | None = None  # {"exit_time": datetime, "conservative_occupancy": bool} while unresolved
+    h4_duration = cfg.CANDLE_DURATIONS["H4"]
 
     for ts in eligible_index:
         row = signal_series.loc[ts]
-        ts_dt = ts.to_pydatetime()
+        # ts is the SOURCE H4 CANDLE'S OWN OPEN (OANDA candle `time` = open
+        # time). Its close/high/low/tech_score are only knowable once that
+        # candle has actually completed -- decision_time is that
+        # completion, computed directly (open + fixed duration), never
+        # inferred from the next available row (wrong across a data gap).
+        # This contract's execution delay is 0, so decision_time IS the
+        # earliest permitted entry time -- kept as a separate named value
+        # regardless, so the two concepts are never silently conflated.
+        source_candle_start = ts.to_pydatetime()
+        source_candle_completion = source_candle_start + h4_duration
+        decision_time = source_candle_completion
+        earliest_permitted_entry_time = decision_time + timedelta(minutes=cfg.EXECUTION_DELAY_MINUTES)
+        timing_fields = {
+            "source_candle_start_utc": source_candle_start.isoformat(),
+            "source_candle_completion_utc": source_candle_completion.isoformat(),
+            "decision_time_utc": decision_time.isoformat(),
+            "earliest_permitted_entry_time_utc": earliest_permitted_entry_time.isoformat(),
+        }
 
         if open_position is not None:
-            if open_position["exit_time"] is not None and open_position["exit_time"] <= ts_dt:
+            if open_position["exit_time"] is not None and open_position["exit_time"] <= decision_time:
                 open_position = None
             else:
                 ledger.append({
                     "pair": pair, "candidate": candidate, "event_type": "suppressed_existing_position",
-                    "recorded_at_utc": ts_dt.isoformat(), "hypothetical": True,
+                    "recorded_at_utc": decision_time.isoformat(), "hypothetical": True,
                     "alert_id": None, "lineage_id": None, "direction": row["direction"],
+                    "conservative_occupancy": open_position.get("conservative_occupancy", False),
+                    **timing_fields,
                 })
                 continue
 
@@ -158,7 +173,7 @@ def run_replay(candidate: str, pair_data: PairData, dataset_end: datetime) -> li
             combined_score=row["combined_score"] if row["combined_score"] is not None else 0.0,
             entry_price=row["entry"], atr_value=atr_value, stop=row["stop"], target=row["target"],
             technical_inputs=row["technical_inputs"], pestle_inputs=None, pestle_used=False,
-            reason=f"{candidate} replay signal", calculated_at=ts_dt, published_at=ts_dt,
+            reason=f"{candidate} replay signal", calculated_at=decision_time, published_at=earliest_permitted_entry_time,
             entry_tolerance=cfg.ENTRY_TOLERANCE_ATR_MULTIPLE * atr_value,
             entry_validity_minutes=int(cfg.ENTRY_VALIDITY_HOURS * 60),
             max_holding_time_hours=cfg.MAX_HOLDING_TIME_HOURS,
@@ -166,6 +181,7 @@ def run_replay(candidate: str, pair_data: PairData, dataset_end: datetime) -> li
 
         for event in events:
             event["hypothetical"] = True
+            event.update(timing_fields)
             if event["event_type"] != "issued" and event["event_type"] != "revised":
                 ledger.append({**event, "candidate": candidate, "state": event.get("event_type")})
                 continue
@@ -178,16 +194,31 @@ def run_replay(candidate: str, pair_data: PairData, dataset_end: datetime) -> li
                 "max_holding_time_hours": event["max_holding_time_hours"],
             }
             window_end = min(datetime.fromisoformat(event["entry_expiry_utc"]),
-                              ts_dt + timedelta(hours=cfg.ENTRY_VALIDITY_HOURS))
+                              earliest_permitted_entry_time + timedelta(hours=cfg.ENTRY_VALIDITY_HOURS))
             scored = score_replay_version(version, window_end, "entry_expiry", pair_data.m30_bid, pair_data.m30_ask, now=dataset_end)
             ledger.append({**event, "candidate": candidate, **scored})
 
-            if scored.get("assumed_entry_time_utc") and scored["state"] in ("open",):
-                open_position = {"exit_time": None, "version": event}
-            elif scored.get("assumed_entry_time_utc") and scored.get("exit_time_utc"):
-                exit_dt = datetime.fromisoformat(scored["exit_time_utc"])
-                if exit_dt > ts_dt:
-                    open_position = {"exit_time": exit_dt, "version": event}
+            entered = scored.get("assumed_entry_time_utc") is not None
+            if entered:
+                if scored.get("exit_time_utc"):
+                    exit_dt = datetime.fromisoformat(scored["exit_time_utc"])
+                    conservative_occupancy = False
+                else:
+                    # entered but no clean exit_time_utc: ambiguous_intrabar_exit,
+                    # incomplete_coverage, or still 'open' at dataset_end. An
+                    # ambiguous/incomplete outcome must not silently free the
+                    # pair for a new entry -- conservatively reserve it for the
+                    # full stated holding window from entry, since we cannot
+                    # confirm when (or whether) it actually resolved. This
+                    # reduces this pair's opportunity count versus treating it
+                    # as immediately free; flagged via conservative_occupancy
+                    # on every suppressed row this produces, and summarised in
+                    # RESULTS.md.
+                    entry_dt = datetime.fromisoformat(scored["assumed_entry_time_utc"])
+                    exit_dt = entry_dt + timedelta(hours=version["max_holding_time_hours"])
+                    conservative_occupancy = True
+                if exit_dt > decision_time:
+                    open_position = {"exit_time": exit_dt, "conservative_occupancy": conservative_occupancy}
 
     if store.path.exists():
         store.path.unlink()

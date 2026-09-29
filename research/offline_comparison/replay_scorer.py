@@ -85,7 +85,15 @@ def score_replay_version(version: dict, effective_entry_window_end: datetime, ef
     risk = abs(entry_price - stop)
     max_exit_time = entry_time + timedelta(hours=version["max_holding_time_hours"])
 
-    post_entry = exit_series[(exit_series.index > pd.Timestamp(entry_time)) & (exit_series.index <= pd.Timestamp(min(max_exit_time, now)))]
+    # >= entry_time, NOT > — the entry candle itself must be checked too.
+    # Entry happens at that candle's OPEN, so the same candle's high/low
+    # can still reach stop/target (or both) before the candle closes;
+    # excluding it lets a later candle's clean hit override an entry
+    # candle that was itself already stopped/ambiguous — this exact bug
+    # was already found and fixed once in src/alert_scorer.py and was
+    # reintroduced here when this module was written from scratch;
+    # corrected here to match.
+    post_entry = exit_series[(exit_series.index >= pd.Timestamp(entry_time)) & (exit_series.index <= pd.Timestamp(min(max_exit_time, now)))]
     for ts, bar in post_entry.iterrows():
         hit_stop = (bar["low"] <= stop) if d == 1 else (bar["high"] >= stop)
         hit_target = (bar["high"] >= target) if d == 1 else (bar["low"] <= target)
@@ -93,19 +101,37 @@ def score_replay_version(version: dict, effective_entry_window_end: datetime, ef
             result["state"] = "ambiguous_intrabar_exit"
             return result
         if hit_stop:
-            result.update(state="stopped", exit_time_utc=ts.to_pydatetime().isoformat(), exit_price=stop,
-                          r_multiple=(d * (stop - entry_price) / risk if risk else None))
+            # Gap handling: if the bar's own OPEN has already crossed the
+            # stop, the first available quote in this bar was already
+            # through it — pricing the exit exactly at the stop level
+            # would assume a fill that was never actually quoted. Use the
+            # bar's open (the first real observed price past the level)
+            # instead; only price exactly at the stop when the level was
+            # reached via the bar's high/low, not gapped through at open.
+            gapped = (bar["open"] <= stop) if d == 1 else (bar["open"] >= stop)
+            exit_price = float(bar["open"]) if gapped else stop
+            result.update(state="stopped", exit_time_utc=ts.to_pydatetime().isoformat(), exit_price=exit_price,
+                          r_multiple=(d * (exit_price - entry_price) / risk if risk else None))
             return result
         if hit_target:
-            result.update(state="targeted", exit_time_utc=ts.to_pydatetime().isoformat(), exit_price=target,
-                          r_multiple=(d * (target - entry_price) / risk if risk else None))
+            gapped = (bar["open"] >= target) if d == 1 else (bar["open"] <= target)
+            exit_price = float(bar["open"]) if gapped else target
+            result.update(state="targeted", exit_time_utc=ts.to_pydatetime().isoformat(), exit_price=exit_price,
+                          r_multiple=(d * (exit_price - entry_price) / risk if risk else None))
             return result
 
     if max_exit_time <= now:
         interval = _candle_interval(exit_series)
         exit_bars = exit_series[exit_series.index <= pd.Timestamp(max_exit_time)]
         if not exit_bars.empty and (pd.Timestamp(max_exit_time) - exit_bars.index[-1]) <= interval:
-            exit_price = float(exit_bars.iloc[-1]["close"])
+            # Candle timestamps denote their OPEN. The last qualifying bar's
+            # open is at-or-before max_exit_time, but its CLOSE represents a
+            # later instant (open + one interval), which can fall AFTER the
+            # deadline — using close would price the exit off information
+            # from after the boundary it's meant to represent. Use that
+            # bar's own open instead: the latest price actually known at or
+            # before the deadline.
+            exit_price = float(exit_bars.iloc[-1]["open"])
             result.update(state="time_exited", exit_time_utc=max_exit_time.isoformat(), exit_price=exit_price,
                           r_multiple=(d * (exit_price - entry_price) / risk if risk else None))
         else:
