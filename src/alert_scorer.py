@@ -153,7 +153,14 @@ def score_version(version: dict, lineage_sorted: list[dict], candles: pd.DataFra
     risk = abs(entry_price - stop)
     max_exit_time = entry_time + timedelta(hours=version["max_holding_time_hours"])
 
-    post_entry = candles[(candles.index > pd.Timestamp(entry_time)) & (candles.index <= pd.Timestamp(min(max_exit_time, now)))]
+    # >= entry_time, NOT > — the entry candle itself must be checked too.
+    # Entry happens at that candle's OPEN, so the same candle's high/low
+    # can still reach stop/target (or both, ambiguously) before the candle
+    # closes; excluding it let a later candle's clean target hit override
+    # an unresolved or stopped-out entry candle and report a false win
+    # (Codex's repro: entry candle crosses both levels, a later candle
+    # reaches target, old code reported ~+1R instead of ambiguous).
+    post_entry = candles[(candles.index >= pd.Timestamp(entry_time)) & (candles.index <= pd.Timestamp(min(max_exit_time, now)))]
     for ts, bar in post_entry.iterrows():
         hit_stop = (bar["low"] <= stop) if direction == 1 else (bar["high"] >= stop)
         hit_target = (bar["high"] >= target) if direction == 1 else (bar["low"] <= target)

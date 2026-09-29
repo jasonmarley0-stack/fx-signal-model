@@ -14,7 +14,7 @@ from pathlib import Path
 from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-from alert_lifecycle import AlertLifecycleStore  # noqa: E402
+from alert_lifecycle import AlertLifecycleStore, FEED_PUBLISH_STATUS_WRITTEN  # noqa: E402
 import alert_feed_publisher as afp  # noqa: E402
 from alert_feed_publisher import record_and_publish, retry_unpublished  # noqa: E402
 
@@ -48,7 +48,7 @@ def test_first_issue_reaches_feed_with_matching_ids():
     assert feed[0]["lineage_id"] == events[0]["lineage_id"]
     assert feed[0]["entry"] == events[0]["entry_price"]
     assert feed[0]["stop"] == events[0]["stop"] and feed[0]["target"] == events[0]["target"]
-    assert store.feed_publish_status_by_event_id()[events[0]["event_id"]] == "delivered"
+    assert store.feed_publish_status_by_event_id()[events[0]["event_id"]] == FEED_PUBLISH_STATUS_WRITTEN
     print("first issue reaches feed with matching IDs/levels: OK")
 
 
@@ -160,7 +160,7 @@ def test_publish_failure_is_visible_and_recoverable_without_duplication():
     feed = _feed_alerts(alerts_path)
     assert len(feed) == 1, f"retry must publish exactly once, got {len(feed)}"
     assert feed[0]["alert_id"] == events[0]["alert_id"]
-    assert store.feed_publish_status_by_event_id()[events[0]["event_id"]] == "delivered"
+    assert store.feed_publish_status_by_event_id()[events[0]["event_id"]] == FEED_PUBLISH_STATUS_WRITTEN
 
     # a second retry pass must not duplicate the now-delivered event
     retried_again = retry_unpublished(store, alerts_path)

@@ -79,6 +79,34 @@ def test_intrabar_stop_and_target_ambiguous():
     print("intrabar stop/target ambiguity: OK")
 
 
+def test_entry_candle_itself_crossing_both_levels_is_not_skipped():
+    """Regression test for the exact case Codex reproduced against 03768e4:
+    the ENTRY candle's own open confirms entry AND that same candle's
+    high/low crosses both stop and target, so the true first event is
+    ambiguous. A later candle then reaches target cleanly. The old
+    post-entry scan started strictly AFTER entry_time, so it skipped the
+    entry candle entirely and reported the later candle's clean target hit
+    as the outcome — approximately +1R — instead of recognising the entry
+    candle itself was already ambiguous. Must report ambiguous_intrabar_exit,
+    not targeted, and must not report a positive r_multiple."""
+    store = _store()
+    issued = _issue(store, entry_price=1.1000, stop=1.0950, target=1.1075, atr_value=0.0050, max_holding_time_hours=10)
+    rows = {
+        # entry candle: open confirms entry AND its own high/low crosses both stop and target
+        T0: {"open": 1.1000, "high": 1.1090, "low": 1.0900, "close": 1.1020},
+        # a later candle reaches target cleanly — must NOT be what gets reported
+        T0 + timedelta(minutes=30): {"open": 1.1020, "high": 1.1080, "low": 1.1010, "close": 1.1076},
+    }
+    candles = _bars(rows)
+    result = score_version(issued, [issued], candles, now=T0 + timedelta(hours=1))
+    assert result["state"] == "ambiguous_intrabar_exit", (
+        f"expected ambiguous_intrabar_exit for the entry candle itself, got {result['state']} "
+        f"(r_multiple={result.get('r_multiple')}) — the entry candle was skipped")
+    assert result["exit_price"] is None
+    assert result["r_multiple"] is None, "must not report a false win from a later candle when the entry candle itself was ambiguous"
+    print("entry candle crossing both levels is not skipped in favour of a later candle: OK")
+
+
 def test_entry_price_outside_condition_not_fabricated():
     """A bar whose high/low merely touches the entry range, without its
     OPEN landing inside it, must not be priced at that bar's close (which
@@ -171,6 +199,7 @@ def test_coverage_window_grows_with_history_beyond_60_days():
 if __name__ == "__main__":
     test_expiry_boundary_bar_excluded()
     test_intrabar_stop_and_target_ambiguous()
+    test_entry_candle_itself_crossing_both_levels_is_not_skipped()
     test_entry_price_outside_condition_not_fabricated()
     test_missing_candles_at_time_exit_incomplete_coverage()
     test_fetch_error_for_one_pair_does_not_block_others()

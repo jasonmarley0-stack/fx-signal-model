@@ -22,6 +22,13 @@ from sessions import SESSIONS, PRIMARY_SESSION, session_close_datetime  # noqa: 
 
 SCHEMA_VERSION = "alert_lifecycle_v1"
 
+# Named deliberately (not "delivered") per Codex's review: this only ever
+# means the feed entry was successfully written to alerts.json. Browser
+# receipt, a fired Notification, and whether a subscriber actually saw it
+# are separate, entirely unobserved facts this system has no record of —
+# nothing should read this status as proof of any of those.
+FEED_PUBLISH_STATUS_WRITTEN = "written_to_feed_file"
+
 # --- decision points, flagged in IMPLEMENTATION_NOTE_ALERT_LIFECYCLE.md ---
 DEFAULT_ENTRY_VALIDITY_MINUTES = 90       # mirrors sessions.DEFAULT_SIGNAL_VALIDITY_MINUTES, for continuity only
 DEFAULT_MAX_HOLDING_HOURS = 30            # mirrors performance_scorer.MAX_LOOKAHEAD_HOURS, for continuity only
@@ -100,7 +107,17 @@ class AlertLifecycleStore:
         """Latest feed_publish_result status per source lifecycle event_id
         (issued/revised/cancelled). Used both to decide what still needs
         (re)publishing and, in tests, to assert nothing was silently
-        dropped between persistence and the user-facing feed."""
+        dropped between persistence and the user-facing feed.
+
+        Status values, deliberately named to avoid overclaiming (see
+        record_feed_publish_result docstring):
+          - FEED_PUBLISH_STATUS_WRITTEN: the entry was successfully
+            appended to alerts.json (the feed file). This is NOT
+            confirmation that a browser received it, a Notification fired,
+            or a subscriber saw it — none of that is observed anywhere in
+            this system, and this status must never be read as if it were.
+          - 'failed': the write itself did not succeed (see the paired
+            'error' field)."""
         status: dict[str, str] = {}
         for e in self.read_all():
             if e.get("event_type") == "feed_publish_result":
@@ -108,23 +125,29 @@ class AlertLifecycleStore:
         return status
 
     def unpublished_events(self) -> list[dict]:
-        """issued/revised/cancelled lifecycle events with no 'delivered'
-        feed_publish_result — i.e. events that may exist only in this log,
-        which the core acceptance rule says must not happen silently. A
-        caller (live_scanner.py at the top of its next poll, or an
-        operator running a recovery pass) can retry publishing these."""
+        """issued/revised/cancelled lifecycle events with no
+        FEED_PUBLISH_STATUS_WRITTEN feed_publish_result — i.e. events that
+        may exist only in this log, which the core acceptance rule says
+        must not happen silently. A caller (live_scanner.py at the top of
+        its next poll, or an operator running a recovery pass) can retry
+        publishing these."""
         status = self.feed_publish_status_by_event_id()
         return [e for e in self.read_all()
                 if e.get("event_type") in ("issued", "revised", "cancelled")
-                and status.get(e["event_id"]) != "delivered"]
+                and status.get(e["event_id"]) != FEED_PUBLISH_STATUS_WRITTEN]
 
     def record_feed_publish_result(self, source_event: dict, status: str, error: str | None = None) -> dict:
         """Appends a feed_publish_result record linked to the lifecycle
         event it corresponds to. Never mutates the original event — keeps
         the append-only/immutable guarantee while making publish
         failures visible (status='failed') and recoverable (re-run
-        unpublished_events() and retry) instead of silently assuming a
-        written log line means a subscriber was notified."""
+        unpublished_events() and retry).
+
+        `status=FEED_PUBLISH_STATUS_WRITTEN` means exactly and only "this
+        entry was successfully written to alerts.json" — receipt by a
+        browser, a fired Notification, and whether any subscriber actually
+        saw it remain entirely unobserved in this system and must not be
+        inferred from this status (see CODEX_ALERT_LIFECYCLE_CORRECTIONS_2.md)."""
         return self.append({
             "event_id": new_id(), "event_type": "feed_publish_result",
             "source_event_id": source_event["event_id"],

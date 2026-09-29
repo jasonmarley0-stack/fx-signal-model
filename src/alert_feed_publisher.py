@@ -18,7 +18,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from alert_lifecycle import AlertLifecycleStore, classify_and_record
+from alert_lifecycle import AlertLifecycleStore, classify_and_record, FEED_PUBLISH_STATUS_WRITTEN
 
 MAX_ALERTS = 50
 
@@ -90,13 +90,16 @@ def record_and_publish(store: AlertLifecycleStore, alerts_path: Path, tech: dict
     """The single call site live_scanner.py uses in place of the old,
     independent record_alert_lifecycle() + push_alert() pair. Persists via
     classify_and_record, then publishes every resulting event to the feed,
-    recording a feed_publish_result for each — so persistence succeeding
-    is never mistaken for a subscriber having been notified."""
+    recording a feed_publish_result for each. FEED_PUBLISH_STATUS_WRITTEN
+    means the entry reached alerts.json — it is not, and must not be read
+    as, confirmation a subscriber was notified (browser receipt and
+    notification delay remain entirely unobserved; see
+    src/alert_lifecycle.py's FEED_PUBLISH_STATUS_WRITTEN docstring)."""
     events = classify_and_record(store, **classify_kwargs)
     for event in events:
         try:
             publish_to_feed(alerts_path, event, tech, pestle)
-            store.record_feed_publish_result(event, status="delivered")
+            store.record_feed_publish_result(event, status=FEED_PUBLISH_STATUS_WRITTEN)
         except Exception as ex:  # noqa: BLE001 — must not crash the scanner's other pairs; failure is recorded, not swallowed
             store.record_feed_publish_result(event, status="failed", error=str(ex))
     return events
@@ -104,15 +107,15 @@ def record_and_publish(store: AlertLifecycleStore, alerts_path: Path, tech: dict
 
 def retry_unpublished(store: AlertLifecycleStore, alerts_path: Path) -> list[dict]:
     """Recovery pass for events whose latest feed_publish_result isn't
-    'delivered' (including ones never attempted). The original tech/pestle
-    breakdown isn't recoverable after the fact, so a retried feed entry
-    carries empty dicts for those — the IDs/levels/timestamps the
-    acceptance rule cares about are unaffected."""
+    FEED_PUBLISH_STATUS_WRITTEN (including ones never attempted). The
+    original tech/pestle breakdown isn't recoverable after the fact, so a
+    retried feed entry carries empty dicts for those — the IDs/levels/
+    timestamps the acceptance rule cares about are unaffected."""
     retried = []
     for event in store.unpublished_events():
         try:
             publish_to_feed(alerts_path, event, {}, {})
-            store.record_feed_publish_result(event, status="delivered")
+            store.record_feed_publish_result(event, status=FEED_PUBLISH_STATUS_WRITTEN)
             retried.append(event)
         except Exception as ex:  # noqa: BLE001
             store.record_feed_publish_result(event, status="failed", error=str(ex))

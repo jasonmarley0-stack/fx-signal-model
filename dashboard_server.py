@@ -9,10 +9,10 @@ upstream.
 
 Two views, switched client-side (no full page reload, so in-page state —
 alert tracking, notification permission — survives switching):
-  - Live: a feed of fired-signal cards (full technical + PESTLE evidence
-    breakdown per card — see streaming_scanner.py's push_alert, which
-    persists that breakdown specifically so this page can show it) above
-    the market table. Polls /alerts every 5s for notification purposes
+  - Live: a feed of alert cards (full technical + PESTLE evidence
+    breakdown per card — see alert_feed_publisher.py's record_and_publish,
+    which persists that breakdown specifically so this page can show it)
+    above the market table. Polls /alerts every 5s for notification purposes
     (pops a browser Notification, plays a beep, flashes the row); when
     that poll finds something genuinely new it also refreshes the feed
     via /feed and the table via /table (partials, not a full reload, so
@@ -223,17 +223,37 @@ def evidence_html(evidence: list[dict] | None) -> str:
 
 
 def alert_card_html(alert: dict) -> str:
-    """Renders one fired-signal alert with its full technical + PESTLE
-    breakdown — the data streaming_scanner.py's push_alert() now persists
-    specifically so this card can show *why*, not just the headline
-    direction/confidence (see SIGNAL_IQ_GAP_ANALYSIS.md item 1b and
-    SIGNAL_DEFINITION_AND_ACCURACY.md on keeping that breakdown visible)."""
+    """Renders one alert_feed_publisher.py feed entry — event_type-first,
+    not direction-first, per Codex's review of the earlier version: a
+    cancellation must clearly say cancelled and never render as a fresh
+    long/short instruction, even though its `direction` field carries the
+    direction of the alert being cancelled (needed for scoring/audit, not
+    for display). Shows the actual stop/target/entry-expiry the new
+    lifecycle schema carries (not the old stop_loss_range/take_profit_range
+    shape), the event type, and existing_position_guidance for a revision
+    or cancellation. See CODEX_ALERT_LIFECYCLE_CORRECTIONS_2.md."""
+    event_type = alert.get("event_type", "issued")  # rows with no event_type are old, pre-lifecycle-schema data
     pair = alert["pair"]
-    direction = alert["direction"]
     when = relative_time(alert.get("time"))
     alert_id = alert.get("id", "")
+    guidance = alert.get("existing_position_guidance")
+    guidance_html = f'<p class="existing-position-note">{guidance}</p>' if guidance else ""
 
-    if direction == "no_trade":
+    if event_type == "cancelled":
+        cancelled_id = alert.get("cancelled_alert_id", "")
+        reason = alert.get("reason") or "no reason recorded"
+        return f"""
+        <article class="card dir-flat cancelled" data-alert-id="{alert_id}">
+          <div class="card-top">
+            <div class="card-id"><span class="pair-name">{pair}</span><span class="badge cancelled">Cancelled</span></div>
+            <div class="card-meta"><div>{when}</div></div>
+          </div>
+          <p class="standdown-note">Alert {cancelled_id} cancelled — {reason}. No entry price applies to this update.</p>
+          {guidance_html}
+        </article>"""
+
+    direction = alert.get("direction")
+    if direction == "no_trade":  # legacy stand-down rows only — the new schema never issues a no_trade card
         return f"""
         <article class="card dir-flat standdown" data-alert-id="{alert_id}">
           <div class="card-top">
@@ -248,12 +268,13 @@ def alert_card_html(alert: dict) -> str:
     pestle = alert.get("pestle") or {}
     base = pestle.get("base", {})
     quote = pestle.get("quote", {})
-    sl = alert.get("stop_loss_range") or [alert["entry"], alert["entry"]]
-    tp = alert.get("take_profit_range") or [alert["entry"], alert["entry"]]
-    window = alert.get("window")
-    window_html = ""
-    if window:
-        window_html = f'<span class="session">{window.get("session", "")}</span> · valid to {window.get("valid_until_gmt_str", "")}'
+    stop = alert.get("stop")
+    target = alert.get("target")
+    entry_expiry_html = (f'<span class="entry-expiry">Enter by {relative_time(alert.get("entry_expiry_utc"))}</span>'
+                          if alert.get("entry_expiry_utc") else "")
+    event_badge = '<span class="badge updated">Updated</span>' if event_type == "revised" else ""
+    revises_note = (f'<p class="revises-note">Revises alert {alert.get("revises_alert_id", "")}</p>'
+                     if event_type == "revised" else "")
 
     return f"""
     <article class="card dir-{direction}" data-alert-id="{alert_id}">
@@ -261,13 +282,15 @@ def alert_card_html(alert: dict) -> str:
         <div class="card-id">
           <span class="pair-name">{pair}</span>
           <span class="badge {direction}">{dir_label}</span>
-          <span class="badge conf-{alert['confidence']}">{alert['confidence']} confidence</span>
+          <span class="badge conf-{alert.get('confidence', '')}">{alert.get('confidence', '')} confidence</span>
+          {event_badge}
         </div>
         <div class="card-meta">
           <div class="entry mono">{fmt_price(alert.get('entry'))}</div>
           <div>{when}</div>
         </div>
       </div>
+      {revises_note}
       <div class="card-grid">
         <div>
           <div class="card-section-label">Technical · {tech.get('composite', 0):+.2f}</div>
@@ -286,11 +309,12 @@ def alert_card_html(alert: dict) -> str:
       </div>
       <div class="card-footer">
         <div class="sltp-group">
-          <span><span class="k">SL</span> <span class="v mono">{fmt_price(min(sl))}–{fmt_price(max(sl))}</span></span>
-          <span><span class="k">TP</span> <span class="v mono">{fmt_price(min(tp))}–{fmt_price(max(tp))}</span></span>
+          <span><span class="k">Stop</span> <span class="v mono">{fmt_price(stop)}</span></span>
+          <span><span class="k">Target</span> <span class="v mono">{fmt_price(target)}</span></span>
         </div>
-        <div class="window-note">{window_html}</div>
+        <div class="window-note">{entry_expiry_html}</div>
       </div>
+      {guidance_html}
     </article>"""
 
 
@@ -443,6 +467,8 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
   .badge.conf-high {{ background:var(--accent-soft); color:var(--accent-hover); }}
   .badge.conf-medium {{ background:var(--warn-soft); color:var(--warn); }}
   .badge.conf-low {{ background:var(--neutral-soft); color:var(--text-faint); }}
+  .badge.cancelled {{ background:var(--warn-soft); color:var(--warn); }}
+  .badge.updated {{ background:var(--accent-soft); color:var(--accent-hover); }}
   .conf {{ color:var(--text-faint); font-size:11px; text-transform:uppercase; }}
   .sltp {{ font-size:12px; line-height:1.6; }}
   .reason-row td {{ border-bottom:1px solid var(--border); padding-top:0; }}
@@ -458,6 +484,7 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
   .card.dir-long::before {{ background:var(--long); }}
   .card.dir-short::before {{ background:var(--short); }}
   .card.dir-flat::before {{ background:var(--neutral); }}
+  .card.cancelled::before {{ background:var(--warn); }}
   .card-top {{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:14px; }}
   .card-id {{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }}
   .pair-name {{ font-family:var(--font-display); font-weight:700; font-size:16px; }}
@@ -485,6 +512,9 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
   .window-note {{ color:var(--text-faint); }}
   .window-note .session {{ color:var(--accent-hover); font-weight:600; }}
   .standdown-note {{ font-size:12.5px; color:var(--text-muted); margin:0; }}
+  .existing-position-note {{ font-size:12px; color:var(--warn); background:var(--warn-soft); border-radius:8px; padding:10px 12px; margin:12px 0 0; line-height:1.5; }}
+  .revises-note {{ font-size:12px; color:var(--text-faint); margin:0 0 10px; }}
+  .entry-expiry {{ color:var(--text-faint); }}
   article[data-alert-id].flash {{ animation: flash-row 1s ease-in-out 3; }}
 
   .range-toggle {{ display:inline-flex; background:var(--surface-2); border:1px solid var(--border); border-radius:999px; padding:3px; gap:2px; margin-bottom:20px; }}
@@ -607,7 +637,17 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
       if (fresh.length) refreshFeed();  // pulls in the new card(s) via the same render_feed_body() the page loaded with
       for (const a of fresh) {{
         if ('Notification' in window && Notification.permission === 'granted') {{
-          new Notification(`${{a.pair}} — ${{a.direction.toUpperCase()}}`, {{ body: a.message }});
+          let title;
+          if (a.event_type === 'cancelled') {{
+            title = `${{a.pair}} — Cancelled`;
+          }} else if (a.event_type === 'revised') {{
+            title = `${{a.pair}} — Updated ${{(a.direction || '').toUpperCase()}}`;
+          }} else if (a.direction && a.direction !== 'no_trade') {{
+            title = `${{a.pair}} — ${{a.direction.toUpperCase()}}`;
+          }} else {{
+            title = `${{a.pair}} — No trade`;
+          }}
+          new Notification(title, {{ body: a.message }});
         }}
         beep();
         flashRow(a.pair);
