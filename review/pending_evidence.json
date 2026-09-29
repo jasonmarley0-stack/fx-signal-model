@@ -1,5 +1,27 @@
 [
   {
+    "id": 641,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "UK shop price inflation slows to 1.4% in September as BRC urges business rates help",
+    "description": "The BRC gauge is a narrow, backward-looking snapshot, so the market is likely to look past the small dip in shop prices and focus on the official inflation path, which is forecast to climb above 4% next year. Energy is the swing factor: oil and gas prices tied to the Iran conflict feed directly into retailers' costs and into the inflation outlook, so diplomacy headlines can move UK rate and sterling expectations quickly. A budget that eases business rates would offer retailers some relief, but it would not remove the wider energy-driven cost pressure. --- Shop price inflation eased again in Se",
+    "published_at": "2026-09-29T00:08:02",
+    "source_url": "https://investinglive.com/news/uk-shop-price-inflation-slows-to-1-4-in-september-as-brc-urges-business-rates-help/"
+  },
+  {
+    "id": 640,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Japan's Katayama says undervalued yen is problematic, agrees with Bessent on cooperation",
+    "description": "The yen is the main read-through. Katayama's line that an undervalued yen is problematic, paired with her promise of close US Treasury contact, adds to verbal pressure on USD/JPY (around 157 in recent sessions) after August's joint intervention. Her denial that the government is reflationary and her stress on market-set rates may offer a little support to the yen and to JGB sentiment, but with no level or action mentioned, traders are likely to keep testing officials' resolve. --- Katayama kept to the familiar script of cooperation and communication, but her view that an undervalued yen is pro",
+    "published_at": "2026-09-29T02:16:41",
+    "source_url": "https://investinglive.com/news/japan-s-katayama-says-undervalued-yen-is-problematic-agrees-with-bessent-on-cooperation/"
+  },
+  {
     "id": 639,
     "status": "UNMATCHED",
     "was_matched": false,
