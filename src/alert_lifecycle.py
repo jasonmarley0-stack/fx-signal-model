@@ -235,6 +235,7 @@ def classify_and_record(
     calculated_at: datetime,
     published_at: datetime | None = None,
     entry_tolerance: float | None = None,
+    entry_validity_minutes: int = DEFAULT_ENTRY_VALIDITY_MINUTES,
     max_holding_time_hours: float = DEFAULT_MAX_HOLDING_HOURS,
 ) -> list[dict]:
     """The single entry point live_scanner.py calls. Returns EVERY event
@@ -300,7 +301,7 @@ def classify_and_record(
         entry_price=entry_price, entry_tolerance=tol,
         entry_condition_lo=entry_price - tol, entry_condition_hi=entry_price + tol,
         stop=stop, target=target,
-        entry_expiry_utc=guarded_entry_expiry(pair, published_at).isoformat(),
+        entry_expiry_utc=guarded_entry_expiry(pair, published_at, entry_validity_minutes).isoformat(),
         max_holding_time_hours=max_holding_time_hours,
         confidence=confidence, combined_score=combined_score, reason=reason,
     )
