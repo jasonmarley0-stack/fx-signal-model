@@ -96,6 +96,20 @@ def fmt_price(v: float | None) -> str:
     return f"{v:.5f}" if isinstance(v, (int, float)) else "—"
 
 
+def fmt_level(value) -> str:
+    """Renders a stop/target for display — either the new schema's single
+    price (alert_feed_publisher.py's `stop`/`target`) or a legacy
+    [lo, hi] range (the old push_alert() shape's `stop_loss_range`/
+    `take_profit_range`, which some already-stored feed entries still
+    carry). Falling back to the range rather than showing "—" for those
+    older rows preserves the information that was actually published,
+    instead of silently losing it because the field name changed."""
+    if isinstance(value, (list, tuple)) and len(value) == 2:
+        lo, hi = value
+        return f"{fmt_price(min(lo, hi))}–{fmt_price(max(lo, hi))}"
+    return fmt_price(value)
+
+
 ARROW_GLYPH = {"up": ("▲", "arrow-up"), "down": ("▼", "arrow-down"), "flat": ("—", "arrow-flat")}
 
 
@@ -199,6 +213,42 @@ def relative_time(iso_str: str | None) -> str:
     return f"{int(age // 86400)}d ago"
 
 
+def format_deadline(iso_str: str | None) -> str:
+    """For entry_expiry_utc specifically — a deadline that is normally
+    still AHEAD of now when shown, not a past event. relative_time() above
+    assumes its input is in the past (age = now - t); on a future
+    timestamp that age is negative, which is always < 60, so every future
+    deadline rendered as "just now" — indistinguishable from an event that
+    just happened. This shows an actual UTC clock time plus how far away
+    it is, on whichever side of now it falls, so a still-open deadline and
+    an already-expired one never read the same."""
+    if not iso_str:
+        return ""
+    try:
+        t = datetime.fromisoformat(iso_str)
+    except ValueError:
+        return ""
+    now = datetime.now(timezone.utc)
+    clock = t.strftime("%H:%M UTC, %d %b")
+    delta = (t - now).total_seconds()
+    if delta > 0:
+        if delta < 3600:
+            span = f"in {int(delta // 60)}m"
+        elif delta < 86400:
+            span = f"in {delta / 3600:.1f}h"
+        else:
+            span = f"in {int(delta // 86400)}d"
+        return f"Enter by {clock} ({span})"
+    ago = -delta
+    if ago < 3600:
+        span = f"{int(ago // 60)}m ago"
+    elif ago < 86400:
+        span = f"{ago / 3600:.1f}h ago"
+    else:
+        span = f"{int(ago // 86400)}d ago"
+    return f"Entry expired {clock} ({span})"
+
+
 def bar_row_html(label: str, value: float) -> str:
     """One technical-component bar for an alert card: a bidirectional bar
     from the track's center, matching how combiner.py's components are
@@ -268,9 +318,17 @@ def alert_card_html(alert: dict) -> str:
     pestle = alert.get("pestle") or {}
     base = pestle.get("base", {})
     quote = pestle.get("quote", {})
+    # New schema: single stop/target values. Legacy rows (pre-lifecycle
+    # push_alert() shape) instead carry stop_loss_range/take_profit_range —
+    # fmt_level() renders either, so older feed entries don't lose their
+    # stop/target display just because the field name changed.
     stop = alert.get("stop")
+    if stop is None:
+        stop = alert.get("stop_loss_range")
     target = alert.get("target")
-    entry_expiry_html = (f'<span class="entry-expiry">Enter by {relative_time(alert.get("entry_expiry_utc"))}</span>'
+    if target is None:
+        target = alert.get("take_profit_range")
+    entry_expiry_html = (f'<span class="entry-expiry">{format_deadline(alert.get("entry_expiry_utc"))}</span>'
                           if alert.get("entry_expiry_utc") else "")
     event_badge = '<span class="badge updated">Updated</span>' if event_type == "revised" else ""
     revises_note = (f'<p class="revises-note">Revises alert {alert.get("revises_alert_id", "")}</p>'
@@ -309,8 +367,8 @@ def alert_card_html(alert: dict) -> str:
       </div>
       <div class="card-footer">
         <div class="sltp-group">
-          <span><span class="k">Stop</span> <span class="v mono">{fmt_price(stop)}</span></span>
-          <span><span class="k">Target</span> <span class="v mono">{fmt_price(target)}</span></span>
+          <span><span class="k">Stop</span> <span class="v mono">{fmt_level(stop)}</span></span>
+          <span><span class="k">Target</span> <span class="v mono">{fmt_level(target)}</span></span>
         </div>
         <div class="window-note">{entry_expiry_html}</div>
       </div>

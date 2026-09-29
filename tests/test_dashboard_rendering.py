@@ -53,7 +53,11 @@ def test_render_issued_card():
     assert "1.10000" in html  # entry
     assert "1.09500" in html  # stop
     assert "1.10750" in html  # target
-    assert "Enter by" in html  # entry expiry rendered
+    # T0 is a fixed historical timestamp so the entry/stop/target assertions
+    # above stay reproducible; its entry_expiry_utc may by now be in the past
+    # relative to the real clock, so either rendering is valid here — the
+    # dedicated future/expired tests below check each direction specifically.
+    assert ("Enter by" in html) or ("Entry expired" in html), "entry-expiry deadline was not rendered at all"
     assert 'class="badge long">Long</span>' in html
     assert "dir-long" in html
     assert "cancelled" not in html.lower()
@@ -142,10 +146,85 @@ def test_notification_js_wording_present_for_cancel_and_revise():
     print("notification JS branches on event_type for cancelled/revised wording: OK")
 
 
+# --- Codex's review of 53b8c53: entry_expiry_utc used relative_time(),
+# which assumes its input is a past event (age = now - t). A FUTURE
+# deadline gives a negative age, which is always < 60, so every future
+# deadline rendered as "just now" — never showing an actual clock time,
+# and never distinguishing a still-open deadline from one already past.
+
+def test_future_deadline_shows_actual_time_not_just_now():
+    future = (datetime.now(timezone.utc) + timedelta(minutes=45)).isoformat()
+    rendered = ds.format_deadline(future)
+    assert "just now" not in rendered, f"a future deadline must never render as 'just now', got: {rendered!r}"
+    assert rendered.startswith("Enter by"), rendered
+    assert "UTC" in rendered
+    assert "in 4" in rendered or "in 45m" in rendered  # ~45 minutes away
+    print("future entry-expiry deadline shows an actual UTC clock time, not 'just now': OK")
+
+
+def test_expired_deadline_clearly_says_expired():
+    past = (datetime.now(timezone.utc) - timedelta(minutes=45)).isoformat()
+    rendered = ds.format_deadline(past)
+    assert rendered.startswith("Entry expired"), rendered
+    assert "ago" in rendered
+    assert "UTC" in rendered
+    assert "Enter by" not in rendered
+    print("expired entry-expiry deadline clearly says expired, with the actual time and how long ago: OK")
+
+
+def test_future_deadline_card_end_to_end():
+    """The same check as above, but through the actual rendered card, not
+    just the formatting function in isolation."""
+    store, alerts_path = _fixtures()
+    future_calc_time = datetime.now(timezone.utc)
+    record_and_publish(store, alerts_path, {}, {},
+                        scanner_version="TEST_v1", pair="EURUSD", direction="long", confidence="medium",
+                        combined_score=0.5, entry_price=1.1000, atr_value=0.0050, stop=1.0950, target=1.1075,
+                        technical_inputs={}, pestle_inputs=None, pestle_used=False, reason="test",
+                        calculated_at=future_calc_time, published_at=future_calc_time)
+    alert = _feed_alerts(alerts_path)[0]
+    html = ds.alert_card_html(alert)
+    assert 'class="entry-expiry"' in html
+    expiry_span = html.split('class="entry-expiry"')[1][:120]
+    assert "just now" not in expiry_span, f"future deadline rendered as 'just now': {expiry_span!r}"
+    assert "Enter by" in html
+    print("issued card's entry-expiry renders as an actual future deadline end-to-end: OK")
+
+
+# --- Codex's review of 53b8c53: legacy feed entries (written by the OLD
+# push_alert() before this branch existed) carry stop_loss_range/
+# take_profit_range instead of the new single stop/target fields.
+# alert_card_html() only ever read alert.get("stop")/alert.get("target"),
+# so those older rows silently showed "—" for both, even though the
+# levels were right there under the old field names.
+
+def test_legacy_card_preserves_stop_target_from_ranges():
+    legacy_alert = {
+        # no event_type, no alert_id/lineage_id — this is exactly the shape
+        # the old push_alert() wrote, before the lifecycle schema existed
+        "id": "1234567-EURUSD", "pair": "EURUSD", "direction": "long", "confidence": "medium",
+        "combined_score": 0.5, "entry": 1.10500, "time": datetime.now(timezone.utc).isoformat(),
+        "message": "EURUSD: LONG (medium) @ 1.10500", "reason": "legacy test fixture",
+        "tech": {}, "pestle": {},
+        "stop_loss_range": [1.09750, 1.09975],
+        "take_profit_range": [1.11025, 1.11250],
+        "window": None,
+    }
+    html = ds.alert_card_html(legacy_alert)
+    assert "1.09750" in html and "1.09975" in html, "legacy stop range must still be shown, not '—'"
+    assert "1.11025" in html and "1.11250" in html, "legacy target range must still be shown, not '—'"
+    assert "–" in html  # en dash between the range bounds, matching the original range-display convention
+    print("legacy card (stop_loss_range/take_profit_range) still shows stop/target: OK")
+
+
 if __name__ == "__main__":
     test_render_issued_card()
     test_render_revised_card_shows_original_levels_in_guidance()
     test_render_cancelled_card_has_no_entry_price_and_no_direction_badge()
     test_render_reversal_both_cards_distinct()
     test_notification_js_wording_present_for_cancel_and_revise()
+    test_future_deadline_shows_actual_time_not_just_now()
+    test_expired_deadline_clearly_says_expired()
+    test_future_deadline_card_end_to_end()
+    test_legacy_card_preserves_stop_target_from_ranges()
     print("All dashboard-rendering tests passed.")
