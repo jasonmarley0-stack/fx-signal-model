@@ -1,5 +1,71 @@
 [
   {
+    "id": 647,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Asia-Pacific market news: Asia stocks slip",
+    "description": "Singapore to allocate US$1.1 billion to five asset managers to boost its equities market Japan's Katayama says undervalued yen is problematic, agrees with Bessent on cooperation Australian household spending flat in August, missing forecasts ahead of RBA decision PBOC sets USD/ CNY central rate at 6.7411 (vs. estimate at 6.7177) State Street: Gold may test $4,000 on rate fears but $5,000 still possible in six months Anthropic IPO prospectus shows $42 billion 2025 loss and $518 billion spending plans What is red diesel and why is Trump weighing selling it to curb fuel prices? UK shop price infl",
+    "published_at": "2026-09-29T03:33:28",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-asia-stocks-slip/"
+  },
+  {
+    "id": 646,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, the main highlight is the Spanish CPI report. Headline CPI Y/Y is expected to rise further to 4.6% vs 4.3% prior, but the focus will be on the Core measure which has ticked lower to 2.9% in the prior reading.&nbsp; The market is currently pricing roughly a 31% chance of an ECB rate hike in October, so if we get hot inflation numbers this week, we should see those odds rising above 50% and the central bank following suit.&nbsp; If we get a surprising breakthrough in US-Iran relations before the next ECB meeting, then we might see a dovish repricing acro",
+    "published_at": "2026-09-29T06:39:04",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-52/"
+  },
+  {
+    "id": 645,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Spain inflation climbs to near 5%, the highest in over three years",
+    "description": "Spain September preliminary CPI +4.9% vs +4.6% y/y expected Prior +4.3% Spain September preliminary HICP +5.0% vs +4.9% y/y expected Prior +4.6% The breakdownThe numbers are running hotter than expected with headline annual inflation climbing to 4.9%, its highest since February 2023. Meanwhile, core annual inflation is also seen accelerating further from 2.9% to 3.1% in September. That suggests the rise in price pressures is starting to become broader, and not just isolated within energy prices. The jump here marks the highest level for core annual inflation since March 2024. This may just be ",
+    "published_at": "2026-09-29T07:01:43",
+    "source_url": "https://investinglive.com/news/spain-inflation-climbs-to-near-5-the-highest-in-over-three-years/"
+  },
+  {
+    "id": 644,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Euro area economic sentiment slips in September as inflation expectations rise",
+    "description": "The latest euro area sentiment readings are out: Economic sentiment 97.9 vs 99.0 expected; Prior 98.4 Industrial sentiment -3.8 vs -4.7 expected; Prior -5.0 (R) Services sentiment 6.1 vs 6.5 expected; Prior 5.6 (R) Consumer inflation expectations 35.2; Prior 33.0 Selling price expectations 20.3; Prior 16.9 (R) The headline isn't particularly encouraging as economic confidence slipped to 97.9 in September, missing expectations and remaining below the long-term average of 100. That being said,&nbsp;I wouldn't read this as a straightforward deterioration in the euro area economy either.&nbsp;Indu",
+    "published_at": "2026-09-29T09:19:44",
+    "source_url": "https://investinglive.com/news/euro-area-economic-sentiment-slips-in-september-as-inflation-expectations-rise/"
+  },
+  {
+    "id": 643,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 6,
+    "source_id": 6,
+    "title": "Statement by the Monetary Policy Board: Monetary Policy Decision",
+    "description": "At its meeting today, the Board decided to increase the cash rate target by 25 basis points to 4.60 per cent.",
+    "published_at": "2026-09-29T04:30:00",
+    "source_url": "https://www.rba.gov.au/media-releases/2026/mr-26-27.html"
+  },
+  {
+    "id": 642,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "ECB amends monetary policy implementation guidelines as part of regular review",
+    "description": "",
+    "published_at": "2026-09-29T08:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr260929~050089e922.en.html"
+  },
+  {
     "id": 641,
     "status": "UNMATCHED",
     "was_matched": false,
