@@ -1,5 +1,104 @@
 [
   {
+    "id": 667,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Japan August factory output falls 1.7% against forecast rise, retail sales slow",
+    "description": "The industrial production miss and the softer retail print complicate the case for the Bank of Japan to move again quickly, and traders will weigh them against the strength implied by manufacturers' own projections for September and October. A former BoJ executive director has put the chance of an October hike at around 20% to 30%, so soft data could nudge that view lower, although the bank's shift toward preventing an inflation overshoot argues against reading too much into one month. The yen is the natural place for any repricing to show up, with hawkish BoJ expectations having been part of ",
+    "published_at": "2026-09-30T00:02:16",
+    "source_url": "https://investinglive.com/news/japan-august-factory-output-falls-1-7-against-forecast-rise-retail-sales-slow/"
+  },
+  {
+    "id": 666,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "ANZ survey: NZ business confidence eases to +52 as oil rise hits late responses",
+    "description": "For the Reserve Bank of New Zealand, the key message is that inflation expectations did not move as oil prices jumped, which ANZ described as encouraging while stressing it is early. Against that, wage expectations edged up and ANZ says spare capacity may be getting used up faster than the central bank assumed in its recent Monetary Policy Statement, a mild upside risk to its wage forecasts. The weaker late-month activity readings suggest the oil price rise is starting to weigh on sentiment, which could temper the case for tighter policy. New Zealand dollar and rates traders will be watching w",
+    "published_at": "2026-09-30T00:31:28",
+    "source_url": "https://investinglive.com/news/anz-survey-nz-business-confidence-eases-to-52-as-oil-rise-hits-late-responses/"
+  },
+  {
+    "id": 665,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Australian August Headline CPI 4% (vs. expected 4%, prior 3.5%)",
+    "description": "I'll have details and implications posted separately. ADDED, here it is:&nbsp; Australian dollar marked lower on the data Consumer Price Index (YoY) (Aug) 4% surging fuel prices impact expected 4.0%, prior 3.5% Consumer Price Index (MoM) (Aug) 0.4% expected 0.4%, prior 1.0% Trimmed Mean CPI (YoY) (Aug) 3.6% expected 3.6%, prior 3.6% Trimmed Mean CPI (MoM) (Aug) 0.2% expected 0.3%, prior 0.5% --- Background: Australia CPI preview: headline inflation seen at 4.0% after RBA hike This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-30T01:30:42",
+    "source_url": "https://investinglive.com/news/australian-august-cpi-vs-expected-4-prior-3-5/"
+  },
+  {
+    "id": 664,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China official manufacturing PMI (September): 50.1 (expected 50.1, prior 49.8)",
+    "description": "I'll have details and implications posted separately. Added, here that is: China official manufacturing PMI returns to growth at 50.1, non-manufacturing 50.2 National Bureau of Statistics PMIs (September): Manufacturing 50.1 expected 50.1, prior&nbsp;49.8 Non-Manufacturing 50.2 expected 49.3, prior&nbsp;49.00 Composite 50.7 prior 49.5 Background: China PMIs preview: official manufacturing seen back above 50 before holiday This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-30T01:31:22",
+    "source_url": "https://investinglive.com/news/china-official-manufacturing-pmi-september-expected-prior/"
+  },
+  {
+    "id": 663,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China private survey manufacturing PMI (September) 52.1 (vs. expected 51.6, prior 51.5)",
+    "description": "I'll have details and implications posted separately. Added, here it is: RatingDog China manufacturing PMI 52.1 tops forecast, services 51.6 also beats S&amp;P Global /&nbsp;RatingDog PMIs, September: Manufacturing 52.1 expected 51.6, prior&nbsp;51.5 Services 51.6 expected 51.1, prior 51.4 Background: China PMIs preview: official manufacturing seen back above 50 before holiday This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-30T01:45:09",
+    "source_url": "https://investinglive.com/news/china-private-survey-manufacturing-pmi-september-vs-expected-51-6-prior-51-5/"
+  },
+  {
+    "id": 662,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Australia August CPI 4.0% as fuel jumps, trimmed mean below forecast at 0.2% m/m",
+    "description": "The Australian dollar was lower after t he data , as the softer-than-expected monthly trimmed mean reading was seen as the more encouraging signal for inflation. The market is pricing only around a 25% chance of a November hike, well below Westpac's stated base case that the RBA follows up next month, which suggests the market does not see another move as urgent. The risk for the currency is that fuel costs keep pressure on prices, since headline inflation at 4.0% and trimmed mean at 3.6% both sit well above the RBA's 2% to 3% target band. Diesel prices are the key watch point given how widely",
+    "published_at": "2026-09-30T01:50:56",
+    "source_url": "https://investinglive.com/news/australia-august-cpi-4-0-as-fuel-jumps-trimmed-mean-below-forecast-at-0-2-m-m/"
+  },
+  {
+    "id": 661,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "RatingDog China manufacturing PMI 52.1 tops forecast, services 51.6 also beats",
+    "description": "Stronger readings from both surveys, ahead of a week-long Chinese holiday, give China-sensitive assets a supportive last data point before mainland markets close. The rise in manufacturers' input costs, driven by metals and oil, is the detail most relevant to commodity markets, since it suggests firms are absorbing higher energy and raw material prices rather than cutting purchases. Services firms cut selling prices at the fastest rate in almost four and a half years, which points to margin pressure and to deflationary competition in the sector even as activity picks up. Traders are likely to ",
+    "published_at": "2026-09-30T02:02:20",
+    "source_url": "https://investinglive.com/news/ratingdog-china-manufacturing-pmi-52-1-tops-forecast-services-51-6-also-beats/"
+  },
+  {
+    "id": 660,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China official manufacturing PMI returns to growth at 50.1, non-manufacturing 50.2",
+    "description": "A return to growth in the official manufacturing survey, alongside a jump in the non-manufacturing index, gives China-sensitive assets a supportive final data point before the holiday. Factory strength matters for industrial commodities, including oil, and RatingDog's finding that manufacturers' input costs are being pushed up by metals and oil suggests demand for those inputs is holding up. Still, the official readings sit close to the 50 line and domestic demand remains weak, so the market is likely to keep looking to policy support for further upside. The gap between the official 50.1 and t",
+    "published_at": "2026-09-30T02:19:15",
+    "source_url": "https://investinglive.com/news/china-official-manufacturing-pmi-returns-to-growth-at-50-1-non-manufacturing-50-2/"
+  },
+  {
+    "id": 659,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Frank Elderson: Supervisory risk appetite, efficiency and effectiveness",
+    "description": "",
+    "published_at": "2026-09-30T02:20:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260930~d495288355.en.html"
+  },
+  {
     "id": 658,
     "status": "UNMATCHED",
     "was_matched": false,
