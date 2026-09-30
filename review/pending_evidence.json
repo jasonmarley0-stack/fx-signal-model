@@ -1,5 +1,126 @@
 [
   {
+    "id": 678,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Asia-Pacific market news: Yen, Nikkei firmer",
+    "description": "Goldman: Persian Gulf oil exports back at 2025 average after doubling in September USD/JPY slips to around 156.4 as half-year-end flows and Fed comments weigh China official manufacturing PMI returns to growth at 50.1, non-manufacturing 50.2 RatingDog China manufacturing PMI 52.1 tops forecast, services 51.6 also beats Australia August CPI 4.0% as fuel jumps, trimmed mean below forecast at 0.2% m/m PBOC sets USD/ CNY mid-point today at 6.7351 (vs. estimate at 6.7025) ANZ survey: NZ business confidence eases to +52 as oil rise hits late responses Japan August factory output falls 1.7% against f",
+    "published_at": "2026-09-30T03:40:41",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-yen-nikkei-firmer/"
+  },
+  {
+    "id": 677,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Heads up: Germany September CPI expected to show inflation back above 3%",
+    "description": "German inflation will be one of the main economic data points to watch out for in European trading today, with the September reading expected to show a further pick up in price pressures. Here's what markets are looking for: CPI +3.1% y/y expected; Prior +2.9% HICP +3.2% y/y expected; Prior +2.9% The August report already showed inflation accelerating to 2.9%, with energy prices rising 10.5% on the year and doing much of the heavy lifting. The key metric to keep an eye out for though is core CPI, and that&nbsp;was comparatively steadier at 2.4% in August. Overall, another move higher in Septem",
+    "published_at": "2026-09-30T04:38:00",
+    "source_url": "https://investinglive.com/news/heads-up-germany-september-cpi-expected-to-show-inflation-back-above-3/"
+  },
+  {
+    "id": 676,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "UK Q2 GDP revised higher to 0.5% q/q from 0.4%",
+    "description": "UK Q2 final GDP +0.5% vs +0.4% q/q prelim Prior (Q1) +0.6% UK Q2 final GDP +1.4% vs +1.2% y/y prelim Prior (Q1) +0.9% The breakdownIt is a mild revision higher to the initial estimate, reaffirming a more resilient UK economic picture in the second quarter. The services sector in particular held up relatively well, with output increasing by 0.6% during the quarter and estimated to be 1.7% higher compared with the same quarter a year ago. As this is the final estimate though, it doesn't add much to the present outlook for BOE expectations. As things stand, inflation data will matter much more in",
+    "published_at": "2026-09-30T06:00:25",
+    "source_url": "https://investinglive.com/news/uk-q2-gdp-revised-higher-to-0-5-q-q-from-0-4/"
+  },
+  {
+    "id": 675,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "German import prices jump 1.0% in August as cost pressures build",
+    "description": "Germany August import prices +1.0% vs +0.7% m/m expected Prior +0.2% Germany August import prices +8.3% vs +8.0% y/y expected Prior +6.8% The breakdownImport prices rose another 1.0% on the month in August, pushing the annual rate up sharply to 8.3% from 6.8%. This marks the strongest annual increase since December 2022. Energy remains the main driver, with import energy prices up 43.0% y/y. But intermediate goods prices also rose 11.0%, suggesting upstream price pressures are broadening beyond energy alone. The stronger rise keeps upstream inflation pressures firmly in focus, particularly wit",
+    "published_at": "2026-09-30T06:04:10",
+    "source_url": "https://investinglive.com/news/german-import-prices-jump-1-0-in-august-as-cost-pressures-build/"
+  },
+  {
+    "id": 674,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Germany retail sales rebound 1.3% in August after July slump",
+    "description": "Germany August retail sales +1.3% vs +1.5% m/m expected Prior -3.4% The breakdownThe rebound here is notable, even if it misses on forecasts by a little. It at least substantiates that the drop in July ties much to a heavy decline in petrol station sales, following&nbsp;the end of the fuel discount that was in effect during May and June. Having said that, petrol station sales were flat in August. Instead, non-food (+1.6%) and online spending (+3.7%) lead the recovery. Despite the rebound, the overall data&nbsp;still points to a rather uneven picture for German household spending heading into t",
+    "published_at": "2026-09-30T06:05:05",
+    "source_url": "https://investinglive.com/news/germany-retail-sales-rebound-1-3-in-august-after-july-slump/"
+  },
+  {
+    "id": 673,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we get the French and German inflation data. The French HICP Y/Y is expected at 3.2% vs 2.6% prior, but the focus will be on the core measure which ticked lower to 1.1% in the prior month. The ECB is currently debating whether a rate hike in October is warranted, so higher than expected underlying inflation in the Eurozone will likely prompt a rate hike at the upcoming meeting. The market is currently pricing a 40% chance. The German HICP Y/Y is expected at 3.2% vs 2.9% prior, while the core measure remained unchanged at 2.4% in the prior month.&nbsp;T",
+    "published_at": "2026-09-30T06:33:44",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-53/"
+  },
+  {
+    "id": 672,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "French inflation jumps in September as HICP rises to 3.4%",
+    "description": "France September preliminary CPI +3.0% vs +2.8% y/y expected Prior +2.4% France September preliminary HICP +3.4% vs +3.1% y/y expected Prior +2.6% The breakdownThe pickup in French inflation was fairly broad, although energy remains the standout driver. Energy prices accelerated to +21.2% y/y from +16.7% in August, reflecting higher petroleum-product and gas prices. Services inflation also picked up to from 1.9% to 2.2% in September, while food inflation rose to from 1.1% to 1.5% on the month. All of this is likely to push up the core inflation estimate, which we will only get with the final r",
+    "published_at": "2026-09-30T06:46:39",
+    "source_url": "https://investinglive.com/news/french-inflation-jumps-in-september-as-hicp-rises-to-3-4/"
+  },
+  {
+    "id": 671,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "German labour market softens in September as autumn pickup fails to kick into gear",
+    "description": "Germany September unemployment change 12k vs 1k expected Prior 4k Germany September unemployment rate 6.4% vs 6.4% expected Prior 6.4% The breakdownGerman unemployment rose significantly more than expected in September as the jobless figure grew by 12,000 to 3.01 million in seasonally adjusted terms. Despite that, the jobless rate remained stable at 6.4%. The labour office notes that while the autumn pickup in Germany's labour market typically begins in September, this year's start has been relatively sluggish. Adding that \"the economic improvement is not yet reaching the labour market\". It's ",
+    "published_at": "2026-09-30T07:55:16",
+    "source_url": "https://investinglive.com/news/german-labour-market-softens-in-september-as-autumn-pickup-fails-to-kick-into-gear/"
+  },
+  {
+    "id": 670,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "German state CPI readings point to inflation climbing back above 3% in September",
+    "description": "Well,&nbsp;the latest German state CPI readings are starting to paint a fairly clear picture ahead of the national report later today. The state readings released around the same time: Bavaria September CPI +3.2% vs +2.9% y/y prior Saxony September CPI +3.3% vs +2.9% y/y prior North Rhine Westphalia September CPI +3.3% vs +2.9% y/y prior Baden Wuerttemberg September CPI +2.9% vs +2.6% y/y prior The main takeaway here is that the acceleration isn't isolated to just one or two states. All four readings moved higher by at least 0.3 percentage points compared with August, with Saxony and North Rhi",
+    "published_at": "2026-09-30T08:08:45",
+    "source_url": "https://investinglive.com/news/german-state-cpi-readings-point-to-inflation-climbing-back-above-3-in-september/"
+  },
+  {
+    "id": 669,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Italy September preliminary CPI +4.2% vs +3.8% y/y expected",
+    "description": "Prior +3.3% HICP +4.1% vs +3.8% y/y expected Prior +3.2% Italy's preliminary September inflation data showed a significant acceleration in price pressures, with the consumer price index rising 4.2% y/y, up from 3.3% in August. On a monthly basis, CPI increased 0.7%. The acceleration was primarily driven by energy, with regulated energy inflation rising from 18.6% to 25.9% and non-regulated energy inflation accelerating from 17.0% to 22.2%. Unprocessed food prices also picked up notably, while services inflation accelerated in both recreation and transport-related categories. The monthly increa",
+    "published_at": "2026-09-30T09:00:55",
+    "source_url": "https://investinglive.com/news/italy-september-preliminary-cpi-4-2-vs-3-8-y-y-expected/"
+  },
+  {
+    "id": 668,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Financial Policy Committee Record \u2013 September 2026",
+    "description": "Our Financial Policy Committee (FPC) meets to identify risks to financial stability and agree policy actions aimed at safeguarding the resilience of the UK financial system.",
+    "published_at": "2026-09-30T09:30:00",
+    "source_url": "https://www.bankofengland.co.uk/financial-policy-committee-record/2026/september-2026"
+  },
+  {
     "id": 667,
     "status": "UNMATCHED",
     "was_matched": false,
