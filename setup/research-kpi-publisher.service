@@ -1,0 +1,9 @@
+[Unit]
+Description=Publish the Stage 2 observer's KPI/ledger snapshot for the Research dashboard view (heavier, less frequent — calls the pinned report.kpi_report()/score.build_paper_ledger(), read-only against the observer checkout)
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/fx-signal-model
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/research_snapshot_publisher.py kpi --observer-checkout /root/fx-signal-model-stage2-observer --out-dir /root/fx-signal-model/research_snapshots

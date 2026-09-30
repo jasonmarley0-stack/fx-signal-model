@@ -45,6 +45,19 @@ import uvicorn
 LIVE_SCAN_PATH = Path(__file__).parent / "live_scan.json"
 ALERTS_PATH = Path(__file__).parent / "alerts.json"
 PERFORMANCE_PATH = Path(__file__).parent / "performance.json"
+
+# Research (Stage 2 prospective observation) view: reads ONLY these two
+# pre-computed snapshot files, written by the separate
+# research_snapshot_publisher.py (see that file's own docstring). This
+# process never calls OANDA, never scores anything, never scans the
+# observer's raw logs, and never shells out to systemctl -- by design,
+# so a slow/broken dashboard request can never affect the frozen observer
+# checkout it reports on.
+RESEARCH_HEALTH_PATH = Path(__file__).parent / "research_snapshots" / "research_health.json"
+RESEARCH_KPI_PATH = Path(__file__).parent / "research_snapshots" / "research_kpi.json"
+RESEARCH_HEALTH_STALE_AFTER_SECONDS = 300    # health publisher runs ~every 60s
+RESEARCH_KPI_STALE_AFTER_SECONDS = 3600      # kpi publisher runs ~every 15-30 min
+
 app = FastAPI()
 security = HTTPBasic()
 security_optional = HTTPBasic(auto_error=False)  # for routes that also accept the monitor API key
@@ -358,7 +371,70 @@ def render_performance_view(performance: dict | None) -> str:
     <script id="perf-data" type="application/json">{data_json}</script>"""
 
 
-def render_page(live_payload: dict | None, performance_payload: dict | None, alerts_payload: dict | None) -> str:
+def render_research_view(health_payload: dict, kpi_payload: dict) -> str:
+    """Stage 2 prospective observation ("Research"). Like Performance, this
+    renders a static shell at page load and does all real rendering
+    client-side from embedded JSON -- health_payload/kpi_payload are
+    exactly what research_snapshot_publisher.py last wrote (or an explicit
+    not_published/malformed_snapshot_file placeholder), never computed
+    here. The client then re-fetches /research/health (frequent) and
+    /research/kpi (manual refresh button, less frequent) independently --
+    see the script block in render_page() for the actual rendering logic,
+    kept there so it shares helpers (fmtR etc.) with the Performance view."""
+    data_json = json.dumps({
+        "health": health_payload,
+        "kpi": kpi_payload,
+        "health_stale_after_seconds": RESEARCH_HEALTH_STALE_AFTER_SECONDS,
+        "kpi_stale_after_seconds": RESEARCH_KPI_STALE_AFTER_SECONDS,
+    })
+    return f"""
+    <div class="research-disclaimer">
+      Paper observation only — a hypothetical decision scored against real, sampled bid/ask quotes.
+      No order has ever been placed. Financing/swap charges, true fill slippage, and price movement
+      between quote samples are <strong>not</strong> observed or estimated anywhere on this page.
+    </div>
+
+    <div class="block-head"><h2>Observation Health</h2><span class="hint" id="research-health-freshness"></span></div>
+    <div id="research-health-container"><p class="empty">Loading…</p></div>
+
+    <div class="block-head"><h2>Progress &amp; Performance</h2>
+      <button class="refresh-btn" id="research-kpi-refresh">Refresh</button>
+      <span class="hint" id="research-kpi-freshness"></span>
+    </div>
+    <div id="research-kpi-tiles-container"><p class="empty">Loading…</p></div>
+
+    <div class="chart-card">
+      <div class="chart-head"><h3>Cumulative Completed-Trade R</h3><span class="cur" id="research-chart-cur"></span></div>
+      <div class="hint" id="research-chart-partial-note"></div>
+      <svg class="chart-svg" id="research-chart" viewBox="0 0 640 220" preserveAspectRatio="none"></svg>
+      <p class="empty" id="research-chart-empty" style="display:none">No completed trades yet.</p>
+    </div>
+
+    <div class="block-head"><h2>Trade Ledger</h2><span class="hint">Click a row for timing &amp; coverage detail</span></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>Pair</th><th>Dir</th><th>Entry cond. / Stop / Target</th>
+          <th>Paper Entry</th><th>Paper Exit</th><th>Outcome</th><th>R</th></tr></thead>
+        <tbody id="research-ledger-body"></tbody>
+      </table>
+    </div>
+    <div class="block-head"><h2>Suppressed Decisions</h2>
+      <span class="hint">Same-pair decisions suppressed by the one-position-per-pair policy — not counted as executable opportunities</span></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Pair</th><th>Dir</th><th>Published</th><th>Suppressed until</th></tr></thead>
+        <tbody id="research-suppressed-body"></tbody>
+      </table>
+    </div>
+
+    <div class="block-head"><h2>Roadmap</h2></div>
+    <ul class="roadmap-list" id="research-roadmap"></ul>
+
+    <script id="research-data" type="application/json">{data_json}</script>"""
+
+
+def render_page(live_payload: dict | None, performance_payload: dict | None, alerts_payload: dict | None,
+                 research_health_payload: dict, research_kpi_payload: dict) -> str:
     return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8">
@@ -498,6 +574,45 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
   .chart-head .cur {{ font-family:var(--font-mono); color:var(--long); font-weight:500; }}
   .chart-svg {{ width:100%; height:200px; display:block; }}
 
+  /* ---------- Research ---------- */
+  .research-disclaimer {{ background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--warn); border-radius:var(--radius-sm); padding:12px 16px; font-size:12.5px; color:var(--text-muted); margin-bottom:24px; line-height:1.55; }}
+  .refresh-btn {{ background:var(--surface-2); border:1px solid var(--border); color:var(--text-muted); font-family:var(--font-body); font-weight:600; font-size:12px; padding:5px 12px; border-radius:999px; cursor:pointer; }}
+  .refresh-btn:hover {{ background:var(--surface-3); color:var(--text); }}
+  .refresh-btn:disabled {{ opacity:0.5; cursor:default; }}
+  .status-grid {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px 16px; margin-bottom:16px; }}
+  .status-grid .mono {{ overflow-wrap:anywhere; }}
+  .status-pill {{ display:inline-flex; align-items:center; gap:6px; padding:3px 10px; border-radius:999px; font-size:11.5px; font-weight:700; }}
+  .status-pill.status-ok, .status-pill.status-active, .status-pill.status-healthy {{ background:var(--long-soft); color:var(--long); }}
+  .status-pill.status-warn, .status-pill.status-partial, .status-pill.status-stale {{ background:var(--warn-soft); color:var(--warn); }}
+  .status-pill.status-bad, .status-pill.status-inactive, .status-pill.status-failed, .status-pill.status-no_data {{ background:var(--short-soft); color:var(--short); }}
+  .status-pill.status-unknown {{ background:var(--neutral-soft); color:var(--neutral); }}
+  .pair-coverage-grid {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:8px; margin-top:12px; }}
+  .pair-cov-cell {{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:8px 10px; font-size:11.5px; }}
+  .pair-cov-cell .pc-pair {{ font-weight:700; font-family:var(--font-display); margin-bottom:3px; }}
+  .pair-cov-cell .pc-age {{ color:var(--text-faint); font-family:var(--font-mono); }}
+  .pair-cov-cell.pc-fresh {{ border-color:rgba(52,196,149,0.35); }}
+  .pair-cov-cell.pc-stale {{ border-color:rgba(241,101,74,0.35); }}
+  .snapshot-note {{ font-size:12px; color:var(--text-faint); margin:10px 0 18px; }}
+  .snapshot-note.is-stale {{ color:var(--warn); }}
+  .undetermined {{ color:var(--text-faint); font-style:italic; }}
+  .roadmap-list {{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }}
+  .roadmap-list li {{ display:flex; align-items:flex-start; gap:12px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; }}
+  .roadmap-list .rm-dot {{ width:10px; height:10px; border-radius:50%; margin-top:4px; flex-shrink:0; }}
+  .roadmap-list .rm-dot.complete {{ background:var(--long); }}
+  .roadmap-list .rm-dot.active {{ background:var(--accent); }}
+  .roadmap-list .rm-dot.pending {{ background:var(--text-faint); }}
+  .roadmap-list .rm-title {{ font-weight:700; font-family:var(--font-display); font-size:13.5px; margin-bottom:3px; }}
+  .roadmap-list .rm-detail {{ font-size:12px; color:var(--text-muted); line-height:1.5; }}
+  .ledger-row {{ cursor:pointer; }}
+  .ledger-row:hover td {{ background:var(--surface-2); }}
+  .ledger-row .chevron {{ display:inline-block; transition:transform 0.15s; color:var(--text-faint); }}
+  .ledger-row.expanded .chevron {{ transform:rotate(90deg); }}
+  .ledger-detail-row td {{ background:var(--surface-2); padding:14px 16px; font-size:12px; color:var(--text-muted); }}
+  .ledger-detail-row dl {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:8px 20px; margin:0; }}
+  .ledger-detail-row dt {{ color:var(--text-faint); font-size:10.5px; text-transform:uppercase; letter-spacing:0.05em; }}
+  .ledger-detail-row dd {{ margin:2px 0 0; font-family:var(--font-mono); color:var(--text); }}
+  .reason-text {{ color:var(--warn); }}
+
   .bottom-nav {{ display:none; }}
   @media (max-width:860px) {{
     .shell {{ grid-template-columns:1fr; }}
@@ -516,6 +631,7 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
     <nav class="nav" id="side-nav">
       <button class="nav-item active" data-view="live">Live</button>
       <button class="nav-item" data-view="performance">Performance</button>
+      <button class="nav-item" data-view="research">Research</button>
     </nav>
   </aside>
   <main class="main">
@@ -534,10 +650,17 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
         {render_performance_view(performance_payload)}
       </div>
     </section>
+    <section class="view" id="view-research">
+      <div class="topbar"><h1>Research</h1></div>
+      <div style="padding:24px clamp(16px,3vw,36px) 0" id="research-container">
+        {render_research_view(research_health_payload, research_kpi_payload)}
+      </div>
+    </section>
   </main>
   <nav class="bottom-nav" id="bottom-nav">
     <button class="active" data-view="live">Live</button>
     <button data-view="performance">Performance</button>
+    <button data-view="research">Research</button>
   </nav>
 </div>
 <script>
@@ -710,6 +833,256 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
 
     renderPerformanceRange('30d');
   }}
+
+  // ---------- Research: health (frequent poll) + KPI/ledger (manual/slow refresh) ----------
+  const researchDataEl = document.getElementById('research-data');
+  if (researchDataEl) {{
+    const initialResearch = JSON.parse(researchDataEl.textContent);
+    const healthStaleAfter = initialResearch.health_stale_after_seconds;
+    const kpiStaleAfter = initialResearch.kpi_stale_after_seconds;
+    let latestHealth = initialResearch.health;
+
+    function fmtUTC2(iso) {{ return iso ? iso.replace('T', ' ').slice(0, 19) + ' UTC' : '—'; }}
+    function fmtR2(v) {{ return (v === null || v === undefined) ? '—' : (v >= 0 ? '+' : '') + v.toFixed(2) + 'R'; }}
+    function fmtAge(seconds) {{
+      if (seconds === null || seconds === undefined) return '—';
+      if (seconds < 90) return seconds.toFixed(0) + 's ago';
+      if (seconds < 5400) return (seconds / 60).toFixed(0) + 'm ago';
+      if (seconds < 172800) return (seconds / 3600).toFixed(1) + 'h ago';
+      return (seconds / 86400).toFixed(1) + 'd ago';
+    }}
+    function fmtDays(d) {{ return (d === null || d === undefined) ? '—' : d.toFixed(1) + ' day' + (d.toFixed(1) === '1.0' ? '' : 's'); }}
+    function statusPill(label, kind) {{ return `<span class="status-pill status-${{kind}}">${{label}}</span>`; }}
+
+    const SNAPSHOT_STATE_LABEL = {{
+      not_published: 'No snapshot published yet — the publisher has not run.',
+      malformed_snapshot_file: 'Snapshot file is malformed — waiting for the next publish.',
+      observer_not_found: 'Observer checkout not found by the publisher.',
+      no_manifest: 'Observer has not recorded a run manifest yet — no activation detected.',
+      manifest_mismatch: 'Paused: the observer’s code/contract changed since this run started. A new run is required.',
+    }};
+
+    function explicitStateBlock(payload) {{
+      if (payload.state === 'ok') return null;
+      const label = payload.state === 'error' ? (payload.error || 'Snapshot generation failed.')
+        : (SNAPSHOT_STATE_LABEL[payload.state] || `Unavailable (${{payload.state}}).`);
+      return `<p class="empty">${{label}}</p>`;
+    }}
+
+    function renderHealth(health) {{
+      latestHealth = health;
+      const container = document.getElementById('research-health-container');
+      const freshnessEl = document.getElementById('research-health-freshness');
+      const explicit = explicitStateBlock(health);
+      if (explicit) {{ container.innerHTML = explicit; freshnessEl.textContent = ''; renderRoadmap(health); return; }}
+
+      const genAt = health.generated_at_utc ? new Date(health.generated_at_utc) : null;
+      const ageSec = genAt ? (Date.now() - genAt.getTime()) / 1000 : null;
+      const isStale = ageSec !== null && ageSec > healthStaleAfter;
+      freshnessEl.innerHTML = genAt
+        ? `<span class="snapshot-note ${{isStale ? 'is-stale' : ''}}">snapshot ${{fmtAge(ageSec)}}${{isStale ? ' — STALE' : ''}}</span>` : '';
+
+      const svcKind = {{active: 'active', inactive: 'inactive', failed: 'failed'}}[health.service.status] || 'unknown';
+      const recKind = {{healthy: 'healthy', partial: 'partial', stale: 'stale', no_data: 'no_data'}}[health.recording_health] || 'unknown';
+      const ri = health.run_identity;
+
+      const pairsHtml = Object.entries(health.quotes.pairs).map(([pair, p]) => {{
+        const fresh = p.latest_receipt_age_seconds !== null && p.latest_receipt_age_seconds <= 180;
+        return `<div class="pair-cov-cell ${{fresh ? 'pc-fresh' : 'pc-stale'}}">
+          <div class="pc-pair">${{pair}}</div>
+          <div class="pc-age">${{fmtAge(p.latest_receipt_age_seconds)}}</div>
+          <div class="pc-age">${{p.valid_samples_in_window}}/${{p.samples_in_window}} valid${{p.has_gap ? ' · gap' : ''}}</div>
+        </div>`;
+      }}).join('');
+
+      container.innerHTML = `
+        <div class="status-grid">
+          <div>Service: ${{statusPill(health.service.status, svcKind)}} <span class="hint">(${{health.service.name}})</span></div>
+          <div>Recording: ${{statusPill(health.recording_health.replace('_',' '), recKind)}} <span class="hint">(inferred from quote arrivals — independent of service status)</span></div>
+        </div>
+        <div class="status-grid">
+          <div><span class="hint">Run ID</span><br><span class="mono" title="${{ri ? ri.run_id : ''}}">${{ri ? ri.run_id.slice(0, 12) + '…' : '—'}}</span></div>
+          <div><span class="hint">Activated</span><br><span class="mono">${{ri ? fmtUTC2(ri.started_at_utc) : '—'}}</span></div>
+          <div><span class="hint">Elapsed</span><br><span class="mono">${{ri ? fmtDays(ri.elapsed_days) : '—'}}</span></div>
+          <div><span class="hint">Latest quote receipt</span><br><span class="mono">${{fmtAge(health.quotes.latest_receipt_age_seconds)}}</span></div>
+        </div>
+        <div class="hint">Pair coverage: ${{health.quotes.pair_coverage_count}} / ${{health.quotes.pair_coverage_total}} fresh (last ${{Math.round(health.quotes.window_seconds/60)}}m window) —
+          ${{health.quotes.invalid_or_stale_quotes_in_window}} invalid/stale of ${{health.quotes.total_quotes_in_window}} samples in window</div>
+        <div class="pair-coverage-grid">${{pairsHtml}}</div>
+        <div class="hint" style="margin-top:14px">Recording failures (this run): poll_failed=${{health.recording_failures.poll_failed}}
+          quote_poll_failed=${{health.recording_failures.quote_poll_failed}} crashed=${{health.recording_failures.crashed}}</div>`;
+      renderRoadmap(health);
+    }}
+
+    function renderRoadmap(health) {{
+      const el = document.getElementById('research-roadmap');
+      const ri = health.state === 'ok' ? health.run_identity : null;
+      let review7 = '—', review30 = '—';
+      if (ri && ri.started_at_utc) {{
+        const started = new Date(ri.started_at_utc);
+        review7 = fmtUTC2(new Date(started.getTime() + 7 * 86400000).toISOString());
+        review30 = fmtUTC2(new Date(started.getTime() + 30 * 86400000).toISOString());
+      }}
+      el.innerHTML = `
+        <li><div class="rm-dot complete"></div><div><div class="rm-title">Historical comparison — complete</div>
+          <div class="rm-detail">Offline replay against past data, a separate evaluation with its own source, dates and unknown-outcome exclusions — see research/offline_comparison/RESULTS.md. Never combined with the live figures on this page.</div></div></li>
+        <li><div class="rm-dot active"></div><div><div class="rm-title">Prospective observation — active</div>
+          <div class="rm-detail">Paper-only, real-time, currently running (see Observation Health above). 7-day data-quality checkpoint: <span class="mono">${{review7}}</span>. 30-day (or 50 completed outcomes, if sooner) performance checkpoint: <span class="mono">${{review30}}</span>. These are review checkpoints, not automatic validation gates — no action is taken automatically at either date.</div></div></li>
+        <li><div class="rm-dot pending"></div><div><div class="rm-title">Practice execution — pending review</div>
+          <div class="rm-detail">Not started. Would require an explicit decision after the checkpoints above, not an automatic transition.</div></div></li>
+        <li><div class="rm-dot pending"></div><div><div class="rm-title">Product readiness — pending</div>
+          <div class="rm-detail">Not started.</div></div></li>`;
+    }}
+
+    function renderKpiSection(payload) {{
+      const tilesC = document.getElementById('research-kpi-tiles-container');
+      const freshnessEl = document.getElementById('research-kpi-freshness');
+      const explicit = explicitStateBlock(payload);
+      if (explicit) {{
+        tilesC.innerHTML = explicit;
+        document.getElementById('research-ledger-body').innerHTML = '<tr><td colspan="8" class="empty">No data.</td></tr>';
+        document.getElementById('research-suppressed-body').innerHTML = '<tr><td colspan="4" class="empty">No data.</td></tr>';
+        document.getElementById('research-chart').style.display = 'none';
+        document.getElementById('research-chart-empty').style.display = 'block';
+        freshnessEl.textContent = '';
+        return;
+      }}
+      const kpi = payload.kpi, ledger = payload.ledger || [];
+      const genAt = payload.generated_at_utc ? new Date(payload.generated_at_utc) : null;
+      const ageSec = genAt ? (Date.now() - genAt.getTime()) / 1000 : null;
+      const isStale = ageSec !== null && ageSec > kpiStaleAfter;
+      freshnessEl.innerHTML = genAt ? `<span class="snapshot-note ${{isStale ? 'is-stale' : ''}}">snapshot ${{fmtAge(ageSec)}}${{isStale ? ' — STALE' : ''}}</span>` : '';
+
+      const c = kpi.counts;
+      const completedAvg = kpi.avg_net_r_per_completed_trade;
+      const allEligible = kpi.avg_net_r_per_all_eligible_alert;
+      tilesC.innerHTML = `<div class="stat-tiles">
+        <div class="tile"><div class="label">Eligible Alerts</div><div class="value">${{c.eligible_alerts}}</div><div class="sub">${{c.suppressed_existing_position}} suppressed (not counted)</div></div>
+        <div class="tile"><div class="label">Entered / Completed</div><div class="value">${{c.entered}} / ${{c.completed}}</div><div class="sub">${{c.pending_open}} pending · ${{c.unknown_total}} unknown · ${{c.missed_entries_confirmed_zero_pnl}} missed (0)</div></div>
+        <div class="tile"><div class="label">Avg R / Completed Trade</div><div class="value ${{completedAvg.value === null ? '' : (completedAvg.value >= 0 ? 'pos' : 'neg')}}">${{fmtR2(completedAvg.value)}}</div><div class="sub">n=${{completedAvg.denominator}}</div></div>
+        <div class="tile"><div class="label">Avg R / All Eligible Alerts</div><div class="value ${{allEligible.is_undetermined ? 'undetermined' : (allEligible.value >= 0 ? 'pos' : 'neg')}}">${{allEligible.is_undetermined ? 'Undetermined' : fmtR2(allEligible.value)}}</div><div class="sub">${{allEligible.is_undetermined ? (allEligible.reason || '') : 'denominator=' + allEligible.denominator}}</div></div>
+        <div class="tile"><div class="label">Max Drawdown</div><div class="value ${{kpi.max_drawdown_r_partial_completed_trades_only === 0 ? '' : 'neg'}}">${{fmtR2(kpi.max_drawdown_r_partial_completed_trades_only)}}</div><div class="sub">completed trades only${{c.unknown_total > 0 ? ' — PARTIAL, unknown outcomes exist' : ''}}</div></div>
+      </div>`;
+
+      // ---- chart: cumulative completed-trade R, with a drawdown shade, axes labelled ----
+      const series = kpi.equity_curve || [];
+      const chartSvg = document.getElementById('research-chart');
+      const chartEmpty = document.getElementById('research-chart-empty');
+      const partialNote = document.getElementById('research-chart-partial-note');
+      partialNote.textContent = c.unknown_total > 0
+        ? `PARTIAL — ${{c.unknown_total}} alert(s) with an unknown outcome are excluded from this chart.` : '';
+      if (!series.length) {{
+        chartSvg.style.display = 'none';
+        chartEmpty.style.display = 'block';
+        document.getElementById('research-chart-cur').textContent = '';
+      }} else {{
+        chartSvg.style.display = 'block';
+        chartEmpty.style.display = 'none';
+        const W = 640, H = 220, padL = 34, padR = 8, padT = 10, padB = 20;
+        const values = series.map(p => p.cumulative_r);
+        const ddValues = series.map(p => p.drawdown_r);
+        const max = Math.max(0, ...values), min = Math.min(0, ...ddValues, ...values);
+        const span = (max - min) || 1;
+        const n = series.length;
+        const xs = i => padL + (n <= 1 ? (W - padL - padR) / 2 : (i / (n - 1)) * (W - padL - padR));
+        const ys = v => H - padB - ((v - min) / span) * (H - padT - padB);
+        const linePts = series.map((p, i) => `${{xs(i)}},${{ys(p.cumulative_r)}}`).join(' ');
+        const areaPts = linePts + ` ${{xs(n - 1)}},${{ys(0)}} ${{xs(0)}},${{ys(0)}}`;
+        const ddPts = series.map((p, i) => `${{xs(i)}},${{ys(p.drawdown_r)}}`).join(' ');
+        const last = series[n - 1];
+        const lineColor = last.cumulative_r >= 0 ? 'var(--long)' : 'var(--short)';
+        const firstDate = series[0].exit_time_utc ? series[0].exit_time_utc.slice(0, 10) : '';
+        const lastDate = last.exit_time_utc ? last.exit_time_utc.slice(0, 10) : '';
+        chartSvg.innerHTML = `
+          <defs><linearGradient id="researchAreaFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="${{lineColor}}" stop-opacity="0.26" /><stop offset="100%" stop-color="${{lineColor}}" stop-opacity="0" />
+          </linearGradient></defs>
+          <text x="2" y="${{H - 4}}" class="axis-label" fill="var(--text-faint)" font-size="9.5">${{min.toFixed(1)}}R</text>
+          <text x="2" y="${{padT + 9}}" class="axis-label" fill="var(--text-faint)" font-size="9.5">${{max.toFixed(1)}}R</text>
+          <text x="${{padL}}" y="${{H - 4}}" class="axis-label" fill="var(--text-faint)" font-size="9.5">${{firstDate}}</text>
+          <text x="${{W - padR}}" y="${{H - 4}}" text-anchor="end" class="axis-label" fill="var(--text-faint)" font-size="9.5">${{lastDate}}</text>
+          <line x1="${{padL}}" y1="${{ys(0)}}" x2="${{W-padR}}" y2="${{ys(0)}}" stroke="var(--border)" stroke-width="1" />
+          <polyline points="${{ddPts}}" fill="none" stroke="var(--short)" stroke-width="1.3" stroke-dasharray="3,2" opacity="0.8" />
+          <polygon points="${{areaPts}}" fill="url(#researchAreaFill)" />
+          <polyline points="${{linePts}}" fill="none" stroke="${{lineColor}}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+          <circle cx="${{xs(n - 1)}}" cy="${{ys(last.cumulative_r)}}" r="4" fill="${{lineColor}}" />`;
+        document.getElementById('research-chart-cur').textContent = fmtR2(last.cumulative_r);
+      }}
+
+      // ---- ledger + suppressed tables ----
+      const STATE_LABEL = {{
+        stopped: 'Stopped', targeted: 'Targeted', time_exited: 'Time exit', expired_no_entry: 'Missed (expired)',
+        ambiguous_intrabar_exit: 'Ambiguous exit', insufficient_data_entry: 'Insufficient data', incomplete_coverage: 'Incomplete coverage',
+        open: 'Open', actionable_open: 'Actionable (open)', suppressed_existing_position: 'Suppressed',
+      }};
+      const RESOLVED = new Set(['stopped', 'targeted', 'time_exited']);
+      const executable = ledger.filter(r => r.executable);
+      const suppressed = ledger.filter(r => !r.executable);
+
+      const ledgerBody = document.getElementById('research-ledger-body');
+      if (!executable.length) {{
+        ledgerBody.innerHTML = '<tr><td colspan="8" class="empty">No eligible alerts recorded yet.</td></tr>';
+      }} else {{
+        ledgerBody.innerHTML = executable.map((r, i) => {{
+          const badgeKind = RESOLVED.has(r.state) ? (r.r_multiple >= 0 ? 'outcome-target' : 'outcome-stop') : 'outcome-unresolved';
+          const entryStr = r.assumed_entry_time_utc ? `${{r.assumed_entry_price.toFixed(5)}}<br><span class="hint">${{fmtUTC2(r.assumed_entry_time_utc)}}</span>` : '—';
+          const exitStr = r.exit_time_utc ? `${{r.exit_price.toFixed(5)}}<br><span class="hint">${{fmtUTC2(r.exit_time_utc)}}</span>` : '—';
+          const rowId = `ledger-row-${{i}}`;
+          return `<tr class="ledger-row" data-target="${{rowId}}">
+              <td><span class="chevron">▸</span></td>
+              <td class="pair">${{r.pair}}</td>
+              <td><span class="badge ${{r.direction}}">${{r.direction.toUpperCase()}}</span></td>
+              <td class="num">${{r.entry_condition_lo.toFixed(5)}}–${{r.entry_condition_hi.toFixed(5)}}<br><span class="hint">SL ${{r.stop.toFixed(5)}} / TP ${{r.target.toFixed(5)}}</span></td>
+              <td class="num">${{entryStr}}</td>
+              <td class="num">${{exitStr}}</td>
+              <td><span class="badge ${{badgeKind}}">${{STATE_LABEL[r.state] || r.state}}</span>${{!RESOLVED.has(r.state) ? `<br><span class="hint reason-text">${{STATE_LABEL[r.state] || r.state}}</span>` : ''}}</td>
+              <td class="num">${{fmtR2(r.r_multiple)}}</td>
+            </tr>
+            <tr class="ledger-detail-row" id="${{rowId}}" style="display:none"><td colspan="8"><dl>
+              <div><dt>Source candle completion</dt><dd>${{fmtUTC2(r.source_candle_completion_utc)}}</dd></div>
+              <div><dt>Recorded</dt><dd>${{fmtUTC2(r.actual_recording_time_utc)}}</dd></div>
+              <div><dt>Decision delay</dt><dd>${{r.decision_delay_seconds !== null && r.decision_delay_seconds !== undefined ? r.decision_delay_seconds.toFixed(1) + 's' : '—'}}</dd></div>
+              <div><dt>Entry expiry</dt><dd>${{fmtUTC2(r.entry_expiry_utc)}}</dd></div>
+              <div><dt>Max holding</dt><dd>${{r.max_holding_time_hours}}h</dd></div>
+              <div><dt>Scheduled exit (deadline)</dt><dd>${{fmtUTC2(r.scheduled_exit_time_utc)}}</dd></div>
+              <div><dt>Execution delay</dt><dd>${{r.execution_delay_seconds !== null && r.execution_delay_seconds !== undefined ? r.execution_delay_seconds.toFixed(1) + 's' : '—'}}</dd></div>
+              <div><dt>Same-sample exit</dt><dd>${{r.same_sample_exit ? 'yes' : 'no'}}</dd></div>
+              <div style="grid-column:1/-1"><dt>Caveats</dt><dd style="font-family:var(--font-body);font-size:11.5px">${{(r.caveats || []).join(' ')}}</dd></div>
+            </dl></td></tr>`;
+        }}).join('');
+        ledgerBody.querySelectorAll('.ledger-row').forEach(row => {{
+          row.addEventListener('click', () => {{
+            const detail = document.getElementById(row.dataset.target);
+            const show = detail.style.display === 'none';
+            detail.style.display = show ? 'table-row' : 'none';
+            row.classList.toggle('expanded', show);
+          }});
+        }});
+      }}
+
+      const suppBody = document.getElementById('research-suppressed-body');
+      suppBody.innerHTML = suppressed.length
+        ? suppressed.map(r => `<tr><td class="pair">${{r.pair}}</td><td><span class="badge ${{r.direction}}">${{r.direction.toUpperCase()}}</span></td>
+            <td class="mono">${{fmtUTC2(r.actual_recording_time_utc)}}</td><td class="mono">${{fmtUTC2(r.suppressed_until_utc)}}</td></tr>`).join('')
+        : '<tr><td colspan="4" class="empty">None.</td></tr>';
+    }}
+
+    function refreshHealth() {{
+      fetch('/research/health', {{ credentials: 'same-origin' }}).then(r => r.json()).then(renderHealth).catch(() => {{}});
+    }}
+    function refreshKpi() {{
+      const btn = document.getElementById('research-kpi-refresh');
+      btn.disabled = true;
+      fetch('/research/kpi', {{ credentials: 'same-origin' }}).then(r => r.json()).then(k => {{ renderKpiSection(k); }})
+        .catch(() => {{}}).finally(() => {{ btn.disabled = false; }});
+    }}
+
+    document.getElementById('research-kpi-refresh').addEventListener('click', refreshKpi);
+    renderHealth(initialResearch.health);
+    renderKpiSection(initialResearch.kpi);
+    setInterval(refreshHealth, 30000);   // health: frequent, independent of the heavier KPI calculation
+    setInterval(refreshKpi, 300000);     // kpi/ledger: much less frequent (real publish cadence is 15-30 min)
+  }}
 </script>
 </body></html>"""
 
@@ -723,6 +1096,24 @@ def load_alerts() -> dict:
         return {"alerts": []}
 
 
+def load_research_snapshot(path: Path) -> dict:
+    """Reads a pre-computed research_snapshot_publisher.py output file
+    as-is -- no scoring, no log scanning, no systemctl, just a file read.
+    Always returns a dict with a `state` key so the template never has to
+    special-case None: "not_published" (file doesn't exist -- the
+    publisher hasn't run yet, e.g. right after this branch first deploys)
+    and "malformed_snapshot_file" (exists but isn't valid JSON -- a
+    corrupt/truncated write, distinct from the publisher's own explicit
+    states like observer_not_found/no_manifest/manifest_mismatch/error,
+    which are already present in a well-formed file)."""
+    if not path.exists():
+        return {"state": "not_published", "error": None, "generated_at_utc": None}
+    try:
+        return json.loads(path.read_text())
+    except json.JSONDecodeError:
+        return {"state": "malformed_snapshot_file", "error": None, "generated_at_utc": None}
+
+
 @app.get("/", response_class=HTMLResponse)
 def dashboard(_: None = Depends(check_auth)) -> str:
     live_payload = None
@@ -734,7 +1125,9 @@ def dashboard(_: None = Depends(check_auth)) -> str:
             performance_payload = json.loads(PERFORMANCE_PATH.read_text())
         except json.JSONDecodeError:
             performance_payload = None
-    return render_page(live_payload, performance_payload, load_alerts())
+    research_health_payload = load_research_snapshot(RESEARCH_HEALTH_PATH)
+    research_kpi_payload = load_research_snapshot(RESEARCH_KPI_PATH)
+    return render_page(live_payload, performance_payload, load_alerts(), research_health_payload, research_kpi_payload)
 
 
 @app.get("/table", response_class=HTMLResponse)
@@ -753,6 +1146,24 @@ def feed_partial(_: None = Depends(check_auth)) -> str:
 @app.get("/alerts", response_class=JSONResponse)
 def alerts(_: None = Depends(check_auth)) -> dict:
     return load_alerts()
+
+
+@app.get("/research/health", response_class=JSONResponse)
+def research_health(_: None = Depends(check_auth)) -> dict:
+    """Reads research_health.json as-is -- no OANDA call, no scoring, no
+    log scan, no systemctl here; all of that already happened in the
+    separate research_snapshot_publisher.py process. Polled frequently by
+    the Research view's client-side auto-refresh."""
+    return load_research_snapshot(RESEARCH_HEALTH_PATH)
+
+
+@app.get("/research/kpi", response_class=JSONResponse)
+def research_kpi(_: None = Depends(check_auth)) -> dict:
+    """Reads research_kpi.json as-is -- same read-only, pre-computed-only
+    discipline as /research/health. Used for the Research view's manual
+    Refresh button (the underlying KPI/ledger calculation is deliberately
+    much less frequent than health, see research_snapshot_publisher.py)."""
+    return load_research_snapshot(RESEARCH_KPI_PATH)
 
 
 @app.get("/api/performance", response_class=JSONResponse)
