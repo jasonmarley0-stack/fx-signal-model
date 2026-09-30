@@ -164,8 +164,20 @@ def _decision(direction="long", entry=1.10000, stop=1.09800, target=1.10500, tol
     }
 
 
-def _q(pair, t, bid, ask, tradeable=True):
-    return {"pair": pair, "received_at_utc": t.isoformat(), "bid": bid, "ask": ask, "tradeable": tradeable}
+_UNSET = object()
+
+
+def _q(pair, t, bid, ask, tradeable=True, oanda_time=_UNSET, provider_age_seconds=1):
+    """oanda_time defaults to `provider_age_seconds` before receipt -- a
+    realistic, fresh provider timestamp, well within
+    QUOTE_MAX_PROVIDER_AGE_SECONDS, so existing fixtures continue to
+    represent VALID quotes unless a test deliberately constructs a stale
+    or missing one. Pass oanda_time=None explicitly (distinct from not
+    passing it at all, via the _UNSET sentinel) to build a quote with no
+    provider timestamp at all."""
+    oanda_t = (t - timedelta(seconds=provider_age_seconds)) if oanda_time is _UNSET else oanda_time
+    return {"pair": pair, "received_at_utc": t.isoformat(), "oanda_time_utc": oanda_t.isoformat() if oanda_t else None,
+            "bid": bid, "ask": ask, "tradeable": tradeable}
 
 
 def test_fill_sides_long_ask_in_bid_out_short_reverse():
@@ -234,24 +246,272 @@ def test_deadline_stale_quote_beyond_staleness_window_is_incomplete_coverage():
     print("deadline handling: no fresh-enough quote at the holding deadline is incomplete_coverage, not a fabricated fill: OK")
 
 
-def test_deadline_fresh_quote_within_staleness_window_is_time_exited():
-    entry_q = _q("EURUSD", T0 + timedelta(seconds=5), bid=1.09960, ask=1.10010)
-    deadline = T0 + timedelta(hours=1)
-    fresh_q = _q("EURUSD", deadline - timedelta(seconds=3), bid=1.10050, ask=1.10052)  # within QUOTE_STALENESS_SECONDS of the deadline
-    d = _decision(published_at=T0, stop=1.05000, target=1.20000, max_holding_hours=1.0)  # far levels -- nothing hit before the deadline
+def _dense_filler(pair, start, end, price, step_seconds=10):
+    """Dense, gap-free quote coverage from start to end (exclusive of
+    end), flat at `price` on both sides -- used so a deadline-handling
+    test can isolate the behaviour AT the boundary without an incidental
+    mid-window gap also tripping the exit scan's own gap check."""
+    out = []
+    t = start
+    while t < end:
+        out.append(_q(pair, t, bid=price, ask=price + 0.00002))
+        t += timedelta(seconds=step_seconds)
+    return out
+
+
+def test_deadline_uses_first_sample_at_or_after_not_the_last_one_before():
+    """Corrected rule (contract.py always described this: 'the next sample
+    after the deadline'): the time exit must be priced at the FIRST valid
+    sample AT OR AFTER the deadline, with preceding coverage required and
+    the actual execution delay recorded -- never the last sample before
+    it (that was the bug)."""
+    entry_t = T0 + timedelta(seconds=5)
+    entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
+    # max_exit_time is computed from the ACTUAL entry time, not from when
+    # the decision was published -- the deadline here must match that.
+    deadline = entry_t + timedelta(minutes=5)
+    filler = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), deadline, price=1.10020)
+    pre_deadline_q = _q("EURUSD", deadline - timedelta(seconds=3), bid=1.10040, ask=1.10042)
+    post_deadline_q = _q("EURUSD", deadline + timedelta(seconds=4), bid=1.10050, ask=1.10052)  # the sample that must actually be used
+    d = _decision(published_at=T0, stop=1.05000, target=1.20000, max_holding_hours=5 / 60)  # 5-minute hold, far levels -- nothing hit before the deadline
     now = deadline + timedelta(minutes=10)
-    result = score_decision(d, [entry_q, fresh_q], now=now)
+    result = score_decision(d, [entry_q, *filler, pre_deadline_q, post_deadline_q], now=now)
     assert result["state"] == "time_exited", result
-    assert result["exit_price"] == 1.10050  # bid (exit side for a long)
-    print("deadline handling: a fresh quote within the staleness window is used for the time exit: OK")
+    assert result["exit_price"] == 1.10050, "must price at the first sample AT/AFTER the deadline, not the last one before it (1.10040)"
+    assert result["exit_time_utc"] == (deadline + timedelta(seconds=4)).isoformat()
+    assert result["scheduled_exit_time_utc"] == deadline.isoformat()
+    assert abs(result["execution_delay_seconds"] - 4) < 1e-6
+    print("deadline handling: time exit uses the first sample AT/AFTER the deadline, with execution delay recorded: OK")
+
+
+def test_deadline_post_deadline_movement_does_not_reclassify_time_exit():
+    """A later sample AFTER the pricing sample shows a target hit -- must
+    NOT reclassify the already-resolved scheduled time exit."""
+    entry_t = T0 + timedelta(seconds=5)
+    entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
+    deadline = entry_t + timedelta(minutes=5)
+    filler = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), deadline, price=1.10020)
+    pre_deadline_q = _q("EURUSD", deadline - timedelta(seconds=3), bid=1.10040, ask=1.10042)
+    post_deadline_q = _q("EURUSD", deadline + timedelta(seconds=4), bid=1.10050, ask=1.10052)
+    later_target_hit_q = _q("EURUSD", deadline + timedelta(seconds=9), bid=1.20500, ask=1.20502)  # would be a target hit if considered
+    d = _decision(published_at=T0, stop=1.05000, target=1.20000, max_holding_hours=5 / 60)
+    now = deadline + timedelta(minutes=10)
+    result = score_decision(d, [entry_q, *filler, pre_deadline_q, post_deadline_q, later_target_hit_q], now=now)
+    assert result["state"] == "time_exited", result
+    assert result["exit_price"] == 1.10050, "a later post-deadline sample must never reclassify the scheduled time exit"
+    print("deadline handling: post-deadline stop/target movement never reclassifies the scheduled time exit: OK")
+
+
+def test_deadline_gap_immediately_before_deadline_is_incomplete_coverage_not_stale_reuse():
+    """Requirement 2: 'the entered-position exit scan also ignores
+    coverage gaps' -- confirms preceding-coverage is actually enforced:
+    a gap right before the deadline must not be bridged by an earlier,
+    stale sample, even with otherwise-dense coverage for the rest of the
+    holding period."""
+    entry_t = T0 + timedelta(seconds=5)
+    entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
+    deadline = entry_t + timedelta(minutes=5)
+    # dense coverage for most of the window, but it STOPS 2 minutes before the deadline
+    filler = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), deadline - timedelta(minutes=2), price=1.10020)
+    post_deadline_q = _q("EURUSD", deadline + timedelta(seconds=4), bid=1.10050, ask=1.10052)
+    d = _decision(published_at=T0, stop=1.05000, target=1.20000, max_holding_hours=5 / 60)
+    now = deadline + timedelta(minutes=10)
+    result = score_decision(d, [entry_q, *filler, post_deadline_q], now=now)
+    assert result["state"] == "incomplete_coverage", (
+        f"a gap right before the deadline must not be silently bridged, got {result['state']}")
+    print("coverage: a gap immediately before the deadline is incomplete_coverage, never bridged by a stale earlier sample: OK")
 
 
 def test_coverage_gap_helper_detects_missing_stretch():
-    quotes = [_q("EURUSD", T0, 1.1, 1.1002), _q("EURUSD", T0 + timedelta(minutes=5), 1.1, 1.1002)]  # 5-minute gap, way beyond QUOTE_STALENESS_SECONDS
+    quotes = [{**_q("EURUSD", T0, 1.1, 1.1002), "_recv": T0}, {**_q("EURUSD", T0 + timedelta(minutes=5), 1.1, 1.1002), "_recv": T0 + timedelta(minutes=5)}]
     assert _has_coverage_gap(quotes, T0, T0 + timedelta(minutes=5)) is True
-    dense = [_q("EURUSD", T0 + timedelta(seconds=5 * i), 1.1, 1.1002) for i in range(10)]
+    dense = [{**_q("EURUSD", T0 + timedelta(seconds=5 * i), 1.1, 1.1002), "_recv": T0 + timedelta(seconds=5 * i)} for i in range(10)]
     assert _has_coverage_gap(dense, T0, T0 + timedelta(seconds=45)) is False
     print("coverage gap helper: correctly distinguishes a real gap from dense, continuous sampling: OK")
+
+
+def test_coverage_gap_helper_detects_trailing_gap_to_window_end():
+    """Regression test for the exact bug found: one sample near the
+    window START, then nothing until the window END -- the old version
+    only checked the leading and inter-sample gaps, never the trailing
+    one, so this was wrongly reported as fully covered."""
+    one_early_sample = [{**_q("EURUSD", T0 + timedelta(seconds=2), 1.1, 1.1002), "_recv": T0 + timedelta(seconds=2)}]
+    window_end = T0 + timedelta(hours=1)  # nothing recorded for the remaining ~hour
+    assert _has_coverage_gap(one_early_sample, T0, window_end) is True, (
+        "a single early sample followed by silence for the rest of the window must be a detected gap")
+    print("coverage gap helper: a trailing gap to the window's end is detected, not missed: OK")
+
+
+def test_entry_window_one_early_sample_then_silence_is_insufficient_data_not_expired():
+    """The end-to-end version of the same bug: a decision with only one
+    quote near the start of its entry window, and nothing for the rest of
+    it, must be insufficient_data_entry (a real coverage gap) -- not
+    expired_no_entry (which would wrongly imply the window was fully and
+    confidently observed)."""
+    early_sample = _q("EURUSD", T0 + timedelta(seconds=2), bid=1.05000, ask=1.05002)  # far from entry range, and alone
+    d = _decision(published_at=T0, entry=1.10000, entry_validity_hours=1.0)
+    now = T0 + timedelta(hours=1, minutes=5)
+    result = score_decision(d, [early_sample], now=now)
+    assert result["state"] == "insufficient_data_entry", (
+        f"one early sample then silence for the rest of the entry window must be a coverage gap, got {result['state']}")
+    print("coverage: one early sample then silence for the rest of the entry window is insufficient_data_entry: OK")
+
+
+def test_exit_scan_gap_does_not_let_a_later_clean_hit_become_a_confirmed_win():
+    """Regression test for the exact bug found: a 30-minute gap in the
+    exit-side quote stream, followed by a sample that shows a clean
+    target hit, must NOT be reported as a confirmed win -- something could
+    have happened (e.g. the stop) during the unobserved gap."""
+    entry_q = _q("EURUSD", T0 + timedelta(seconds=5), bid=1.09960, ask=1.10010)
+    # 30-minute gap, then a sample that (if trusted) would show a clean target hit
+    later_q = _q("EURUSD", T0 + timedelta(minutes=30, seconds=5), bid=1.10520, ask=1.10522)
+    d = _decision(published_at=T0, entry=1.10000, stop=1.09800, target=1.10500, max_holding_hours=10)
+    now = T0 + timedelta(hours=1)
+    result = score_decision(d, [entry_q, later_q], now=now)
+    assert result["state"] != "targeted", (
+        "a target hit after an unobserved 30-minute gap must not be reported as a confirmed win")
+    assert result["state"] == "incomplete_coverage", result
+    print("coverage: a target sample after a 30-minute gap does not become a confirmed win: OK")
+
+
+def test_future_clock_sample_never_used():
+    """A quote whose received_at_utc is AFTER the scoring clock (`now`)
+    must never be used to confirm an entry -- regardless of how
+    attractive its price looks."""
+    future_q = _q("EURUSD", T0 + timedelta(hours=2), bid=1.09960, ask=1.10010)  # received "after" now, below
+    d = _decision(published_at=T0, entry=1.10000, entry_validity_hours=3.0)
+    now = T0 + timedelta(minutes=30)  # scoring clock is BEFORE the future sample's own receipt time
+    result = score_decision(d, [future_q], now=now)
+    assert result["assumed_entry_time_utc"] is None, "a sample received after the scoring clock must never confirm an entry"
+    assert result["state"] in ("insufficient_data_entry", "actionable_open")
+    print("quote validity: a sample received after the scoring clock is never used: OK")
+
+
+def test_missing_provider_timestamp_quote_is_not_usable():
+    bad_q = _q("EURUSD", T0 + timedelta(seconds=5), bid=1.09960, ask=1.10010, oanda_time=None)
+    d = _decision(published_at=T0, entry=1.10000, entry_validity_hours=1.0)
+    now = T0 + timedelta(hours=1, minutes=5)
+    result = score_decision(d, [bad_q], now=now)
+    assert result["assumed_entry_time_utc"] is None
+    assert result["state"] == "insufficient_data_entry", (
+        "a quote with no provider timestamp is explicit uncertainty, not a usable observation")
+    print("quote validity: a missing provider timestamp makes a quote unusable, not silently trusted: OK")
+
+
+def test_stale_provider_timestamp_quote_is_not_usable():
+    stale_q = _q("EURUSD", T0 + timedelta(seconds=5), bid=1.09960, ask=1.10010, provider_age_seconds=999)  # way beyond QUOTE_MAX_PROVIDER_AGE_SECONDS
+    d = _decision(published_at=T0, entry=1.10000, entry_validity_hours=1.0)
+    now = T0 + timedelta(hours=1, minutes=5)
+    result = score_decision(d, [stale_q], now=now)
+    assert result["assumed_entry_time_utc"] is None
+    assert result["state"] == "insufficient_data_entry"
+    print("quote validity: a provider-stale quote is not usable, not silently trusted as fresh: OK")
+
+
+def test_all_eligible_denominator_never_substitutes_completed_average():
+    """Regression test for report.py's defect: the all-eligible-alert
+    figure must be total completed R divided by ALL eligible alerts
+    (including confirmed missed entries at zero), never the per-completed
+    average substituted in its place."""
+    sys.path.insert(0, str(Path(__file__).parent))
+    import report as report_mod
+
+    log_dir = Path(tempfile.mkdtemp())
+    decisions_log = AppendLog(log_dir / "decisions_log.jsonl")
+    quotes_log = AppendLog(log_dir / "quotes_log.jsonl")
+
+    # one completed +1R trade, one confirmed missed entry (0 P&L) -- both eligible, no unknowns
+    d1 = _decision(direction="long", entry=1.10000, stop=1.09800, target=1.10200, published_at=T0)
+    d1.update(event_type="decision", pair="EURUSD", source_candle_completion_utc=T0.isoformat())
+    decisions_log.append(d1)
+    d2 = _decision(direction="long", entry=1.30000, stop=1.29800, target=1.30500, published_at=T0, entry_validity_hours=1.0)
+    d2.update(event_type="decision", pair="GBPUSD", source_candle_completion_utc=T0.isoformat())
+    decisions_log.append(d2)
+
+    quotes_log.append(_q("EURUSD", T0 + timedelta(seconds=5), bid=1.09960, ask=1.10010))
+    quotes_log.append(_q("EURUSD", T0 + timedelta(seconds=10), bid=1.10210, ask=1.10212))  # within staleness window of entry -- a real, gap-free target hit
+    # dense (<=15s apart, gap-free from T0 through the entry deadline) coverage for GBPUSD's
+    # whole entry window, but price never reaches its entry range -> a real, confirmed miss
+    t = T0
+    while t <= T0 + timedelta(hours=1):
+        quotes_log.append(_q("GBPUSD", t, bid=1.05000, ask=1.05002))
+        t += timedelta(seconds=10)
+
+    now = T0 + timedelta(hours=2)
+    report = report_mod.kpi_report(log_dir, now)
+    alleg = report["avg_net_r_per_all_eligible_alert"]
+    completed_avg = report["avg_net_r_per_completed_trade"]["value"]
+
+    assert not alleg["is_undetermined"], alleg
+    assert alleg["denominator"] == 2, "must divide by ALL eligible alerts (2), not just completed ones (1)"
+    assert abs(alleg["value"] - completed_avg / 2) < 1e-6, (
+        f"all-eligible average ({alleg['value']}) must not equal the completed-only average ({completed_avg}) -- "
+        f"the missed entry's confirmed zero must dilute it")
+    print("denominators: avg R / all eligible alerts includes a confirmed missed entry at zero, never substitutes the completed-only average: OK")
+
+
+def test_position_policy_suppresses_overlapping_decision_for_same_pair():
+    """Requirement 5: a second decision for the same pair, while the
+    first's position is still open, must be suppressed and excluded from
+    executable-opportunity counts -- not scored as a second independent
+    opportunity."""
+    sys.path.insert(0, str(Path(__file__).parent))
+    from score import build_paper_ledger
+
+    d1 = _decision(direction="long", entry=1.10000, stop=1.09800, target=1.20000, published_at=T0, max_holding_hours=10)
+    d1.update(event_type="decision", pair="EURUSD", source_candle_completion_utc=T0.isoformat())
+    t2 = T0 + timedelta(minutes=30)
+    d2 = _decision(direction="long", entry=1.10100, stop=1.09900, target=1.20100, published_at=t2, max_holding_hours=10)
+    d2.update(event_type="decision", pair="EURUSD", source_candle_completion_utc=t2.isoformat())
+
+    entry_q = _q("EURUSD", T0 + timedelta(seconds=5), bid=1.09960, ask=1.10010)  # confirms d1's entry; d1's position stays open (far stop/target)
+    now = T0 + timedelta(hours=1)
+
+    ledger = build_paper_ledger([d1, d2], [entry_q], now)
+    d2_row = next(r for r in ledger if r["source_candle_completion_utc"] == t2.isoformat())
+    assert d2_row["executable"] is False
+    assert d2_row["state"] == "suppressed_existing_position"
+    d1_row = next(r for r in ledger if r["source_candle_completion_utc"] == T0.isoformat())
+    assert d1_row["executable"] is True
+    print("position policy: a decision overlapping an already-open position for the same pair is suppressed, not double-counted: OK")
+
+
+def test_practice_environment_enforced_in_code():
+    from run_identity import enforce_practice_environment, PracticeEnvironmentError
+    for bad_value in (None, "live", "LIVE", "practise", ""):
+        env = {} if bad_value is None else {"OANDA_ENVIRONMENT": bad_value}
+        try:
+            enforce_practice_environment(env)
+            raise AssertionError(f"expected a refusal for OANDA_ENVIRONMENT={bad_value!r}")
+        except PracticeEnvironmentError:
+            pass
+    enforce_practice_environment({"OANDA_ENVIRONMENT": "practice"})  # must not raise
+    print("activation integrity: practice-only operation is enforced in code, refuses anything else: OK")
+
+
+def test_run_identity_refuses_silent_mixing_after_code_change():
+    from run_identity import load_or_create_manifest, RunIdentityMismatchError, compute_source_hash
+    import run_identity as ri
+
+    log_dir = Path(tempfile.mkdtemp())
+    first = load_or_create_manifest(log_dir)
+    second = load_or_create_manifest(log_dir)  # same code, same dir -- must resume silently, same run_id
+    assert second["run_id"] == first["run_id"]
+
+    # simulate a code/contract change by patching the tracked-file list to include a file with different content
+    fake_changed_file = log_dir / "fake_source.py"
+    fake_changed_file.write_text("# original content\n")
+    original_tracked = ri.TRACKED_FILES
+    ri.TRACKED_FILES = original_tracked + [fake_changed_file]
+    try:
+        load_or_create_manifest(log_dir)  # this call's hash now includes fake_source.py -> persists a NEW manifest baseline? No: dir already has one from `first`
+    except RunIdentityMismatchError:
+        pass
+    else:
+        raise AssertionError("expected a mismatch once the tracked source set changed for an existing run directory")
+    finally:
+        ri.TRACKED_FILES = original_tracked
+    print("activation integrity: a source/contract change is refused, not silently blended into an existing run: OK")
 
 
 def test_report_generation_end_to_end():
@@ -310,7 +570,19 @@ if __name__ == "__main__":
     test_missing_coverage_during_entry_window_is_insufficient_data()
     test_genuinely_expired_with_full_coverage_is_expired_no_entry()
     test_deadline_stale_quote_beyond_staleness_window_is_incomplete_coverage()
-    test_deadline_fresh_quote_within_staleness_window_is_time_exited()
+    test_deadline_uses_first_sample_at_or_after_not_the_last_one_before()
+    test_deadline_post_deadline_movement_does_not_reclassify_time_exit()
+    test_deadline_gap_immediately_before_deadline_is_incomplete_coverage_not_stale_reuse()
     test_coverage_gap_helper_detects_missing_stretch()
+    test_coverage_gap_helper_detects_trailing_gap_to_window_end()
+    test_entry_window_one_early_sample_then_silence_is_insufficient_data_not_expired()
+    test_exit_scan_gap_does_not_let_a_later_clean_hit_become_a_confirmed_win()
+    test_future_clock_sample_never_used()
+    test_missing_provider_timestamp_quote_is_not_usable()
+    test_stale_provider_timestamp_quote_is_not_usable()
+    test_all_eligible_denominator_never_substitutes_completed_average()
+    test_position_policy_suppresses_overlapping_decision_for_same_pair()
+    test_practice_environment_enforced_in_code()
+    test_run_identity_refuses_silent_mixing_after_code_change()
     test_report_generation_end_to_end()
     print("All prospective-observation tests passed (no network, no credentials).")

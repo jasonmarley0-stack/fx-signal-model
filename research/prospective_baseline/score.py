@@ -12,8 +12,18 @@ evidence is discrete points).
 Fill convention: a long's entry is checked against ASK samples, its exit
 against BID samples (and the reverse for a short) -- the same real-spread,
 no-double-counting discipline as the offline replay.
+
+Corrected (see CODEX_PROSPECTIVE_CORRECTIONS.md for the full defect list
+this addresses): quote validity (provider age, tradeability, future-clock
+samples) is checked before a quote may establish anything; coverage gaps
+are checked through the FULL relevant interval (including the trailing
+gap to a window's end, and gaps that could hide an earlier exit); the
+holding deadline is resolved with ONE consistent rule (first valid sample
+AT OR AFTER the deadline, within the permitted delay, never the last
+sample before it, never reclassified by movement after that sample).
 """
 from __future__ import annotations
+from collections import defaultdict
 from datetime import datetime, timedelta
 import sys
 from pathlib import Path
@@ -33,27 +43,63 @@ def _parse(t: str) -> datetime:
     return datetime.fromisoformat(t)
 
 
-def _pair_quotes(quotes: list[dict], pair: str) -> list[dict]:
-    rows = [q for q in quotes if q.get("pair") == pair and q.get("bid") is not None and q.get("ask") is not None]
-    rows.sort(key=lambda q: q["received_at_utc"])
-    return rows
+def _try_parse(t) -> datetime | None:
+    if not t:
+        return None
+    try:
+        return datetime.fromisoformat(t)
+    except (ValueError, TypeError):
+        return None
 
 
-def _has_coverage_gap(quotes: list[dict], start: datetime, end: datetime) -> bool:
-    """True if consecutive samples within [start, end] are ever more than
-    QUOTE_STALENESS_SECONDS apart, OR if there is no sample at all near
-    the window's own start/end — a genuine collector/data gap, not merely
-    "price never moved into range"."""
-    window = [q for q in quotes if start <= _parse(q["received_at_utc"]) <= end]
+def _valid_pair_quotes(quotes: list[dict], pair: str, now: datetime) -> list[dict]:
+    """Filters to quotes that may actually be used to establish an entry,
+    exit, or coverage: real bid+ask, tradeable, a parseable provider
+    timestamp (oanda_time_utc) no older than QUOTE_MAX_PROVIDER_AGE_SECONDS
+    relative to receipt, and received_at_utc no later than `now` (the
+    scoring clock) -- a sample "received" after the moment being scored
+    must never be used, whether that's a clock anomaly or this function
+    being asked about an earlier point in time than when the sample
+    actually arrived. Each returned dict gains a parsed '_recv' datetime
+    for convenience; invalid/unusable quotes are dropped, not repaired."""
+    out = []
+    for q in quotes:
+        if q.get("pair") != pair or q.get("bid") is None or q.get("ask") is None:
+            continue
+        if not q.get("tradeable", False):
+            continue
+        recv = _try_parse(q.get("received_at_utc"))
+        if recv is None or recv > now:
+            continue
+        oanda_t = _try_parse(q.get("oanda_time_utc"))
+        if oanda_t is None:
+            continue  # missing/unparseable provider timestamp -> explicit uncertainty, not usable
+        provider_age = (recv - oanda_t).total_seconds()
+        if provider_age < 0 or provider_age > cfg.QUOTE_MAX_PROVIDER_AGE_SECONDS:
+            continue
+        out.append({**q, "_recv": recv})
+    out.sort(key=lambda q: q["_recv"])
+    return out
+
+
+def _has_coverage_gap(valid_quotes: list[dict], start: datetime, end: datetime) -> bool:
+    """True if there is any stretch within [start, end] — at the start, in
+    the middle, OR at the end — longer than QUOTE_STALENESS_SECONDS with
+    no valid sample. A single early sample followed by silence for the
+    rest of the window must be flagged: checking only the leading and
+    inter-sample gaps (the earlier, defective version of this function)
+    let one stale sample near the window's start disguise a fully
+    uncovered remainder as "no gap"."""
+    window = [q for q in valid_quotes if start <= q["_recv"] <= end]
     if not window:
         return True
-    first_gap = (_parse(window[0]["received_at_utc"]) - start).total_seconds()
-    if first_gap > cfg.QUOTE_STALENESS_SECONDS:
+    if (window[0]["_recv"] - start).total_seconds() > cfg.QUOTE_STALENESS_SECONDS:
         return True
     for a, b in zip(window, window[1:]):
-        gap = (_parse(b["received_at_utc"]) - _parse(a["received_at_utc"])).total_seconds()
-        if gap > cfg.QUOTE_STALENESS_SECONDS:
+        if (b["_recv"] - a["_recv"]).total_seconds() > cfg.QUOTE_STALENESS_SECONDS:
             return True
+    if (end - window[-1]["_recv"]).total_seconds() > cfg.QUOTE_STALENESS_SECONDS:
+        return True
     return False
 
 
@@ -67,23 +113,23 @@ def score_decision(decision: dict, quotes: list[dict], now: datetime) -> dict:
 
     published_at = _parse(decision["actual_recording_time_utc"])
     entry_deadline = _parse(decision["entry_expiry_utc"])
-    pair_quotes = _pair_quotes(quotes, pair)
+    vq = _valid_pair_quotes(quotes, pair, now)
 
     result = {
         "state": None, "assumed_entry_time_utc": None, "assumed_entry_price": None, "same_sample_exit": False,
         "exit_time_utc": None, "exit_price": None, "r_multiple": None,
+        "scheduled_exit_time_utc": None, "execution_delay_seconds": None,
         "result_type": "prospective_paper", "caveats": list(BASE_CAVEATS),
     }
 
+    # --- Entry scan: first valid sample, entry-side price in range ---
     entry_time, entry_price, entry_sample = None, None, None
-    for q in pair_quotes:
-        t = _parse(q["received_at_utc"])
+    for q in vq:
+        t = q["_recv"]
         if t < published_at:
             continue
         if t >= entry_deadline:
             break
-        if not q.get("tradeable", True):
-            continue
         price = q[entry_side]
         if lo <= price <= hi:
             entry_time, entry_price, entry_sample = t, price, q
@@ -91,7 +137,7 @@ def score_decision(decision: dict, quotes: list[dict], now: datetime) -> dict:
 
     if entry_time is None:
         scan_end = min(entry_deadline, now)
-        if _has_coverage_gap(pair_quotes, published_at, scan_end):
+        if _has_coverage_gap(vq, published_at, scan_end):
             result["state"] = "insufficient_data_entry"
         elif entry_deadline <= now:
             result["state"] = "expired_no_entry"
@@ -102,10 +148,9 @@ def score_decision(decision: dict, quotes: list[dict], now: datetime) -> dict:
     result["assumed_entry_time_utc"] = entry_time.isoformat()
     result["assumed_entry_price"] = entry_price
 
-    # Same-sample exit: the entry-confirming sample's OWN exit-side price
-    # may already show a breach — a real, near-instantaneous fill+exit,
-    # not a data artefact. Checked explicitly rather than silently
-    # starting the exit scan strictly after this sample.
+    # --- Same-sample exit: the entry-confirming sample's own exit-side
+    # price may already show a breach -- a real, near-instantaneous
+    # fill+exit, priced at that actually-observed quote. ---
     exit_price_here = entry_sample[exit_side]
     hit_stop = (exit_price_here <= stop) if d == 1 else (exit_price_here >= stop)
     hit_target = (exit_price_here >= target) if d == 1 else (exit_price_here <= target)
@@ -123,16 +168,22 @@ def score_decision(decision: dict, quotes: list[dict], now: datetime) -> dict:
 
     risk = abs(entry_price - stop)
     max_exit_time = entry_time + timedelta(hours=decision["max_holding_time_hours"])
-    scan_end = min(max_exit_time, now)
+    hit_scan_end = min(max_exit_time, now)
 
-    for q in pair_quotes:
-        t = _parse(q["received_at_utc"])
+    # --- Gap-aware exit scan: a coverage gap BEFORE a candidate sample
+    # means we cannot trust that sample is really the first thing that
+    # happened -- a later "clean" hit after an unobserved stretch must not
+    # be reported as a confirmed win/loss. ---
+    last_checked = entry_time
+    for q in vq:
+        t = q["_recv"]
         if t <= entry_time:
             continue
-        if t > scan_end:
+        if t > hit_scan_end:
             break
-        if not q.get("tradeable", True):
-            continue
+        if (t - last_checked).total_seconds() > cfg.QUOTE_STALENESS_SECONDS:
+            result["state"] = "incomplete_coverage"
+            return result
         price = q[exit_side]
         hs = (price <= stop) if d == 1 else (price >= stop)
         ht = (price >= target) if d == 1 else (price <= target)
@@ -147,26 +198,93 @@ def score_decision(decision: dict, quotes: list[dict], now: datetime) -> dict:
             result.update(state="targeted", exit_time_utc=t.isoformat(), exit_price=price,
                           r_multiple=(d * (price - entry_price) / risk if risk else None))
             return result
+        last_checked = t
 
     if max_exit_time <= now:
-        # Deadline handling: only a sample within QUOTE_STALENESS_SECONDS
-        # of the deadline is fresh enough to use — never bridge a larger
-        # gap with a stale earlier quote (mirrors the offline replay's
-        # exact-grid-match discipline, adapted for non-grid-aligned
-        # continuous sampling: "close enough in wall-clock time" rather
-        # than "opens exactly on the deadline").
-        candidates = [q for q in pair_quotes if entry_time < _parse(q["received_at_utc"]) <= max_exit_time]
-        if not candidates or (max_exit_time - _parse(candidates[-1]["received_at_utc"])).total_seconds() > cfg.QUOTE_STALENESS_SECONDS:
+        # Require preceding coverage up to the deadline itself -- a gap
+        # here could be hiding an earlier stop/target hit we'd otherwise
+        # have seen (the defect: "the entered-position exit scan also
+        # ignores coverage gaps").
+        if _has_coverage_gap(vq, last_checked, max_exit_time):
             result["state"] = "incomplete_coverage"
             return result
-        last = candidates[-1]
-        price = last[exit_side]
-        result.update(state="time_exited", exit_time_utc=last["received_at_utc"], exit_price=price,
-                      r_multiple=(d * (price - entry_price) / risk if risk else None))
+        # Deadline execution: one consistent rule. A scheduled time exit
+        # can only be acted on once the deadline has genuinely arrived --
+        # priced at the FIRST valid sample AT OR AFTER max_exit_time,
+        # within the permitted staleness/delay window. Never the last
+        # sample BEFORE the deadline (contract.py always described "the
+        # next sample after the deadline"; using the prior sample was a
+        # real defect, fixed here). Never reclassified by any stop/target
+        # movement observed after that single pricing sample.
+        post_deadline = [q for q in vq if q["_recv"] >= max_exit_time]
+        if not post_deadline or (post_deadline[0]["_recv"] - max_exit_time).total_seconds() > cfg.QUOTE_STALENESS_SECONDS:
+            result["state"] = "incomplete_coverage"
+            return result
+        exit_sample = post_deadline[0]
+        exit_time = exit_sample["_recv"]
+        exit_price = exit_sample[exit_side]
+        result.update(
+            state="time_exited", exit_time_utc=exit_time.isoformat(), exit_price=exit_price,
+            scheduled_exit_time_utc=max_exit_time.isoformat(),
+            execution_delay_seconds=(exit_time - max_exit_time).total_seconds(),
+            r_multiple=(d * (exit_price - entry_price) / risk if risk else None),
+        )
     else:
         result["state"] = "open"
     return result
 
 
 def score_all(decisions: list[dict], quotes: list[dict], now: datetime) -> list[dict]:
+    """Scores every raw decision independently, with NO position
+    suppression -- kept for inspecting what the strategy would have said
+    at every candle regardless of overlap. report.py's KPIs use
+    build_paper_ledger() below instead, which is what "executable
+    opportunities" actually means under this system's position policy."""
     return [{**dec, **score_decision(dec, quotes, now)} for dec in decisions if dec.get("event_type") == "decision"]
+
+
+def build_paper_ledger(decisions: list[dict], quotes: list[dict], now: datetime) -> list[dict]:
+    """Applies chronological one-entered-position-per-pair suppression, a
+    defect fix: score_all() scored every decision independently, so two
+    decisions overlapping the same pair could both be counted as separate
+    executable opportunities even while one already held an entered
+    position. Every raw decision is retained here (`executable: False` for
+    a suppressed one, never dropped), but only `executable: True` rows
+    count as opportunities in report.py's KPIs.
+
+    An entered position whose outcome is unresolved (ambiguous_intrabar_
+    exit, incomplete_coverage, or still open) conservatively reserves the
+    pair through entry_time + max_holding_time_hours, the same discipline
+    research/offline_comparison/replay_engine.py uses -- an unknown
+    outcome must not silently free the pair for a new entry."""
+    by_pair: dict[str, list[dict]] = defaultdict(list)
+    for dec in decisions:
+        if dec.get("event_type") == "decision":
+            by_pair[dec["pair"]].append(dec)
+
+    ledger: list[dict] = []
+    for pair, pair_decisions in by_pair.items():
+        pair_decisions = sorted(pair_decisions, key=lambda d: d["actual_recording_time_utc"])
+        open_until: datetime | None = None
+        for dec in pair_decisions:
+            published_at = _parse(dec["actual_recording_time_utc"])
+            if open_until is not None and published_at < open_until:
+                ledger.append({**dec, "executable": False, "state": "suppressed_existing_position",
+                               "suppressed_until_utc": open_until.isoformat()})
+                continue
+
+            scored = score_decision(dec, quotes, now)
+            ledger.append({**dec, "executable": True, **scored})
+
+            if scored.get("assumed_entry_time_utc"):
+                if scored.get("exit_time_utc"):
+                    exit_dt = _parse(scored["exit_time_utc"])
+                else:
+                    entry_dt = _parse(scored["assumed_entry_time_utc"])
+                    exit_dt = entry_dt + timedelta(hours=dec["max_holding_time_hours"])
+                open_until = exit_dt if exit_dt > published_at else None
+            else:
+                open_until = None
+
+    ledger.sort(key=lambda r: r["actual_recording_time_utc"])
+    return ledger

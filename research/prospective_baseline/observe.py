@@ -40,6 +40,7 @@ from strategies.composite import technical_score  # noqa: E402
 from combiner import combine_signal  # noqa: E402
 from data.oanda import fetch_oanda_candles  # noqa: E402
 from alert_lifecycle import guarded_entry_expiry  # noqa: E402
+from run_identity import enforce_practice_environment, load_or_create_manifest  # noqa: E402
 
 LOG_DIR = Path(__file__).parent / "logs"
 DECISIONS_LOG = LOG_DIR / "decisions_log.jsonl"
@@ -228,13 +229,21 @@ def _fetch_rolling_h4_mid(pair: str):  # pragma: no cover — thin real-network 
 
 
 def main() -> None:  # pragma: no cover — the real, persistent, network-calling loop; not exercised by tests
+    # Activation integrity (requirement 6): enforced in code, not only
+    # README instructions. Refuses to start against anything but
+    # OANDA_ENVIRONMENT=practice, and refuses to silently continue an
+    # existing run's logs under changed code/contract.
+    enforce_practice_environment()
+    manifest = load_or_create_manifest(LOG_DIR)
+    print(f"Run identity: run_id={manifest['run_id']} source_hash={manifest['source_hash'][:12]}...")
+
     decisions_log = AppendLog(DECISIONS_LOG)
     quotes_log = AppendLog(QUOTES_LOG)
     health_log = AppendLog(HEALTH_LOG)
     state = load_state()
 
     last_decision_tick = 0.0
-    print(f"Prospective baseline observation starting. Logs: {LOG_DIR}")
+    print(f"Prospective baseline observation starting (practice-only, enforced). Logs: {LOG_DIR}")
     while True:
         now = time.monotonic()
         try:

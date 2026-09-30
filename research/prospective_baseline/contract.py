@@ -38,10 +38,20 @@ ENTRY_VALIDITY_HOURS = 4.0            # same value as the offline replay contrac
 MAX_HOLDING_TIME_HOURS = 30.0         # same value as the offline replay contract and performance_scorer.py's MAX_LOOKAHEAD_HOURS
 ENTRY_TOLERANCE_ATR_MULTIPLE = 0.10   # same as the offline replay contract
 
-# A quote sample is "stale" (not usable to confirm entry/exit/deadline)
-# once it is older than this relative to the moment being evaluated --
-# bounds how far back a real quote may be trusted to stand in for "now".
+# A quote sample is "stale" (not usable to confirm entry/exit/deadline, and
+# not usable to bridge a coverage window) once it is older than this
+# relative to the moment being evaluated -- bounds how far back a real
+# quote may be trusted to stand in for "now", and how far forward a gap
+# between two samples may be silently treated as continuous coverage.
 QUOTE_STALENESS_SECONDS = 15  # 3x the sample interval; a genuine gap beyond this is recorded as a coverage gap, not silently bridged
+
+# A quote's own provider timestamp (oanda_time_utc) must be no older than
+# this relative to when we actually received it (received_at_utc) to be
+# trusted -- a quote OANDA itself marks as old is not treated as a fresh
+# observation even if our receipt time is recent. Missing or unparseable
+# provider timestamps are explicit uncertainty (the quote is not usable),
+# never silently assumed fresh.
+QUOTE_MAX_PROVIDER_AGE_SECONDS = 15
 
 
 @dataclass(frozen=True)
