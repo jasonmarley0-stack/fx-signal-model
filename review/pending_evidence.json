@@ -1,5 +1,60 @@
 [
   {
+    "id": 658,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Americas market news wrap: US 30-year yields hit the highest since 2002",
+    "description": "JOLTS job openings 7.079M vs 7.225M estimate Sept US consumer confidence 81.9 vs 89.2 expected US July CaseShiller 20-city house price index +2.5% vs 2.2% expected Canada July GDP 0.0% vs 0.0% expected Deutsche Bank sees a copper crunch coming \u2014 and says $10/lb may be needed to fix it US offers up to 40 million barrels from the SPR Fed\u2019s Barr expects GDP growth to pick up in the second half of the year BoE\u2019s Taylor questions whether a single \u201cinsurance hike\u201d would be seen as the start of a series Fed's Musalem touts having a framework as the backbone of communication strategy Goolsbee: 5-1/2 y",
+    "published_at": "2026-09-29T20:14:53",
+    "source_url": "https://investinglive.com/news/investinglive-americas-market-news-wrap-us-30-year-yields-hit-the-highest-since-2002/"
+  },
+  {
+    "id": 657,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Economic and event calendar in Asia Wednesday, September 30, 2026: 6 PMIs from China and CPI from Australia.",
+    "description": "It's a packed data agenda during the Asian timezone today with Chinese data releases ahead of the week long holiday that begins tomorrow along with inflation data from Australia (following the RBA rate hike yesterday )&nbsp; and much more.&nbsp; I'll come back with previews of the Chinese and Australian data separately.&nbsp; This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-09-29T20:32:47",
+    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-wednesday-september-30-2026-6-pmis-from-china-and-cpi-from-australia/"
+  },
+  {
+    "id": 656,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China PMIs preview: official manufacturing seen back above 50 before holiday",
+    "description": "A move in the official manufacturing PMI back above 50 would be read as a modest positive for China-sensitive assets, including the Australian dollar, the yuan and industrial metals. For oil, the question is whether the data changes the view on Chinese fuel demand, and a soft non-manufacturing print would keep demand worries alive. With mainland participants away for a week from Thursday, any surprise could be amplified in offshore trade. A miss on the official readings alongside a softer RatingDog services print would likely leave traders cautious into the break. --- China's September PMIs la",
+    "published_at": "2026-09-29T20:34:09",
+    "source_url": "https://investinglive.com/news/china-pmis-preview-official-manufacturing-seen-back-above-50-before-holiday/"
+  },
+  {
+    "id": 655,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Australia CPI preview: headline inflation seen at 4.0% after RBA hike",
+    "description": "The Australian dollar is the most direct read-through. A print at or above forecast would strengthen the case for further tightening and could support the currency and short-dated yields. A softer result, particularly in trimmed mean, would invite doubts about how far the central bank needs to go. Because the RBA has already moved, the data now shapes expectations for the next decision rather than the last one. For oil, the relevance is indirect, through the Australian dollar and broader risk sentiment. --- Australia's August CPI arrives one day after the RBA hiked, with headline inflation for",
+    "published_at": "2026-09-29T20:44:06",
+    "source_url": "https://investinglive.com/news/australia-cpi-preview-headline-inflation-seen-at-4-0-after-rba-hike/"
+  },
+  {
+    "id": 654,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 2,
+    "source_id": 1,
+    "title": "Agencies publish resolution plan feedback letters for 15 banking organizations",
+    "description": "Agencies publish resolution plan feedback letters for 15 banking organizations",
+    "published_at": "2026-09-29T20:00:00",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260929a.htm"
+  },
+  {
     "id": 653,
     "status": "UNMATCHED",
     "was_matched": false,
