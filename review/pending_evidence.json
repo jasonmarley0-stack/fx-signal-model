@@ -1,5 +1,82 @@
 [
   {
+    "id": 685,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Germany September preliminary CPI +3.3% vs +3.1% y/y expected",
+    "description": "Prior +2.9% HICP +3.3% vs +3.2% y/y expected Prior +2.9% Core CPI Y/Y +2.4% vs +2.4% prior Germany's inflation rate accelerated to 3.3% y/y in September, according to preliminary data from the Federal Statistical Office (Destatis), up from 2.9% in August. Consumer prices increased 0.6% m/m, compared with a 0.2% rise in August. The release therefore shows a renewed acceleration in headline price growth. Energy prices were the main source of additional inflation pressure. Energy costs rose 14.9% from a year earlier, accelerating sharply from 10.5% in August and 8.3% in July. By contrast, core in",
+    "published_at": "2026-09-30T12:00:07",
+    "source_url": "https://investinglive.com/news/germany-september-preliminary-cpi-3-3-vs-3-1-y-y-expected/"
+  },
+  {
+    "id": 684,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive European session wrap: Equities retreat as oil rebounds and bond yields stay elevated",
+    "description": "Headlines: European stocks slip back as oil and bond yields edge higher from session lows Gold extends the recovery amid renewed US-Iran deal hopes and dovish Fed's Williams comments French inflation jumps in September as HICP rises to 3.4% German state CPI readings point to inflation climbing back above 3% in September Germany retail sales rebound 1.3% in August after July slump German import prices jump 1.0% in August as cost pressures build Italy September preliminary CPI +4.2% vs +3.8% y/y expected Bitcoin remains stuck in a range as US-Iran talks cap gains despite Fed's Williams support M",
+    "published_at": "2026-09-30T11:30:27",
+    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-equities-retreat-as-oil-rebounds-and-bond-yields-stay-elevated/"
+  },
+  {
+    "id": 683,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US ADP national employment +90K vs +70K expected",
+    "description": "Prior was +38K Construction +15K Manufacturing +17K Natural resources and mining -1K Financial activities -16K Professional and business services -11K Education and health services +55K Leisure and hospitality +22K Wages for all workers +3.2% vs +3.2% prior Job stayers +3.0% vs +3.0% prior Job changers +4.8% vs +4.7% prior This is a good reading after three weaker ones. The caveat is that the bulk of the job creation was in the government-adjucent sectors of health and education while white collar jobs slid. For background, the ADP National Employment Report is a monthly measure of changes in ",
+    "published_at": "2026-09-30T12:15:08",
+    "source_url": "https://investinglive.com/news/us-adp-national-employment-vs-70k-expected/"
+  },
+  {
+    "id": 682,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US July core PCE 3.0% y/y vs 3.3% expected",
+    "description": "Prior was 3.3% Headline y/y 3.4% vs 3.7% expected (3.7% prior) Headline m/m +0.3% vs +0.4% expected (+0.2% prior) Core PCE (excluding food &amp; energy): Core m/m +0.2% vs +0.3% expected Prior +0.2% Consumer spending and income for August: Personal income +0.2% vs +0.4% expected. Prior month +0.4% Personal spending +0.9% vs +0.8% expected. Prior month +0.2% Real personal spending % vs +0.0% prior This is a big sigh of relief for the Federal Reserve and takes away the pressure to hike rates in October. The US dollar is falling across the baord and Treasury yields are 4-5 bps lower across the cu",
+    "published_at": "2026-09-30T12:30:20",
+    "source_url": "https://investinglive.com/news/us-july-core-pce-3-0-y-y-vs-3-3-expected/"
+  },
+  {
+    "id": 681,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US advance goods trade balance for August -$132.6 billion vs -$115.00 billion expected",
+    "description": "Prior was -118.9 billion The US international trade deficit in goods widened to $132.6 billion in August, up $13.7 billion from $118.9 billion in July. The increase was driven primarily by a larger rise in imports than exports. Goods imports climbed $17.4 billion to $336.1 billion, while exports increased $3.7 billion to $203.4 billion. The inventory data showed continued accumulation across both wholesale and retail businesses. Wholesale inventories rose 0.7% from July and were 6.6% higher than a year earlier, while retail inventories increased 0.3% m/m and 4.8% y/y. Both monthly inventory in",
+    "published_at": "2026-09-30T12:30:14",
+    "source_url": "https://investinglive.com/news/us-advance-goods-trade-balance-for-august-132-6-billion-vs-115-00-billion-expected/"
+  },
+  {
+    "id": 680,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US GDP Final for Q2 2.2% vs 1.5% estimate",
+    "description": "Prior estimate 1.5% revised higher to 2.2% US Q2 GDP revised to 2.2% vs 1.5% expected; inflation measures soften Real GDP: +2.2% annualized vs +1.5% expected. Previous estimate +1.5%. Real final sales: +2.8% vs +2.3% expected. Previous estimate +2.2%. Consumer spending: +3.8%. Previous estimate +3.4%. GDP deflator: +6.1% vs +6.4% expected. Previous estimate +6.4%. Core PCE prices: +3.3% vs +3.6% expected. Previous estimate +3.6%. PCE prices: +5.0%. Previous estimate +5.3%. PCE prices excluding food, energy and housing: +3.1%. Previous estimate +3.4%. PCE services prices excluding energy and ho",
+    "published_at": "2026-09-30T12:30:42",
+    "source_url": "https://investinglive.com/news/us-gdp-final-for-q2-2-2-vs-1-5-estimate/"
+  },
+  {
+    "id": 679,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 2,
+    "source_id": 1,
+    "title": "Federal Reserve Board finalizes changes to enhance the transparency and public accountability of its stress test and reduce volatility in its stress test-related capital requirements",
+    "description": "Federal Reserve Board finalizes changes to enhance the transparency and public accountability of its stress test and reduce volatility in its stress test-related capital requirements",
+    "published_at": "2026-09-30T13:00:00",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260930a.htm"
+  },
+  {
     "id": 678,
     "status": "UNMATCHED",
     "was_matched": false,
