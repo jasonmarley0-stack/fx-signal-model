@@ -1,4 +1,4 @@
-# Offline strategy comparison — results (corrected)
+# Offline strategy comparison — results (corrected, deadline-boundary rerun)
 
 Research branch: `research/offline-strategy-comparison`. Reproduce with:
 
@@ -6,7 +6,15 @@ Research branch: `research/offline-strategy-comparison`. Reproduce with:
 .venv/bin/python3 research/offline_comparison/run_experiment.py
 ```
 
-**This is a correction of the first pass (commit `cc64fef`).** That output is preserved at `output_superseded_v1/` with `SUPERSEDED.md` explaining exactly what was wrong with it. Do not use `output_superseded_v1/` for any conclusion — every number in this document supersedes it. Same three strategies, frozen parameters, dataset, and chronological split as before; six real defects in the harness itself were found and fixed (§ "What changed"), and the numbers below reflect the fixed harness.
+**This is the second correction of the first pass (commit `cc64fef`).** Two superseded outputs are kept for the record — do not draw conclusions from either: `output_superseded_v1/` (the original, pre-correction run) and `output_superseded_v2_pre_deadline_boundary_fix/` (after the first correction pass, before the deadline-boundary fix below). Each has its own `SUPERSEDED.md` stating exactly what was wrong. Every number in this document supersedes both. Same three strategies, frozen parameters, dataset, and chronological split throughout all three passes — no candidate added, no parameter tuned.
+
+## Deadline-boundary correction (this rerun)
+
+A further real defect, found after the first correction pass: the completed-candle stop/target scan still included a candle whose own OPEN was at-or-before the holding deadline but whose FULL SPAN (open + interval) extended past it — letting that candle's high/low, which partly reflects price action *after* the deadline, resolve a stop/target/ambiguity decision that should have been bounded strictly by the deadline. This is distinct from (and survived) the entry-candle-inclusion fix in the first correction pass.
+
+Fixed in `replay_scorer.py`: only fully-completed candles (`open + interval <= deadline`) may contribute a stop/target/ambiguity hit via their high/low. At the boundary itself, only the single candle whose own open lands **exactly** on the deadline — this system's entries are always confirmed on a grid-aligned M30 open, and `max_holding_time_hours` is always a whole multiple of the M30 interval, so such a candle exists whenever the data isn't gapped there — may contribute, and only via its own open (a gap-through check, or the time-exit price itself). Without an exact-deadline quote, the outcome is `incomplete_coverage`; an earlier, stale open is never fabricated into a deadline fill. Five dedicated tests added (`test_deadline_boundary.py`): both directions, a gap-through at the exact deadline quote for stop and for target, both levels breached simultaneously at that one quote (ambiguous), a genuine data gap with no exact-deadline quote (incomplete coverage), and confirmation that an ordinary stop/target hit on a fully-completed candle well before the deadline still resolves normally.
+
+**Effect on results: small and consistent with the fix's scope** — it only changes trades whose resolution depended on the last, boundary-straddling candle, a minority of completed trades. Full-window avg R per completed trade: baseline +0.0866 → **+0.0859**; genuine_orb +0.0072 → **+0.0083**; trend_pullback −0.0620 → **−0.0613**. No conclusion changes.
 
 **Every alert in this report is a replay — hypothetical, scored against historical OANDA candles. No historical subscriber received any of these alerts.** The holdout period (2026-07-01 → 2026-09-27) was already inspected once, in the superseded pass — it is a **fixed evaluation period, not fresh untouched validation**, and is described that way throughout this document.
 
@@ -52,12 +60,12 @@ None of these four were changed in this correction pass — they are restated he
 | Confirmed missed entries (0 P&L) | 5 | 11 | 20 |
 | Target-hit rate (of completed) | 16.3% | 14.7% | **51.7%** |
 | **Profitable-trade rate** (of completed, target OR profitable time exit) | 59.6% | 51.4% | 54.1% |
-| **Avg net R / completed trade** (n shown) | **+0.087** (166) | +0.007 (706) | **−0.062** (540) |
-| Avg net R / known outcome, incl. missed at 0 (n shown) | +0.084 (171) | +0.007 (717) | −0.060 (560) |
+| **Avg net R / completed trade** (n shown) | **+0.0859** (166) | +0.0083 (706) | **−0.0613** (540) |
+| Avg net R / known outcome, incl. missed at 0 (n shown) | +0.0834 (171) | +0.0082 (717) | −0.0591 (560) |
 | Avg net R / ALL eligible alerts | **undetermined** — 53 unknown outcomes | **undetermined** — 202 unknown | **undetermined** — 75 unknown |
-| Max drawdown, R, **completed trades only (partial)** | −3.74 | −28.57 | −47.31 |
-| Unknown-outcome scenario: if all unknown-exit = this candidate's best observed R | +0.312 | +0.300 | +0.038 |
-| Unknown-outcome scenario: if all unknown-exit = this candidate's worst observed R | −0.173 | −0.216 | −0.188 |
+| Max drawdown, R, **completed trades only (partial)** | −3.74 | −28.57 | −46.91 |
+| Unknown-outcome scenario: if all unknown-exit = this candidate's best observed R | +0.312 | +0.301 | +0.039 |
+| Unknown-outcome scenario: if all unknown-exit = this candidate's worst observed R | −0.173 | −0.215 | −0.187 |
 
 **Trend pullback still has by far the highest target-hit rate (51.7% vs. 16.3%/14.7%) and is still the worst performer on average R (−0.062) — the same qualitative lesson as the first pass survives correction: a target-hit/win-rate framing alone would rank trend_pullback first; average R ranks it last.** The *profitable-trade rate* (which also counts a profitable time exit as a win) narrows that gap somewhat (59.6% / 51.4% / 54.1% — much closer together) — itself informative: baseline and genuine_orb rely much more heavily on profitable time exits than clean target hits to produce a positive-R trade, which trend_pullback does not.
 
@@ -69,9 +77,9 @@ None of these four were changed in this correction pass — they are restated he
 
 | Candidate | Dev avg R/completed | Holdout avg R/completed | Dev max DD (partial) | Holdout max DD (partial) |
 |---|---:|---:|---:|---:|
-| Baseline | +0.091 (n=117) | +0.076 (n=49) | −3.74 | −2.38 |
-| Genuine ORB | +0.023 (n=502) | **−0.031** (n=204) | −16.22 | −16.03 |
-| Trend pullback | −0.075 (n=390) | −0.028 (n=150) | −43.83 | −15.53 |
+| Baseline | +0.0899 (n=117) | +0.0764 (n=49) | −3.74 | −2.38 |
+| Genuine ORB | +0.0244 (n=502) | **−0.0313** (n=204) | −16.22 | −16.03 |
+| Trend pullback | −0.0741 (n=390) | −0.0279 (n=150) | −43.83 | −15.53 |
 
 Baseline is again the only candidate positive in both periods, now on a larger completed-trade sample (117 dev / 49 holdout, vs. 94/36 in the first pass) and with a materially smaller drawdown (−3.74R full-window vs. −6.83R in the first pass, now correctly reflecting the spread floor). Genuine ORB's holdout average R flipped from a barely-positive +0.002 (first pass) to a clearly **negative** −0.031 after correction — the same "does not survive the holdout" conclusion holds, now more decisively. Trend pullback is negative in both periods post-correction (it was slightly positive in holdout, on the buggy pre-correction numbers) — the negative conclusion is now consistent across both periods rather than mixed.
 
@@ -85,9 +93,9 @@ Baseline is again the only candidate positive in both periods, now on a larger c
 
 | Candidate | Real bid/ask | Zero-cost mid | Cost impact | +30min delay | Delay impact |
 |---|---:|---:|---:|---:|---:|
-| Baseline | +0.087 | +0.117 | **−0.031** | +0.063 | −0.024 |
-| Genuine ORB | +0.007 | +0.027 | **−0.019** | −0.053 | −0.060 |
-| Trend pullback | −0.062 | −0.017 | **−0.045** | −0.045 | +0.017 |
+| Baseline | +0.0859 | +0.1165 | **−0.0306** | +0.0650 | −0.0208 |
+| Genuine ORB | +0.0083 | +0.0278 | **−0.0195** | −0.0544 | −0.0628 |
+| Trend pullback | −0.0613 | −0.0167 | **−0.0446** | −0.0433 | +0.0180 |
 
 Real spread cost is smaller in absolute terms than in the first pass (the spread floor now correctly widening stops reduces the *relative* cost drag per unit of risk) but remains real, material, and correctly signed (always negative) for every candidate.
 
@@ -95,13 +103,13 @@ Real spread cost is smaller in absolute terms than in the first pass (the spread
 
 - **Baseline: further offline investigation, then prospective observation with timestamped bid/ask.** Positive in both dev and holdout, now on the largest completed-trade sample of the three relative to its opportunity count, with the smallest drawdown and correctly reflecting the production spread floor. Still not enough evidence to skip straight to execution — the unknown-outcome scenario band (+0.31 to −0.17) is still wide relative to the point estimate — but this is the strongest candidate of the three on this evidence and is worth carrying into Stage 2.
 - **Genuine ORB: reject as tested, or at most further offline investigation only.** The correction made the holdout result unambiguously negative (−0.031 avg R/completed trade, was a barely-positive +0.002 pre-correction) while dev remained positive — the dev-only strength is now even more clearly not something the holdout confirms. Repairing ORB still changes signal *volume* enormously (224→919 issued vs. baseline) without evidence of a quality improvement.
-- **Trend pullback: reject as tested.** Negative average R in the full window, both sub-periods, and against every metric except the target-hit and profitable-trade rates — which is exactly the pattern that makes win-rate-only ranking misleading. Highest issue-volume conviction (51.7% target-hit rate) paired with the worst R and by far the worst drawdown (−47.31R) of the three.
+- **Trend pullback: reject as tested.** Negative average R in the full window, both sub-periods, and against every metric except the target-hit and profitable-trade rates — which is exactly the pattern that makes win-rate-only ranking misleading. Highest issue-volume conviction (51.7% target-hit rate) paired with the worst R and by far the worst drawdown (−46.91R) of the three.
 
 ## Roadmap
 
 | Stage | Status | Evidence | Next action |
 |---|---|---|---|
-| 1. Offline comparison | **Done, corrected** | This document (corrected), `output/ledger_full.csv` (10,484 rows), `output/summary_by_candidate_period.csv`, 3 equity/drawdown plots labelled PARTIAL, 17 harness-correctness checks (`test_replay_correctness.py` + `test_replay_engine_correctness.py`, all passing), 5 pre-existing lifecycle test files still passing unmodified | None required to close this stage |
+| 1. Offline comparison | **Done, corrected (2 correction passes)** | This document, `output/ledger_full.csv` (10,484 rows), `output/summary_by_candidate_period.csv`, 3 equity/drawdown plots labelled PARTIAL, 22 harness-correctness checks (`test_replay_correctness.py` + `test_replay_engine_correctness.py` + `test_deadline_boundary.py`, all passing), 5 pre-existing lifecycle test files still passing unmodified | None required to close this stage |
 | 2. Prospective observation with timestamped bid/ask | Not started | — | Baseline is the only candidate with evidence supporting continued observation on this pass; point a shadow process at it, scored with `src/alert_lifecycle.py`/`src/alert_scorer.py`, collecting real bid/ask at alert time |
 | 3. Bounded OANDA practice execution | Not started | — | Only after stage 2 |
 | 4. Product readiness | Not started | — | A decision point, not an engineering task |

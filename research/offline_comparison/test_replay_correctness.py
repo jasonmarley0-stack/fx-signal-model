@@ -158,22 +158,26 @@ def test_entry_candle_itself_ambiguous_not_a_later_clean_win():
     print("entry-candle exit: ambiguity in the entry candle is not overridden by a later clean win: OK")
 
 
-def test_holding_boundary_prices_off_open_not_close():
-    """A time exit's price must come from the last qualifying bar's OPEN
-    (known at-or-before the deadline), never its CLOSE (which represents
-    an instant after the deadline)."""
+def test_holding_boundary_stale_quote_is_incomplete_coverage_not_a_fabricated_fill():
+    """Corrected per the deadline-boundary review: a 15-minute deadline
+    does not land on the M30 grid, so the only candle covering it (opened
+    at T0, 15 minutes stale relative to the T0+15min deadline) is NOT a
+    real observed quote AT the deadline — it must not be fabricated into a
+    time-exit fill. Reported as incomplete_coverage instead. (The original
+    version of this test wrongly asserted a T0-open fill at T0+15min; see
+    test_deadline_boundary.py for the full set of grid-aligned deadline
+    cases, which is how this system's real 30-hour holding period actually
+    behaves in practice — always exactly grid-aligned.)"""
     version = _version(direction="long", entry_condition_lo=1.09950, entry_condition_hi=1.10050,
-                        stop=1.05000, target=1.15000, max_holding_time_hours=0.25)  # 15-minute hold, deadline inside the next bar
+                        stop=1.05000, target=1.15000, max_holding_time_hours=0.25)  # 15-minute hold -- not a multiple of the 30-minute grid
     m30_ask = _bars({T0: {"open": 1.10010, "high": 1.10020, "low": 1.10000, "close": 1.10010}})
-    # deadline = T0 + 15min, which falls inside the bar starting at T0 (a 30-min bar) --
-    # its OPEN (1.09960) is known at T0, at-or-before the deadline; its CLOSE (1.09995)
-    # represents T0+30min, which is AFTER the 15-minute deadline.
     m30_bid = _bars({T0: {"open": 1.09960, "high": 1.09998, "low": 1.09955, "close": 1.09995}})
     max_exit_time = T0 + timedelta(minutes=15)
     result = score_replay_version(version, T0 + timedelta(hours=1), "entry_expiry", m30_bid, m30_ask, now=max_exit_time + timedelta(hours=1))
-    assert result["state"] == "time_exited", result
-    assert result["exit_price"] == 1.09960, f"expected the bar's OPEN (1.09960), got {result['exit_price']} — using close would price the exit off information from after the deadline"
-    print("holding boundary: time exit prices off the qualifying bar's OPEN, not its later CLOSE: OK")
+    assert result["state"] == "incomplete_coverage", (
+        f"a stale (non-deadline-aligned) quote must not be fabricated into a time-exit fill, got {result['state']}")
+    assert result["exit_price"] is None
+    print("holding boundary: a stale quote that doesn't land exactly on the deadline is incomplete_coverage, not a fabricated fill: OK")
 
 
 def test_gap_through_stop_uses_open_not_exact_level():
@@ -262,7 +266,7 @@ if __name__ == "__main__":
     test_entry_candle_itself_can_hit_stop()
     test_entry_candle_itself_can_hit_target()
     test_entry_candle_itself_ambiguous_not_a_later_clean_win()
-    test_holding_boundary_prices_off_open_not_close()
+    test_holding_boundary_stale_quote_is_incomplete_coverage_not_a_fabricated_fill()
     test_gap_through_stop_uses_open_not_exact_level()
     test_normal_touch_stop_still_prices_at_exact_level()
     test_position_accounting_suppression_logic()

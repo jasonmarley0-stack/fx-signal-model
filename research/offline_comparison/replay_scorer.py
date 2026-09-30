@@ -84,17 +84,26 @@ def score_replay_version(version: dict, effective_entry_window_end: datetime, ef
     stop, target = version["stop"], version["target"]
     risk = abs(entry_price - stop)
     max_exit_time = entry_time + timedelta(hours=version["max_holding_time_hours"])
+    interval = _candle_interval(exit_series)
+    scan_end = min(max_exit_time, now)
 
-    # >= entry_time, NOT > — the entry candle itself must be checked too.
-    # Entry happens at that candle's OPEN, so the same candle's high/low
-    # can still reach stop/target (or both) before the candle closes;
-    # excluding it lets a later candle's clean hit override an entry
-    # candle that was itself already stopped/ambiguous — this exact bug
-    # was already found and fixed once in src/alert_scorer.py and was
-    # reintroduced here when this module was written from scratch;
-    # corrected here to match.
-    post_entry = exit_series[(exit_series.index >= pd.Timestamp(entry_time)) & (exit_series.index <= pd.Timestamp(min(max_exit_time, now)))]
-    for ts, bar in post_entry.iterrows():
+    # >= entry_time, NOT > — the entry candle itself must be checked too
+    # (entry happens at that candle's open, so its own high/low afterward
+    # can still reach stop/target before the candle closes).
+    #
+    # Only FULLY COMPLETED candles (open + interval <= scan_end) may
+    # contribute a stop/target/ambiguity hit via their high/low. A candle
+    # whose own open is at-or-before scan_end but whose span extends PAST
+    # it straddles the boundary — its high/low reflect price action that
+    # partly occurs after the deadline being evaluated, so using them
+    # could manufacture a stop/target hit (or ambiguity) that might not
+    # actually have happened before that deadline. This is a distinct bug
+    # from the entry-candle-skip fix above: that one was about which
+    # candles are INCLUDED; this one is about which INCLUDED candles may
+    # use their full high/low versus only their own opening quote.
+    completed_post_entry = exit_series[(exit_series.index >= pd.Timestamp(entry_time)) &
+                                        (exit_series.index + interval <= pd.Timestamp(scan_end))]
+    for ts, bar in completed_post_entry.iterrows():
         hit_stop = (bar["low"] <= stop) if d == 1 else (bar["high"] >= stop)
         hit_target = (bar["high"] >= target) if d == 1 else (bar["low"] <= target)
         if hit_stop and hit_target:
@@ -121,21 +130,38 @@ def score_replay_version(version: dict, effective_entry_window_end: datetime, ef
             return result
 
     if max_exit_time <= now:
-        interval = _candle_interval(exit_series)
-        exit_bars = exit_series[exit_series.index <= pd.Timestamp(max_exit_time)]
-        if not exit_bars.empty and (pd.Timestamp(max_exit_time) - exit_bars.index[-1]) <= interval:
-            # Candle timestamps denote their OPEN. The last qualifying bar's
-            # open is at-or-before max_exit_time, but its CLOSE represents a
-            # later instant (open + one interval), which can fall AFTER the
-            # deadline — using close would price the exit off information
-            # from after the boundary it's meant to represent. Use that
-            # bar's own open instead: the latest price actually known at or
-            # before the deadline.
-            exit_price = float(exit_bars.iloc[-1]["open"])
-            result.update(state="time_exited", exit_time_utc=max_exit_time.isoformat(), exit_price=exit_price,
-                          r_multiple=(d * (exit_price - entry_price) / risk if risk else None))
-        else:
+        # No fully-completed candle produced a hit. At the boundary itself,
+        # only a candle whose OWN OPEN falls EXACTLY at max_exit_time is a
+        # real observed quote AT the deadline — this system's entries are
+        # always confirmed on an M30 candle's own open (grid-aligned), and
+        # this contract's max_holding_time_hours is always a whole multiple
+        # of the M30 interval, so an exact-match candle exists whenever the
+        # data isn't gapped there. A candle that merely SPANS the deadline
+        # without opening exactly on it is not a fresher observation than
+        # its own (earlier) open already was, and must not be fabricated
+        # into a deadline fill — reported as incomplete_coverage instead.
+        boundary_candidates = exit_series[exit_series.index == pd.Timestamp(max_exit_time)]
+        if boundary_candidates.empty:
             result["state"] = "incomplete_coverage"
+            return result
+        ts = boundary_candidates.index[-1]
+        bar = boundary_candidates.iloc[-1]
+        hit_stop_at_open = (bar["open"] <= stop) if d == 1 else (bar["open"] >= stop)
+        hit_target_at_open = (bar["open"] >= target) if d == 1 else (bar["open"] <= target)
+        if hit_stop_at_open and hit_target_at_open:
+            result["state"] = "ambiguous_intrabar_exit"
+            return result
+        if hit_stop_at_open:
+            result.update(state="stopped", exit_time_utc=ts.to_pydatetime().isoformat(), exit_price=float(bar["open"]),
+                          r_multiple=(d * (float(bar["open"]) - entry_price) / risk if risk else None))
+            return result
+        if hit_target_at_open:
+            result.update(state="targeted", exit_time_utc=ts.to_pydatetime().isoformat(), exit_price=float(bar["open"]),
+                          r_multiple=(d * (float(bar["open"]) - entry_price) / risk if risk else None))
+            return result
+        exit_price = float(bar["open"])
+        result.update(state="time_exited", exit_time_utc=max_exit_time.isoformat(), exit_price=exit_price,
+                      r_multiple=(d * (exit_price - entry_price) / risk if risk else None))
     else:
         result["state"] = "open"
     return result
