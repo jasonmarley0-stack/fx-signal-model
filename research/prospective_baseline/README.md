@@ -67,9 +67,8 @@ set -a; source setup/oanda.env; set +a
 echo "OANDA_ENVIRONMENT=${OANDA_ENVIRONMENT:-<unset>} (must be exactly 'practice' — observe.py now refuses to start otherwise)"
 .venv/bin/python3 -c "
 import sys; sys.path.insert(0, 'research/prospective_baseline')
-from datetime import datetime, timezone
 from quote_client import fetch_pricing_samples
-samples = fetch_pricing_samples(['EURUSD'], datetime.now(timezone.utc))
+samples = fetch_pricing_samples(['EURUSD'])   # receipt time is always this call's own post-response clock reading -- no override accepted
 print('quote sample OK:', {k: v for k, v in samples[0].items() if k != 'pair'} if samples else 'NO SAMPLE')
 "
 .venv/bin/python3 -c "

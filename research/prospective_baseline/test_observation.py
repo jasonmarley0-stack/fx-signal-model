@@ -138,19 +138,68 @@ def test_one_pair_failure_does_not_block_another():
 def test_quote_tick_records_samples_and_survives_failure():
     quotes_log, health_log = _tmp_log("quotes.jsonl"), _tmp_log("health.jsonl")
 
-    def fake_fetch(pairs, received_at):
-        return [{"pair": p, "received_at_utc": received_at.isoformat(), "bid": 1.1000, "ask": 1.1002, "tradeable": True} for p in pairs]
+    def fake_fetch(pairs):
+        return [{"pair": p, "received_at_utc": T0.isoformat(), "bid": 1.1000, "ask": 1.1002, "tradeable": True} for p in pairs]
 
     samples = run_quote_tick(["EURUSD", "GBPUSD"], quotes_log, health_log, fake_fetch, now_fn=lambda: T0)
     assert len(samples) == 2
     assert len(quotes_log.read_all()) == 2
 
-    def failing_fetch(pairs, received_at):
+    def failing_fetch(pairs):
         raise RuntimeError("network down")
 
     result = run_quote_tick(["EURUSD"], quotes_log, health_log, failing_fetch, now_fn=lambda: T0)
     assert result[0]["event_type"] == "quote_poll_failed"
     print("quote sampling: samples recorded normally, a fetch failure recorded and does not crash: OK")
+
+
+def test_collector_never_overrides_pricing_clients_own_receipt_time():
+    """Regression for the production defect Codex found: run_quote_tick()
+    used to pass its own PRE-REQUEST clock reading into
+    fetch_pricing_samples(received_at=...), which (because that parameter
+    overrode the client's internal capture) silently reinstated the
+    "stamped before the request completes" bug quote_client.py's own fix
+    was supposed to have eliminated. fetch_pricing_samples() no longer
+    accepts any override at all -- this test exercises the real
+    collector -> pricing-client call path (run_quote_tick calling an
+    adapter around the actual fetch_pricing_samples, with only its
+    network request faked, not the parser in isolation) with an injected
+    DELAYED response, and asserts the recorded received_at_utc is the
+    pricing client's own post-response clock reading, never the tick's
+    pre-request one."""
+    import quote_client
+
+    tick_clock = {"t": T0}    # run_quote_tick's own clock -- must NEVER end up in received_at_utc
+    fetch_clock = {"t": T0}   # the pricing client's own clock, advanced by the "network" below
+
+    def delayed_request(account_id, instruments):
+        # Simulates real response latency: time passes between the
+        # request being sent and the response actually arriving.
+        fetch_clock["t"] = fetch_clock["t"] + timedelta(seconds=7)
+        return {"prices": [{
+            "instrument": "EUR_USD", "time": fetch_clock["t"].isoformat(),
+            "bids": [{"price": "1.10000"}], "asks": [{"price": "1.10020"}], "tradeable": True,
+        }]}
+
+    def production_fetch(pairs):
+        # The same call shape observe.py's main() makes in production --
+        # only the network request itself (request_fn) and the pricing
+        # client's own clock (now_fn) are faked, nothing about the
+        # collector -> pricing-client wiring is bypassed.
+        return quote_client.fetch_pricing_samples(
+            pairs, account_id="test-account", request_fn=delayed_request, now_fn=lambda: fetch_clock["t"])
+
+    quotes_log, health_log = _tmp_log("quotes.jsonl"), _tmp_log("health.jsonl")
+    samples = run_quote_tick(["EURUSD"], quotes_log, health_log, production_fetch, now_fn=lambda: tick_clock["t"])
+
+    assert len(samples) == 1
+    received_at = datetime.fromisoformat(samples[0]["received_at_utc"])
+    assert received_at == T0 + timedelta(seconds=7), (
+        f"received_at_utc must be the pricing client's own post-response clock reading, got {received_at}")
+    assert received_at != tick_clock["t"], "received_at_utc must never be overridden by the tick's own pre-request clock"
+    requested_at = datetime.fromisoformat(samples[0]["request_started_at_utc"])
+    assert requested_at == T0, "request_started_at_utc must reflect the moment before the delay, not after"
+    print("quote timing: the collector never overrides the pricing client's own post-response receipt time: OK")
 
 
 def _decision(direction="long", entry=1.10000, stop=1.09800, target=1.10500, tol=0.00050,
@@ -193,13 +242,18 @@ def test_fill_sides_long_ask_in_bid_out_short_reverse():
 
 def test_same_sample_exit_detected_and_priced_at_observed_quote():
     """The entry-confirming sample's own exit-side price already breaches
-    target -- must be flagged same_sample_exit and priced at the actually
-    observed exit-side quote, not the idealised target level."""
-    quotes = [_q("EURUSD", T0 + timedelta(seconds=5), bid=1.10520, ask=1.10010)]  # ask confirms entry; bid (exit side for a long) already past target
-    result = score_decision(_decision(direction="long", entry=1.10000, stop=1.09800, target=1.10500), quotes, now=T0 + timedelta(hours=1))
-    assert result["state"] == "targeted", result
+    stop -- must be flagged same_sample_exit and priced at the actually
+    observed exit-side quote, not the idealised stop level. (A same-sample
+    TARGET hit is not used here: for a long, exit side=bid must be <= entry
+    side=ask by definition of a real, non-crossed quote, so an instant
+    target hit above the entry band is not a realistic single-quote
+    scenario the way an instant stop hit within the spread is -- a stop
+    close enough to entry that the spread alone can breach it on arrival.)"""
+    quotes = [_q("EURUSD", T0 + timedelta(seconds=5), bid=1.09960, ask=1.10010)]  # ask confirms entry; bid (exit side for a long) already past (tight) stop, bid <= ask -- a real quote
+    result = score_decision(_decision(direction="long", entry=1.10000, stop=1.09970, target=1.10500), quotes, now=T0 + timedelta(hours=1))
+    assert result["state"] == "stopped", result
     assert result["same_sample_exit"] is True
-    assert result["exit_price"] == 1.10520, "must price at the actually observed exit-side quote, not the stated target level"
+    assert result["exit_price"] == 1.09960, "must price at the actually observed exit-side quote, not the stated stop level"
     print("same-sample exit: detected and priced at the real observed quote, not a fabricated exact level: OK")
 
 
@@ -408,6 +462,34 @@ def test_stale_provider_timestamp_quote_is_not_usable():
     print("quote validity: a provider-stale quote is not usable, not silently trusted as fresh: OK")
 
 
+def test_crossed_quote_never_establishes_a_fill():
+    """Regression: Codex reproduced a crossed quote (bid > ask -- a bad
+    tick/data-feed glitch, not a real tradeable price) becoming an
+    immediate targeted trade. A crossed quote must be entirely unusable:
+    not for confirming an entry, and not for pricing a same-sample exit,
+    even though its ask alone would sit inside the entry range and its
+    bid alone would sit past the target."""
+    crossed_q = _q("EURUSD", T0 + timedelta(seconds=5), bid=1.20500, ask=1.10010)  # bid > ask -- not a real quote
+    d = _decision(published_at=T0, entry=1.10000, stop=1.09800, target=1.20000, entry_validity_hours=1.0)
+    now = T0 + timedelta(hours=1, minutes=5)
+    result = score_decision(d, [crossed_q], now=now)
+    assert result["state"] != "targeted", "a crossed quote must never establish an instant fill"
+    assert result["assumed_entry_time_utc"] is None, "a crossed quote must never confirm an entry"
+    print("quote validity: a crossed quote (bid > ask) never establishes a fill, not even an instant one: OK")
+
+
+def test_non_finite_or_non_positive_price_quote_is_not_usable():
+    nan_q = _q("EURUSD", T0 + timedelta(seconds=5), bid=float("nan"), ask=1.10010)
+    zero_q = _q("EURUSD", T0 + timedelta(seconds=10), bid=1.09960, ask=0.0)
+    neg_q = _q("EURUSD", T0 + timedelta(seconds=15), bid=1.09960, ask=-1.10010)
+    d = _decision(published_at=T0, entry=1.10000, entry_validity_hours=1.0)
+    now = T0 + timedelta(hours=1, minutes=5)
+    for bad_q, label in [(nan_q, "NaN"), (zero_q, "zero"), (neg_q, "negative")]:
+        result = score_decision(d, [bad_q], now=now)
+        assert result["assumed_entry_time_utc"] is None, f"a {label}-priced quote must never confirm an entry"
+    print("quote validity: non-finite/non-positive prices are never usable, not silently trusted: OK")
+
+
 def test_all_eligible_denominator_never_substitutes_completed_average():
     """Regression test for report.py's defect: the all-eligible-alert
     figure must be total completed R divided by ALL eligible alerts
@@ -564,6 +646,7 @@ if __name__ == "__main__":
     test_poll_failure_recorded_not_silently_dropped()
     test_one_pair_failure_does_not_block_another()
     test_quote_tick_records_samples_and_survives_failure()
+    test_collector_never_overrides_pricing_clients_own_receipt_time()
     test_fill_sides_long_ask_in_bid_out_short_reverse()
     test_same_sample_exit_detected_and_priced_at_observed_quote()
     test_same_sample_both_levels_is_ambiguous()
@@ -580,6 +663,8 @@ if __name__ == "__main__":
     test_future_clock_sample_never_used()
     test_missing_provider_timestamp_quote_is_not_usable()
     test_stale_provider_timestamp_quote_is_not_usable()
+    test_crossed_quote_never_establishes_a_fill()
+    test_non_finite_or_non_positive_price_quote_is_not_usable()
     test_all_eligible_denominator_never_substitutes_completed_average()
     test_position_policy_suppresses_overlapping_decision_for_same_pair()
     test_practice_environment_enforced_in_code()

@@ -206,14 +206,20 @@ def run_decision_tick(pairs: list[str], decisions_log: AppendLog, health_log: Ap
 
 def run_quote_tick(pairs: list[str], quotes_log: AppendLog, health_log: AppendLog, fetch_pricing_fn,
                     now_fn=lambda: datetime.now(timezone.utc)) -> list[dict]:
-    """`fetch_pricing_fn(pairs, received_at) -> list[dict]` is injected
-    for testability. One failure records a health event and does not
-    raise -- the collector must keep running."""
-    received_at = now_fn()
+    """`fetch_pricing_fn(pairs) -> list[dict]` is injected for testability;
+    it is responsible for stamping its OWN received_at_utc on each sample
+    (see quote_client.fetch_pricing_samples, which does this after its
+    real network response returns). This tick's own `now_fn()` is used
+    ONLY for this tick's bookkeeping (the failure-event timestamp below)
+    -- it must never be threaded into a sample's received_at_utc, or it
+    silently reintroduces the pre-request timing defect the pricing
+    client's own post-response capture fixed. One failure records a
+    health event and does not raise -- the collector must keep running."""
+    tick_started_at = now_fn()
     try:
-        samples = fetch_pricing_fn(pairs, received_at)
+        samples = fetch_pricing_fn(pairs)
     except Exception as ex:  # noqa: BLE001
-        return [health_log.append({"event_type": "quote_poll_failed", "recorded_at_utc": received_at.isoformat(), "error": str(ex)})]
+        return [health_log.append({"event_type": "quote_poll_failed", "recorded_at_utc": tick_started_at.isoformat(), "error": str(ex)})]
     for s in samples:
         quotes_log.append(s)
     return samples

@@ -11,17 +11,30 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Relative to this file's parent (research/prospective_baseline/) and the
-# repo's src/ -- the exact set of files whose content determines what this
+_SRC = Path(__file__).parent.parent.parent / "src"
+
+# The exact, COMPLETE set of files whose content determines what this
 # run's decisions/scores actually mean. Any change to any of these is a
-# contract/code change, not a data anomaly.
+# contract/code change, not a data anomaly -- deliberately over-inclusive:
+# this system's own code (contract/collector/scorer/report/activation
+# guard), the real pricing client, the real candle-fetch client, and every
+# module the frozen strategy itself imports (src/strategies/composite.py's
+# own import graph), not just composite.py and combiner.py at the top.
 TRACKED_FILES = [
     Path(__file__).parent / "contract.py",
     Path(__file__).parent / "observe.py",
     Path(__file__).parent / "score.py",
-    Path(__file__).parent.parent.parent / "src" / "combiner.py",
-    Path(__file__).parent.parent.parent / "src" / "strategies" / "composite.py",
-    Path(__file__).parent.parent.parent / "src" / "spreads.py",
+    Path(__file__).parent / "report.py",
+    Path(__file__).parent / "quote_client.py",
+    Path(__file__).parent / "run_identity.py",
+    _SRC / "combiner.py",
+    _SRC / "spreads.py",
+    _SRC / "data" / "oanda.py",
+    _SRC / "strategies" / "composite.py",
+    _SRC / "strategies" / "indicators.py",
+    _SRC / "strategies" / "opening_range_breakout.py",
+    _SRC / "strategies" / "trend_following.py",
+    _SRC / "strategies" / "candlestick_patterns.py",
 ]
 
 

@@ -40,26 +40,39 @@ def parse_pricing_response(resp: dict, received_at: datetime) -> list[dict]:
     return out
 
 
-def fetch_pricing_samples(pairs: list[str], received_at: datetime | None = None) -> list[dict]:
-    """The one function that actually calls OANDA. If `received_at` is
-    given explicitly (tests only), it is used as-is. Otherwise receipt
-    time is captured AFTER the HTTP response returns, not before the
-    request is sent — stamping it at request-start would understate real
-    latency and could misrepresent how fresh a quote actually is. The
+def fetch_pricing_samples(pairs: list[str], account_id: str | None = None, request_fn=None, now_fn=None) -> list[dict]:
+    """The one function that actually calls OANDA. There is NO parameter
+    that lets a caller override the post-response receipt time -- that
+    was the production defect (observe.py's run_quote_tick threaded its
+    own pre-request clock reading into this function, silently
+    reinstating the "stamped before the request completes" bug this
+    function otherwise fixes). Receipt time is always this function's
+    OWN clock reading, taken AFTER the HTTP response returns, never
+    before the request is sent and never supplied by the caller. The
     request-start time is preserved separately (request_started_at_utc,
-    returned on each sample) for diagnosing slow requests, but
-    received_at_utc — the timestamp every coverage/staleness check in
-    score.py relies on — is always the true post-response receipt time."""
-    from oandapyV20.endpoints.pricing import PricingInfo
-    account_id = os.environ.get("OANDA_ACCOUNT_ID")
+    returned on each sample) for diagnosing slow requests only.
+
+    `request_fn(account_id, instruments) -> raw OANDA response dict` and
+    `now_fn() -> datetime` are injected for testability (a test can
+    simulate a slow/delayed response without real network or a real
+    sleep); both default to the real OANDA call / real clock and are
+    never used in production."""
+    now_fn = now_fn or (lambda: datetime.now(timezone.utc))
+    account_id = account_id or os.environ.get("OANDA_ACCOUNT_ID")
     if not account_id:
         raise RuntimeError("OANDA_ACCOUNT_ID not set in environment — check setup/oanda.env is loaded")
-    request_started_at = datetime.now(timezone.utc)
-    client = _client()
     instruments = ",".join(to_oanda_instrument(p) for p in pairs)
-    resp = client.request(PricingInfo(accountID=account_id, params={"instruments": instruments}))
-    actual_received_at = received_at or datetime.now(timezone.utc)  # captured AFTER the request returns
-    samples = parse_pricing_response(resp, actual_received_at)
+    if request_fn is None:
+        from oandapyV20.endpoints.pricing import PricingInfo
+        client = _client()
+
+        def request_fn(acct_id: str, instr: str):  # noqa: E306
+            return client.request(PricingInfo(accountID=acct_id, params={"instruments": instr}))
+
+    request_started_at = now_fn()
+    resp = request_fn(account_id, instruments)
+    received_at = now_fn()  # always captured AFTER the request returns -- never overridable
+    samples = parse_pricing_response(resp, received_at)
     for s in samples:
         s["request_started_at_utc"] = request_started_at.isoformat()
     return samples

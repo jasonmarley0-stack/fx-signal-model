@@ -1,11 +1,14 @@
-"""KPI report for the prospective baseline observation run. Reads
-decisions_log.jsonl + quotes_log.jsonl + health_log.jsonl from a log
-directory, applies chronological one-entered-position-per-pair
-suppression (score.build_paper_ledger), and reports exactly the metrics
-requested -- same denominator discipline as research/offline_comparison/
-metrics.py (every average states what it covers; an all-eligible-alert
-average is reported undetermined, never substituted, when any outcome is
-unknown).
+"""KPI report for the prospective baseline observation run. Verifies the
+run's recorded source/contract fingerprint (run_identity.load_or_create_
+manifest) BEFORE scoring anything -- refuses to score a log directory
+whose code has changed since that run was recorded, same discipline
+observe.py itself enforces on start. Reads decisions_log.jsonl +
+quotes_log.jsonl + health_log.jsonl from a log directory, applies
+chronological one-entered-position-per-pair suppression
+(score.build_paper_ledger), and reports exactly the metrics requested --
+same denominator discipline as research/offline_comparison/metrics.py
+(every average states what it covers; an all-eligible-alert average is
+reported undetermined, never substituted, when any outcome is unknown).
 """
 from __future__ import annotations
 import json
@@ -16,6 +19,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from score import build_paper_ledger  # noqa: E402
+from run_identity import load_or_create_manifest  # noqa: E402
 
 RESOLVED_STATES = {"stopped", "targeted", "time_exited"}
 UNKNOWN_STATES = {"ambiguous_intrabar_exit", "insufficient_data_entry", "incomplete_coverage", "open", "actionable_open"}
@@ -35,6 +39,11 @@ def load_run(log_dir: Path) -> tuple[list[dict], list[dict], list[dict]]:
 
 
 def kpi_report(log_dir: Path, now: datetime) -> dict:
+    # Verify this run's recorded source/contract fingerprint BEFORE
+    # scoring anything -- refuses (RunIdentityMismatchError) if the code
+    # now present differs from what this run's logs were recorded under,
+    # rather than silently scoring data collected under different logic.
+    load_or_create_manifest(log_dir)
     decisions, quotes, health = load_run(log_dir)
     ledger = build_paper_ledger(decisions, quotes, now)
 

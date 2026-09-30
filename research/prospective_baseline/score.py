@@ -15,16 +15,19 @@ no-double-counting discipline as the offline replay.
 
 Corrected (see CODEX_PROSPECTIVE_CORRECTIONS.md for the full defect list
 this addresses): quote validity (provider age, tradeability, future-clock
-samples) is checked before a quote may establish anything; coverage gaps
-are checked through the FULL relevant interval (including the trailing
-gap to a window's end, and gaps that could hide an earlier exit); the
-holding deadline is resolved with ONE consistent rule (first valid sample
-AT OR AFTER the deadline, within the permitted delay, never the last
-sample before it, never reclassified by movement after that sample).
+samples, non-finite/non-positive prices, and CROSSED quotes where
+bid > ask -- none of these may establish a fill or coverage) is checked
+before a quote may establish anything; coverage gaps are checked through
+the FULL relevant interval (including the trailing gap to a window's end,
+and gaps that could hide an earlier exit); the holding deadline is
+resolved with ONE consistent rule (first valid sample AT OR AFTER the
+deadline, within the permitted delay, never the last sample before it,
+never reclassified by movement after that sample).
 """
 from __future__ import annotations
 from collections import defaultdict
 from datetime import datetime, timedelta
+import math
 import sys
 from pathlib import Path
 
@@ -52,19 +55,41 @@ def _try_parse(t) -> datetime | None:
         return None
 
 
+def _valid_price(p) -> float | None:
+    """A price is usable only if it's a real, finite, positive number --
+    None/NaN/inf/zero/negative are all explicit uncertainty, never
+    silently coerced into something usable."""
+    try:
+        f = float(p)
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(f) or f <= 0:
+        return None
+    return f
+
+
 def _valid_pair_quotes(quotes: list[dict], pair: str, now: datetime) -> list[dict]:
     """Filters to quotes that may actually be used to establish an entry,
-    exit, or coverage: real bid+ask, tradeable, a parseable provider
+    exit, or coverage: real bid+ask (finite, positive, and NOT crossed --
+    bid <= ask; a crossed quote, e.g. from a bad tick or data-feed glitch,
+    is a malformed observation, never a usable one, and must never be
+    allowed to establish an instant fill), tradeable, a parseable provider
     timestamp (oanda_time_utc) no older than QUOTE_MAX_PROVIDER_AGE_SECONDS
     relative to receipt, and received_at_utc no later than `now` (the
     scoring clock) -- a sample "received" after the moment being scored
     must never be used, whether that's a clock anomaly or this function
     being asked about an earlier point in time than when the sample
     actually arrived. Each returned dict gains a parsed '_recv' datetime
-    for convenience; invalid/unusable quotes are dropped, not repaired."""
+    and validated float '_bid'/'_ask' for convenience; invalid/unusable
+    quotes are dropped here, never repaired -- the raw observation is
+    still retained in quotes_log.jsonl regardless, this filter only
+    controls what may be used to SCORE a decision."""
     out = []
     for q in quotes:
-        if q.get("pair") != pair or q.get("bid") is None or q.get("ask") is None:
+        if q.get("pair") != pair:
+            continue
+        bid, ask = _valid_price(q.get("bid")), _valid_price(q.get("ask"))
+        if bid is None or ask is None or bid > ask:
             continue
         if not q.get("tradeable", False):
             continue
@@ -77,7 +102,7 @@ def _valid_pair_quotes(quotes: list[dict], pair: str, now: datetime) -> list[dic
         provider_age = (recv - oanda_t).total_seconds()
         if provider_age < 0 or provider_age > cfg.QUOTE_MAX_PROVIDER_AGE_SECONDS:
             continue
-        out.append({**q, "_recv": recv})
+        out.append({**q, "_recv": recv, "bid": bid, "ask": ask})
     out.sort(key=lambda q: q["_recv"])
     return out
 
