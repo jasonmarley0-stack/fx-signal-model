@@ -1,5 +1,71 @@
 [
   {
+    "id": 691,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Trump: US has almost total control of the Strait of Hormuz",
+    "description": "Comments from US President Trump on Iran and the Strait of Hormuz: US has almost total control of the Strait of Hormuz. You will see things happening very soon (regarding Iran); there has been historic flows of oil out of Hormuz in the last three days. Analysis: Trump\u2019s message is that the US has control of the situation, with developments on Iran coming soon. However, he offers no specifics on what those developments might be. The comments leave open whether the next step involves negotiations, military action, or arrangements governing passage through the strait. For oil traders, the key is ",
+    "published_at": "2026-09-30T18:23:51",
+    "source_url": "https://investinglive.com/news/trump-us-has-almost-total-control-of-the-strait-of-hormuz/"
+  },
+  {
+    "id": 690,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Trump calls for Powell to resign over Fed renovation, asks attorney general to review report",
+    "description": "In a TruthSocial post, Donald Trump&nbsp;is calling for Jerome Powell to resign from the Fed Board over alleged mismanagement and cost overruns in the Federal Reserve headquarters renovation. He says he has asked Attorney General Todd Blanche to review an inspector general\u2019s report and determine what action to take. Trump cites a projected cost of at least $2.5 billion and alleged shortcomings in cost estimates and construction safeguards. He threatens a government lawsuit if Powell does not resign. His suggestion that costs could reach $3.5\u2013$4 billion is his own forecast. Analysis: Trump is t",
+    "published_at": "2026-09-30T20:00:08",
+    "source_url": "https://investinglive.com/news/trump-calls-for-powell-to-resign-over-fed-renovation-asks-attorney-general-to-review-report/"
+  },
+  {
+    "id": 689,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What China's Golden Week closures mean for the yuan, futures and Asian liquidity",
+    "description": "Hong Kong will trade on October 2, 5, 6 and 7 without Stock Connect flows in either direction, which may leave China-focused and dual-listed shares on thinner, more offshore-driven liquidity. With the onshore yuan market shut, offshore yuan carries price discovery with less depth, and mainland commodity and financial futures are closed, so traders lose Chinese price signals for a week. Any news during the break will be priced offshore first, which raises the chance of adjustments when the mainland reopens on October 8. The scale of the People's Bank of China's liquidity operations around the h",
+    "published_at": "2026-09-30T21:06:56",
+    "source_url": "https://investinglive.com/news/what-china-s-golden-week-closures-mean-for-the-yuan-futures-and-asian-liquidity/"
+  },
+  {
+    "id": 688,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Americas FX news wrap 30 Sept: Softer PCE fails to hold yields down; Dow ends September at June lows",
+    "description": "Softer inflation gave markets some breathing room early Wednesday. But by the end of the session, Treasury yields were higher, the dollar had strengthened against most major currencies, and the stock market\u2019s gains were concentrated in the Nasdaq indices. The economic picture was mixed. August PCE inflation came in below expectations, second-quarter growth was revised higher, and a larger goods trade deficit contributed to a sharp downgrade in the Atlanta Fed\u2019s third-quarter growth estimate. For traders, the message was that the Fed has room to wait, but inflation and growth risks have not dis",
+    "published_at": "2026-09-30T21:09:42",
+    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-30-sept-softer-pce-fails-to-hold-yields-down-dow-ends-september-at-june-lows/"
+  },
+  {
+    "id": 687,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Isabel Schnabel: Monetary policy in a world of overlapping shocks",
+    "description": "",
+    "published_at": "2026-09-30T15:45:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260930_1~7c6c120482.en.html"
+  },
+  {
+    "id": 686,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Christine Lagarde: Interview with La Croix",
+    "description": "",
+    "published_at": "2026-09-30T17:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/inter/date/2026/html/ecb.in260930~10084a5f3d.en.html"
+  },
+  {
     "id": 685,
     "status": "UNMATCHED",
     "was_matched": false,
