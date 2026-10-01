@@ -1,0 +1,9 @@
+[Unit]
+Description=Publish the Stage 2 observer's health snapshot for the Research dashboard view (cheap, frequent — never touches the observer checkout's own code/manifest, read-only)
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/root/fx-signal-model
+ExecStart=/root/fx-signal-model/.venv/bin/python3 /root/fx-signal-model/research_snapshot_publisher.py health --observer-checkout /root/fx-signal-model-stage2-observer --out-dir /root/fx-signal-model/research_snapshots
