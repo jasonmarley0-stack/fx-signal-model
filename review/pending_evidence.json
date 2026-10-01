@@ -1,5 +1,115 @@
 [
   {
+    "id": 716,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US layoffs ease in September, but weak hiring keeps NFP in focus",
+    "description": "US-based employers announced 43,281 job cuts in September, down 18% from August and 20% from a year earlier. This marks the lowest total for the month since 2022, when 29,989 job cuts were recorded. Tech continues to lead layoffs, posting&nbsp;10,799 cuts in September - up 77% from August. But through the&nbsp;first nine months of 2026, total announced layoffs are down 39% compared with the same period last year.&nbsp;On the surface, that seems to be fairly reassuring. But when you look at hiring, that is where things get more interesting with this month's Challenger report.&nbsp;Employers ann",
+    "published_at": "2026-10-01T10:05:31",
+    "source_url": "https://investinglive.com/news/us-layoffs-ease-in-september-but-weak-hiring-keeps-nfp-in-focus/"
+  },
+  {
+    "id": 715,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Trump tells TIME the U.S. could resume or intensify attacks against Iran after the midterm elections",
+    "description": "According to the interview with TIME , Trump initially expected the conflict to last only four to six weeks, but seven months later there is still no clear end in sight. The conflict has disrupted oil flows through the Strait of Hormuz, pushed energy prices higher and created significant economic and geopolitical consequences. Trump continues to defend the decision to launch the war, arguing that military action was necessary to prevent Iran from obtaining a nuclear weapon. He points to the subsequent weakening of Iran's position as evidence that the campaign has achieved important objectives.",
+    "published_at": "2026-10-01T11:18:06",
+    "source_url": "https://investinglive.com/news/trump-tells-time-the-u-s-could-resume-or-intensify-attacks-against-iran-after-the-midterm-elections/"
+  },
+  {
+    "id": 714,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive European session wrap: Dollar firms as Treasury yields threaten fresh 2002 highs",
+    "description": "Headlines: Stocks feel the pinch as 10-year Treasury yields hit 5.33%, highest since 2002 US dollar hits three-month high as Treasury yields surge, EUR/USD cracks key support Oil shoots higher as the market starts to lose patience with the prolonged US-Iran stalemate Trump tells TIME the U.S. could resume or intensify attacks against Iran after the midterm elections US sees China invasion of Taiwan unlikely before 2028, but trade and market risks remain Switzerland September CPI +1.0% vs +1.0% y/y expected Eurozone manufacturing hits 52-month high as input and output prices accelerate UK Septe",
+    "published_at": "2026-10-01T12:08:51",
+    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-dollar-firms-as-treasury-yields-threaten-fresh-2002-highs/"
+  },
+  {
+    "id": 713,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US weekly initial jobless claims 197K vs 200K expected",
+    "description": "Prior was 197K (revised to 198K) Four-week moving average 200.0K vs 202.2K prior Continuing claims 1.701m vs 1.725m expected Prior continuing claims 1.719m These numbers are at generational lows and a reminder that the risk is towards rising inflation/wages rather than unemployment. For background, initial jobless claims measure new applications for unemployment insurance in the United States, providing a timely indication of layoffs and changes in labor market conditions. Published weekly by the Department of Labor, the report is closely watched because it can reveal shifts in employment befo",
+    "published_at": "2026-10-01T12:30:06",
+    "source_url": "https://investinglive.com/news/us-weekly-initial-jobless-claims-197k-vs-200k-expected/"
+  },
+  {
+    "id": 712,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Canada Sept S&P Global manufacturing PMI 51.5 vs 53.0 prior",
+    "description": "Prior was 53.0 Lowest since March Sixth straight month above 50 New orders fall for the first time since March New export orders down for a fourth month Output still rising but at the slowest pace in six months Input cost inflation highest since July 2022 Supplier delivery times longest since August 2022 Business confidence lowest since December 2025 Employment up for a sixth month, slowest gain since May Backlogs fall by the most in eight months The headline still says growth, but the details are pour. New orders slipped into contraction, and the bulk of the 1.5-point drop in the PMI came fro",
+    "published_at": "2026-10-01T13:30:25",
+    "source_url": "https://investinglive.com/news/canada-sept-s-p-global-manufacturing-pmi-51-5-vs-53-0-prior/"
+  },
+  {
+    "id": 711,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US September ISM manufacturing 54.5 vs 55.0 expected",
+    "description": "Prior reading was 54.6 New orders 55.3 vs 53.7 prior Employment 52.7&nbsp; vs 51.2 prior Prices paid 77.9 vs 72.3 expected -- highest since May Prior prices paid 71.1 The prices paid number is grabbing the market's reaction in the immediate aftermath of the report as it soared. US 30-year yields are at the highs of the day, up 5.2 bps to 5.69%, the high of the day. That dynamic is also weighing on equity markets. Prices paid: Comments in the report: \u201cBetter performance was driven primarily by temporary market effects, including (1) geopolitical uncertainties, (2) customers bringing forward pur",
+    "published_at": "2026-10-01T14:00:06",
+    "source_url": "https://investinglive.com/news/us-september-ism-manufacturing-54-5-vs-55-0-expected/"
+  },
+  {
+    "id": 710,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US construction spending for the month of August 0.9% versus 0.0% expected",
+    "description": "Construction spending: +0.9% MoM vs 0.0% expected. July revised to \u22120.1% from \u22120.5%. Annual spending rate: $2,203.1 billion. Year-on-year spending: \u22121.7%. January\u2013August spending: \u22123.1% compared with the same period in 2025. August components compared with revised July levels, at seasonally adjusted annual rates: Private construction: $1,655.3 billion vs $1,637.7 billion. Up 1.1% MoM. Private residential: $882.3 billion vs $872.7 billion. Up 1.1%. Private nonresidential: $773.0 billion vs $765.0 billion. Up 1.0%. Public construction: $547.8 billion vs $546.8 billion. Up 0.2%. Public educationa",
+    "published_at": "2026-10-01T14:01:33",
+    "source_url": "https://investinglive.com/news/us-construction-spending-for-the-month-of-august-0-9-versus-0-0-expected/"
+  },
+  {
+    "id": 709,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Minutes of the Meeting of the Court of Directors held on 16 July 2026",
+    "description": "The Bank's Court of Directors acts as a unitary board, setting the organisation's strategy and budget and taking key decisions on resourcing and appointments. Required to meet a minimum seven times per year, it has five executive members from the Bank and up to nine non-executive members.",
+    "published_at": "2026-10-01T13:00:00",
+    "source_url": "https://www.bankofengland.co.uk/minutes/2026/july/court-minutes-16-july-2026"
+  },
+  {
+    "id": 708,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Christine Lagarde: Where AI risks meet",
+    "description": "",
+    "published_at": "2026-10-01T13:30:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261001~cf3c630379.en.html"
+  },
+  {
+    "id": 707,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Isabel Schnabel: Central banks on-chain",
+    "description": "",
+    "published_at": "2026-10-01T15:30:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261001_1~a0be67193b.en.pdf"
+  },
+  {
     "id": 706,
     "status": "UNMATCHED",
     "was_matched": false,
