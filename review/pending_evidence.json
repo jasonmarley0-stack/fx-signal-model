@@ -1,5 +1,60 @@
 [
   {
+    "id": 696,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Australia manufacturing PMI falls to 49.6 as new orders drop for first time since June",
+    "description": "The drop from 52.0 to 49.6 points to softer factory momentum, with the fall in new orders the signal most likely to draw attention because it reverses two months of improvement. The mix is awkward for rate and growth debates: weaker demand and job losses argue for patience, but oil, raw material and freight costs are still elevated and supplier delays are lengthening as the Middle East war disrupts shipping. That keeps oil and transport costs in focus as a channel through which the conflict feeds into Australian producers, even though the rate of input inflation eased a little. This is one sur",
+    "published_at": "2026-09-30T23:07:27",
+    "source_url": "https://investinglive.com/news/australia-manufacturing-pmi-falls-to-49-6-as-new-orders-drop-for-first-time-since-june/"
+  },
+  {
+    "id": 695,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Japan manufacturing PMI slips to 54.1, a six-month low, as new order growth slows",
+    "description": "The reading is still well above the 50 line, so the story is slower growth rather than a downturn, but the drop to a six-month low in a sector reliant on overseas demand will keep attention on how long export strength can last. Sharp cost increases tied to energy, transport and a weak yen, with the Middle East war cited by firms, show that oil and currency moves are still feeding straight into factory prices. Persistent selling price increases are also relevant to the Bank of Japan's assessment of inflation. References to semiconductors and AI-related demand will matter for Asian chip and tech",
+    "published_at": "2026-10-01T00:36:05",
+    "source_url": "https://investinglive.com/news/japan-manufacturing-pmi-slips-to-54-1-a-six-month-low-as-new-order-growth-slows/"
+  },
+  {
+    "id": 694,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Trump announces $200 billion South Korean investment in US nuclear, LNG and gas power",
+    "description": "This is a long-dated signal rather than an immediate shift in supply or demand, since reactors take years to build and the Alaska LNG scheme still needs binding financing, so the near-term effect on oil and gas prices is likely to be limited. It does reinforce US energy and power as a policy priority, which may support sentiment towards nuclear, LNG and power-equipment names, and towards the Asian buyers already lining up for Alaskan gas. The Texas plant's link to chip plants and data centres underlines how much power demand is being driven by technology. Energy prices remain elevated after th",
+    "published_at": "2026-10-01T00:55:12",
+    "source_url": "https://investinglive.com/news/trump-announces-200-billion-south-korean-investment-in-us-nuclear-lng-and-gas-power/"
+  },
+  {
+    "id": 693,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Australia's August trade surplus shrinks to A$495M as data center equipment imports surge",
+    "description": "A reading about A$1.5 billion below the poll is a clear miss for a surplus that had already been narrowing, and if the import pattern holds it could weigh on the trade contribution to growth. The composition is more informative than the headline: the imports driving the miss are investment-type goods tied to data center build-outs, so the signal is about capital spending demand more than household consumption. Gold's 20% rebound shows how much monthly export swings can distort the balance, which argues for caution in reading one month as a trend. Softer job vacancies add a note of cooling labo",
+    "published_at": "2026-10-01T01:58:05",
+    "source_url": "https://investinglive.com/news/australia-s-august-trade-surplus-shrinks-to-a-495m-as-data-center-equipment-imports-surge/"
+  },
+  {
+    "id": 692,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 6,
+    "source_id": 6,
+    "title": "Release of Financial Stability Review \u2013 October 2026",
+    "description": "Media release number 2026-28: The RBA today published its October 2026 Financial Stability Review.",
+    "published_at": "2026-10-01T01:30:00",
+    "source_url": "https://www.rba.gov.au/media-releases/2026/mr-26-28.html"
+  },
+  {
     "id": 691,
     "status": "UNMATCHED",
     "was_matched": false,
