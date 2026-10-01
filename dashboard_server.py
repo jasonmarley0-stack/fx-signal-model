@@ -841,9 +841,36 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
     const healthStaleAfter = initialResearch.health_stale_after_seconds;
     const kpiStaleAfter = initialResearch.kpi_stale_after_seconds;
     let latestHealth = initialResearch.health;
+    let latestKpiPayload = initialResearch.kpi;
+
+    function healthAgeSeconds(health) {{
+      const genAt = health && health.generated_at_utc ? new Date(health.generated_at_utc) : null;
+      return genAt ? (Date.now() - genAt.getTime()) / 1000 : null;
+    }}
+
+    // Compares health.run_identity.run_id against kpi.run_id -- only when
+    // BOTH snapshots are in state "ok" and both actually carry a run_id;
+    // otherwise there's nothing to compare yet (not a mismatch, just
+    // unknown -- the individual explicit-state panels already cover that
+    // case). Recomputed on demand by renderKpiView(), which every refresh
+    // path (health OR kpi) calls, so a mismatch that appears or resolves
+    // on either side is caught immediately, not just on the next kpi poll.
+    function runIdMismatch() {{
+      const h = latestHealth, k = latestKpiPayload;
+      const healthRunId = (h && h.state === 'ok' && h.run_identity) ? h.run_identity.run_id : null;
+      const kpiRunId = (k && k.state === 'ok') ? k.run_id : null;
+      if (!healthRunId || !kpiRunId) return null;
+      return healthRunId !== kpiRunId ? {{ healthRunId, kpiRunId }} : null;
+    }}
 
     function fmtUTC2(iso) {{ return iso ? iso.replace('T', ' ').slice(0, 19) + ' UTC' : '—'; }}
-    function fmtR2(v) {{ return (v === null || v === undefined) ? '—' : (v >= 0 ? '+' : '') + v.toFixed(2) + 'R'; }}
+    // Neutral-by-default number handling: null, undefined, NaN and
+    // +/-Infinity are all "not a usable number" and must never be
+    // coerced into a pos/neg comparison (e.g. `undefined >= 0` is false
+    // in JS, which would otherwise silently paint a missing value red).
+    function isFiniteNum(v) {{ return typeof v === 'number' && Number.isFinite(v); }}
+    function fmtR2(v) {{ return isFiniteNum(v) ? (v >= 0 ? '+' : '') + v.toFixed(2) + 'R' : '—'; }}
+    function perfClass(v) {{ return isFiniteNum(v) ? (v >= 0 ? 'pos' : 'neg') : ''; }}
     function fmtAge(seconds) {{
       if (seconds === null || seconds === undefined) return '—';
       if (seconds < 90) return seconds.toFixed(0) + 's ago';
@@ -853,6 +880,15 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
     }}
     function fmtDays(d) {{ return (d === null || d === undefined) ? '—' : d.toFixed(1) + ' day' + (d.toFixed(1) === '1.0' ? '' : 's'); }}
     function statusPill(label, kind) {{ return `<span class="status-pill status-${{kind}}">${{label}}</span>`; }}
+    // Snapshot-sourced text (error messages especially) is inserted into
+    // innerHTML in several places below -- it must be escaped first.
+    // Without this, a literal "<path>" in a redacted error message (see
+    // research_snapshot_publisher.py's _short_error) is parsed as an
+    // (unknown, invisible) HTML tag instead of displayed as text, and
+    // disappears silently -- a real bug this caught during testing.
+    function escapeHtml(s) {{
+      return String(s).replace(/[&<>"']/g, ch => ({{'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}})[ch]);
+    }}
 
     const SNAPSHOT_STATE_LABEL = {{
       not_published: 'No snapshot published yet — the publisher has not run.',
@@ -866,7 +902,7 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
       if (payload.state === 'ok') return null;
       const label = payload.state === 'error' ? (payload.error || 'Snapshot generation failed.')
         : (SNAPSHOT_STATE_LABEL[payload.state] || `Unavailable (${{payload.state}}).`);
-      return `<p class="empty">${{label}}</p>`;
+      return `<p class="empty">${{escapeHtml(label)}}</p>`;
     }}
 
     function renderHealth(health) {{
@@ -874,7 +910,7 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
       const container = document.getElementById('research-health-container');
       const freshnessEl = document.getElementById('research-health-freshness');
       const explicit = explicitStateBlock(health);
-      if (explicit) {{ container.innerHTML = explicit; freshnessEl.textContent = ''; renderRoadmap(health); return; }}
+      if (explicit) {{ container.innerHTML = explicit; freshnessEl.textContent = ''; renderRoadmap(health); renderKpiView(); return; }}
 
       const genAt = health.generated_at_utc ? new Date(health.generated_at_utc) : null;
       const ageSec = genAt ? (Date.now() - genAt.getTime()) / 1000 : null;
@@ -912,22 +948,57 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
         <div class="hint" style="margin-top:14px">Recording failures (this run): poll_failed=${{health.recording_failures.poll_failed}}
           quote_poll_failed=${{health.recording_failures.quote_poll_failed}} crashed=${{health.recording_failures.crashed}}</div>`;
       renderRoadmap(health);
+      renderKpiView();  // a health refresh can newly create or resolve a run-id mismatch against the last-known KPI snapshot -- recheck every time, not just on a KPI refresh
     }}
 
     function renderRoadmap(health) {{
       const el = document.getElementById('research-roadmap');
-      const ri = health.state === 'ok' ? health.run_identity : null;
+      // run_identity can be present even off the "ok" path (the publisher
+      // still attaches a sanitized run_identity on its generic "error"
+      // state, since the manifest was already read before the failure) --
+      // the review-checkpoint DATES are a fact about when the run started,
+      // independent of whether we can currently confirm it's healthy, so
+      // they're computed whenever a run_identity is available at all.
+      const ri = health.run_identity || null;
       let review7 = '—', review30 = '—';
       if (ri && ri.started_at_utc) {{
         const started = new Date(ri.started_at_utc);
         review7 = fmtUTC2(new Date(started.getTime() + 7 * 86400000).toISOString());
         review30 = fmtUTC2(new Date(started.getTime() + 30 * 86400000).toISOString());
       }}
+
+      // The "currently running" claim, by contrast, must be backed by
+      // FRESH health evidence -- never asserted from a missing, stale, or
+      // errored snapshot, and never collapsing service status into
+      // recording health (a service can be "active" while genuinely not
+      // recording, e.g. over a weekend, or vice versa mid-restart).
+      const ageSec = healthAgeSeconds(health);
+      const stale = health.state === 'ok' && ageSec !== null && ageSec > healthStaleAfter;
+      let obsDot = 'pending', obsTitle = 'Prospective observation — status unknown', obsDetail;
+      if (health.state !== 'ok') {{
+        obsDetail = `Health snapshot unavailable (${{escapeHtml(health.state)}}${{health.error ? ': ' + escapeHtml(health.error) : ''}}) — cannot confirm whether observation is currently running.`;
+      }} else if (stale) {{
+        obsTitle = 'Prospective observation — status stale';
+        obsDetail = `Health snapshot last updated ${{fmtAge(ageSec)}}, too old to confirm current activity. Last reported: service ${{health.service.status}}, recording ${{health.recording_health.replace('_', ' ')}}.`;
+      }} else {{
+        const svc = health.service.status, rec = health.recording_health;
+        if (svc === 'active' && rec === 'healthy') {{
+          obsDot = 'active';
+          obsTitle = 'Prospective observation — active';
+          obsDetail = 'Paper-only, real-time, currently running (service active, recording healthy — see Observation Health above).';
+        }} else {{
+          obsDot = svc === 'active' ? 'active' : 'pending';
+          obsTitle = `Prospective observation — service ${{svc}}, recording ${{rec.replace('_', ' ')}}`;
+          obsDetail = 'Service status and recording health are independent signals (see Observation Health above) — not necessarily fully operational.';
+        }}
+      }}
+      obsDetail += ` 7-day data-quality checkpoint: <span class="mono">${{review7}}</span>. 30-day (or 50 completed outcomes, if sooner) performance checkpoint: <span class="mono">${{review30}}</span>. These are review checkpoints, not automatic validation gates — no action is taken automatically at either date.`;
+
       el.innerHTML = `
         <li><div class="rm-dot complete"></div><div><div class="rm-title">Historical comparison — complete</div>
           <div class="rm-detail">Offline replay against past data, a separate evaluation with its own source, dates and unknown-outcome exclusions — see research/offline_comparison/RESULTS.md. Never combined with the live figures on this page.</div></div></li>
-        <li><div class="rm-dot active"></div><div><div class="rm-title">Prospective observation — active</div>
-          <div class="rm-detail">Paper-only, real-time, currently running (see Observation Health above). 7-day data-quality checkpoint: <span class="mono">${{review7}}</span>. 30-day (or 50 completed outcomes, if sooner) performance checkpoint: <span class="mono">${{review30}}</span>. These are review checkpoints, not automatic validation gates — no action is taken automatically at either date.</div></div></li>
+        <li><div class="rm-dot ${{obsDot}}"></div><div><div class="rm-title">${{obsTitle}}</div>
+          <div class="rm-detail">${{obsDetail}}</div></div></li>
         <li><div class="rm-dot pending"></div><div><div class="rm-title">Practice execution — pending review</div>
           <div class="rm-detail">Not started. Would require an explicit decision after the checkpoints above, not an automatic transition.</div></div></li>
         <li><div class="rm-dot pending"></div><div><div class="rm-title">Product readiness — pending</div>
@@ -935,18 +1006,55 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
     }}
 
     function renderKpiSection(payload) {{
+      latestKpiPayload = payload;
+      renderKpiView();
+    }}
+
+    function renderKpiView() {{
+      const payload = latestKpiPayload;
       const tilesC = document.getElementById('research-kpi-tiles-container');
       const freshnessEl = document.getElementById('research-kpi-freshness');
+      const chartSvgEl = document.getElementById('research-chart');
+      const chartEmptyEl = document.getElementById('research-chart-empty');
+
       const explicit = explicitStateBlock(payload);
       if (explicit) {{
         tilesC.innerHTML = explicit;
         document.getElementById('research-ledger-body').innerHTML = '<tr><td colspan="8" class="empty">No data.</td></tr>';
         document.getElementById('research-suppressed-body').innerHTML = '<tr><td colspan="4" class="empty">No data.</td></tr>';
-        document.getElementById('research-chart').style.display = 'none';
-        document.getElementById('research-chart-empty').style.display = 'block';
+        chartSvgEl.style.display = 'none';
+        chartEmptyEl.textContent = 'No completed trades yet.';
+        chartEmptyEl.style.display = 'block';
         freshnessEl.textContent = '';
         return;
       }}
+
+      // Cross-check run identity BEFORE presenting health and KPI/ledger
+      // together -- two snapshots published independently (different
+      // cadences) can legitimately disagree for a short window around a
+      // new run starting. Showing them side by side as if they described
+      // the same run would be actively misleading, so performance/ledger
+      // is withheld entirely (not partially shown, not guessed at) until
+      // both publishers agree again. Rechecked by every refresh, health
+      // or kpi -- see renderHealth()'s and renderKpiSection()'s own calls
+      // into this function.
+      const mismatch = runIdMismatch();
+      if (mismatch) {{
+        const genAt = payload.generated_at_utc ? new Date(payload.generated_at_utc) : null;
+        const ageSec = genAt ? (Date.now() - genAt.getTime()) / 1000 : null;
+        freshnessEl.innerHTML = genAt ? `<span class="snapshot-note">snapshot ${{fmtAge(ageSec)}}</span>` : '';
+        tilesC.innerHTML = `<p class="empty">Run identity mismatch — the health snapshot (run ${{mismatch.healthRunId.slice(0, 12)}}…) and the
+          KPI snapshot (run ${{mismatch.kpiRunId.slice(0, 12)}}…) do not agree. Withholding performance and the trade ledger until both
+          publishers report the same run (this resolves itself once the slower KPI publisher catches up to a new run, or reverses if it
+          was the health side that was behind).</p>`;
+        document.getElementById('research-ledger-body').innerHTML = '<tr><td colspan="8" class="empty">Withheld — run identity mismatch.</td></tr>';
+        document.getElementById('research-suppressed-body').innerHTML = '<tr><td colspan="4" class="empty">Withheld — run identity mismatch.</td></tr>';
+        chartSvgEl.style.display = 'none';
+        chartEmptyEl.textContent = 'Withheld — run identity mismatch.';
+        chartEmptyEl.style.display = 'block';
+        return;
+      }}
+
       const kpi = payload.kpi, ledger = payload.ledger || [];
       const genAt = payload.generated_at_utc ? new Date(payload.generated_at_utc) : null;
       const ageSec = genAt ? (Date.now() - genAt.getTime()) / 1000 : null;
@@ -956,12 +1064,36 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
       const c = kpi.counts;
       const completedAvg = kpi.avg_net_r_per_completed_trade;
       const allEligible = kpi.avg_net_r_per_all_eligible_alert;
+
+      // "Avg R / All Eligible Alerts": three genuinely distinct states,
+      // never collapsed into one another --
+      //   (a) denominator=0 (no eligible alerts at all, e.g. a fresh run):
+      //       value is null but is_undetermined is FALSE (report.py only
+      //       sets is_undetermined when an unknown OUTCOME exists, not
+      //       when there's simply nothing to compute yet) -- must still
+      //       render neutral, never fall through to a pos/neg comparison
+      //       against null.
+      //   (b) is_undetermined (>=1 unknown outcome among real alerts).
+      //   (c) a genuine finite value.
+      let allEligibleText, allEligibleClass, allEligibleSub;
+      if (!allEligible.denominator) {{
+        allEligibleText = '—'; allEligibleClass = ''; allEligibleSub = 'No eligible alerts yet';
+      }} else if (allEligible.is_undetermined || !isFiniteNum(allEligible.value)) {{
+        allEligibleText = 'Undetermined'; allEligibleClass = 'undetermined';
+        allEligibleSub = allEligible.reason || 'Value unavailable';
+      }} else {{
+        allEligibleText = fmtR2(allEligible.value); allEligibleClass = perfClass(allEligible.value);
+        allEligibleSub = 'denominator=' + allEligible.denominator;
+      }}
+      const maxDd = kpi.max_drawdown_r_partial_completed_trades_only;
+      const maxDdClass = isFiniteNum(maxDd) && maxDd < 0 ? 'neg' : '';  // never 'pos' -- a drawdown is never "positive performance"
+
       tilesC.innerHTML = `<div class="stat-tiles">
         <div class="tile"><div class="label">Eligible Alerts</div><div class="value">${{c.eligible_alerts}}</div><div class="sub">${{c.suppressed_existing_position}} suppressed (not counted)</div></div>
         <div class="tile"><div class="label">Entered / Completed</div><div class="value">${{c.entered}} / ${{c.completed}}</div><div class="sub">${{c.pending_open}} pending · ${{c.unknown_total}} unknown · ${{c.missed_entries_confirmed_zero_pnl}} missed (0)</div></div>
-        <div class="tile"><div class="label">Avg R / Completed Trade</div><div class="value ${{completedAvg.value === null ? '' : (completedAvg.value >= 0 ? 'pos' : 'neg')}}">${{fmtR2(completedAvg.value)}}</div><div class="sub">n=${{completedAvg.denominator}}</div></div>
-        <div class="tile"><div class="label">Avg R / All Eligible Alerts</div><div class="value ${{allEligible.is_undetermined ? 'undetermined' : (allEligible.value >= 0 ? 'pos' : 'neg')}}">${{allEligible.is_undetermined ? 'Undetermined' : fmtR2(allEligible.value)}}</div><div class="sub">${{allEligible.is_undetermined ? (allEligible.reason || '') : 'denominator=' + allEligible.denominator}}</div></div>
-        <div class="tile"><div class="label">Max Drawdown</div><div class="value ${{kpi.max_drawdown_r_partial_completed_trades_only === 0 ? '' : 'neg'}}">${{fmtR2(kpi.max_drawdown_r_partial_completed_trades_only)}}</div><div class="sub">completed trades only${{c.unknown_total > 0 ? ' — PARTIAL, unknown outcomes exist' : ''}}</div></div>
+        <div class="tile"><div class="label">Avg R / Completed Trade</div><div class="value ${{perfClass(completedAvg.value)}}">${{fmtR2(completedAvg.value)}}</div><div class="sub">n=${{completedAvg.denominator}}</div></div>
+        <div class="tile"><div class="label">Avg R / All Eligible Alerts</div><div class="value ${{allEligibleClass}}">${{allEligibleText}}</div><div class="sub">${{allEligibleSub}}</div></div>
+        <div class="tile"><div class="label">Max Drawdown</div><div class="value ${{maxDdClass}}">${{fmtR2(maxDd)}}</div><div class="sub">completed trades only${{c.unknown_total > 0 ? ' — PARTIAL, unknown outcomes exist' : ''}}</div></div>
       </div>`;
 
       // ---- chart: cumulative completed-trade R, with a drawdown shade, axes labelled ----
@@ -973,6 +1105,7 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
         ? `PARTIAL — ${{c.unknown_total}} alert(s) with an unknown outcome are excluded from this chart.` : '';
       if (!series.length) {{
         chartSvg.style.display = 'none';
+        chartEmpty.textContent = 'No completed trades yet.';  // resets any earlier withheld/mismatch message
         chartEmpty.style.display = 'block';
         document.getElementById('research-chart-cur').textContent = '';
       }} else {{

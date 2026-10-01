@@ -68,6 +68,37 @@ KPI_UNDETERMINED = {
         "value": None, "denominator": 2, "is_undetermined": True, "reason": "1 of 2 eligible alerts have an unknown outcome"}},
 }
 
+# Defect-1 regression fixture: zero eligible alerts (a fresh run). Per
+# report.py, avg_net_r_per_all_eligible_alert.value is None here but
+# is_undetermined is FALSE (that field means "undetermined because of an
+# unknown OUTCOME", a narrower condition than "nothing to compute yet") --
+# exactly the case that used to fall through to a null >= 0 comparison
+# client-side and get colored as if it were a real (negative) number.
+KPI_ZERO_ELIGIBLE = {
+    "generated_at_utc": "2026-09-30T21:30:05+00:00", "state": "ok", "error": None, "run_id": "885c5e3e-test",
+    "kpi": {
+        "counts": {"eligible_alerts": 0, "suppressed_existing_position": 0, "entered": 0, "completed": 0,
+                   "pending_open": 0, "unknown_total": 0, "missed_entries_confirmed_zero_pnl": 0, "no_signal_ticks": 0},
+        "avg_net_r_per_completed_trade": {"value": None, "denominator": 0},
+        "avg_net_r_per_all_eligible_alert": {"value": None, "denominator": 0, "is_undetermined": False, "reason": None},
+        "max_drawdown_r_partial_completed_trades_only": 0.0, "equity_curve": [], "by_month": {}, "operational": {}, "unobserved": [],
+    },
+    "ledger": [],
+}
+
+# Defect-3 regression fixtures: health and KPI snapshots naming different
+# run_ids (e.g. published moments apart around a restart).
+HEALTH_RUN_A = {**HEALTH_OK, "run_identity": {**HEALTH_OK["run_identity"], "run_id": "run-AAA"}}
+KPI_RUN_B = {**KPI_OK, "run_id": "run-BBB"}
+
+# Defect-2 regression fixtures: health snapshots that must NOT let the
+# roadmap claim "currently running".
+HEALTH_ERROR = {
+    "generated_at_utc": "2026-09-30T21:30:00+00:00", "state": "error",
+    "error": "OSError: <path> not readable", "run_identity": HEALTH_OK["run_identity"],
+    "service": HEALTH_OK["service"], "quotes": None, "recording_failures": None, "recording_health": "unknown",
+}
+
 
 def _client_with_snapshots(health: dict | None, kpi: dict | None, health_malformed: bool = False) -> TestClient:
     """Points dashboard_server's snapshot path constants at a fresh temp
@@ -191,9 +222,59 @@ def test_no_positive_styling_class_for_undetermined_value():
     the neutral 'undetermined' class, not 'pos'."""
     client = _client_with_snapshots(HEALTH_OK, KPI_UNDETERMINED)
     r = client.get("/", auth=AUTH)
-    assert "value ${{allEligible.is_undetermined ? 'undetermined'" not in r.text  # sanity: template rendered, not left literal
-    assert "'undetermined' : (allEligible.value" in r.text or "allEligible.is_undetermined ? 'undetermined'" in r.text
+    assert "allEligible.is_undetermined || !isFiniteNum(allEligible.value)" in r.text  # the neutral-first branch is present, not stripped
     print("dashboard: the undetermined-value tile uses the neutral class, never positive-performance styling: OK")
+
+
+def test_zero_eligible_alerts_page_renders_and_embeds_neutral_data():
+    """Defect-1 regression, the exact case named in the correction order:
+    zero eligible alerts. avg_net_r_per_all_eligible_alert.value is null
+    while is_undetermined is FALSE (report.py's is_undetermined only means
+    "an unknown outcome exists", not "nothing to compute yet") -- the
+    client-side helper (isFiniteNum/perfClass) is what must catch this,
+    not the server; this test confirms the page renders cleanly and the
+    null-with-zero-denominator shape reaches the client unmodified."""
+    client = _client_with_snapshots(HEALTH_OK, KPI_ZERO_ELIGIBLE)
+    r = client.get("/", auth=AUTH)
+    assert r.status_code == 200
+    assert '"denominator": 0' in r.text
+    assert '"is_undetermined": false' in r.text
+    assert '"value": null' in r.text
+    print("dashboard: zero-eligible-alerts page renders cleanly with the null/is_undetermined=false shape intact for the client: OK")
+
+
+def test_health_error_state_never_claims_currently_running():
+    """Defect-2 regression: a health snapshot in a non-"ok" state (here,
+    "error") must not let the roadmap assert the observation is
+    "currently running" -- the page must render the raw state/error data
+    for the client-side roadmap-status derivation to act on, and must
+    never crash on an error message containing HTML-special characters
+    (a redacted "<path>" placeholder, from research_snapshot_publisher.py's
+    _short_error)."""
+    client = _client_with_snapshots(HEALTH_ERROR, KPI_OK)
+    r = client.get("/", auth=AUTH)
+    assert r.status_code == 200
+    assert '"state": "error"' in r.text
+    assert "<path>" in r.text or "\\u003cpath\\u003e" in r.text  # the raw (unescaped-at-the-JSON-layer) error text reaches the client
+    # the client-side escapeHtml() helper must exist to safely render it later (verified end-to-end in the browser)
+    assert "function escapeHtml(" in r.text
+    print("dashboard: an error-state health snapshot (with HTML-special characters in its message) renders without crashing: OK")
+
+
+def test_run_id_mismatch_both_ids_reach_the_client():
+    """Defect-3 regression: health.run_identity.run_id and kpi.run_id, when
+    they disagree, must both reach the client embedded page data so the
+    client-side runIdMismatch() check (which withholds performance/ledger
+    and shows an explicit state) has what it needs. The actual
+    withhold-and-recheck-on-refresh behaviour is JS logic verified in the
+    browser, not here (no JS runtime in this test)."""
+    client = _client_with_snapshots(HEALTH_RUN_A, KPI_RUN_B)
+    r = client.get("/", auth=AUTH)
+    assert r.status_code == 200
+    assert '"run_id": "run-AAA"' in r.text
+    assert '"run_id": "run-BBB"' in r.text
+    assert "function runIdMismatch()" in r.text
+    print("dashboard: mismatched health/kpi run_ids both reach the client, with the mismatch-check function present: OK")
 
 
 if __name__ == "__main__":
@@ -207,4 +288,7 @@ if __name__ == "__main__":
     test_credentials_never_appear_in_page_source()
     test_existing_live_and_performance_views_unaffected()
     test_no_positive_styling_class_for_undetermined_value()
+    test_zero_eligible_alerts_page_renders_and_embeds_neutral_data()
+    test_health_error_state_never_claims_currently_running()
+    test_run_id_mismatch_both_ids_reach_the_client()
     print("All dashboard Research-view tests passed (no network, no real observer checkout).")
