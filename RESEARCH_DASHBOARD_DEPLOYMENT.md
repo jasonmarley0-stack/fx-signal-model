@@ -3,11 +3,24 @@
 Supersedes the deployment steps given in chat when this branch was first
 pushed, which suggested `git checkout research/dashboard-observation`
 directly on the droplet. **That is wrong and must not be done** — see
-"Why not `git checkout` the research branch" below. This document is the
-one to follow.
+"The constraint this procedure exists to satisfy" below. This document is
+the one to follow.
 
-Not run by this commit. This is a documentation-only correction; no
-deployment happens here.
+## Pre-release state (recorded before this deployment)
+
+- **Pre-release SHA (origin/main tip immediately before this deployment):**
+  `43b78cc14b8a2ab1c37928004ce250a1ebd76af3`
+  (`"Automated pending-evidence snapshot (94 unreviewed)"` — the automated
+  evidence/status pipeline moves `main` forward on its own schedule;
+  this is simply whatever its tip was at merge time, not a meaningful
+  commit in its own right. Recorded here only as the rollback anchor.)
+- **Reviewed release being deployed:** both `research/dashboard-observation`
+  commits — `fc69c26` (the Research view + publisher) and `3d70952` (the
+  null/roadmap/run-id correction pass) — merged into `main` as a single
+  merge commit. `main` had moved since the branch was cut (unrelated
+  automated evidence/status commits only — confirmed no overlap with any
+  file this release touches), so the merge is a real merge commit, not a
+  fast-forward; the rollback steps below account for that.
 
 ## The constraint this procedure exists to satisfy
 
@@ -29,20 +42,22 @@ research-kpi-publisher units (step 3 below) only ever *read* it.
 
 ## The reviewed release
 
-Deploy by merging the reviewed, tested commit into `main` — never by
-checking out the research branch in place:
+Deploy by merging the reviewed, tested branch into `main` — never by
+checking out the research branch in place. `main` has moved since the
+branch was cut, so this is a real merge commit, not a fast-forward:
 
 ```bash
 # wherever you do the actual merge (not necessarily on the droplet) --
-# fast-forward research/dashboard-observation's reviewed commit into main:
+git fetch origin
 git checkout main
-git merge --ff-only research/dashboard-observation   # or review+merge the PR on GitHub
+git merge --no-ff origin/research/dashboard-observation   # or review+merge the PR on GitHub; brings in BOTH fc69c26 and 3d70952
 git push origin main
 ```
 
-Record which commit this was (e.g. `git log -1 --format=%H main` after
-the merge) — that SHA is "the reviewed dashboard/publisher release" for
-rollback purposes below.
+Record the resulting merge commit's SHA (e.g. `git log -1 --format=%H main`
+after pushing) — that is "the reviewed dashboard/publisher release" for
+rollback purposes below. Together with the pre-release SHA recorded above,
+that's the full before/after pair this deployment is bounded by.
 
 ## Deployment steps (dashboard-only — never touches live-scanner or the observer)
 
@@ -79,26 +94,46 @@ state to understand, not an obstacle to bulldoze.
 
 ## Rollback
 
-Two options, in order of preference:
+Both options below undo **the entire release** (both `fc69c26` and
+`3d70952` together) in one step — `3d70952`'s fixes are layered on top of
+`fc69c26`'s changes within the same files, so restoring those files to
+their pre-release content (the pre-release SHA recorded above) always
+covers both commits at once; there is no scenario where you'd want one
+without the other.
 
 **1. Revert on `main` and re-pull (clean history, preferred):**
 ```bash
-git revert <merge-commit-sha>        # wherever you merge from, not necessarily the droplet
+# the deployment merge is a MERGE commit (main had moved since the branch
+# was cut) -- a plain `git revert` refuses on a merge commit without
+# being told which parent is "mainline"; -m 1 is that flag:
+git revert -m 1 <merge-commit-sha>        # wherever you merge from, not necessarily the droplet
 git push origin main
 # on the droplet:
 cd /root/fx-signal-model && git pull --ff-only origin main
 systemctl restart dashboard-server.service   # dashboard-only, as above
-systemctl disable --now research-health-publisher.timer research-kpi-publisher.timer   # optional: stop publishing if rolling back fully
+systemctl disable --now research-health-publisher.timer research-kpi-publisher.timer   # stop publishing if rolling back fully
 ```
 
 **2. Fast file-level rollback (if you need the dashboard back immediately and can clean up history later):**
 ```bash
 cd /root/fx-signal-model
-git log --oneline -- dashboard_server.py | head -5    # find the pre-release SHA
-git checkout <pre-release-sha> -- dashboard_server.py
+# restore dashboard_server.py to its exact pre-release content -- this
+# alone removes the Research view/routes entirely (both commits' worth),
+# since 3d70952's fixes only exist within the Research-view code fc69c26
+# added:
+git checkout 43b78cc14b8a2ab1c37928004ce250a1ebd76af3 -- dashboard_server.py
 systemctl restart dashboard-server.service             # dashboard-only
-# commit this restoration properly on main afterward -- a working-tree-only
-# revert like this must not become the permanent record.
+
+# research_snapshot_publisher.py did not exist before this release, so
+# there's nothing to "restore" it to -- stopping the timers (not deleting
+# the file) is the correct rollback for it: an unreferenced script that
+# nothing calls is inert, and deleting it is unnecessary churn for an
+# emergency rollback.
+systemctl disable --now research-health-publisher.timer research-kpi-publisher.timer
+
+# commit this restoration properly on main afterward (e.g. `git revert -m 1`
+# as in option 1) -- a working-tree-only revert like this must not become
+# the permanent record.
 ```
 
 Either way: `live-scanner.service`, every other droplet service, and the
