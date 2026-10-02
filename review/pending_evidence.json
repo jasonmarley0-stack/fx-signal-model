@@ -1,5 +1,49 @@
 [
   {
+    "id": 724,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Americas market news wrap: USD/JPY dips and then comes storming back",
+    "description": "US September ISM manufacturing 54.5 vs 55.0 expected Canada Sept S&amp;P Global manufacturing PMI 51.5 vs 53.0 prior US weekly initial jobless claims 197K vs 200K expected Fed\u2019s Schmid: Rising long-term rates are starting to strain housing and commercial lending Fed's Jefferson: Weighing more data will allow the Fed to make a better call on rates Preview: September non-farm payrolls by the numbers Markets: Gold up $20 to $4176 US 10-year yields down 5.4 bps to 5.24% WTI crude oil up $2.55 to $92.97 USD leads, EUR lags S&amp;P 500 up 0.3% It was a lively pre-NFP day as the dollar was broadly st",
+    "published_at": "2026-10-02T01:06:43",
+    "source_url": "https://investinglive.com/news/investinglive-americas-market-news-wrap-usd-jpy-dips-and-then-comes-storming-back/"
+  },
+  {
+    "id": 723,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Reminder: Hong Kong reopens as mainland China markets and Stock Connect stay shut until October 8",
+    "description": "Hong Kong's stock market reopens on Friday, October 2, after closing on Thursday for National Day, but mainland China's markets remain shut for the rest of the week-long holiday and will not resume trading until Thursday, October 8. The Hong Kong exchange trades at its usual hours on Friday, 09:30 to 12:00 and 13:00 to 16:00 local time, and again on October 5, 6 and 7. Those four sessions will run without Stock Connect, the program linking the mainland and Hong Kong stock markets. HKEX's Stock Connect calendar shows Northbound and Southbound trading suspended from October 1 to 7, as the link o",
+    "published_at": "2026-10-01T23:04:54",
+    "source_url": "https://investinglive.com/news/reminder-hong-kong-reopens-as-mainland-china-markets-and-stock-connect-stay-shut-until-october-8/"
+  },
+  {
+    "id": 722,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Japan September Tokyo CPI data surges ahead of expectations and August",
+    "description": "Just the data in this post. I'll have more to come on this separately, analysis and implications etc.&nbsp; Japan Tokyo CPI (Sep YY) Headline 2.7% expected 2.5%, prior&nbsp;1.9% Core 2.7% expected 2.4%, prior&nbsp;1.8% CPI Ex Food and Energy 3.0% expected 2.5%, prior&nbsp;2.0% Japan Jobs/applications ratio (August data) 1.18 expected 1.18, prior 1.18 Unemployment Rate (August) 2.5% expected 2.4%, prior 2.4% This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-10-01T23:34:50",
+    "source_url": "https://investinglive.com/news/japan-september-tokyo-cpi-data-surges-ahead-of-expectations-and-august/"
+  },
+  {
+    "id": 721,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Katayama eyes 7 trillion yen of idle funds as Kiuchi says Japan needs no excessive easing",
+    "description": "Kiuchi's remarks reduce the risk of government pushback against further BOJ tightening, which is likely to be read as supportive of an earlier rate hike, coming on the same day Tokyo core inflation jumped to 2.7%. That could add to upward pressure on short-dated JGB yields and offer the yen some support. Katayama's fund review is modest relative to Japan's budget, but signals fiscal discipline at a time when global bond markets are punishing perceived fiscal looseness. Energy costs from the Iran war remain the main external inflation driver for Japan, so higher oil would reinforce the case bot",
+    "published_at": "2026-10-02T02:49:44",
+    "source_url": "https://investinglive.com/news/katayama-eyes-7-trillion-yen-of-idle-funds-as-kiuchi-says-japan-needs-no-excessive-easing/"
+  },
+  {
     "id": 720,
     "status": "UNMATCHED",
     "was_matched": false,
