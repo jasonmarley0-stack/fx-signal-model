@@ -1,5 +1,93 @@
 [
   {
+    "id": 738,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Locked and loaded for the September non-farm payrolls report",
+    "description": "It's the final countdown to the September non-farm payrolls report.&nbsp; Take a look at: Preview: September non-farm payrolls by the numbers That report highlights the seasonals around this number, which could make it a volatile one. Fed pricing is down to 7.1 bps for this month, which maps to 28%. That could swing on today's report and the wage numbers in particular. Yesterday's high prices paid in the manufacturing ISM briefly got the market's attention. Today oil is down on European reserve release talk as Trump tries to arm-twist those leaders into boosting his midterms chances. Mostly, m",
+    "published_at": "2026-10-02T12:16:14",
+    "source_url": "https://investinglive.com/news/locked-and-loaded-for-the-september-non-farm-payrolls-report/"
+  },
+  {
+    "id": 737,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive European session wrap: Stocks advance as bond yields ease ahead of NFP",
+    "description": "Headlines: US jobs report faces a higher bar as bond market tensions raise the stakes What is the distribution of forecasts for the US NFP? Stocks rebound as bond yields cool, but NFP threatens to reset the mood How have interest rate expectations changed after this week's events? Eurozone inflation jumps to 3.8% in September as energy prices surge ECB policymaker Rehn flags energy and AI risks as rate outlook stays uncertain Gold price consolidates below $4,200 as markets turn to NFP next Gold finds support as dovish Fed comments signal low appetite for tightening Silver's selloff pauses as k",
+    "published_at": "2026-10-02T12:18:52",
+    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-stocks-advance-as-bond-yields-ease-ahead-of-nfp/"
+  },
+  {
+    "id": 736,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US September non-farm payrolls +29K vs +90K expected",
+    "description": "Prior was +162K (revised to +133K) Two-month net revision -60K Unemployment rate 4.2% vs 4.1% expected Prior unemployment rate 4.1% Unrounded unemployment&nbsp;4.1753% vs 4.1413% prior Participation rate 61.8% vs 61.6% prior U6 underemployment rate 7.6% vs 7.7% prior Average hourly earnings +0.1% m/m vs +0.3% expected Average hourly earnings 3.0% y/y vs +3.2% expected Average weekly hours 34.4 vs 34.3 expected Change in private payrolls +46K&nbsp; vs +85K expected Prior private payrolls +127K Change in manufacturing payrolls K vs +10K expected Government payrolls -17K vs +35K prior This is a s",
+    "published_at": "2026-10-02T12:30:09",
+    "source_url": "https://investinglive.com/news/us-september-non-farm-payrolls-29k-vs-90k-expected/"
+  },
+  {
+    "id": 735,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "NEC Director Kevin Hassett: US jobs report says the US consumer is very strong",
+    "description": "White House NEC Director Kevin Hassett discussed the US jobs report and the administration\u2019s economic outlook on Bloomberg TV: The jobs report was broadly in line with expectations, and the data point to a very strong consumer. He expects a strong holiday shopping season. The administration respects the Federal Reserve\u2019s independence. He attributes higher bond yields to the strength of the economy. The government\u2019s current interest payments are unacceptably high. President Trump is committed to reducing the deficit. The administration does not want to use inflation to reduce the real value of ",
+    "published_at": "2026-10-02T13:59:11",
+    "source_url": "https://investinglive.com/news/nec-director-kevin-hassett-us-jobs-report-says-the-us-consumer-is-very-strong/"
+  },
+  {
+    "id": 734,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US factory orders for the month of August 0.1% versus 0.1% estimate",
+    "description": "Prior month factory orders 0.8% down from 0.9% previously Factory orders: +0.1% vs +0.1% expected. Prior +0.9% revised to 0.8%. Factory orders excluding transportation: +0.3%. Prior +0.7%. Durable goods orders: revised to \u22120.1% from 0.0% initially reported. Durable goods excluding transportation: revised to +0.2% from +0.3%. Durable goods excluding defense: revised to 0.0% from +0.1%. Nondefense capital goods orders excluding aircraft: +1.6%, unchanged from the preliminary reading. US factory orders increased 0.1% in August, matching expectations but slowing from July\u2019s 0.9% gain, according to",
+    "published_at": "2026-10-02T14:00:54",
+    "source_url": "https://investinglive.com/news/us-factory-orders-for-the-month-of-august-0-1-versus-0-1-estimate/"
+  },
+  {
+    "id": 733,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Boris Vuj\u010di\u0107: Resilience, integration and competitiveness: building the future of European banking",
+    "description": "",
+    "published_at": "2026-10-02T11:30:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261002_1~419efe18e0.en.html"
+  },
+  {
+    "id": 732,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)",
+    "description": "",
+    "published_at": "2026-10-02T13:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/govcdec/otherdec/2026/html/ecb.gc261002~54c6b5672b.en.html"
+  },
+  {
+    "id": 731,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 2,
+    "source_id": 1,
+    "title": "Federal Reserve Board issues enforcement action with Ontario Bancorporation, Inc.",
+    "description": "Federal Reserve Board issues enforcement action with Ontario Bancorporation, Inc.",
+    "published_at": "2026-10-02T15:00:00",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20261002a.htm"
+  },
+  {
     "id": 730,
     "status": "UNMATCHED",
     "was_matched": false,
