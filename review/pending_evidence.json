@@ -1,5 +1,49 @@
 [
   {
+    "id": 720,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Preview: September non-farm payrolls by the numbers",
+    "description": "What's expected: Consensus estimate +910K (range +35K to +180K) August +162K July +21K Private consensus estimate +85K Unemployment rate consensus estimate: 4.1% vs 4.1% prior Participation rate 61.6% prior Prior underemployment U6 prior 7.7% Avg hourly earnings y/y exp +3.2% y/y vs +3.1% prior Avg hourly earnings m/m exp +0.3% vs +0.3% prior Avg weekly hours exp 34.3 vs 34.4 prior September jobs so far: ADP employment report +90K&nbsp;vs +75K expected and +36K prior ISM services employment not yet released ISM manufacturing employment 52.7 vs 52.0 exp and 52.8 prior Challenger Job Cuts 43,281",
+    "published_at": "2026-10-01T17:53:49",
+    "source_url": "https://investinglive.com/news/preview-september-non-farm-payrolls-by-the-numbers/"
+  },
+  {
+    "id": 719,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Tokyo CPI preview: core inflation seen jumping to 2.4% as BOJ weighs its next hike",
+    "description": "A Tokyo core print at or above 2.4% would reinforce expectations of a follow-up BOJ hike and could support the yen and push short-dated Japanese government bond yields higher, while a miss would give weight to the two board members who argued against the September increase. Because Tokyo leads the national figures by about three weeks, traders tend to read it as a preview of the nationwide trend. For oil, the link runs through import costs: higher crude prices tied to Middle East tensions have been one of the forces lifting Japanese prices, so any further energy spike would add to the BOJ's in",
+    "published_at": "2026-10-01T21:08:49",
+    "source_url": "https://investinglive.com/news/tokyo-cpi-preview-core-inflation-seen-jumping-to-2-4-as-boj-weighs-its-next-hike/"
+  },
+  {
+    "id": 718,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "NZ consumer confidence slips to 97.6 as oil spike weighs, inflation expectations ease",
+    "description": "The survey adds little to lift the New Zealand dollar, which has fallen to its lowest level in 11 months over the past 24 hours. Softer headline inflation expectations would ordinarily ease pressure on the RBNZ, but the late-month rise in expectations as oil climbed is the more relevant signal for traders, given fuel costs feed quickly into household price perceptions. If crude stays elevated, the combination of weaker sentiment and firmer inflation expectations leaves the RBNZ facing a less comfortable trade-off between growth and prices. For the currency, a weak NZD is itself one of the supp",
+    "published_at": "2026-10-01T21:25:09",
+    "source_url": "https://investinglive.com/news/nz-consumer-confidence-slips-to-97-6-as-oil-spike-weighs-inflation-expectations-ease/"
+  },
+  {
+    "id": 717,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 5,
+    "source_id": 5,
+    "title": "2026-10-01 - FDF and SNB enter into new profit distribution agreement",
+    "description": "",
+    "published_at": "2026-10-01T16:00:00",
+    "source_url": "https://www.snb.ch/en/publications/communication/press-releases-restricted/pre_20261001"
+  },
+  {
     "id": 716,
     "status": "UNMATCHED",
     "was_matched": false,
