@@ -1,5 +1,71 @@
 [
   {
+    "id": 730,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Asia-Pacific market news: Markets mark time before payrolls",
+    "description": "SEC proposes letting investment advisers and funds self-custody Bitcoin and other crypto Dollar hits highest since May 2025 before payrolls; Asia FX slips despite strong data Katayama eyes 7 trillion yen of idle funds as Kiuchi says Japan needs no excessive easing UBS sees three catalysts to steady Treasuries, says Fed hike pricing is too aggressive Reminder: India and mainland China markets shut Friday as Hong Kong reopens without Stock Connect Morgan Stanley: S&amp;P 500 masks weak market as over half of US stocks fall 20% since June IMF waives El Salvador's Bitcoin breach: why it's not the ",
+    "published_at": "2026-10-02T03:42:06",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-markets-mark-time-before-payrolls/"
+  },
+  {
+    "id": 729,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US jobs report faces a higher bar as bond market tensions raise the stakes",
+    "description": "Welcome to another edition of NFP Friday. Typically, the US jobs report starts off with one question for markets. And that is how many jobs did the economy add during the month? But this time around, I would argue the bar is a little higher than that. Markets are heading into Friday's non-farm payrolls report with inflation concerns already running hot, and yesterday's ISM manufacturing report didn't exactly help with that. While the&nbsp;headline index held steady at 54.5,&nbsp;it was the surge in prices paid from 71.1 to 77.9 that really caught the eye. As such, it puts a&nbsp;slightly diffe",
+    "published_at": "2026-10-02T04:41:15",
+    "source_url": "https://investinglive.com/news/us-jobs-report-faces-a-higher-bar-as-bond-market-tensions-raise-the-stakes/"
+  },
+  {
+    "id": 728,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we get the Eurozone Flash CPI report. The headline CPI Y/Y is expected at 3.6% vs 3.2% prior, while the Core CPI Y/Y is seen at 2.5% vs 2.4% prior. Given the recent ECB commentary, we will likely need an upside surprise for the central bank to consider a rate hike in October. An in-line or even lower than expected figures will give the ECB enough reasons to keep the policy rate steady. AMERICAN SESSION In the American session, we have the US NFP report. The NFP is expected at 90K vs 162K prior, while the unemployment rate is seen remaining unchanged at",
+    "published_at": "2026-10-02T06:28:45",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-55/"
+  },
+  {
+    "id": 727,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What is the distribution of forecasts for the US NFP?",
+    "description": "The ranges of estimates are important in terms of market reaction because when the actual data deviates from the expectations, it creates a surprise effect. Another important input in market's reaction is the distribution of forecasts. In fact, although we can have a range of estimates, most forecasts might be clustered on the upper bound of the range, so even if the data comes out inside the range of estimates but on the lower bound of the range, it can still create a surprise effect. Non-Farm Payrolls 35K to 180K range of estimates 60K-100K range most clustered 90K consensus Unemployment Rat",
+    "published_at": "2026-10-02T07:00:29",
+    "source_url": "https://investinglive.com/news/what-is-the-distribution-of-forecasts-for-the-us-nfp-1/"
+  },
+  {
+    "id": 726,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Eurozone inflation jumps to 3.8% in September as energy prices surge",
+    "description": "Eurozone September preliminary CPI +3.8% vs +3.6% y/y expected Prior +3.2% Eurozone September preliminary core CPI +2.5% vs +2.5% y/y expected Prior +2.4% The breakdownThe headline estimate reaffirms that inflation continues to surge higher in the euro area at the end of the third quarter. That is largely driven by energy prices, which jumped by 18.8% in September compared to the 14.3% rise in the month before. Besides that, there were also increases in food and services inflation. Food, alcohol and tobacco prices rose 1.4% on the year, up from 1.1% in August. Meanwhile, services inflation pic",
+    "published_at": "2026-10-02T09:00:23",
+    "source_url": "https://investinglive.com/news/eurozone-inflation-jumps-to-3-8-in-september-as-energy-prices-surge/"
+  },
+  {
+    "id": 725,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Appointment of members of the Enforcement Decision Making Committee (EDMC)",
+    "description": "Following an external recruitment process, the Bank of England has appointed Carlos Conceicao and Alexander Justham as members of its Enforcement Decision Making Committee, with effect from September 2026.",
+    "published_at": "2026-10-02T08:00:00",
+    "source_url": "https://www.bankofengland.co.uk/news/2026/october/appointment-of-members-of-the-edmc"
+  },
+  {
     "id": 724,
     "status": "UNMATCHED",
     "was_matched": false,
