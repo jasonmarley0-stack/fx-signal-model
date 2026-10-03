@@ -1,5 +1,49 @@
 [
   {
+    "id": 742,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Week ahead: ISM services, Fed minutes and Canadian jobs lead the economic calendar. Be aware.",
+    "description": "The new trading week brings a lighter economic calendar, but there are still several events that can move currencies and yields. The main highlights are Monday\u2019s U.S. ISM services report, Wednesday\u2019s Federal Reserve minutes, Thursday\u2019s ECB monetary policy accounts, and Friday\u2019s Canadian employment and U.S. consumer sentiment reports. For traders, the question is whether the incoming data show growth holding up while price pressures remain elevated, or whether the economy is losing enough momentum to change the policy outlook. All times below are U.S. Eastern. Forecasts reflect the calendar ava",
+    "published_at": "2026-10-02T17:51:51",
+    "source_url": "https://investinglive.com/news/week-ahead-ism-services-fed-minutes-and-canadian-jobs-lead-the-economic-calendar-be-aware/"
+  },
+  {
+    "id": 741,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Americas FX news wrap 2 Oct: Nasdaq 100 closes at a record after soft US jobs; Treasury yields reverse higher",
+    "description": "The US employment report gave stock buyers something to cheer about on Friday. Payroll growth missed expectations, earlier months were revised lower and wage growth slowed. The initial reaction was lower Treasury yields, a weaker dollar and higher stocks as traders reduced expectations for another October Fed hike.&nbsp; However, the bond market did not hold that move. Yields reversed higher and ended above Thursday\u2019s levels. Stocks were more successful in holding gains, with the Nasdaq 100 closing at a new record. Nvidia and the Nasdaq Composite reached new all-time intraday highs, but neithe",
+    "published_at": "2026-10-02T20:57:56",
+    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-2-oct-nasdaq-100-closes-at-a-record-after-soft-us-jobs-treasury-yields-reverse-higher/"
+  },
+  {
+    "id": 740,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 2,
+    "source_id": 1,
+    "title": "Federal Reserve Board announces it will extend, until November 4, the comment period on its proposal to modernize Regulation O",
+    "description": "Federal Reserve Board announces it will extend, until November 4, the comment period on its proposal to modernize Regulation O",
+    "published_at": "2026-10-02T20:00:00",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20261002a.htm"
+  },
+  {
+    "id": 739,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 2,
+    "source_id": 1,
+    "title": "Federal Reserve Board announces approval of application by Fleur Capital Corporation",
+    "description": "Federal Reserve Board announces approval of application by Fleur Capital Corporation",
+    "published_at": "2026-10-02T20:45:00",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/orders20261002a.htm"
+  },
+  {
     "id": 738,
     "status": "UNMATCHED",
     "was_matched": false,
