@@ -12,6 +12,7 @@ import json
 import shutil
 import sys
 import tempfile
+import tracemalloc
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
 
@@ -38,6 +39,7 @@ def _write_jsonl(path: Path, rows: list[dict]) -> None:
 def _write_real_manifest(checkout: Path, run_id: str = "test-run-id", started_at: datetime | None = None) -> None:
     sys.path.insert(0, str(checkout / "research" / "prospective_baseline"))
     import importlib
+    sys.modules.pop("run_identity", None)
     import run_identity
     importlib.reload(run_identity)  # each checkout has its own TRACKED_FILES paths
     manifest = run_identity.build_manifest(run_id=run_id)
@@ -146,6 +148,58 @@ def test_kpi_snapshot_reuses_pinned_report_and_score_not_reimplemented():
     print("publisher: published KPI/ledger are exactly the pinned functions' own output, not reimplemented: OK")
 
 
+def test_bounded_kpi_matches_frozen_scorer_for_gap_pending_and_deadline():
+    """Regression equivalence for the three coverage-sensitive outcomes.
+    The publisher may bound IO, but not alter frozen score semantics."""
+    checkout = _fresh_checkout(); _write_real_manifest(checkout)
+    log_dir = checkout / "research" / "prospective_baseline" / "logs"
+    def decision(pair, direction, at):
+        return {"event_type": "decision", "pair": pair, "direction": direction,
+                "source_candle_start_utc": (at-timedelta(hours=4)).isoformat(), "source_candle_completion_utc": at.isoformat(),
+                "actual_calculation_time_utc": at.isoformat(), "actual_recording_time_utc": at.isoformat(), "decision_delay_seconds": 1.0,
+                "confidence": "high", "combined_score": .8, "entry_price": 1.1, "stop": 1.098, "target": 1.102,
+                "entry_condition_lo": 1.0995, "entry_condition_hi": 1.1005, "entry_expiry_utc": (at+timedelta(hours=4)).isoformat(),
+                "max_holding_time_hours": 30.0, "technical_inputs": {}, "hypothetical": True, "result_type": "prospective_paper"}
+    live_t = datetime.now(timezone.utc) - timedelta(minutes=10)
+    d_gap, d_open, d_deadline = decision("EURUSD", "long", T0), decision("GBPUSD", "long", live_t), decision("USDJPY", "long", T0)
+    quotes = []
+    # Gap: no EURUSD quotes. Pending/open: continuous GBPUSD coverage only through scoring now.
+    for sec in range(5, 3601, 5):
+        t = T0 + timedelta(seconds=sec)
+        quotes.append({"pair": "GBPUSD", "received_at_utc": t.isoformat(), "oanda_time_utc": (t-timedelta(seconds=1)).isoformat(), "bid": 1.1000, "ask": 1.1001, "tradeable": True})
+    # Current-window GBP quotes establish entry and a genuinely pending state.
+    for sec in range(5, 601, 5):
+        t = live_t + timedelta(seconds=sec)
+        quotes.append({"pair": "GBPUSD", "received_at_utc": t.isoformat(), "oanda_time_utc": (t-timedelta(seconds=1)).isoformat(), "bid": 1.1000, "ask": 1.1001, "tradeable": True})
+    # USDJPY enters immediately then stays continuously covered through its 30h deadline and next sample.
+    d_deadline.update(entry_price=150.0, stop=149.0, target=151.0, entry_condition_lo=149.9, entry_condition_hi=150.1)
+    for sec in range(5, int((34*3600)+20), 5):
+        t = T0 + timedelta(seconds=sec)
+        quotes.append({"pair": "USDJPY", "received_at_utc": t.isoformat(), "oanda_time_utc": (t-timedelta(seconds=1)).isoformat(), "bid": 150.0, "ask": 150.0, "tradeable": True})
+    _write_jsonl(log_dir / "decisions_log.jsonl", [d_gap, d_open, d_deadline]); _write_jsonl(log_dir / "quotes_log.jsonl", quotes); _write_jsonl(log_dir / "health_log.jsonl", [])
+    out = Path(tempfile.mkdtemp()); payload = pub.publish_kpi_snapshot(checkout, out)
+    _, score, report = pub._import_observer_modules(checkout)
+    expected = score.build_paper_ledger([d_gap, d_open, d_deadline], quotes, datetime.fromisoformat(payload["generated_at_utc"]))
+    assert payload["ledger"] == expected
+    assert {r["state"] for r in payload["ledger"]} == {"insufficient_data_entry", "open", "time_exited"}
+    print("publisher: bounded path matches frozen gap, pending, and deadline scoring: OK")
+
+
+def test_bounded_quote_scan_has_headroom_at_production_row_count():
+    """512,624 is the observed production quote-row count at incident time.
+    Only a short decision window is retained while every row is streamed."""
+    root = Path(tempfile.mkdtemp()); path = root / "quotes_log.jsonl"; start = T0
+    with path.open("w") as f:
+        for i in range(512_624):
+            t = start + timedelta(seconds=i * 5)
+            f.write(json.dumps({"pair": "EURUSD" if i % 7 == 0 else "GBPUSD", "received_at_utc": t.isoformat(), "oanda_time_utc": t.isoformat(), "bid": 1.1, "ask": 1.1001, "tradeable": True}) + "\n")
+    windows = {"EURUSD": (start, start + timedelta(hours=34))}
+    tracemalloc.start(); retained, scanned = pub._bounded_quotes(path, windows); _, peak = tracemalloc.get_traced_memory(); tracemalloc.stop()
+    assert scanned == 512_624 and len(retained["EURUSD"]) < 25_000
+    assert peak < 80 * 1024 * 1024, f"bounded scan peak unexpectedly high: {peak}"
+    print(f"publisher: streamed 512624 production-scale rows; retained={len(retained['EURUSD'])}; tracemalloc_peak={peak/1024/1024:.1f}MiB: OK")
+
+
 def test_health_snapshot_sanitizes_run_identity_no_paths():
     checkout = _fresh_checkout()
     _write_real_manifest(checkout, started_at=datetime.now(timezone.utc) - timedelta(days=3))
@@ -208,6 +262,8 @@ if __name__ == "__main__":
     test_kpi_snapshot_no_manifest_never_creates_one()
     test_manifest_mismatch_never_leaks_a_filesystem_path()
     test_kpi_snapshot_reuses_pinned_report_and_score_not_reimplemented()
+    test_bounded_kpi_matches_frozen_scorer_for_gap_pending_and_deadline()
+    test_bounded_quote_scan_has_headroom_at_production_row_count()
     test_health_snapshot_sanitizes_run_identity_no_paths()
     test_health_snapshot_distinguishes_service_status_from_recording_health()
     test_atomic_write_leaves_no_partial_file_and_overwrites_cleanly()
