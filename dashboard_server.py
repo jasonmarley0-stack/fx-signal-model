@@ -410,7 +410,7 @@ def render_research_view(health_payload: dict, kpi_payload: dict) -> str:
       <p class="empty" id="research-chart-empty" style="display:none">No completed trades yet.</p>
     </div>
 
-    <div class="block-head"><h2>Trade Ledger</h2><span class="hint">Click a row for timing &amp; coverage detail</span></div>
+    <div class="block-head"><h2>Trade Ledger</h2><span class="hint" id="research-ledger-scope">Click a row for timing &amp; coverage detail</span></div>
     <div class="table-wrap">
       <table>
         <thead><tr><th></th><th>Pair</th><th>Dir</th><th>Entry cond. / Stop / Target</th>
@@ -1056,6 +1056,7 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
       }}
 
       const kpi = payload.kpi, ledger = payload.ledger || [];
+      const ledgerMeta = payload.ledger_meta || null;
       const genAt = payload.generated_at_utc ? new Date(payload.generated_at_utc) : null;
       const ageSec = genAt ? (Date.now() - genAt.getTime()) / 1000 : null;
       const isStale = ageSec !== null && ageSec > kpiStaleAfter;
@@ -1151,6 +1152,10 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
       const RESOLVED = new Set(['stopped', 'targeted', 'time_exited']);
       const executable = ledger.filter(r => r.executable);
       const suppressed = ledger.filter(r => !r.executable);
+      const ledgerScope = document.getElementById('research-ledger-scope');
+      ledgerScope.textContent = ledgerMeta && ledgerMeta.truncated
+        ? `Most recent ${{ledgerMeta.published_rows}} of ${{ledgerMeta.total_rows}} decisions shown; aggregate KPIs cover all eligible decisions.`
+        : `All ${{ledgerMeta ? ledgerMeta.total_rows : ledger.length}} recorded decisions shown; aggregate KPIs cover all eligible decisions.`;
 
       const ledgerBody = document.getElementById('research-ledger-body');
       if (!executable.length) {{
