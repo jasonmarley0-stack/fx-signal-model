@@ -1,5 +1,82 @@
 [
   {
+    "id": 756,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Asia-Pacific market news: Dollar firms, oil edges lower",
+    "description": "Japan officials toughen tone on yen as USD/JPY holds near 158 Nikkei jumps 2.5% to three-month high as AI stocks rally on softer Fed hike bets Saudi Aramco cuts Arab Light price to Asia by $3, widest discount since 2020 Fed minutes preview: one more hike guidance meets softer data as October odds fade Oil slips toward $102 (brent) as G7 stock release and rising Gulf exports offset Houthi attacks More: Russia says no lab pathogen found in plague institute death, 189 under observation Bitcoin ETF inflows fuelled September's rebound, but the momentum has faded Japan services PMI eases to 51.3 as ",
+    "published_at": "2026-10-05T03:44:34",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-dollar-firms-oil-edges-lower/"
+  },
+  {
+    "id": 755,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Bond yields remain the market\u2019s pressure point even after soft US jobs report",
+    "description": "The softer US jobs report on Friday might have offered markets some much-needed relief before the weekend but I don't think it changes the main thing traders should be watching this week. And that is still the bond market. The September jobs report showed non-farm payrolls rising by just 29k, well below expectations. 10-year Treasury yields initially fell on the release, dipping to a low 5.16%. However, that didn't last long whatsoever. Yields quickly bounced back to wrap up the week near 5.28%, highlighting just how fragile the relief in the bond market remains. In seeing that reaction,&nbsp;",
+    "published_at": "2026-10-05T05:13:23",
+    "source_url": "https://investinglive.com/news/bond-yields-remain-the-market-s-pressure-point-even-after-soft-us-jobs-report/"
+  },
+  {
+    "id": 754,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than the final PMIs for the major Eurozone economies and the UK. The final readings are rarely market-moving because the markets react more to new information. That's why the preliminary reports are the ones that move the markets the most.&nbsp; We also get the Eurozone PPI data but that's almost never a market-moving release as it's old news and the ECB is focused on the CPI anyway. As a reminder, the ECB is expected to keep interest rates unchanged in October, with the market pricing a 80% probability of a hold.",
+    "published_at": "2026-10-05T07:16:18",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-56/"
+  },
+  {
+    "id": 753,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Eurozone PMI confirms strongest growth in over three years as price pressures intensify",
+    "description": "Eurozone September final services PMI 53.0 vs 53.0 prelim Prior 51.6 Eurozone September final composite PMI 53.1 vs 53.1 prelim Prior 52.0 The breakdownThe final numbers reaffirm what we already know from the preliminary estimates, as private&nbsp;sector business activity increased at the quickest rate in nearly three-and-a-half years. That comes amid a continued improvement in demand conditions in September,&nbsp;completing a full quarter of growth.&nbsp;Overall, the pace of increase ticked up to a 41-month high. The growth in the region was broad-based as output in&nbsp;both the manufacturin",
+    "published_at": "2026-10-05T08:00:19",
+    "source_url": "https://investinglive.com/news/eurozone-pmi-confirms-strongest-growth-in-over-three-years-as-price-pressures-intensify/"
+  },
+  {
+    "id": 752,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "UK September final services PMI 52.1 vs 51.7 prelim",
+    "description": "Prior 52.5 Final Composite PMI 52.0 vs 51.7 prelim Prior 52.5 Key findings: Service sector output rises for third month in a row Input cost inflation strongest since June amid surging fuel prices Business optimism moderates from August's six month high Comment: Tim Moore, Economics Director at S&amp;P Global Market Intelligence, said: \"Moderate output growth was maintained across the UK service economy in September, albeit with a loss of momentum in comparison to August. Moreover, subdued demand conditions and rising inflationary pressures contributed to weaker business activity expectations f",
+    "published_at": "2026-10-05T08:31:20",
+    "source_url": "https://investinglive.com/news/uk-september-final-services-pmi-52-1-vs-51-7-prelim/"
+  },
+  {
+    "id": 751,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Eurozone Sentix confidence falls in October as recovery optimism starts to fade",
+    "description": "Eurozone October Sentix investor confidence 2.7 vs 5.0 expected Prior 5.1 The mood among euro area investors has taken a step back in October, with the details being slightly more telling than the headline drop itself. The Sentix investor confidence index fell to 2.7 in October from 5.1 in the month before, missing expectations and pulling back from the more than four-year high in September. That being said,&nbsp;investors aren't necessarily saying that conditions have suddenly deteriorated.&nbsp;The current situation index was unchanged at -3.3. Instead, it was expectations that took the hit ",
+    "published_at": "2026-10-05T08:53:40",
+    "source_url": "https://investinglive.com/news/eurozone-sentix-confidence-falls-in-october-as-recovery-optimism-starts-to-fade/"
+  },
+  {
+    "id": 750,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Philip R. Lane: Diagnostic Challenges for ECB Monetary Policy",
+    "description": "",
+    "published_at": "2026-10-05T08:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261005~1d8d998ef4.en.html"
+  },
+  {
     "id": 749,
     "status": "UNMATCHED",
     "was_matched": false,
