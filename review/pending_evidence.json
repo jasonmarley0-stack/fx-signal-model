@@ -1,5 +1,82 @@
 [
   {
+    "id": 749,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Economic and event calendar in Asia Monday, October 5, 2026 - Australia holiday",
+    "description": "A heads up for AUD traders, it's a Sydney holiday today. The Australian Stock Exchange (ASX) is open as normal but AUD liqudiity will be somewhat thinned out by Sydney's absence.&nbsp;&nbsp; The data agenda has data unlikely to impact too kmuch upon release.&nbsp; I\u2019ve noted data for New Zealand and Australia with text as the similarity of the little flags can sometimes be confusing. This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-10-04T21:53:44",
+    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-monday-october-5-2026-australia-holiday/"
+  },
+  {
+    "id": 748,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Uh-oh, \"lab leak\" news again ... Russian plague lab worker, 28, dies of unknown pneumonia",
+    "description": "There's no direct market read-through yet, because officials describe the situation as stable and close contacts have so far tested negative. And we all trust Russian officials, right? RIGHT? Unconfirmed health scares can still feed short bursts of risk aversion, especially if social media gets ahead of official findings. The key risk would be confirmation of a transmissible pathogen with spread beyond close contacts, which could weigh on sentiment and lift safe havens. The nearby aluminium plant's mask precaution is worth watching in case the scare starts to disrupt local industry. --- Earlie",
+    "published_at": "2026-10-04T22:08:32",
+    "source_url": "https://investinglive.com/news/uh-oh-lab-leak-news-again-russian-plague-lab-worker-28-dies-of-unknown-pneumonia/"
+  },
+  {
+    "id": 747,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Australia services PMI growth slows to 51.9, job cuts return as price pressures build",
+    "description": "The survey sends mixed signals for the Australian dollar and rates. Slower activity, job shedding and weaker confidence argue against further tightening. Accelerating output price inflation, running above its long-run average, supports the case for the RBA to stay hawkish. On balance, the inflation detail is likely to matter more to rate pricing, which limits the downside for the Australian dollar and front-end yields from the softer activity numbers. Fuel costs were again cited as a driver of input prices, so the oil price remains an important input to the RBA's inflation outlook. Upcoming of",
+    "published_at": "2026-10-04T22:16:08",
+    "source_url": "https://investinglive.com/news/australia-services-pmi-growth-slows-to-51-9-job-cuts-return-as-price-pressures-build/"
+  },
+  {
+    "id": 746,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Australia's Chalmers calls Iran war an economic disaster, says rising yields will cost billions",
+    "description": "Chalmers's warning on debt servicing costs puts the spotlight on the global rise in bond yields, which is now feeding directly into government budget arithmetic. That keeps fiscal supply and credit concerns on the radar for Australian government bonds ahead of the mid-year update. His focus on energy-driven inflation reinforces the case that oil is the main channel through which the Iran war reaches the Australian economy. Any prolonged disruption to Gulf supply keeps upward pressure on both prices and the RBA. The Japan visit, centred on fuel security, also highlights how energy-importing eco",
+    "published_at": "2026-10-04T22:57:20",
+    "source_url": "https://investinglive.com/news/australia-s-chalmers-calls-iran-war-an-economic-disaster-says-rising-yields-will-cost-billions/"
+  },
+  {
+    "id": 745,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "ANZ commodity index rises 0.6% in September as oil surge lifts milk powder and aluminium",
+    "description": "Oil is the main channel here. The surge in energy prices tied to the Middle East conflict lifted milk powder and aluminium, the main drivers of September's gains. Combined with a weaker New Zealand dollar, that gives exporters a solid boost in local-currency returns, which supports farm incomes and the terms of trade. The flip side is higher import and freight costs, which add to domestic inflation pressure. That could complicate the Reserve Bank of New Zealand's task. If US rates keep pressuring the kiwi lower, the local-currency boost to export earnings is likely to persist. Any easing in oi",
+    "published_at": "2026-10-05T00:38:39",
+    "source_url": "https://investinglive.com/news/anz-commodity-index-rises-0-6-in-september-as-oil-surge-lifts-milk-powder-and-aluminium/"
+  },
+  {
+    "id": 744,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Japan services PMI eases to 51.3 as hiring picks up and price pressures stay intense",
+    "description": "The survey leans hawkish for the BOJ despite softer headline growth. Output price inflation near record highs, rising payrolls and building backlogs point to capacity pressure that supports the case for another hike. S&amp;P Global explicitly flags October as possible, which may firm up market pricing for a near-term move. That's supportive for the yen and a source of upward pressure on front-end JGB yields. Oil was named among the cost drivers, so the Middle East energy shock is feeding directly into Japanese service prices, reinforcing the inflation case. Weak export demand and earthquake di",
+    "published_at": "2026-10-05T00:45:50",
+    "source_url": "https://investinglive.com/news/japan-services-pmi-eases-to-51-3-as-hiring-picks-up-and-price-pressures-stay-intense/"
+  },
+  {
+    "id": 743,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "More: Russia says no lab pathogen found in plague institute death, 189 under observation",
+    "description": "Markets are unlikely to react unless the situation escalates, as contacts have so far tested negative and officials insist there is no outbreak. The main risk is confirmation of plague with secondary cases among those under observation, which could stoke broader health-scare headlines and modest safe-haven demand. Local industry is the most exposed channel: precautions at the nearby aluminium smelter bear watching, given aluminium supply is already tight because of Middle East disruption. The three-week observation window ending in late October is the natural point at which the scare should ei",
+    "published_at": "2026-10-05T01:30:07",
+    "source_url": "https://investinglive.com/news/more-russia-says-no-lab-pathogen-found-in-plague-institute-death-189-under-observation/"
+  },
+  {
     "id": 742,
     "status": "UNMATCHED",
     "was_matched": false,
