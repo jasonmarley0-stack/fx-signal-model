@@ -1,5 +1,27 @@
 [
   {
+    "id": 765,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Australian consumer sentiment slumps after RBA hike as Westpac tips another in November",
+    "description": "Westpac's call for a November follow-up hike, despite the sentiment slump, signals that inflation risk still outweighs demand weakness for the RBA. That keeps support under Australian short-end yields and should limit downside for the Australian dollar on soft domestic data. Fuel is the key transmission channel, so further gains in crude prices would sharpen both the inflation pressure and the squeeze on consumers. The risk for markets is that a rate-hiking central bank meets a household sector already at recession-level gloom, raising the odds of a sharper slowdown in consumer spending into 2",
+    "published_at": "2026-10-05T23:54:24",
+    "source_url": "https://investinglive.com/news/australian-consumer-sentiment-slumps-after-rba-hike-as-westpac-tips-another-in-november/"
+  },
+  {
+    "id": 764,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Chalmers warns rising global bond yields will pressure Australia's federal budget",
+    "description": "The Treasurer's warning puts fiscal pressure alongside monetary tightening as a theme for Australian markets, with higher interest costs likely to constrain spending in the mid-year update. A rising debt servicing bill could add to supply concerns for Australian government bonds if deficits widen, keeping upward pressure on longer-dated yields. With the RBA in a hiking cycle and global yields at multi-decade highs, the Australian yield curve faces pressure from both ends. Oil-driven inflation remains a key risk, as further energy price gains would push global yields higher and deepen the refin",
+    "published_at": "2026-10-06T00:28:42",
+    "source_url": "https://investinglive.com/news/chalmers-warns-rising-global-bond-yields-will-pressure-australia-s-federal-budget/"
+  },
+  {
     "id": 763,
     "status": "UNMATCHED",
     "was_matched": false,
