@@ -1,5 +1,49 @@
 [
   {
+    "id": 763,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Economic and event calendar in Asia Tuesday, October 6, 2026",
+    "description": "China remains on holiday. Mainland markets reopen on 8 October.&nbsp; During the Tokyo afternoon today we'll hear from Bank of Japan Governor Ueda. I'll get a preview of this posted separately.&nbsp; This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-10-05T20:08:50",
+    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-tuesday-october-6-2026/"
+  },
+  {
+    "id": 762,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Americas FX news wrap 5 Oct: Nasdaq close at record as the dollar firms/yields higher",
+    "description": "The Nasdaq composite and NASDAQ 100 leads US stocks higher BoJ's Ueda in focus as markets weigh a back-to-back October rate hike Crude oil technicals: Middle east tension has crude oil futures moving higher.What next technically? You Have to BELIEVE in something: Why I trust the 100 and 200 moving averages ISM non- manufacturing PMI 54.9 versus 55.2 estimate S&amp;P global composite PMI for September 58.4 versus 58.4 preliminary Bitcoin rally stalls below $87,334. What must buyers and sellers do next? Why a weak jobs report does not always mean a weak economy Morning Kickstart: Dollar firms, s",
+    "published_at": "2026-10-05T20:53:44",
+    "source_url": "https://investinglive.com/news/investinglive-americas-fx-news-wrap-5-oct-nasdaq-close-at-record-as-the-dollar-firms-oil-falls/"
+  },
+  {
+    "id": 761,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "NZ business confidence jumps to a net 40% in September quarter despite oil price headwinds",
+    "description": "Firms widely expect interest rates to rise over the coming year, and signs that spare capacity is shrinking would support that view. Easing cost and pricing gauges, however, give the Reserve Bank of New Zealand some room on the inflation side. Oil is the main swing factor: the renewed US-Iran conflict has lifted fuel prices again, and further gains would test NZIER's view that the energy shock is not yet spreading into broader inflation. For the New Zealand dollar, the survey offers modest support through firmer growth and rate expectations, though the gap between optimism and actual activity ",
+    "published_at": "2026-10-05T21:07:51",
+    "source_url": "https://investinglive.com/news/nz-business-confidence-jumps-to-a-net-40-in-september-quarter-despite-oil-price-headwinds/"
+  },
+  {
+    "id": 760,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 2,
+    "source_id": 1,
+    "title": "Federal Reserve Board announces approval of application by Isabella Bank Corporation",
+    "description": "Federal Reserve Board announces approval of application by Isabella Bank Corporation",
+    "published_at": "2026-10-05T20:30:00",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/orders20261005a.htm"
+  },
+  {
     "id": 759,
     "status": "UNMATCHED",
     "was_matched": false,
