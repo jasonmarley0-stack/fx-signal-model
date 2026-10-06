@@ -1,5 +1,71 @@
 [
   {
+    "id": 776,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive European news wrap: Risk sentiment improves as oil falls and bonds rise",
+    "description": "Headlines: EUR/USD rebounds as French government takes steps to reduce deficit, narrowing OAT-Bund spread Ethereum consolidates at a major trendline as Glamsterdam hits Sepolia testnet. What's next? The price action in gold remains rangebound as US-Iran stalemate and CPI risk cap the upside Connecting the dots: How France\u2019s budget problems are turning into the euro\u2019s problem France is having its Liz Truss moment as the bond market forces a policy rethink. Why it's a good thing. Macro pulse: France-Germany yield spread breakout puts euro area contagion risk in focus European stock market open: ",
+    "published_at": "2026-10-06T12:50:22",
+    "source_url": "https://investinglive.com/news/investinglive-european-news-wrap-risk-sentiment-improves-as-oil-falls-and-bonds-rise/"
+  },
+  {
+    "id": 775,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Canada August trade balance $4.20 billion vs $1.55 billion expected",
+    "description": "Prior was +0.77 billion (revised to 0.79 billion) Exports: +2.5% MoM. Prior -2.6% Imports: -2.0% MoM. Prior +8.3% Canada's merchandise trade surplus widened sharply to C$4.2 billion in August, from C$787 million in July, as exports increased while imports declined. The result marked Canada's sixth consecutive monthly trade surplus, with merchandise exports rising 2.5% and imports falling 2.0%. Exports increased across eight of 11 product categories, with energy exports rising 4.7%, their first increase since April. Exports of industrial machinery, equipment and parts jumped 10.1%, while electr",
+    "published_at": "2026-10-06T12:30:28",
+    "source_url": "https://investinglive.com/news/canada-august-trade-balance-4-20-billion-vs-1-55-billion-expected/"
+  },
+  {
+    "id": 774,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US International Trade balance for August -105.6B vs -102.0B.",
+    "description": "Prior month -92.8 billion Details from the BEA: Goods and services deficit: $105.6 billion. Prior $92.8 billion, revised. That is worse than expectations of -102.0B Deficit widened $12.7 billion, or 13.7%, from July. Exports: $315.2 billion, up $4.5 billion or 1.4%. Imports: $420.8 billion, up $17.2 billion or 4.3%. Goods deficit: $136.6 billion, widening $12.8 billion. Services surplus: $31.0 billion, little changed. Real goods deficit: $114.7 billion, widening 8.2%. Year-to-date deficit: Down 19.9% from the same period in 2025. The US trade deficit widened sharply in August as imports increa",
+    "published_at": "2026-10-06T12:30:30",
+    "source_url": "https://investinglive.com/news/us-international-trade-balance-for-august-105-6b-vs-102-0b/"
+  },
+  {
+    "id": 773,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Minutes of the UK Money Markets Code Sub-Committee \u2013 September 2026",
+    "description": "The Money Markets Committee is a forum for market participants and authorities to discuss the UK unsecured deposits and funding market and securities lending and repo markets.",
+    "published_at": "2026-10-06T13:07:03",
+    "source_url": "https://www.bankofengland.co.uk/minutes/2026/september/uk-money-markets-committee-minutes-september-2026"
+  },
+  {
+    "id": 772,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Piero Cipollone: Money in the digital age: digital euro, tokenisation and the role of central banks",
+    "description": "",
+    "published_at": "2026-10-06T13:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261006~0da978f159.en.html"
+  },
+  {
+    "id": 771,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Frank Elderson: Effective supervision through timely remediation",
+    "description": "",
+    "published_at": "2026-10-06T13:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261006_1~0df91e4e44.en.html"
+  },
+  {
     "id": 770,
     "status": "UNMATCHED",
     "was_matched": false,
