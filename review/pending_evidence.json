@@ -1,5 +1,60 @@
 [
   {
+    "id": 770,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Asia-Pacific market news: Tuesday, October 6, 2026",
+    "description": "Solana launches open settlement standard for institutions, with JPMorgan input ICYMI: Citi raises bitcoin target to $113,000 and ether to $3,028 as crypto inflows return Reports that Hormuz crude flows near 76% of prewar levels. Diesel shortage persists. Trump's red diesel order unlikely to cut most pump prices, says GasBuddy's De Haan S&amp;P 500 defies midterm slump as Bank of America says history favours post-election gains Morgan Stanley turns neutral on dollar with bullish skew, stays bearish on yen Chalmers warns rising global bond yields will pressure Australia's federal budget Nvidia n",
+    "published_at": "2026-10-06T03:48:49",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news/"
+  },
+  {
+    "id": 769,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than a couple of low tier releases like the Swiss unemployment rate and the Eurozone retail sales. None of the data won't change anything for the respective central banks, so the market reaction will likely be muted.&nbsp; AMERICAN SESSION In the American session, the calendar is going to be light as well, with just the weekly US ADP data and the US trade balance on the agenda. These are not market moving releases and they won't change anything for the Fed anyway.&nbsp; The market focus will likely remain on US-Ir",
+    "published_at": "2026-10-06T06:38:46",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-57/"
+  },
+  {
+    "id": 768,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Macro pulse: France-Germany yield spread breakout puts euro area contagion risk in focus",
+    "description": "With all that is happening in markets, there are plenty of charts worth watching in Europe right now. However, this in particular may be one of the most important. The gap between French and German 10-year bond yields has surged over the past month, as investors are demanding a much bigger premium for holding French government debt over German bunds. The move looks even more striking when you zoom out on the charts. The yield spread has decisively broken above the roughly 80 bps area that had capped it over the past couple of years. And even after pulling back from above 150 bps last week,&nbs",
+    "published_at": "2026-10-06T07:57:24",
+    "source_url": "https://investinglive.com/news/macro-pulse-france-germany-yield-spread-breakout-puts-euro-area-contagion-risk-in-focus/"
+  },
+  {
+    "id": 767,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "France is having its Liz Truss moment as the bond market forces a policy rethink. Why it's a good thing.",
+    "description": "France's bond market recently sent a strong message to policymakers.&nbsp;The spread between French and German 10-year government bonds surged above 150 basis points last week, reaching its widest level since the euro-area debt crisis. French borrowing costs approached 5%, while concerns over the country's deficit, debt trajectory and political fragmentation intensified ahead of the 2027 presidential election. The market reaction is important because it can create a feedback loop. Higher bond yields increase the government's interest bill, which worsens the fiscal outlook, requiring even more ",
+    "published_at": "2026-10-06T08:48:21",
+    "source_url": "https://investinglive.com/news/france-is-having-its-liz-truss-moment-as-the-bond-market-forces-a-policy-rethink-why-it-s-a-good-thing/"
+  },
+  {
+    "id": 766,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Philip R. Lane: Interview with Ansa",
+    "description": "",
+    "published_at": "2026-10-06T07:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/inter/date/2026/html/ecb.in261006~bc94400297.en.html"
+  },
+  {
     "id": 765,
     "status": "UNMATCHED",
     "was_matched": false,
