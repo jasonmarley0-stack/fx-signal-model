@@ -1,5 +1,38 @@
 [
   {
+    "id": 782,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Japan factory mood hits near five-year high as services sentiment drops six points",
+    "description": "The split matters for the Bank of Japan. Strength in manufacturing supports the case that the economy can absorb further rate increases, but respondents in property and services directly cited higher interest rates and weaker household spending as drags. That mix fits the gradual, no-pre-set-pace approach board member Ayano Sato outlined this week rather than any acceleration. Cost pressure remains a theme, with food producers hit hardest by raw-material prices, and the Middle East energy shock is likely to keep that pressure on while oil stays elevated. For equities, the survey reinforces the",
+    "published_at": "2026-10-06T23:07:20",
+    "source_url": "https://investinglive.com/news/japan-factory-mood-hits-near-five-year-high-as-services-sentiment-drops-six-points/"
+  },
+  {
+    "id": 781,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Japan real wages rise for eighth straight month, backing case for BOJ hikes",
+    "description": "The detail that matters most for the Bank of Japan is base pay. Regular wages holding steady near 4% points to durable wage growth rather than a bonus-driven spike, which is the kind of evidence policymakers want before tightening further. That supports the yen and front-end Japanese government bond yields at the margin, even as the headline real wage gain slowed. The risk to the real wage picture comes from prices. With the inflation measure used in the calculation only just above 2%, and Tokyo core inflation accelerating alongside elevated oil costs from the Middle East conflict, any pickup ",
+    "published_at": "2026-10-06T23:44:03",
+    "source_url": "https://investinglive.com/news/japan-real-wages-rise-for-eighth-straight-month-backing-case-for-boj-hikes/"
+  },
+  {
+    "id": 780,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Households weather RBA hikes as debt-to-asset ratio hits 1997 low, Deutsche Bank says",
+    "description": "Deutsche Bank's argument is hawkish at heart. If each hike does less damage to household cash flow than in the past, the RBA may need to do more to slow demand, which keeps a fifth hike in November in play and supports the short end of the Australian yield curve. That would also lend some support to the Australian dollar against currencies where central banks are closer to the end of their tightening. The risk to this view comes from asset prices. A deeper housing slump or a sharp correction in global AI stocks, both flagged in RBA staff work, would test whether balance sheets are as robust as",
+    "published_at": "2026-10-07T03:02:44",
+    "source_url": "https://investinglive.com/news/households-weather-rba-hikes-as-debt-to-asset-ratio-hits-1997-low-deutsche-bank-says/"
+  },
+  {
     "id": 779,
     "status": "UNMATCHED",
     "was_matched": false,
