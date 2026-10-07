@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-06T05:45:34.448403+00:00",
+  "generated_at": "2026-10-07T05:45:08.801165+00:00",
   "services": {
     "signal-scanner": {
       "active": "inactive",
@@ -18,25 +18,25 @@
     "rss-ingestion.timer": "active",
     "performance-scorer.timer": "active"
   },
-  "live_scan_age_seconds": 454.429395,
-  "performance_updated_at": "2026-10-06T05:17:23.567671+00:00",
+  "live_scan_age_seconds": 260.273565,
+  "performance_updated_at": "2026-10-07T05:20:16.781088+00:00",
   "performance_aggregates": {
     "7d": {
-      "total_signals": 7,
+      "total_signals": 8,
       "resolved_signals": 0,
       "win_rate": null,
       "avg_r": null,
-      "directional_accuracy": 0.4,
+      "directional_accuracy": 0.2,
       "directional_sample_size": 5,
       "best_pair": null,
       "by_pair": {
         "AUDUSD": {
-          "signals": 2,
+          "signals": 1,
           "win_rate": null,
           "avg_r": null,
           "best_r": null,
           "worst_r": null,
-          "directional_accuracy": 0.5
+          "directional_accuracy": 0.0
         },
         "GBPUSD": {
           "signals": 1,
@@ -52,7 +52,7 @@
           "avg_r": null,
           "best_r": null,
           "worst_r": null,
-          "directional_accuracy": 1.0
+          "directional_accuracy": 0.5
         },
         "USDCHF": {
           "signals": 1,
@@ -60,26 +60,26 @@
           "avg_r": null,
           "best_r": null,
           "worst_r": null,
-          "directional_accuracy": 0.0
+          "directional_accuracy": null
         },
         "USDJPY": {
-          "signals": 1,
+          "signals": 3,
           "win_rate": null,
           "avg_r": null,
           "best_r": null,
           "worst_r": null,
-          "directional_accuracy": null
+          "directional_accuracy": 0.0
         }
       },
       "cumulative_r_series": []
     },
     "30d": {
-      "total_signals": 914,
+      "total_signals": 917,
       "resolved_signals": 836,
       "win_rate": 0.4533492822966507,
       "avg_r": -0.09330143540669843,
-      "directional_accuracy": 0.5266666666666666,
-      "directional_sample_size": 750,
+      "directional_accuracy": 0.5252659574468085,
+      "directional_sample_size": 752,
       "best_pair": "GBPCHF",
       "by_pair": {
         "AUDCAD": {
@@ -280,7 +280,7 @@
           "avg_r": -0.21052631578947367,
           "best_r": 1.0,
           "worst_r": -1.0,
-          "directional_accuracy": 0.5333333333333333
+          "directional_accuracy": 0.5161290322580645
         },
         "USDCAD": {
           "signals": 36,
@@ -291,7 +291,7 @@
           "directional_accuracy": 0.6923076923076923
         },
         "USDCHF": {
-          "signals": 39,
+          "signals": 40,
           "win_rate": 0.2727272727272727,
           "avg_r": -0.45454545454545453,
           "best_r": 1.0,
@@ -299,12 +299,12 @@
           "directional_accuracy": 0.48148148148148145
         },
         "USDJPY": {
-          "signals": 40,
+          "signals": 42,
           "win_rate": 0.6153846153846154,
           "avg_r": 0.23076923076923078,
           "best_r": 1.0,
           "worst_r": -1.0,
-          "directional_accuracy": 0.8076923076923077
+          "directional_accuracy": 0.7777777777777778
         }
       },
       "cumulative_r_series": [
@@ -4491,12 +4491,12 @@
       ]
     },
     "all": {
-      "total_signals": 1403,
+      "total_signals": 1406,
       "resolved_signals": 1313,
       "win_rate": 0.43564356435643564,
       "avg_r": -0.09939070830160093,
-      "directional_accuracy": 0.5372340425531915,
-      "directional_sample_size": 1128,
+      "directional_accuracy": 0.536283185840708,
+      "directional_sample_size": 1130,
       "best_pair": "GBPJPY",
       "by_pair": {
         "AUDCAD": {
@@ -4697,7 +4697,7 @@
           "avg_r": 0.02016129032256623,
           "best_r": 1.8750000000000888,
           "worst_r": -1.0,
-          "directional_accuracy": 0.46808510638297873
+          "directional_accuracy": 0.4583333333333333
         },
         "USDCAD": {
           "signals": 48,
@@ -4708,7 +4708,7 @@
           "directional_accuracy": 0.6388888888888888
         },
         "USDCHF": {
-          "signals": 64,
+          "signals": 65,
           "win_rate": 0.43103448275862066,
           "avg_r": -0.062499999999999604,
           "best_r": 1.8750000000001597,
@@ -4716,12 +4716,12 @@
           "directional_accuracy": 0.5434782608695652
         },
         "USDJPY": {
-          "signals": 63,
+          "signals": 65,
           "win_rate": 0.5161290322580645,
           "avg_r": 0.07459677419354409,
           "best_r": 1.8750000000003917,
           "worst_r": -1.0,
-          "directional_accuracy": 0.7045454545454546
+          "directional_accuracy": 0.6888888888888889
         }
       },
       "cumulative_r_series": [
@@ -11295,23 +11295,23 @@
   },
   "alerts_stored_count": 50,
   "most_recent_alert": {
-    "id": "1791263278542-USDCHF",
-    "time": "2026-10-06T05:07:58.542571+00:00",
-    "pair": "USDCHF",
-    "direction": "long",
-    "confidence": "medium",
-    "combined_score": 0.5,
-    "entry": 0.8317,
-    "message": "USDCHF: LONG (medium) @ 0.83170",
-    "reason": "tech=+0.50, pestle=+0.00, combined=+0.50",
+    "id": "1791349850034-USDJPY",
+    "time": "2026-10-07T05:10:50.034747+00:00",
+    "pair": "USDJPY",
+    "direction": "no_trade",
+    "confidence": "low",
+    "combined_score": 0.3,
+    "entry": 158.422,
+    "message": "USDJPY: back to no_trade",
+    "reason": "tech=+0.30, pestle=+0.00, combined=+0.30",
     "tech": {
       "orb": 0.0,
       "trend": 1.0,
-      "pattern": 1.0,
-      "composite": 0.5
+      "pattern": 0.0,
+      "composite": 0.3
     },
     "pestle": {
-      "pair": "USDCHF",
+      "pair": "USDJPY",
       "pestle_score": 0.0,
       "base": {
         "currency": "USD",
@@ -11320,19 +11320,19 @@
         "evidence": []
       },
       "quote": {
-        "currency": "CHF",
+        "currency": "JPY",
         "score": 0.0,
         "categories": {},
         "evidence": []
       }
     },
     "stop_loss_range": [
-      0.8179,
-      0.8225
+      158.422,
+      158.422
     ],
     "take_profit_range": [
-      0.8396733333333334,
-      0.8409
+      158.422,
+      158.422
     ],
     "window": null
   }
