@@ -1,5 +1,71 @@
 [
   {
+    "id": 788,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Asia-Pacific market news: Saudi-Houthi attacks and Gulf storm lift oil",
+    "description": "Houthis claim strikes on three Saudi sites including Riyadh airport, unconfirmed Households weather RBA hikes as debt-to-asset ratio hits 1997 low, Deutsche Bank says RBI decision today: most economists expect a hike to 5.50%, MUFG sees a hold Ether fi joins the stablecoin rush: why every crypto platform wants its own dollar RBI expected to hold at 5.25% today, MUFG sees two hikes by February Add a new risk to keep oil near $100: Gulf hurricane joins Houthi strikes and Iran tensions Two veteran bond bears turn bullish on long Treasuries as yields top 5% Goldman Sachs sees five drivers behind U",
+    "published_at": "2026-10-07T03:40:25",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-saudi-houthi-attacks-and-gulf-storm-lift-oil/"
+  },
+  {
+    "id": 787,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Economic data spotlight: US jobless claims to test whether weak payrolls are turning into layoffs",
+    "description": "The softer US jobs report on Friday last week continues to paint a softer picture of the labour market, yet there is still one part of the story that doesn't seem to line up. The September non-farm payrolls rose by just 29k, well below expectations of 90k, while the unemployment rate edged up to 4.2%. Meanwhile, July and August&nbsp;were also revised down by a combined 60k and wage growth slowed to just 0.1% on the month. That's a clear enough signal that hiring is losing momentum. But so far, that weakness hasn\u2019t translated into any meaningful rise in layoffs. US initial jobless claims fell t",
+    "published_at": "2026-10-07T04:50:07",
+    "source_url": "https://investinglive.com/news/economic-data-spotlight-us-jobless-claims-to-test-whether-weak-payrolls-are-turning-into-layoffs/"
+  },
+  {
+    "id": 786,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we don't have much on the agenda other than the French trade balance. The data won't change anything for the ECB, so the market reaction will be muted.&nbsp; The focus remains on French bonds after the recent surge in the OAT-Bund spread to the highest level since the European debt crisis. We've seen some narrowing this week. Some of the improvement might have been triggered by position squaring given the overstretched levels, but the French government has also unveiled plans to sharply narrow the budget deficit by restraining spending and raising tax ",
+    "published_at": "2026-10-07T06:36:48",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-58/"
+  },
+  {
+    "id": 785,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Trump\u2019s tariffs were meant to shrink the US trade deficit but imports just hit a record high",
+    "description": "If tariffs were supposed to bring down the US trade deficit, then the latest numbers clearly show that things are a reminder that things are not that simple. The US trade figures for August &nbsp;showed the deficit widening to $105.6 billion, up from&nbsp;$92.8 billion previously. But more strikingly, imports jumped 4.3% to a record $420.8 billion while exports rose by a much smaller 1.4% to $315.2 billion. And that seems to be the exact opposite of what Trump's tariffs approach was supposed to achieve. Surprise, surprise. Not. Let's take this back to the basic idea behind tariffs. The use of ",
+    "published_at": "2026-10-07T06:34:44",
+    "source_url": "https://investinglive.com/news/trump-s-tariffs-were-meant-to-shrink-the-us-trade-deficit-but-imports-just-hit-a-record-high/"
+  },
+  {
+    "id": 784,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Regulatory thresholds set to shift to automatic increases",
+    "description": "Proportionality is set to be improved for firms as over 100 regulatory thresholds could be automatically increased periodically.",
+    "published_at": "2026-10-07T09:00:00",
+    "source_url": "https://www.bankofengland.co.uk/news/2026/october/regulatory-thresholds-set-to-shift-to-automatic-increases"
+  },
+  {
+    "id": 783,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Results of the September 2026 survey on credit terms and conditions in euro-denominated securities financing and OTC derivatives markets (SESFOD)",
+    "description": "",
+    "published_at": "2026-10-07T08:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr261007~6447350434.en.html"
+  },
+  {
     "id": 782,
     "status": "UNMATCHED",
     "was_matched": false,
