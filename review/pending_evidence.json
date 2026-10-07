@@ -1,5 +1,71 @@
 [
   {
+    "id": 794,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Treasury yields continue to break higher as 30-year hits 5.70%, putting markets on edge",
+    "description": "It's a brand new week but the bond market is still not giving broader markets much room to breathe. Treasury yields are once again pushing higher again today, with the 30-year yields touching 5.70% - their highest since 2002. Meanwhile, 10-year yields are nudging up to around 5.32% and closing in on levels&nbsp;not seen in over two decades as well. When you look at the chart, the direction of travel is rather clear. 30-year yields have powered through the 5.40% area since the final week of September and are continuing to stretch higher. I would argue that the bigger takeaway here&nbsp;isn't th",
+    "published_at": "2026-10-07T09:55:19",
+    "source_url": "https://investinglive.com/news/treasury-yields-continue-to-break-higher-as-30-year-hits-5-70-putting-markets-on-edge/"
+  },
+  {
+    "id": 793,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive European session wrap: Treasury yields surge, stocks slide as risk mood sours",
+    "description": "Headlines: Treasury yields continue to break higher as 30-year hits 5.70%, putting markets on edge Crude oil rebounds as persistent supply risks continue to outweigh improving physical exports Bitcoin dips as over $400 million in crypto longs are liquidated in just one hour Chart of the day: EUR/CHF is becoming a pressure gauge for Europe\u2019s fiscal risks What are the FOMC meeting minutes and why do they rarely move markets? Markets: 10-year Treasury yields +6 bps to 5.34% WTI crude up 0.7% to $90.06 USD leads, EUR lags on the day Gold down 1.1% to $4,118 European equities lower; S&amp;P 500 fut",
+    "published_at": "2026-10-07T11:46:24",
+    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-treasury-yields-surge-stocks-slide-as-risk-mood-sours/"
+  },
+  {
+    "id": 792,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "New York Fed inflation expectations: One year inflation expectations hit the highest since 2023",
+    "description": "The&nbsp;New York Fed survey of consumer expectations One year inflation 3.9% vs 3.6% prior Three year inflation 3.3% vs 3.2% prior Five year inflation unchanged at %3% Year-ahead expected spending rose to the highest since May 2023 Labor market expectations were mostly positive The Fed won't be happy about this but will take some solace in the flat 5-year number. But like many of them are saying, longer-term inflation expectations are stable until they're not. For background, the New York Fed\u2019s Survey of Consumer Expectations is a monthly report tracking how US households view inflation, the ",
+    "published_at": "2026-10-07T15:02:08",
+    "source_url": "https://investinglive.com/news/new-york-fed-inflation-expectations-one-year-inflation-expectations-hit-the-highest-since-2023/"
+  },
+  {
+    "id": 791,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Minutes of the London FXJSC Main Committee Meeting \u2013 24 June 2026",
+    "description": "The Bank of England chairs the London Foreign Exchange Joint Standing Committee (FXJSC), which is a forum for discussion of the wholesale foreign exchange market. The FXJSC is made up of market participants, infrastructure providers and the UK financial regulators.",
+    "published_at": "2026-10-07T09:08:40",
+    "source_url": "https://www.bankofengland.co.uk/minutes/2026/june/fxjsc-main-committee-meeting-24-june-2026"
+  },
+  {
+    "id": 790,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Minutes of the London FXJSC Operations Sub-Committee Meeting \u2013 16 June 2026",
+    "description": "The Bank of England chairs the London Foreign Exchange Joint Standing Committee (FXJSC) Operations and Legal Sub-Committees. The FXJSC is made up of market participants, infrastructure providers and the UK financial regulators.",
+    "published_at": "2026-10-07T09:49:25",
+    "source_url": "https://www.bankofengland.co.uk/minutes/2026/june/fxjsc-operations-sub-committee-meeting-16-june-2026"
+  },
+  {
+    "id": 789,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Minutes of the London FXJSC Legal Sub Committee Meeting \u2013 16 June 2026",
+    "description": "The Bank of England provides the Secretariat to the London Foreign Exchange Joint Standing Committee (FXJSC) Legal Sub-Committee. The FXJSC is made up of market participants, infrastructure providers and the UK financial regulators.",
+    "published_at": "2026-10-07T13:36:25",
+    "source_url": "https://www.bankofengland.co.uk/minutes/2026/june/fxjsc-legal-sub-committee-meeting-16-june-26"
+  },
+  {
     "id": 788,
     "status": "UNMATCHED",
     "was_matched": false,
