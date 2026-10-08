@@ -137,18 +137,31 @@ qualifies, by design ("weekend absence alone must remain unexplained"):
   (`tradeable` explicitly `True`, well-formed, valid provider timestamp)
   before it is accepted as ending the closure.
 
-**The interval closure actually explains is bounded, not open-ended.**
-One genuine piece of evidence near the start of a long silence does not
-excuse silence of unlimited length: the candidate reopen sample must
-arrive within `MAX_REOPEN_DELAY_FROM_EXPECTED_HOURS` of the *expected*
-reopen point (the next weekly reopen on/after the gap's start), not
-merely somewhere within the outer `MAX_CLOSURE_DEADLINE_DELAY_HOURS`
-sanity ceiling. A real Friday `tradeable: false` observation followed by
-silence that continues well past the expected Sunday reopen (e.g. into
-Monday) stays `incomplete_coverage` for the unexplained remainder — the
-one observation explains the closure, not an arbitrarily longer absence
-that happens to follow it. An unexplained gap of similar length on a
-weekday, with no such evidence at all, is likewise still
+**The interval closure actually explains is bounded by CONTINUOUS
+evidence, not by proximity to an estimated reopen time.** An earlier
+version of this rule accepted a reopen sample arriving within a fixed
+margin (6 hours) of an *estimated* reopen point (the next weekly reopen
+hour on/after the gap's start) as proof the whole intervening gap was
+closure. That was an assumption, not a demonstration, and is explicitly
+rejected: proximity to an estimate proves nothing about what happened in
+between. The corrected rule instead requires **continuous coverage of
+explicit `tradeable: false` observations across the entire gap** — no
+receipt-time gap wider than `COVERAGE_GAP_SECONDS` from the deadline (or
+gap start) to the first non-tradeable receipt, between consecutive
+non-tradeable receipts, or from the last non-tradeable receipt to the
+accepted reopen sample. During a genuine closure the provider keeps
+responding at the normal poll cadence, just marked non-tradeable; real
+closure looks like dense evidence throughout, not one data point. A
+single genuine Friday `tradeable: false` observation followed by real
+silence — even if a `tradeable: true` sample eventually turns up at a
+plausible-looking time (e.g. Monday 01:00, close to when the market
+should have reopened) — does not qualify: that silence is
+indistinguishable from an ordinary, unexplained collection outage and
+stays `incomplete_coverage`. `MAX_CLOSURE_DEADLINE_DELAY_HOURS` remains
+only as an outer sanity/performance ceiling on how far the *search* for
+a candidate reopen sample scans — it is not, and must never become, an
+acceptance criterion on its own. An unexplained gap of similar length on
+a weekday, with no evidence at all, is likewise still
 `incomplete_coverage`, never silently treated as closure.
 
 The publisher's bounded per-pair quote window (`research_snapshot_

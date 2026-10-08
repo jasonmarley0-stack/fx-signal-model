@@ -52,23 +52,16 @@ MAX_TOTAL_REQUEST_SECONDS = 20.0        # hard ceiling across all attempts -- on
 WEEKLY_CLOSURE_FRIDAY_UTC_HOUR = 20   # from this hour Friday...
 WEEKLY_CLOSURE_SUNDAY_UTC_HOUR = 23   # ...until this hour Sunday, UTC, is the closure-detection candidate window
 
-# How late an actual reopen sample may arrive, relative to the EXPECTED
-# reopen point (next Sunday at WEEKLY_CLOSURE_SUNDAY_UTC_HOUR), and still
-# be accepted as explaining a gap. This is the tight bound: one genuine
-# tradeable=False observation near the start of a long silence must not
-# excuse silence of arbitrary length -- only up to this margin past when
-# the market should actually have reopened. A margin, not zero, because
-# WEEKLY_CLOSURE_SUNDAY_UTC_HOUR is itself an approximation (DST, a few
-# minutes either side of the venue's real reopen).
-MAX_REOPEN_DELAY_FROM_EXPECTED_HOURS = 6.0
-
-# Outer, absolute sanity ceiling (independent of the expected-reopen
-# estimate above) and also the publisher's bounded quote-window margin
-# for v2 (see research_snapshot_publisher.py::_closure_margin_seconds) --
-# retains far more room than MAX_REOPEN_DELAY_FROM_EXPECTED_HOURS ever
-# needs, so the publisher's memory-bounded quote window can never
-# truncate the evidence score.py's tighter acceptance check is actually
-# willing to use.
+# Outer sanity/performance ceiling on how far PAST a deadline the search
+# for a reopen sample will scan -- deliberately NOT an acceptance
+# criterion. Whether a found reopen candidate is actually ACCEPTED as
+# demonstrating closure is governed entirely by continuous tradeable=
+# false evidence across the whole gap (score.py's _closure_fully_
+# evidenced) -- never by how close the candidate's arrival time is to an
+# ESTIMATED reopen point. Also used, unchanged, as the publisher's
+# bounded quote-window margin for v2 (see research_snapshot_publisher.py
+# ::_closure_margin_seconds), so the memory-bounded path never truncates
+# evidence the frozen scorer might need.
 MAX_CLOSURE_DEADLINE_DELAY_HOURS = 60
 
 

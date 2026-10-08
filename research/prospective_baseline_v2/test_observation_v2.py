@@ -45,11 +45,11 @@ def _decision(pair="EURUSD", direction="long", entry=1.10000, stop=1.09800, targ
     }
 
 
-def _dense_filler(pair, start, end, price, step_seconds=10):
+def _dense_filler(pair, start, end, price, step_seconds=10, tradeable=True):
     out = []
     t = start
     while t < end:
-        out.append(_q(pair, t, bid=price, ask=price + 0.00002))
+        out.append(_q(pair, t, bid=price, ask=price + 0.00002, tradeable=tradeable))
         t += timedelta(seconds=step_seconds)
     return out
 
@@ -267,28 +267,33 @@ def test_deadline_uses_first_sample_at_or_after_not_the_last_one_before():
 # ======================= failure shape 7: Friday closure =======================
 
 def test_friday_closure_deadline_delayed_to_first_tradeable_reopen_sample():
-    """The new, explicitly labeled v2 exit policy. Deadline falls Friday
-    evening; market closes (tradeable=False evidence) through the
-    weekend; execution happens at the first tradeable sample after
-    Sunday reopen, labeled deadline_delay_reason='market_closure'."""
+    """The new, explicitly labeled v2 exit policy, and the POSITIVE
+    counterpart to the discontinuous-evidence regressions below: a
+    CONTINUOUS stretch of tradeable=False observations (the provider
+    keeps responding at the normal poll cadence throughout a genuine
+    closure, just marked non-tradeable -- this is not a single isolated
+    data point) spans the whole Friday-to-Sunday closure, with a clean
+    transition to tradeable=True at reopen. Execution happens at the
+    first tradeable sample after Sunday reopen, labeled
+    deadline_delay_reason='market_closure'."""
     friday = datetime(2026, 1, 9, 20, 0, 0, tzinfo=timezone.utc)  # a Friday
     entry_t = friday - timedelta(hours=30, minutes=-5)  # entry such that deadline lands Friday ~20:00 UTC
     entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
     deadline = entry_t + timedelta(hours=30)
     filler = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), deadline, price=1.10020)
-    # closure evidence: non-tradeable quotes through the weekend
-    closure_q1 = _q("EURUSD", deadline + timedelta(minutes=5), bid=1.1002, ask=1.1003, tradeable=False)
-    closure_q2 = _q("EURUSD", deadline + timedelta(hours=20), bid=1.1002, ask=1.1003, tradeable=False)
     reopen_t = deadline + timedelta(hours=49)  # Sunday reopen, within the weekly window
+    # continuous closure evidence: a tradeable=false observation at least
+    # every COVERAGE_GAP_SECONDS from the deadline right up to reopen
+    closure_filler = _dense_filler("EURUSD", deadline, reopen_t, price=1.1002, tradeable=False)
     reopen_q = _q("EURUSD", reopen_t, bid=1.10800, ask=1.10810, tradeable=True)
     d = _decision(stop=1.05000, target=1.20000, max_holding_hours=30.0, published_at=entry_t - timedelta(minutes=1))
     now = reopen_t + timedelta(minutes=10)
-    result = score_decision(d, [entry_q, *filler, closure_q1, closure_q2, reopen_q], now=now)
+    result = score_decision(d, [entry_q, *filler, *closure_filler, reopen_q], now=now)
     assert result["state"] == "time_exited", result
     assert result["deadline_delay_reason"] == "market_closure", "must be explicitly labeled as the new closure policy"
     assert result["exit_price"] == 1.10800
     assert result["execution_delay_seconds"] > 3600, "the delay must reflect the real wait through the weekend"
-    print("v2: a deadline during demonstrated Friday closure delays execution to the first tradeable reopen sample, explicitly labeled: OK")
+    print("v2: a deadline during CONTINUOUSLY demonstrated Friday closure delays execution to the first tradeable reopen sample, explicitly labeled: OK")
 
 
 def test_weekday_gap_resembling_closure_duration_is_not_silently_treated_as_closure():
@@ -350,8 +355,9 @@ def test_market_closes_mid_window_before_deadline_is_bridged_not_disqualified():
     entry_t = friday_close - timedelta(hours=2)
     entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
     filler_before_close = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), friday_close, price=1.10020)
-    closure_evidence = _q("EURUSD", friday_close + timedelta(minutes=10), bid=1.1002, ask=1.1003, tradeable=False)
     reopen_t = friday_close + timedelta(hours=49)  # Sunday reopen
+    # continuous closure evidence spanning the entire closed stretch
+    closure_filler = _dense_filler("EURUSD", friday_close, reopen_t, price=1.1002, tradeable=False)
     reopen_q = _q("EURUSD", reopen_t, bid=1.10800, ask=1.10810, tradeable=True)
     max_holding_hours = 60.0  # longer than this one weekend's closure, so the deadline lands well after reopen
     deadline = entry_t + timedelta(hours=max_holding_hours)
@@ -360,7 +366,7 @@ def test_market_closes_mid_window_before_deadline_is_bridged_not_disqualified():
     target_hit_q = _q("EURUSD", deadline - timedelta(seconds=15), bid=1.10520, ask=1.10522, tradeable=True)
     d = _decision(stop=1.05000, target=1.10500, max_holding_hours=max_holding_hours, published_at=entry_t - timedelta(minutes=1))
     now = deadline + timedelta(minutes=5)
-    result = score_decision(d, [entry_q, *filler_before_close, closure_evidence, reopen_q,
+    result = score_decision(d, [entry_q, *filler_before_close, *closure_filler, reopen_q,
                               *filler_after_reopen, target_hit_q], now=now)
     assert result["state"] == "targeted", (
         f"a mid-window closure must be bridged, letting normal scoring reach the real post-reopen target hit, got {result}")
@@ -380,13 +386,14 @@ def test_stop_target_takes_precedence_over_closure_deadline_exit_at_reopening():
     entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
     deadline = entry_t + timedelta(hours=30)
     filler = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), deadline, price=1.10020)
-    closure_q = _q("EURUSD", deadline + timedelta(minutes=5), bid=1.1002, ask=1.1003, tradeable=False)
     reopen_t = deadline + timedelta(hours=49)
+    # continuous closure evidence spanning the entire closed stretch
+    closure_filler = _dense_filler("EURUSD", deadline, reopen_t, price=1.1002, tradeable=False)
     # the reopen sample itself already shows a target crossing (a real gap-through over the weekend)
     reopen_target_hit_q = _q("EURUSD", reopen_t, bid=1.10800, ask=1.10810, tradeable=True)
     d = _decision(stop=1.05000, target=1.10500, max_holding_hours=30.0, published_at=entry_t - timedelta(minutes=1))
     now = reopen_t + timedelta(minutes=10)
-    result = score_decision(d, [entry_q, *filler, closure_q, reopen_target_hit_q], now=now)
+    result = score_decision(d, [entry_q, *filler, *closure_filler, reopen_target_hit_q], now=now)
     assert result["state"] == "targeted", (
         f"stop/target must take precedence over a closure-delayed deadline exit at reopening, got {result['state']}")
     assert result["crossing_type"] == "observed"
@@ -465,8 +472,9 @@ def test_position_suppression_across_resolved_delayed_closure_execution():
     entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
     deadline = entry_t + timedelta(hours=30)
     filler = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), deadline, price=1.10020)
-    closure_q = _q("EURUSD", deadline + timedelta(minutes=5), bid=1.1002, ask=1.1003, tradeable=False)
     reopen_t = deadline + timedelta(hours=49)  # Sunday reopen -- d1's REAL, resolved exit time
+    # continuous closure evidence spanning the entire closed stretch
+    closure_filler = _dense_filler("EURUSD", deadline, reopen_t, price=1.1002, tradeable=False)
     reopen_q = _q("EURUSD", reopen_t, bid=1.10800, ask=1.10810, tradeable=True)
 
     # d2: published while d1's nominal deadline has passed but BEFORE the
@@ -482,7 +490,7 @@ def test_position_suppression_across_resolved_delayed_closure_execution():
     d3.update(event_type="decision", pair="EURUSD", source_candle_completion_utc=t3.isoformat())
 
     now = t3 + timedelta(minutes=1)
-    ledger = build_paper_ledger([d1, d2, d3], [entry_q, *filler, closure_q, reopen_q], now)
+    ledger = build_paper_ledger([d1, d2, d3], [entry_q, *filler, *closure_filler, reopen_q], now)
 
     d1_row = [r for r in ledger if r["actual_recording_time_utc"] == d1["actual_recording_time_utc"]][0]
     assert d1_row["state"] == "time_exited" and d1_row["deadline_delay_reason"] == "market_closure", d1_row
@@ -495,31 +503,39 @@ def test_position_suppression_across_resolved_delayed_closure_execution():
     print("v2: position suppression correctly tracks the REAL, resolved delayed-closure exit time, not the nominal deadline: OK")
 
 
-def test_isolated_friday_evidence_does_not_excuse_silence_through_monday_noon():
-    """Correction-order regression: bound the interval actually explained
-    by closure. One genuine tradeable=False observation on Friday evening
-    IS real evidence the market closed -- but if nothing follows until
-    Monday noon (well past the expected Sunday reopen plus a reasonable
-    margin), that isolated Friday observation must not excuse the entire
-    subsequent silence. The trade must stay incomplete_coverage, not be
-    silently bridged all the way to a Monday sample."""
+def test_isolated_friday_evidence_does_not_excuse_silence_until_monday_0100():
+    """Correction-order regression, the exact scenario named: a single,
+    genuinely valid Friday tradeable=False observation, then SILENCE until
+    Monday 01:00 UTC, where a tradeable=True sample finally appears.
+    Monday 01:00 is deliberately chosen because it falls within what an
+    earlier (now-removed) design would have wrongly accepted: that design
+    reasoned from proximity to an ESTIMATED reopen point (within
+    MAX_REOPEN_DELAY_FROM_EXPECTED_HOURS of the next Sunday-23:00
+    estimate) and would have treated one early observation as excusing
+    the ENTIRE gap up to a reopen-shaped sample arriving near that
+    estimate -- an assumption, not a demonstration. The corrected design
+    requires CONTINUOUS tradeable=false evidence across the whole gap
+    (_closure_fully_evidenced); a lone Friday point followed by real
+    silence is indistinguishable from an ordinary, unexplained collection
+    outage and must remain incomplete_coverage, regardless of how
+    plausible the eventual reopen sample's timing looks."""
     friday = datetime(2026, 1, 9, 20, 0, 0, tzinfo=timezone.utc)
     entry_t = friday - timedelta(hours=30, minutes=-5)  # deadline lands ~Friday 20:00 UTC
     entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
     deadline = entry_t + timedelta(hours=30)
     filler = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), deadline, price=1.10020)
     friday_evidence = _q("EURUSD", deadline + timedelta(minutes=5), bid=1.1002, ask=1.1003, tradeable=False)
-    # NOTHING follows until Monday noon -- well beyond the expected Sunday
-    # reopen (~deadline+51h) plus MAX_REOPEN_DELAY_FROM_EXPECTED_HOURS.
-    monday_noon = datetime(2026, 1, 12, 12, 0, 0, tzinfo=timezone.utc)
-    monday_q = _q("EURUSD", monday_noon, bid=1.10800, ask=1.10810, tradeable=True)
+    # NOTHING follows the single Friday observation until Monday 01:00 UTC.
+    monday_0100 = datetime(2026, 1, 12, 1, 0, 0, tzinfo=timezone.utc)
+    assert monday_0100 > deadline + timedelta(hours=49), "test setup: must exceed this file's usual ~49h reopen point"
+    monday_q = _q("EURUSD", monday_0100, bid=1.10800, ask=1.10810, tradeable=True)
     d = _decision(stop=1.05000, target=1.20000, max_holding_hours=30.0, published_at=entry_t - timedelta(minutes=1))
-    now = monday_noon + timedelta(minutes=10)
+    now = monday_0100 + timedelta(minutes=10)
     result = score_decision(d, [entry_q, *filler, friday_evidence, monday_q], now=now)
     assert result["state"] == "incomplete_coverage", (
-        f"an isolated Friday observation must not excuse unexplained silence all the way to Monday noon, got {result['state']}")
+        f"a single Friday observation followed by real silence until Monday 01:00 must not be bridged, got {result['state']}")
     assert result["deadline_delay_reason"] is None
-    print("v2: an isolated Friday tradeable=false observation does not excuse unexplained silence through Monday noon: OK")
+    print("v2: a single valid Friday tradeable=false observation does not excuse unexplained silence until Monday 01:00 -- no reasoning from proximity to an estimated reopen time: OK")
 
 
 def test_quote_with_missing_tradeable_flag_does_not_establish_closure():
@@ -658,7 +674,7 @@ if __name__ == "__main__":
     test_trailing_silence_within_staleness_bound_still_reports_open()
     test_position_occupancy_preserved_through_pending_closure_resolution()
     test_position_suppression_across_resolved_delayed_closure_execution()
-    test_isolated_friday_evidence_does_not_excuse_silence_through_monday_noon()
+    test_isolated_friday_evidence_does_not_excuse_silence_until_monday_0100()
     test_quote_with_missing_tradeable_flag_does_not_establish_closure()
     test_missing_provider_timestamp_is_rejected()
     test_future_provider_timestamp_is_rejected()
