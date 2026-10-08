@@ -1,5 +1,60 @@
 [
   {
+    "id": 806,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Asia-Pacific market news: Oil climbs on three Middle East risks",
+    "description": "Samsung profit tops 100 trillion won for first time, but shares slip Gold rebounds from two-month low, but Pepperstone says $4,275 break needed Japan's answer to FedWatch: TFX launches BoJ meeting-by-meeting rate futures China bucks global bond rout as 10-year yield touches 1.7% PBOC sets USD/ CNY reference rate for today at 6.7367 (vs. estimate at 6.7254) Ethereum researchers urge crypto holders to prepare for AI-driven threats to wallet security Chevron and Shell shut in output at nine US Gulf facilities as storm Isaias nears Is Japan overtaking the US in crypto? The law, the tax cut and the",
+    "published_at": "2026-10-08T03:41:35",
+    "source_url": "https://investinglive.com/news/investinglive-asia-pacific-market-news-oil-climbs-on-three-middle-east-risks/"
+  },
+  {
+    "id": 805,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "What are the main events for today?",
+    "description": "EUROPEAN SESSION In the European session, we have Fed's Waller speaking on the economic outlook and the ECB meeting minutes. The \"economic outlook\" speeches generally contain policy signals or guidance. Fed's Waller has been a great \"leading indicator\" both for the direction of Fed policy and the central bank's reaction function. The last time he spoke, he dialed down his hawkish language and adopted a more neutral bias, triggering strong moves in the markets.&nbsp; The ECB minutes are not a market-moving report because they are released four weeks after the ECB decision, making them old news ",
+    "published_at": "2026-10-08T06:35:03",
+    "source_url": "https://investinglive.com/news/what-are-the-main-events-for-today-59/"
+  },
+  {
+    "id": 804,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Ethereum sinks by 6% in just a day as increasingly negative macro backdrop and key technical break triggers liquidation",
+    "description": "FUNDAMENTAL OVERVIEW &nbsp; Ethereum came under heavy selling pressure yesterday, falling around 5\u20136%. The move wasn\u2019t triggered by a major Ethereum-specific negative development. Instead, the selloff was driven by a combination of deteriorating ETF flows amid a broader risk-off environment. US spot Ethereum ETFs recorded another significant day of outflows, extending the withdrawal streak to seven sessions, while heavy long positioning amplified the downside through liquidations. The macro backdrop has also become challenging for the crypto market. Rising oil prices amid renewed US-Iran escal",
+    "published_at": "2026-10-08T08:20:29",
+    "source_url": "https://investinglive.com/news/ethereum-sinks-by-6-in-just-a-day-as-increasingly-negative-macro-backdrop-and-key-technical-break-triggers-liquidation/"
+  },
+  {
+    "id": 803,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "The big picture: The era of cheap money is over and investors must adapt",
+    "description": "Ah, remember the days&nbsp;when borrowing money was almost ridiculously cheap? That did not seem too long ago but&nbsp;I think we can safely say that those days are looking rather distant now. Judging by how bond yields have continued to surge to fresh highs in decades, it seems that one thing is rather clear. If you want investors to part with their money, then you're simply just going to have to pay up. And that is probably not something that governments want to hear right now. But at the same time,&nbsp;I reckon we're all getting a rather uncomfortable reminder that money actually has a pri",
+    "published_at": "2026-10-08T09:30:01",
+    "source_url": "https://investinglive.com/news/the-big-picture-the-era-of-cheap-money-is-over-and-investors-must-adapt/"
+  },
+  {
+    "id": 802,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Piero Cipollone: Interview with Corriere della Sera",
+    "description": "",
+    "published_at": "2026-10-08T06:00:00",
+    "source_url": "https://www.ecb.europa.eu//press/inter/date/2026/html/ecb.in261008~3184e7d0d0.en.html"
+  },
+  {
     "id": 801,
     "status": "UNMATCHED",
     "was_matched": false,
