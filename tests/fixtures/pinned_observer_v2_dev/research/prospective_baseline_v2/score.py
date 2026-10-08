@@ -53,13 +53,18 @@ def _valid_price(p) -> float | None:
 
 
 def _valid_pair_quotes(quotes: list[dict], pair: str, now: datetime) -> list[dict]:
-    """v2: validity is receipt-time-only. A quote is usable when it has a
-    real, finite, positive, non-crossed bid/ask; tradeable=True; and a
-    receipt time not in the future relative to the scoring clock. Price-
-    creation age (OANDA's own "time" field) is NEVER a gate here — see
-    MEASUREMENT_CONTRACT.md section 2. It is still computed and attached
-    as `_provider_age_seconds` (None if unparseable) purely as reported
-    metadata, never used to accept or reject."""
+    """v2: COVERAGE is receipt-time-only (MEASUREMENT_CONTRACT.md section
+    2) -- the provider's price-creation AGE is never a gate, so an old-but-
+    unchanged, successfully-returned price is usable. That is not the same
+    as skipping provider-timestamp validity entirely: the field itself
+    must still be present, parseable, and not claim to be from the future
+    relative to receipt -- a missing/malformed/future-dated provider
+    timestamp is a malformed observation, not a legitimate "unchanged
+    older price" case, and is rejected here just like a crossed or
+    non-finite price. The distinction v2 draws is AGE vs VALIDITY: any
+    non-negative age is accepted; no provider timestamp at all, or one
+    that doesn't parse, or one that's impossibly after our own receipt
+    time, is not."""
     out = []
     for q in quotes:
         if q.get("pair") != pair:
@@ -73,7 +78,11 @@ def _valid_pair_quotes(quotes: list[dict], pair: str, now: datetime) -> list[dic
         if recv is None or recv > now:
             continue
         oanda_t = _try_parse(q.get("oanda_time_utc"))
-        provider_age = (recv - oanda_t).total_seconds() if oanda_t is not None else None
+        if oanda_t is None:
+            continue  # missing/malformed provider timestamp -> not a usable observation
+        provider_age = (recv - oanda_t).total_seconds()
+        if provider_age < 0:
+            continue  # a provider timestamp "from the future" relative to our own receipt is corrupt data, not an old price
         out.append({**q, "_recv": recv, "bid": bid, "ask": ask, "_provider_age_seconds": provider_age})
     out.sort(key=lambda q: q["_recv"])
     return out
@@ -111,24 +120,71 @@ def _in_closure_reference_window(t: datetime) -> bool:
     return False
 
 
+def _affirmative_closure_evidence(raw_pair_quotes: list[dict], start: datetime, end: datetime) -> bool:
+    """Proof the MARKET, not our collector, explains a gap: at least one
+    well-formed (valid bid/ask) raw observation in [start, end] that
+    OANDA itself marked tradeable=False. Pure silence -- no receipts at
+    all in the window -- does NOT satisfy this, by design: "weekend
+    absence alone must remain unexplained" (the correction order, and
+    MEASUREMENT_CONTRACT.md section 4). A collection outage that happens
+    to span a weekend looks identical to silence; only an explicit,
+    successfully-received non-tradeable quote distinguishes real closure
+    from an unexplained gap we must not paper over."""
+    for q in raw_pair_quotes:
+        recv = _try_parse(q.get("received_at_utc"))
+        if recv is None or not (start <= recv <= end):
+            continue
+        if q.get("tradeable", False):
+            continue
+        bid, ask = _valid_price(q.get("bid")), _valid_price(q.get("ask"))
+        if bid is not None and ask is not None:
+            return True
+    return False
+
+
+def _closure_explains_gap(raw_pair_quotes: list[dict], gap_start: datetime, gap_end: datetime) -> bool:
+    """Used by the exit scan to decide whether a MID-WINDOW gap (the
+    market can close before the holding deadline, not only exactly at
+    it) may be bridged rather than disqualified -- both the reference-
+    window timing AND affirmative evidence are required."""
+    if not (_in_closure_reference_window(gap_start) or _in_closure_reference_window(gap_end)):
+        return False
+    return _affirmative_closure_evidence(raw_pair_quotes, gap_start, gap_end)
+
+
+def _next_reopen_estimate(t: datetime) -> datetime:
+    """Conservative estimate of the next weekly reopen point (Sunday at
+    WEEKLY_CLOSURE_SUNDAY_UTC_HOUR, on or after `t`) -- used ONLY to keep
+    a still-unresolved, plausibly-closure-affected position conservatively
+    occupying its pair for suppression purposes (see build_paper_ledger).
+    Never used to resolve the trade's own state, which stays honestly
+    incomplete_coverage until actual evidence confirms resolution."""
+    candidate = t.replace(hour=cfg.WEEKLY_CLOSURE_SUNDAY_UTC_HOUR, minute=0, second=0, microsecond=0)
+    while candidate.weekday() != 6 or candidate < t:
+        candidate += timedelta(days=1)
+    return candidate
+
+
 def _detect_closure(raw_pair_quotes: list[dict], deadline: datetime, now: datetime) -> dict | None:
     """Demonstrated, not assumed (MEASUREMENT_CONTRACT.md section 4): only
-    returns a closure finding when BOTH (a) the deadline falls inside the
-    weekly closure reference window, AND (b) the actual recorded evidence
-    in [deadline, candidate reopen] is consistent with a closed market —
-    either total absence of any raw receipt, or every raw receipt present
-    is tradeable=False. Returns None (no closure finding — stay
-    incomplete_coverage) the instant that evidence is contradicted, e.g.
-    a tradeable=True quote appears where closure would predict none.
+    returns a closure finding when (a) the deadline falls inside the
+    weekly closure reference window, (b) AFFIRMATIVE evidence (a real
+    tradeable=False observation, not mere silence) exists between the
+    deadline and the candidate reopen, and (c) a tradeable=True reopen
+    sample is actually found. Returns None (no closure finding — stay
+    incomplete_coverage) if any of these is missing, e.g. pure absence
+    with no tradeable=False evidence at all ("weekend absence alone must
+    remain unexplained"), or a tradeable=True quote appears too early to
+    be consistent with the claimed closure.
 
-    Returns {"reopen_quote": <first valid quote after the closed stretch>,
-    or None if the closed stretch hasn't ended within the sanity ceiling}.
+    Returns {"reopen_quote": <first valid quote after the closed stretch>}
+    or None.
     """
     if not _in_closure_reference_window(deadline):
         return None
     ceiling = deadline + timedelta(hours=cfg.MAX_CLOSURE_DEADLINE_DELAY_HOURS)
     scan_end = min(ceiling, now)
-    window = [q for q in raw_pair_quotes if deadline <= _try_parse(q.get("received_at_utc")) <= scan_end]
+    window = [q for q in raw_pair_quotes if deadline <= (_try_parse(q.get("received_at_utc")) or deadline - timedelta(seconds=1)) <= scan_end]
     reopen_quote = None
     for q in sorted(window, key=lambda q: q["received_at_utc"]):
         if q.get("tradeable", False):
@@ -140,7 +196,9 @@ def _detect_closure(raw_pair_quotes: list[dict], deadline: datetime, now: dateti
         # a non-tradeable (or invalid) quote during the candidate window is
         # exactly what closure predicts -- keep scanning for reopen.
     if reopen_quote is None:
-        return None  # either no evidence at all yet, or still inside the ceiling with no reopen found -- stay unknown
+        return None
+    if not _affirmative_closure_evidence(raw_pair_quotes, deadline, reopen_quote["_recv"]):
+        return None  # pure silence followed by a reopen-shaped sample is NOT, by itself, demonstrated closure
     return {"reopen_quote": reopen_quote}
 
 
@@ -161,6 +219,7 @@ def score_decision(decision: dict, quotes: list[dict], now: datetime) -> dict:
         "state": None, "assumed_entry_time_utc": None, "assumed_entry_price": None, "same_sample_exit": False,
         "crossing_type": None, "exit_time_utc": None, "exit_price": None, "r_multiple": None,
         "scheduled_exit_time_utc": None, "execution_delay_seconds": None, "deadline_delay_reason": None,
+        "assumed_occupied_until_utc": None,
         "result_type": "prospective_paper_v2", "contract_version": "v2", "caveats": list(BASE_CAVEATS),
     }
 
@@ -209,6 +268,14 @@ def score_decision(decision: dict, quotes: list[dict], now: datetime) -> dict:
     hit_scan_end = min(max_exit_time, now)
 
     # --- Gap-aware exit scan ---
+    # A gap is disqualifying UNLESS it is explained by DEMONSTRATED market
+    # closure (MEASUREMENT_CONTRACT.md section 4) -- the market can close
+    # BEFORE the holding deadline, not only exactly at it, so this check
+    # happens on every gap encountered during the scan, not only at the
+    # end. A bridged gap falls through to the SAME stop/target check as
+    # every other sample immediately below, giving stop/target explicit
+    # precedence over anything closure-related, even at the very first
+    # post-reopen sample.
     last_checked = entry_time
     for q in vq:
         t = q["_recv"]
@@ -216,9 +283,23 @@ def score_decision(decision: dict, quotes: list[dict], now: datetime) -> dict:
             continue
         if t > hit_scan_end:
             break
-        if (t - last_checked).total_seconds() > cfg.COVERAGE_GAP_SECONDS:
-            result["state"] = "incomplete_coverage"
-            return result
+        gap_seconds = (t - last_checked).total_seconds()
+        if gap_seconds > cfg.COVERAGE_GAP_SECONDS:
+            if _closure_explains_gap(raw_pair_quotes, last_checked, t):
+                result["caveats"] = result["caveats"] + [
+                    f"A coverage gap from {last_checked.isoformat()} to {t.isoformat()} ({gap_seconds:.0f}s) is "
+                    "explained by demonstrated market closure (a tradeable=false observation in that interval) and "
+                    "was bridged, not treated as a disqualifying unknown. Price action DURING the closure itself "
+                    "remains unobserved; only the sample at/after reopening is used."]
+            else:
+                result["state"] = "incomplete_coverage"
+                if _in_closure_reference_window(last_checked) or _in_closure_reference_window(t):
+                    # plausibly closure-timed but not yet demonstrated (e.g. no
+                    # affirmative evidence recorded, or reopen not yet observed) --
+                    # stay honestly unknown, but conservatively preserve pair
+                    # occupancy through the next plausible reopen for suppression.
+                    result["assumed_occupied_until_utc"] = _next_reopen_estimate(t).isoformat()
+                return result
         price = q[exit_side]
         hs = (price <= stop) if d == 1 else (price >= stop)
         ht = (price >= target) if d == 1 else (price <= target)
@@ -234,8 +315,13 @@ def score_decision(decision: dict, quotes: list[dict], now: datetime) -> dict:
 
     if max_exit_time <= now:
         if _has_coverage_gap(vq, last_checked, max_exit_time):
-            result["state"] = "incomplete_coverage"
-            return result
+            if _closure_explains_gap(raw_pair_quotes, last_checked, max_exit_time):
+                pass  # preceding coverage requirement satisfied by demonstrated closure -- fall through to deadline handling below
+            else:
+                result["state"] = "incomplete_coverage"
+                if _in_closure_reference_window(last_checked) or _in_closure_reference_window(max_exit_time):
+                    result["assumed_occupied_until_utc"] = _next_reopen_estimate(max_exit_time).isoformat()
+                return result
         post_deadline = [q for q in vq if q["_recv"] >= max_exit_time]
         if post_deadline and (post_deadline[0]["_recv"] - max_exit_time).total_seconds() <= cfg.COVERAGE_GAP_SECONDS:
             exit_sample = post_deadline[0]
@@ -256,6 +342,26 @@ def score_decision(decision: dict, quotes: list[dict], now: datetime) -> dict:
             exit_sample = closure["reopen_quote"]
             exit_time = exit_sample["_recv"]
             exit_price = exit_sample[exit_side]
+            # Explicit precedence at reopening: stop/target is checked on the
+            # reopen sample BEFORE it is accepted as a scheduled time-exit --
+            # the market could easily have gapped through either level over a
+            # closed weekend, and that observed crossing takes priority over
+            # treating the sample as "just" the deadline's delayed execution.
+            reopen_price = exit_sample[exit_side]
+            hs = (reopen_price <= stop) if d == 1 else (reopen_price >= stop)
+            ht = (reopen_price >= target) if d == 1 else (reopen_price <= target)
+            if hs and ht:
+                result["state"] = "ambiguous_intrabar_exit"
+                return result
+            if hs or ht:
+                state = "stopped" if hs else "targeted"
+                result.update(state=state, crossing_type="observed", exit_time_utc=exit_time.isoformat(), exit_price=reopen_price,
+                              r_multiple=(d * (reopen_price - entry_price) / risk if risk else None))
+                result["caveats"] = result["caveats"] + [
+                    f"Stop/target was already crossed at the first tradeable sample after a demonstrated market-"
+                    "closure window -- reported as the crossing, not as the scheduled deadline exit. Stop/target "
+                    "takes precedence over a deadline exit at reopening, in all cases."]
+                return result
             result.update(
                 state="time_exited", crossing_type="observed", exit_time_utc=exit_time.isoformat(), exit_price=exit_price,
                 scheduled_exit_time_utc=max_exit_time.isoformat(),
@@ -265,15 +371,40 @@ def score_decision(decision: dict, quotes: list[dict], now: datetime) -> dict:
             )
             result["caveats"] = result["caveats"] + [
                 "Deadline execution delayed past the nominal 30-hour boundary: the deadline fell within a "
-                "demonstrated market-closure window (empirical tradeable=false / absence evidence), and no fill "
+                "demonstrated market-closure window (empirical tradeable=false evidence), and no fill "
                 "was possible against a closed market in a real account either. Executed at the first tradeable "
-                "sample after reopening. This is a new, explicitly labeled v2 exit policy — see "
-                "MEASUREMENT_CONTRACT.md section 4 — never silently substituted into a v1-contract comparison."]
+                "sample after reopening (stop/target checked first — see caveats). This is a new, explicitly "
+                "labeled v2 exit policy — see MEASUREMENT_CONTRACT.md section 4 — never silently substituted "
+                "into a v1-contract comparison."]
             return result
         result["state"] = "incomplete_coverage"
+        if _in_closure_reference_window(max_exit_time):
+            # Deadline is plausibly inside a closure that simply hasn't been
+            # confirmed yet (reopen not observed within the data available
+            # so far) -- stay honestly unknown, but preserve occupancy.
+            result["assumed_occupied_until_utc"] = _next_reopen_estimate(max_exit_time).isoformat()
         return result
     else:
-        result["state"] = "open"
+        # --- Trailing coverage check for a still-open trade ---
+        # The deadline hasn't arrived yet, but a long silence since the
+        # last checked sample is itself a real, present-tense coverage
+        # problem -- report it immediately rather than silently saying
+        # "open" (as if everything is fine) until the deadline eventually
+        # forces the question. Bridged exactly like any other gap if
+        # closure demonstrably explains it; otherwise honestly unknown.
+        trailing_gap = (now - last_checked).total_seconds()
+        if trailing_gap > cfg.COVERAGE_GAP_SECONDS:
+            if _closure_explains_gap(raw_pair_quotes, last_checked, now):
+                result["state"] = "open"
+                result["caveats"] = result["caveats"] + [
+                    f"A trailing coverage gap since {last_checked.isoformat()} is explained by demonstrated "
+                    "market closure and does not currently disqualify this still-open position."]
+            else:
+                result["state"] = "incomplete_coverage"
+                if _in_closure_reference_window(last_checked) or _in_closure_reference_window(now):
+                    result["assumed_occupied_until_utc"] = _next_reopen_estimate(now).isoformat()
+        else:
+            result["state"] = "open"
     return result
 
 
@@ -282,9 +413,15 @@ def score_all(decisions: list[dict], quotes: list[dict], now: datetime) -> list[
 
 
 def build_paper_ledger(decisions: list[dict], quotes: list[dict], now: datetime) -> list[dict]:
-    """Unchanged suppression logic from v1 — pair-local chronological
-    one-entered-position-per-pair suppression. Not reopened by v2; the
-    measurement contract change lives entirely in score_decision() above."""
+    """Pair-local chronological one-entered-position-per-pair suppression,
+    same as v1, with one addition: when a position's own state is still
+    unresolved (incomplete_coverage) but score_decision() determined the
+    disqualifying point is plausibly inside a closure window, it attaches
+    assumed_occupied_until_utc (NEVER used to resolve the trade's own
+    state -- see score_decision) -- occupancy here uses that conservative
+    estimate instead of the bare nominal deadline, so a position that will
+    likely resolve via delayed closure execution is not prematurely freed
+    for a new decision on the same pair while genuinely still pending."""
     by_pair: dict[str, list[dict]] = defaultdict(list)
     for dec in decisions:
         if dec.get("event_type") == "decision":
@@ -309,7 +446,11 @@ def build_paper_ledger(decisions: list[dict], quotes: list[dict], now: datetime)
                     exit_dt = _parse(scored["exit_time_utc"])
                 else:
                     entry_dt = _parse(scored["assumed_entry_time_utc"])
-                    exit_dt = entry_dt + timedelta(hours=dec["max_holding_time_hours"])
+                    nominal_dt = entry_dt + timedelta(hours=dec["max_holding_time_hours"])
+                    if scored.get("assumed_occupied_until_utc"):
+                        exit_dt = max(nominal_dt, _parse(scored["assumed_occupied_until_utc"]))
+                    else:
+                        exit_dt = nominal_dt
                 open_until = exit_dt if exit_dt > published_at else None
             else:
                 open_until = None

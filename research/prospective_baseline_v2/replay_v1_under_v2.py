@@ -20,10 +20,25 @@ Usage:
 from __future__ import annotations
 import argparse
 import json
+import platform
 import resource
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+
+def _peak_rss_mb() -> float:
+    """resource.getrusage(...).ru_maxrss is reported in DIFFERENT units
+    depending on the OS -- kibibytes on Linux, bytes on macOS/BSD. The
+    earlier version of this function reported the raw, platform-dependent
+    number with only a disclaimer attached, which is not a corrected
+    label, just a caveat on an inconsistent one. This converts to MB
+    correctly for the actual platform it's running on, so the figure
+    itself is right, not merely annotated."""
+    raw = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    if platform.system() == "Darwin":
+        return raw / (1024 * 1024)  # bytes -> MB
+    return raw / 1024  # KiB -> MB (Linux and most other platforms)
 
 V1_FIXTURE = Path(__file__).parent.parent.parent / "tests" / "fixtures" / "pinned_observer_29c286d" / "research" / "prospective_baseline"
 V2_DIR = Path(__file__).parent
@@ -94,7 +109,7 @@ def run_replay(decisions_path: Path, quotes_path: Path, now: datetime) -> dict:
             "classification_changed": changed, "reason": reason,
         })
 
-    peak_rss_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss  # bytes on macOS, KB on Linux -- reported as-is, labeled
+    peak_rss_mb = _peak_rss_mb()
     return {
         "label": REPLAY_LABEL,
         "warning": "This is a retrospective diagnostic replay of ALREADY-RECORDED v1 data under the v2 contract. "
@@ -106,8 +121,7 @@ def run_replay(decisions_path: Path, quotes_path: Path, now: datetime) -> dict:
         "v1_pinned_commit": "29c286d",
         "decisions_replayed": len(decisions),
         "quote_rows_used": len(quotes),
-        "peak_rss": peak_rss_kb,
-        "peak_rss_unit": "KB (Linux) or bytes (macOS) per stdlib resource.getrusage — host-dependent, reported as-is",
+        "peak_rss_mb": round(peak_rss_mb, 1),
         "rows": rows,
         "summary": {
             "classifications_changed": sum(1 for r in rows if r["classification_changed"]),
@@ -134,7 +148,7 @@ if __name__ == "__main__":
 
     print(f"*** {result['label']} *** — {result['warning']}")
     print(f"Replayed {result['decisions_replayed']} decisions against {result['quote_rows_used']} quote rows.")
-    print(f"Peak RSS: {result['peak_rss']} ({result['peak_rss_unit']})")
+    print(f"Peak RSS: {result['peak_rss_mb']:.1f} MB")
     print(f"Classifications changed: {result['summary']['classifications_changed']}")
     print(f"v1 completed: {result['summary']['v1_completed']}  v2 completed: {result['summary']['v2_completed']} "
           f"(of which via closure policy: {result['summary']['v2_completed_via_closure']})")

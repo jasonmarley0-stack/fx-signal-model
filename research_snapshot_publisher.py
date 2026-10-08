@@ -266,9 +266,19 @@ def publish_health_snapshot(observer_checkout: Path, out_dir: Path, service_name
         valid_in_window = sum(p["valid_samples_in_window"] for p in per_pair.values())
 
         health_events = _tail_jsonl(log_dir / "health_log.jsonl", max_bytes=512_000)
+        # v1 logs one quote_poll_failed event per failed tick; v2's collector
+        # (see research/prospective_baseline_v2/observe.py's run_quote_tick)
+        # logs one quote_attempt event per ATTEMPT instead -- success or
+        # failure, with outcome/error_category -- so a failure there shows up
+        # as event_type="quote_attempt" with outcome="failed", never as
+        # "quote_poll_failed" at all. Counting only the v1 event name here
+        # was the v2-compatibility defect: v2's quote failures would always
+        # read back as zero. Both shapes are counted explicitly.
+        quote_poll_failed_v1 = sum(1 for h in health_events if h.get("event_type") == "quote_poll_failed")
+        quote_attempt_failed_v2 = sum(1 for h in health_events if h.get("event_type") == "quote_attempt" and h.get("outcome") == "failed")
         recording_failures = {
             "poll_failed": sum(1 for h in health_events if h.get("event_type") == "poll_failed"),
-            "quote_poll_failed": sum(1 for h in health_events if h.get("event_type") == "quote_poll_failed"),
+            "quote_poll_failed": quote_poll_failed_v1 + quote_attempt_failed_v2,
             "crashed": sum(1 for h in health_events if str(h.get("event_type", "")).endswith("_crashed")),
         }
         recording_failures["total"] = sum(recording_failures.values())
@@ -339,6 +349,25 @@ def _iter_jsonl(path: Path):
                 continue
 
 
+def _coverage_margin_seconds(obs_contract) -> float:
+    """The windowing margin's own name differs by contract version: v1
+    calls it QUOTE_STALENESS_SECONDS, v2 renamed the same concept (the
+    gap threshold used to pad a decision's quote window) to
+    COVERAGE_GAP_SECONDS as part of the v1->v2 measurement-contract
+    correction (see research/prospective_baseline_v2/MEASUREMENT_
+    CONTRACT.md). Hardcoding v1's name here was the v2-publish defect --
+    this resolves either name so publish_kpi_snapshot works against
+    either contract version without version-specific branching baked into
+    the publisher itself."""
+    for name in ("COVERAGE_GAP_SECONDS", "QUOTE_STALENESS_SECONDS"):
+        value = getattr(obs_contract, name, None)
+        if value is not None:
+            return value
+    raise AttributeError(
+        "observer contract module has neither COVERAGE_GAP_SECONDS (v2) nor QUOTE_STALENESS_SECONDS (v1) -- "
+        "cannot determine the quote-window margin")
+
+
 def _decision_windows(decisions: list[dict], quote_staleness_seconds: float) -> dict[str, tuple[datetime, datetime]]:
     """Smallest conservative per-pair quote windows needed by the frozen
     scorer.  A decision can enter just before its deadline and then require
@@ -398,6 +427,19 @@ def _bounded_ledger(obs_score, decisions: list[dict], quote_path: Path, now: dat
     return ledger, scanned, retained
 
 
+def _count_recording_failures(health: list[dict]) -> int:
+    """Shared by publish_health_snapshot() and _kpi_from_frozen_ledger() --
+    kept as ONE function specifically because having this logic duplicated
+    in two places is exactly how the v2-compatibility defect happened
+    (one copy got the v2 quote_attempt/outcome="failed" shape added, the
+    other didn't). See the recording_failures comment in
+    publish_health_snapshot() for why both event shapes must be counted."""
+    poll_failed_v1_named = sum(1 for h in health if h.get("event_type") in
+                                ("poll_failed", "quote_poll_failed", "decision_tick_crashed", "quote_tick_crashed"))
+    quote_attempt_failed_v2 = sum(1 for h in health if h.get("event_type") == "quote_attempt" and h.get("outcome") == "failed")
+    return poll_failed_v1_named + quote_attempt_failed_v2
+
+
 def _kpi_from_frozen_ledger(ledger: list[dict], decisions: list[dict], health: list[dict], now: datetime) -> dict:
     """Aggregate the frozen ledger with report.py's unchanged denominator
     definitions.  Scoring/state decisions remain exclusively frozen code."""
@@ -423,9 +465,9 @@ def _kpi_from_frozen_ledger(ledger: list[dict], decisions: list[dict], health: l
         curve.append({"exit_time_utc": r["exit_time_utc"], "pair": r["pair"], "r_multiple": r["r_multiple"], "cumulative_r": running, "drawdown_r": dd})
     decision_delays = [d["decision_delay_seconds"] for d in decisions if d.get("event_type") == "decision" and d.get("decision_delay_seconds") is not None]
     execution_delays = [r["execution_delay_seconds"] for r in completed if r.get("execution_delay_seconds") is not None]
-    failures = [h for h in health if h.get("event_type") in ("poll_failed", "quote_poll_failed", "decision_tick_crashed", "quote_tick_crashed")]
+    recording_failures_count = _count_recording_failures(health)
     no_signal = [h for h in health if h.get("event_type") == "no_signal"]
-    return {"generated_at_utc": now.isoformat(), "counts": {"eligible_alerts": len(executable), "suppressed_existing_position": len(suppressed), "entered": len(entered), "completed": len(completed), "pending_open": len(pending), "unknown_total": len(unknown), "missed_entries_confirmed_zero_pnl": len(missed), "no_signal_ticks": len(no_signal)}, "avg_net_r_per_completed_trade": {"value": sum(r_values) / len(r_values) if r_values else None, "denominator": len(r_values)}, "avg_net_r_per_all_eligible_alert": {"value": sum(r_values) / len(executable) if executable and not unknown else None, "denominator": len(executable), "is_undetermined": bool(unknown), "reason": f"{len(unknown)} of {len(executable)} eligible alerts have an unknown outcome" if unknown else None}, "max_drawdown_r_partial_completed_trades_only": max_dd, "max_drawdown_label": "R drawdown on completed trades only — NOT an account-percentage drawdown; PARTIAL whenever unknown_total > 0", "equity_curve": curve, "by_month": {m: v for m, v in sorted(by_month.items())}, "operational": {"decision_delay_seconds_mean": sum(decision_delays) / len(decision_delays) if decision_delays else None, "decision_delay_seconds_max": max(decision_delays) if decision_delays else None, "decision_count": len(decision_delays), "execution_delay_seconds_mean": sum(execution_delays) / len(execution_delays) if execution_delays else None, "execution_delay_seconds_max": max(execution_delays) if execution_delays else None, "quote_samples_recorded": None, "recording_failures": len(failures), "no_signal_ticks": len(no_signal)}, "unobserved": ["Financing/swap charges are not recorded or estimated anywhere in this report.", "Slippage beyond the sampled bid/ask (i.e. the true fill an order would have received) is not observed — this reports the quoted price at the sample that crossed a level, not a broker-confirmed fill.", "Price movement between quote samples (every QUOTE_SAMPLE_INTERVAL_SECONDS) is unobserved and unobservable from this data — a real, stated limitation distinct from the offline replay's continuous M30-candle coverage."]}
+    return {"generated_at_utc": now.isoformat(), "counts": {"eligible_alerts": len(executable), "suppressed_existing_position": len(suppressed), "entered": len(entered), "completed": len(completed), "pending_open": len(pending), "unknown_total": len(unknown), "missed_entries_confirmed_zero_pnl": len(missed), "no_signal_ticks": len(no_signal)}, "avg_net_r_per_completed_trade": {"value": sum(r_values) / len(r_values) if r_values else None, "denominator": len(r_values)}, "avg_net_r_per_all_eligible_alert": {"value": sum(r_values) / len(executable) if executable and not unknown else None, "denominator": len(executable), "is_undetermined": bool(unknown), "reason": f"{len(unknown)} of {len(executable)} eligible alerts have an unknown outcome" if unknown else None}, "max_drawdown_r_partial_completed_trades_only": max_dd, "max_drawdown_label": "R drawdown on completed trades only — NOT an account-percentage drawdown; PARTIAL whenever unknown_total > 0", "equity_curve": curve, "by_month": {m: v for m, v in sorted(by_month.items())}, "operational": {"decision_delay_seconds_mean": sum(decision_delays) / len(decision_delays) if decision_delays else None, "decision_delay_seconds_max": max(decision_delays) if decision_delays else None, "decision_count": len(decision_delays), "execution_delay_seconds_mean": sum(execution_delays) / len(execution_delays) if execution_delays else None, "execution_delay_seconds_max": max(execution_delays) if execution_delays else None, "quote_samples_recorded": None, "recording_failures": recording_failures_count, "no_signal_ticks": len(no_signal)}, "unobserved": ["Financing/swap charges are not recorded or estimated anywhere in this report.", "Slippage beyond the sampled bid/ask (i.e. the true fill an order would have received) is not observed — this reports the quoted price at the sample that crossed a level, not a broker-confirmed fill.", "Price movement between quote samples (every QUOTE_SAMPLE_INTERVAL_SECONDS) is unobserved and unobservable from this data — a real, stated limitation distinct from the offline replay's continuous M30-candle coverage."]}
 
 
 def publish_kpi_snapshot(observer_checkout: Path, out_dir: Path,
@@ -460,7 +502,7 @@ def publish_kpi_snapshot(observer_checkout: Path, out_dir: Path,
         health = list(_iter_jsonl(log_dir / "health_log.jsonl"))
         ledger, quote_rows_scanned, quote_rows_retained = _bounded_ledger(
             obs_score, decisions, log_dir / "quotes_log.jsonl", now,
-            obs_contract.QUOTE_STALENESS_SECONDS,
+            _coverage_margin_seconds(obs_contract),
         )
         kpi = _kpi_from_frozen_ledger(ledger, decisions, health, now)
         kpi["operational"]["quote_samples_recorded"] = quote_rows_scanned

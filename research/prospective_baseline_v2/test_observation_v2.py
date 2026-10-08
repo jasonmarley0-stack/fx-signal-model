@@ -18,8 +18,17 @@ import contract as cfg  # noqa: E402
 T0 = datetime(2026, 1, 5, 9, 0, 0, tzinfo=timezone.utc)  # a Monday
 
 
-def _q(pair, t, bid, ask, tradeable=True, oanda_time=None, provider_age_seconds=1):
-    oanda_t = oanda_time if oanda_time is not None else (t - timedelta(seconds=provider_age_seconds))
+_UNSET = object()
+
+
+def _q(pair, t, bid, ask, tradeable=True, oanda_time=_UNSET, provider_age_seconds=1):
+    """oanda_time=_UNSET (the default) means "not specified" -> a fresh,
+    valid provider timestamp `provider_age_seconds` before receipt. Pass
+    oanda_time=None EXPLICITLY (distinct from not passing it at all) to
+    build a quote with no provider timestamp -- using plain `None` as the
+    default here would make "not passed" and "explicitly missing"
+    indistinguishable, the same bug found and fixed in the v1 test suite."""
+    oanda_t = (t - timedelta(seconds=provider_age_seconds)) if oanda_time is _UNSET else oanda_time
     return {"pair": pair, "received_at_utc": t.isoformat(),
             "oanda_time_utc": oanda_t.isoformat() if oanda_t else None,
             "bid": bid, "ask": ask, "tradeable": tradeable}
@@ -302,14 +311,187 @@ def test_weekday_gap_resembling_closure_duration_is_not_silently_treated_as_clos
     print("v2: an unexplained weekday gap is never silently classified as market closure: OK")
 
 
+def test_weekend_absence_alone_without_affirmative_evidence_stays_unexplained():
+    """Defect-3 regression: correct weekday AND inside the reference
+    window, but ZERO tradeable=false evidence -- pure silence, even over
+    a real weekend, must NOT be treated as demonstrated closure. "Weekend
+    absence alone must remain unexplained"."""
+    friday = datetime(2026, 1, 9, 20, 0, 0, tzinfo=timezone.utc)
+    entry_t = friday - timedelta(hours=30, minutes=-5)  # deadline lands ~Friday 20:00 UTC
+    entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
+    deadline = entry_t + timedelta(hours=30)
+    filler = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), deadline, price=1.10020)
+    # NOTHING between deadline and reopen -- pure absence, no tradeable=false quotes at all
+    reopen_t = deadline + timedelta(hours=49)
+    reopen_q = _q("EURUSD", reopen_t, bid=1.10800, ask=1.10810, tradeable=True)
+    d = _decision(stop=1.05000, target=1.20000, max_holding_hours=30.0, published_at=entry_t - timedelta(minutes=1))
+    now = reopen_t + timedelta(minutes=10)
+    result = score_decision(d, [entry_q, *filler, reopen_q], now=now)
+    assert result["state"] == "incomplete_coverage", (
+        f"pure weekend absence with no affirmative tradeable=false evidence must not become closure, got {result['state']}")
+    assert result["deadline_delay_reason"] is None
+    assert result["assumed_occupied_until_utc"] is not None, (
+        "even though unresolved, occupancy should still be conservatively preserved since this IS closure-window-timed")
+    print("v2: weekend absence alone, without affirmative tradeable=false evidence, remains honestly unexplained: OK")
+
+
+def test_market_closes_mid_window_before_deadline_is_bridged_not_disqualified():
+    """Defect-3 regression: 'a market that closes before the holding
+    deadline' -- closure happens Friday evening, mid-holding-period, with
+    the holding deadline falling well AFTER Sunday reopen (needs a holding
+    period longer than one weekend's closure to even be constructible --
+    production always uses cfg.MAX_HOLDING_TIME_HOURS=30 unchanged, this
+    test uses a longer one purely to exercise the general bridging
+    mechanism, which is parameterized on the decision's own
+    max_holding_time_hours, not hardcoded to 30). The gap must be bridged
+    (not disqualify the trade), and normal exit-scan scoring must continue
+    up to the real deadline using post-reopen samples."""
+    friday_close = datetime(2026, 1, 9, 21, 0, 0, tzinfo=timezone.utc)
+    entry_t = friday_close - timedelta(hours=2)
+    entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
+    filler_before_close = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), friday_close, price=1.10020)
+    closure_evidence = _q("EURUSD", friday_close + timedelta(minutes=10), bid=1.1002, ask=1.1003, tradeable=False)
+    reopen_t = friday_close + timedelta(hours=49)  # Sunday reopen
+    reopen_q = _q("EURUSD", reopen_t, bid=1.10800, ask=1.10810, tradeable=True)
+    max_holding_hours = 60.0  # longer than this one weekend's closure, so the deadline lands well after reopen
+    deadline = entry_t + timedelta(hours=max_holding_hours)
+    assert deadline > reopen_t, "test setup: deadline must fall after reopening to exercise mid-window bridging"
+    filler_after_reopen = _dense_filler("EURUSD", reopen_t + timedelta(seconds=10), deadline - timedelta(seconds=30), price=1.10020)
+    target_hit_q = _q("EURUSD", deadline - timedelta(seconds=15), bid=1.10520, ask=1.10522, tradeable=True)
+    d = _decision(stop=1.05000, target=1.10500, max_holding_hours=max_holding_hours, published_at=entry_t - timedelta(minutes=1))
+    now = deadline + timedelta(minutes=5)
+    result = score_decision(d, [entry_q, *filler_before_close, closure_evidence, reopen_q,
+                              *filler_after_reopen, target_hit_q], now=now)
+    assert result["state"] == "targeted", (
+        f"a mid-window closure must be bridged, letting normal scoring reach the real post-reopen target hit, got {result}")
+    assert result["crossing_type"] == "observed"
+    assert any("bridged" in c for c in result["caveats"]), "a bridged gap must be noted in the caveats, not silently absorbed"
+    print("v2: market closure mid-window (before the holding deadline) is bridged, not disqualifying, and scoring continues to the real deadline: OK")
+
+
+def test_stop_target_takes_precedence_over_closure_deadline_exit_at_reopening():
+    """Defect-3 regression: explicit stop/target vs deadline-exit
+    precedence at reopening -- if the first tradeable sample after a
+    demonstrated closure already shows a target (or stop) crossing, that
+    must be reported as the crossing, never silently as a scheduled
+    "time_exited" deadline fill."""
+    friday = datetime(2026, 1, 9, 20, 0, 0, tzinfo=timezone.utc)
+    entry_t = friday - timedelta(hours=30, minutes=-5)
+    entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
+    deadline = entry_t + timedelta(hours=30)
+    filler = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), deadline, price=1.10020)
+    closure_q = _q("EURUSD", deadline + timedelta(minutes=5), bid=1.1002, ask=1.1003, tradeable=False)
+    reopen_t = deadline + timedelta(hours=49)
+    # the reopen sample itself already shows a target crossing (a real gap-through over the weekend)
+    reopen_target_hit_q = _q("EURUSD", reopen_t, bid=1.10800, ask=1.10810, tradeable=True)
+    d = _decision(stop=1.05000, target=1.10500, max_holding_hours=30.0, published_at=entry_t - timedelta(minutes=1))
+    now = reopen_t + timedelta(minutes=10)
+    result = score_decision(d, [entry_q, *filler, closure_q, reopen_target_hit_q], now=now)
+    assert result["state"] == "targeted", (
+        f"stop/target must take precedence over a closure-delayed deadline exit at reopening, got {result['state']}")
+    assert result["crossing_type"] == "observed"
+    assert result["deadline_delay_reason"] is None, "this is a real crossing, not a scheduled time exit -- must not carry the closure deadline-delay label"
+    assert result["exit_price"] == 1.10800
+    print("v2: stop/target crossing at the reopen sample takes explicit precedence over a scheduled deadline exit: OK")
+
+
+def test_trailing_silence_for_open_trade_reports_incomplete_coverage_immediately():
+    """Defect-5 regression, the exact scenario named in the correction
+    order: a single entry quote followed by an hour of silence, with the
+    30-hour deadline still far in the future, must report the coverage
+    problem immediately -- not silently say "open" until the deadline
+    eventually forces the question."""
+    entry_q = _q("EURUSD", T0 + timedelta(seconds=5), bid=1.09960, ask=1.10010)
+    now = T0 + timedelta(hours=1)  # an hour of silence since entry; deadline is 30h away, nowhere close
+    d = _decision(stop=1.05000, target=1.20000, max_holding_hours=30.0)
+    result = score_decision(d, [entry_q], now=now)
+    assert result["state"] == "incomplete_coverage", (
+        f"an hour of trailing silence on a still-open trade must be reported immediately, got {result['state']}")
+    print("v2: an hour of trailing silence on an otherwise-open trade is reported as incomplete_coverage immediately, not deferred to the deadline: OK")
+
+
+def test_trailing_silence_within_staleness_bound_still_reports_open():
+    """The flip side of the defect-5 fix: a trade that entered moments ago,
+    with no time yet to have produced a second sample, must still say
+    "open" -- the fix targets genuine silence, not the ordinary gap
+    between entry and the very next poll."""
+    entry_q = _q("EURUSD", T0 + timedelta(seconds=5), bid=1.09960, ask=1.10010)
+    now = T0 + timedelta(seconds=10)  # 5s since entry -- well within COVERAGE_GAP_SECONDS
+    d = _decision(stop=1.05000, target=1.20000, max_holding_hours=30.0)
+    result = score_decision(d, [entry_q], now=now)
+    assert result["state"] == "open", f"a trivially recent entry with no silence yet must still say open, got {result['state']}"
+    print("v2: a just-entered trade with no real silence yet still correctly reports open: OK")
+
+
+def test_position_occupancy_preserved_through_pending_closure_resolution():
+    """Defect-3 regression: 'preserve position occupancy through delayed
+    execution' -- a position stuck in incomplete_coverage pending a
+    not-yet-confirmed closure resolution must still conservatively
+    reserve its pair, so a later decision for the same pair published
+    before the likely reopen is correctly suppressed, not treated as a
+    fresh, independent opportunity."""
+    friday = datetime(2026, 1, 9, 20, 0, 0, tzinfo=timezone.utc)
+    entry_t = friday - timedelta(hours=30, minutes=-5)
+    d1 = _decision(entry=1.10000, stop=1.05000, target=1.20000, published_at=entry_t - timedelta(minutes=1), max_holding_hours=30.0)
+    d1.update(event_type="decision", pair="EURUSD", source_candle_completion_utc=entry_t.isoformat())
+    entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
+    deadline = entry_t + timedelta(hours=30)
+    filler = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), deadline, price=1.10020)
+    # NO affirmative evidence yet (still mid-silence, reopen not yet observed) -- result stays incomplete_coverage
+    # but the deadline itself is inside the closure reference window, so occupancy must still be preserved.
+    t2 = deadline + timedelta(hours=5)  # a new decision published WHILE the first is still plausibly closed-market-pending
+    d2 = _decision(entry=1.10100, stop=1.05100, target=1.20100, published_at=t2, max_holding_hours=30.0)
+    d2.update(event_type="decision", pair="EURUSD", source_candle_completion_utc=t2.isoformat())
+    now = t2 + timedelta(minutes=1)
+    ledger = build_paper_ledger([d1, d2], [entry_q, *filler], now)
+    d2_row = [r for r in ledger if r["actual_recording_time_utc"] == t2.isoformat()][0]
+    assert d2_row["executable"] is False, (
+        "a later decision published while the first is still plausibly pending a closure resolution must be suppressed")
+    assert d2_row["state"] == "suppressed_existing_position"
+    print("v2: position occupancy is conservatively preserved through a not-yet-confirmed closure resolution, suppressing a later decision: OK")
+
+
+# ======================= provider timestamp validity (defect 4) =======================
+
+def test_missing_provider_timestamp_is_rejected():
+    bad_q = _q("EURUSD", T0 + timedelta(seconds=5), bid=1.09960, ask=1.10010, oanda_time=None)
+    vq = _valid_pair_quotes([bad_q], "EURUSD", T0 + timedelta(minutes=1))
+    assert vq == [], "a quote with no provider timestamp at all must still be rejected in v2"
+    print("v2: a missing provider timestamp is rejected (validity, not age, is the gate): OK")
+
+
+def test_future_provider_timestamp_is_rejected():
+    t = T0 + timedelta(seconds=5)
+    bad_q = _q("EURUSD", t, bid=1.09960, ask=1.10010, oanda_time=t + timedelta(seconds=5))  # provider claims to be AFTER our own receipt
+    vq = _valid_pair_quotes([bad_q], "EURUSD", T0 + timedelta(minutes=1))
+    assert vq == [], "a provider timestamp claiming to be after our own receipt time is corrupt data, must be rejected"
+    print("v2: a provider timestamp from 'the future' relative to receipt is rejected: OK")
+
+
+def test_very_old_but_well_formed_provider_timestamp_is_still_accepted():
+    """The other half of defect 4: v2 must keep accepting an old-but-
+    successfully-returned, unchanged price -- only the FIELD's validity
+    (present, parseable, not future-dated) is a gate, never its age."""
+    t = T0 + timedelta(seconds=5)
+    old_q = _q("EURUSD", t, bid=1.09960, ask=1.10010, oanda_time=t - timedelta(hours=6))  # 6 HOURS stale, still a real, valid timestamp
+    vq = _valid_pair_quotes([old_q], "EURUSD", T0 + timedelta(minutes=1))
+    assert len(vq) == 1, "an old but well-formed, successfully-returned provider timestamp must still be accepted in v2"
+    assert vq[0]["_provider_age_seconds"] == 6 * 3600
+    print("v2: a very old but well-formed provider timestamp (an unchanged price) is still accepted, only its age is reported: OK")
+
+
 # ======================= no-lookahead =======================
 
 def test_decisions_never_use_future_information():
     entry_q = _q("EURUSD", T0 + timedelta(seconds=5), bid=1.09960, ask=1.10010)
+    now = T0 + timedelta(minutes=30)
+    # dense coverage right up to `now`, so the trailing-coverage check
+    # (defect 5) doesn't itself trigger incomplete_coverage here -- this
+    # test isolates the no-lookahead property specifically.
+    filler = _dense_filler("EURUSD", T0 + timedelta(seconds=10), now, price=1.10020)
     future_target_hit = _q("EURUSD", T0 + timedelta(hours=2), bid=1.10520, ask=1.10522)  # exists in the data but is in the FUTURE relative to `now`
     d = _decision(stop=1.09800, target=1.10500, max_holding_hours=10)
-    now = T0 + timedelta(minutes=30)  # now is BEFORE the future sample's own receipt time
-    result = score_decision(d, [entry_q, future_target_hit], now=now)
+    result = score_decision(d, [entry_q, *filler, future_target_hit], now=now)
     assert result["state"] == "open", (
         f"a sample received after the scoring clock must never be used to resolve a decision, got {result['state']}")
     print("v2: a decision never resolves using a sample received after the scoring clock (no lookahead): OK")
@@ -372,6 +554,15 @@ if __name__ == "__main__":
     test_deadline_uses_first_sample_at_or_after_not_the_last_one_before()
     test_friday_closure_deadline_delayed_to_first_tradeable_reopen_sample()
     test_weekday_gap_resembling_closure_duration_is_not_silently_treated_as_closure()
+    test_weekend_absence_alone_without_affirmative_evidence_stays_unexplained()
+    test_market_closes_mid_window_before_deadline_is_bridged_not_disqualified()
+    test_stop_target_takes_precedence_over_closure_deadline_exit_at_reopening()
+    test_trailing_silence_for_open_trade_reports_incomplete_coverage_immediately()
+    test_trailing_silence_within_staleness_bound_still_reports_open()
+    test_position_occupancy_preserved_through_pending_closure_resolution()
+    test_missing_provider_timestamp_is_rejected()
+    test_future_provider_timestamp_is_rejected()
+    test_very_old_but_well_formed_provider_timestamp_is_still_accepted()
     test_decisions_never_use_future_information()
     test_demonstrates_a_completed_sampled_paper_trade()
     test_genuine_unknown_is_still_retained_not_silently_resolved()
