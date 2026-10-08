@@ -108,6 +108,11 @@ def _client_with_snapshots(health: dict | None, kpi: dict | None, health_malform
     tmp = Path(tempfile.mkdtemp())
     ds.RESEARCH_HEALTH_PATH = tmp / "research_health.json"
     ds.RESEARCH_KPI_PATH = tmp / "research_kpi.json"
+    # v2 defaults to "not published" (a fresh temp dir with nothing in it)
+    # unless a test explicitly points these elsewhere -- never accidentally
+    # reads a stray file from another test or the real research_snapshots/.
+    ds.RESEARCH_HEALTH_V2_PATH = tmp / "research_health_v2.json"
+    ds.RESEARCH_KPI_V2_PATH = tmp / "research_kpi_v2.json"
     if health_malformed:
         ds.RESEARCH_HEALTH_PATH.write_text("{not valid json")
     elif health is not None:
@@ -277,6 +282,69 @@ def test_run_id_mismatch_both_ids_reach_the_client():
     print("dashboard: mismatched health/kpi run_ids both reach the client, with the mismatch-check function present: OK")
 
 
+HEALTH_V2_OK = {
+    "state": "ok", "generated_at_utc": "2026-10-08T00:00:00+00:00",
+    "run_identity": {"run_id": "v2-run-id-xyz", "started_at_utc": "2026-10-08T00:00:00+00:00", "elapsed_days": 0.1},
+    "service": {"status": "active"}, "recording_health": "healthy",
+}
+KPI_V2_OK = {
+    "state": "ok", "generated_at_utc": "2026-10-08T00:00:00+00:00", "run_id": "v2-run-id-xyz",
+    "kpi": {"counts": {"eligible_alerts": 2, "suppressed_existing_position": 0, "entered": 2, "completed": 1,
+                       "pending_open": 0, "unknown_total": 1, "completed_via_closure_delayed_deadline": 1},
+            "avg_net_r_per_completed_trade": {"value": None, "denominator": 0}},
+}
+
+
+def test_v2_routes_require_auth_and_return_separate_snapshots():
+    client = _client_with_snapshots(HEALTH_OK, KPI_OK)
+    ds.RESEARCH_HEALTH_V2_PATH.write_text(json.dumps(HEALTH_V2_OK))
+    ds.RESEARCH_KPI_V2_PATH.write_text(json.dumps(KPI_V2_OK))
+    assert client.get("/research/health_v2").status_code == 401
+    assert client.get("/research/kpi_v2").status_code == 401
+    r = client.get("/research/health_v2", auth=AUTH)
+    assert r.status_code == 200 and r.json() == HEALTH_V2_OK
+    r = client.get("/research/kpi_v2", auth=AUTH)
+    assert r.status_code == 200 and r.json() == KPI_V2_OK
+    print("dashboard: /research/health_v2 and /research/kpi_v2 require auth and return the v2 snapshots as-is: OK")
+
+
+def test_v2_section_never_mixes_with_v1_on_the_page():
+    """v1 has real data, v2 is not yet published -- both must render
+    correctly on the same page without either one's absence/presence
+    affecting the other, and the v2 section must be clearly labeled
+    separate."""
+    client = _client_with_snapshots(HEALTH_OK, KPI_OK)  # v2 left unpublished (default)
+    r = client.get("/", auth=AUTH)
+    assert r.status_code == 200
+    assert "Research v2" in r.text
+    assert "No v2 snapshot published yet" in r.text
+    # v1's own content must still be present and correct alongside the unpublished v2 section
+    assert "No signals have fired yet" in r.text
+    print("dashboard: v1 (populated) and v2 (unpublished) render correctly side by side, clearly separated: OK")
+
+
+def test_v2_null_avg_r_never_gets_positive_styling():
+    client = _client_with_snapshots(HEALTH_OK, KPI_OK)
+    ds.RESEARCH_HEALTH_V2_PATH.write_text(json.dumps(HEALTH_V2_OK))
+    ds.RESEARCH_KPI_V2_PATH.write_text(json.dumps(KPI_V2_OK))
+    r = client.get("/", auth=AUTH)
+    assert r.status_code == 200
+    import re
+    m = re.search(r'Avg R / Completed.*?class="value ([a-z]*)"', r.text, re.DOTALL)
+    assert m is not None, "v2 avg-R tile not found in rendered page"
+    assert m.group(1) == "", f"a null v2 avg R value must get neutral styling, got class={m.group(1)!r}"
+    print("dashboard: v2's null avg-R tile uses neutral styling, never positive-performance styling: OK")
+
+
+def test_v2_closure_delayed_count_surfaced_distinctly():
+    client = _client_with_snapshots(HEALTH_OK, KPI_OK)
+    ds.RESEARCH_HEALTH_V2_PATH.write_text(json.dumps(HEALTH_V2_OK))
+    ds.RESEARCH_KPI_V2_PATH.write_text(json.dumps(KPI_V2_OK))
+    r = client.get("/", auth=AUTH)
+    assert "Via Closure-Delayed Deadline" in r.text
+    print("dashboard: v2's closure-delayed-deadline count is surfaced as its own, distinctly labeled figure: OK")
+
+
 if __name__ == "__main__":
     test_research_routes_require_auth()
     test_research_routes_return_exact_snapshot_contents()
@@ -291,4 +359,8 @@ if __name__ == "__main__":
     test_zero_eligible_alerts_page_renders_and_embeds_neutral_data()
     test_health_error_state_never_claims_currently_running()
     test_run_id_mismatch_both_ids_reach_the_client()
+    test_v2_routes_require_auth_and_return_separate_snapshots()
+    test_v2_section_never_mixes_with_v1_on_the_page()
+    test_v2_null_avg_r_never_gets_positive_styling()
+    test_v2_closure_delayed_count_surfaced_distinctly()
     print("All dashboard Research-view tests passed (no network, no real observer checkout).")

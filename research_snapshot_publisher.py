@@ -91,16 +91,19 @@ def _short_error(ex: Exception) -> str:
     return f"{type(ex).__name__}: {msg}"[:300]
 
 
-def _import_observer_modules(observer_checkout: Path):
+def _import_observer_modules(observer_checkout: Path, package_subdir: str = "research/prospective_baseline"):
     """Imports the PINNED contract/score/report/run_identity modules
     directly from the frozen observer checkout -- this is the "reuse the
     pinned scorer/report functions rather than reimplementing
     calculations" requirement. Nothing here ever writes into
     observer_checkout; only sys.path is touched (process-local, not a
-    filesystem change)."""
-    obs_pkg = observer_checkout / "research" / "prospective_baseline"
+    filesystem change). `package_subdir` selects which contract version's
+    package to import -- "research/prospective_baseline" (v1, default) or
+    "research/prospective_baseline_v2" -- so a v1 and a v2 observer
+    checkout are never conflated by this function."""
+    obs_pkg = observer_checkout / package_subdir
     if not obs_pkg.is_dir():
-        raise FileNotFoundError("observer checkout's research/prospective_baseline package not found")
+        raise FileNotFoundError(f"observer checkout's {package_subdir} package not found")
     path_str = str(obs_pkg)
     if path_str not in sys.path:
         sys.path.insert(0, path_str)
@@ -115,8 +118,8 @@ def _import_observer_modules(observer_checkout: Path):
     return obs_contract, obs_score, obs_report
 
 
-def _log_dir(observer_checkout: Path) -> Path:
-    return observer_checkout / "research" / "prospective_baseline" / "logs"
+def _log_dir(observer_checkout: Path, package_subdir: str = "research/prospective_baseline") -> Path:
+    return observer_checkout / package_subdir / "logs"
 
 
 def _read_manifest(log_dir: Path) -> dict | None:
@@ -199,12 +202,20 @@ def _tail_jsonl(path: Path, max_bytes: int = 512_000) -> list[dict]:
     return rows
 
 
-def publish_health_snapshot(observer_checkout: Path, out_dir: Path, service_name: str = DEFAULT_SERVICE_NAME) -> dict:
+def publish_health_snapshot(observer_checkout: Path, out_dir: Path, service_name: str = DEFAULT_SERVICE_NAME,
+                             package_subdir: str = "research/prospective_baseline", snapshot_suffix: str = "") -> dict:
+    """`package_subdir`/`snapshot_suffix` select the contract version --
+    e.g. ("research/prospective_baseline_v2", "_v2") publishes
+    research_health_v2.json from a v2 observer checkout, entirely
+    separate from v1's research_health.json. Never both at once from one
+    call: a v1-invocation writes only the unsuffixed file, a v2-invocation
+    writes only the suffixed one -- there is no code path that could mix
+    the two into one file."""
     now = datetime.now(timezone.utc)
-    out_path = out_dir / "research_health.json"
+    out_path = out_dir / f"research_health{snapshot_suffix}.json"
     service = _service_status(service_name)
 
-    log_dir = _log_dir(observer_checkout)
+    log_dir = _log_dir(observer_checkout, package_subdir)
     if not log_dir.is_dir():
         payload = {
             "generated_at_utc": now.isoformat(), "state": "observer_not_found", "error": None,
@@ -225,7 +236,7 @@ def publish_health_snapshot(observer_checkout: Path, out_dir: Path, service_name
         return payload
 
     try:
-        obs_contract, obs_score, _obs_report = _import_observer_modules(observer_checkout)
+        obs_contract, obs_score, _obs_report = _import_observer_modules(observer_checkout, package_subdir)
         pairs = obs_contract.PAIRS
         window_start = now - timedelta(seconds=HEALTH_WINDOW_SECONDS)
         recent_quotes = [q for q in _tail_jsonl(log_dir / "quotes_log.jsonl")
@@ -417,11 +428,12 @@ def _kpi_from_frozen_ledger(ledger: list[dict], decisions: list[dict], health: l
     return {"generated_at_utc": now.isoformat(), "counts": {"eligible_alerts": len(executable), "suppressed_existing_position": len(suppressed), "entered": len(entered), "completed": len(completed), "pending_open": len(pending), "unknown_total": len(unknown), "missed_entries_confirmed_zero_pnl": len(missed), "no_signal_ticks": len(no_signal)}, "avg_net_r_per_completed_trade": {"value": sum(r_values) / len(r_values) if r_values else None, "denominator": len(r_values)}, "avg_net_r_per_all_eligible_alert": {"value": sum(r_values) / len(executable) if executable and not unknown else None, "denominator": len(executable), "is_undetermined": bool(unknown), "reason": f"{len(unknown)} of {len(executable)} eligible alerts have an unknown outcome" if unknown else None}, "max_drawdown_r_partial_completed_trades_only": max_dd, "max_drawdown_label": "R drawdown on completed trades only — NOT an account-percentage drawdown; PARTIAL whenever unknown_total > 0", "equity_curve": curve, "by_month": {m: v for m, v in sorted(by_month.items())}, "operational": {"decision_delay_seconds_mean": sum(decision_delays) / len(decision_delays) if decision_delays else None, "decision_delay_seconds_max": max(decision_delays) if decision_delays else None, "decision_count": len(decision_delays), "execution_delay_seconds_mean": sum(execution_delays) / len(execution_delays) if execution_delays else None, "execution_delay_seconds_max": max(execution_delays) if execution_delays else None, "quote_samples_recorded": None, "recording_failures": len(failures), "no_signal_ticks": len(no_signal)}, "unobserved": ["Financing/swap charges are not recorded or estimated anywhere in this report.", "Slippage beyond the sampled bid/ask (i.e. the true fill an order would have received) is not observed — this reports the quoted price at the sample that crossed a level, not a broker-confirmed fill.", "Price movement between quote samples (every QUOTE_SAMPLE_INTERVAL_SECONDS) is unobserved and unobservable from this data — a real, stated limitation distinct from the offline replay's continuous M30-candle coverage."]}
 
 
-def publish_kpi_snapshot(observer_checkout: Path, out_dir: Path) -> dict:
+def publish_kpi_snapshot(observer_checkout: Path, out_dir: Path,
+                          package_subdir: str = "research/prospective_baseline", snapshot_suffix: str = "") -> dict:
     now = datetime.now(timezone.utc)
-    out_path = out_dir / "research_kpi.json"
+    out_path = out_dir / f"research_kpi{snapshot_suffix}.json"
 
-    log_dir = _log_dir(observer_checkout)
+    log_dir = _log_dir(observer_checkout, package_subdir)
     if not log_dir.is_dir():
         payload = {"generated_at_utc": now.isoformat(), "state": "observer_not_found", "error": None,
                    "run_id": None, "kpi": None, "ledger": None}
@@ -436,7 +448,7 @@ def publish_kpi_snapshot(observer_checkout: Path, out_dir: Path) -> dict:
         return payload
 
     try:
-        obs_contract, obs_score, obs_report = _import_observer_modules(observer_checkout)
+        obs_contract, obs_score, obs_report = _import_observer_modules(observer_checkout, package_subdir)
         # The manifest already exists on disk (checked above), so this
         # call can only take report.py's verify-and-compare (read-only)
         # branch, never the create-a-new-manifest (write) branch -- see
@@ -498,14 +510,23 @@ def main() -> None:
     parser.add_argument("--observer-checkout", type=Path, default=DEFAULT_OBSERVER_CHECKOUT)
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
     parser.add_argument("--service-name", default=DEFAULT_SERVICE_NAME)
+    parser.add_argument("--contract-version", choices=["v1", "v2"], default="v1",
+                         help="Selects which observer package to import and which output files to write. "
+                              "v1 writes research_health.json/research_kpi.json (unchanged, default). v2 writes "
+                              "research_health_v2.json/research_kpi_v2.json from a SEPARATE v2 observer checkout's "
+                              "research/prospective_baseline_v2 package -- never the same files, never the same "
+                              "checkout subdirectory as v1, so the two can never be mixed by this script.")
     args = parser.parse_args()
+    package_subdir = "research/prospective_baseline" if args.contract_version == "v1" else "research/prospective_baseline_v2"
+    snapshot_suffix = "" if args.contract_version == "v1" else "_v2"
 
     if args.mode == "health":
-        payload = publish_health_snapshot(args.observer_checkout, args.out_dir, args.service_name)
+        payload = publish_health_snapshot(args.observer_checkout, args.out_dir, args.service_name,
+                                           package_subdir, snapshot_suffix)
     else:
-        payload = publish_kpi_snapshot(args.observer_checkout, args.out_dir)
+        payload = publish_kpi_snapshot(args.observer_checkout, args.out_dir, package_subdir, snapshot_suffix)
 
-    print(f"Wrote {args.out_dir / ('research_' + args.mode + '.json')} — state={payload['state']}")
+    print(f"Wrote {args.out_dir / ('research_' + args.mode + snapshot_suffix + '.json')} — state={payload['state']}")
 
 
 if __name__ == "__main__":

@@ -31,6 +31,7 @@ Usage:
     python3 dashboard_server.py           # serves on :8080
 """
 from __future__ import annotations
+import html
 import json
 import os
 import secrets
@@ -57,6 +58,14 @@ RESEARCH_HEALTH_PATH = Path(__file__).parent / "research_snapshots" / "research_
 RESEARCH_KPI_PATH = Path(__file__).parent / "research_snapshots" / "research_kpi.json"
 RESEARCH_HEALTH_STALE_AFTER_SECONDS = 300    # health publisher runs ~every 60s
 RESEARCH_KPI_STALE_AFTER_SECONDS = 3600      # kpi publisher runs ~every 15-30 min
+
+# v2 measurement contract -- COMPLETELY SEPARATE snapshot files, own run
+# identity, own observer checkout. See research/prospective_baseline_v2/
+# MEASUREMENT_CONTRACT.md. Never read, written, or rendered together with
+# the v1 paths above as if they were one figure -- the Research view
+# renders them as two clearly labeled, independent sections.
+RESEARCH_HEALTH_V2_PATH = Path(__file__).parent / "research_snapshots" / "research_health_v2.json"
+RESEARCH_KPI_V2_PATH = Path(__file__).parent / "research_snapshots" / "research_kpi_v2.json"
 
 app = FastAPI()
 security = HTTPBasic()
@@ -433,8 +442,86 @@ def render_research_view(health_payload: dict, kpi_payload: dict) -> str:
     <script id="research-data" type="application/json">{data_json}</script>"""
 
 
+def _v2_perf_class(v) -> str:
+    """Same neutral-by-default discipline as the v1 Research view's
+    perfClass(): null/undefined/non-finite never selects positive styling."""
+    return "" if v is None else ("pos" if v >= 0 else "neg")
+
+
+def render_research_v2_view(health_payload: dict, kpi_payload: dict) -> str:
+    """v2 measurement contract -- server-rendered (no client JS needed for
+    this compact activation-handoff view; deliberately simpler than v1's
+    full chart+ledger UI, see research/prospective_baseline_v2's own
+    README for why). Reads ONLY the pre-computed v2 snapshot files passed
+    in -- same no-computation-in-the-handler discipline as v1. Rendered as
+    its own section with its own heading and a loud never-combine banner;
+    nothing here is merged with the v1 figures above."""
+    def state_block(payload: dict) -> str | None:
+        state = payload.get("state")
+        if state == "ok":
+            return None
+        label = {
+            "not_published": "No v2 snapshot published yet — the v2 publisher has not run.",
+            "malformed_snapshot_file": "v2 snapshot file is malformed — waiting for the next publish.",
+            "observer_not_found": "v2 observer checkout not found by the publisher.",
+            "no_manifest": "v2 observer has not recorded a run manifest yet — no v2 activation detected.",
+            "manifest_mismatch": "v2 publisher paused: code/contract changed since this run started.",
+        }.get(state, state)
+        if state == "error":
+            label = payload.get("error") or "v2 snapshot generation failed."
+        return f'<p class="empty">{html.escape(str(label))}</p>'
+
+    health_block = state_block(health_payload)
+    if health_block is None:
+        ri = health_payload.get("run_identity") or {}
+        svc = (health_payload.get("service") or {}).get("status", "unknown")
+        rec = health_payload.get("recording_health", "unknown")
+        health_block = f"""
+        <div class="status-grid">
+          <div>Service: <span class="status-pill status-{html.escape(svc)}">{html.escape(svc)}</span></div>
+          <div>Recording: <span class="status-pill status-{html.escape(rec)}">{html.escape(rec.replace('_',' '))}</span></div>
+          <div><span class="hint">v2 Run ID</span><br><span class="mono" title="{html.escape(ri.get('run_id',''))}">{html.escape((ri.get('run_id') or '—')[:12])}…</span></div>
+        </div>"""
+
+    kpi_block = state_block(kpi_payload)
+    if kpi_block is None:
+        kpi = kpi_payload.get("kpi") or {}
+        c = kpi.get("counts", {})
+        completed_avg = kpi.get("avg_net_r_per_completed_trade", {})
+        kpi_block = f"""
+        <div class="stat-tiles">
+          <div class="tile"><div class="label">Eligible Alerts</div><div class="value">{c.get('eligible_alerts', '—')}</div>
+            <div class="sub">{c.get('suppressed_existing_position', 0)} suppressed</div></div>
+          <div class="tile"><div class="label">Entered / Completed</div><div class="value">{c.get('entered','—')} / {c.get('completed','—')}</div>
+            <div class="sub">{c.get('pending_open',0)} pending · {c.get('unknown_total',0)} unknown</div></div>
+          <div class="tile"><div class="label">Avg R / Completed</div>
+            <div class="value {_v2_perf_class(completed_avg.get('value'))}">{fmt_r(completed_avg.get('value'))}</div>
+            <div class="sub">n={completed_avg.get('denominator', 0)}</div></div>
+          <div class="tile"><div class="label">Via Closure-Delayed Deadline</div><div class="value">{c.get('completed_via_closure_delayed_deadline', 0)}</div>
+            <div class="sub">new v2 exit policy — see MEASUREMENT_CONTRACT.md §4</div></div>
+        </div>"""
+
+    return f"""
+    <div class="block-head" style="margin-top:48px;border-top:2px solid var(--warn);padding-top:28px">
+      <h2 style="color:var(--warn)">Research v2 — New Measurement Contract</h2>
+    </div>
+    <div class="research-disclaimer" style="border-left-color:var(--warn)">
+      <strong>Separate observer, separate run identity, separate logs.</strong> v2 corrects a measurement-contract
+      defect (price-creation age was wrongly used as a collection-health gate — see
+      research/prospective_baseline_v2/MEASUREMENT_CONTRACT.md) found in the v1 7-day review. These figures are
+      <strong>never</strong> combined with the v1 Research section above — different run, different contract,
+      not directly comparable without reading the contract doc first.
+    </div>
+    <div class="block-head"><h3>v2 Observation Health</h3></div>
+    <div>{health_block}</div>
+    <div class="block-head"><h3>v2 Progress &amp; Performance</h3></div>
+    <div>{kpi_block}</div>
+    """
+
+
 def render_page(live_payload: dict | None, performance_payload: dict | None, alerts_payload: dict | None,
-                 research_health_payload: dict, research_kpi_payload: dict) -> str:
+                 research_health_payload: dict, research_kpi_payload: dict,
+                 research_health_v2_payload: dict, research_kpi_v2_payload: dict) -> str:
     return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8">
@@ -654,6 +741,7 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
       <div class="topbar"><h1>Research</h1></div>
       <div style="padding:24px clamp(16px,3vw,36px) 0" id="research-container">
         {render_research_view(research_health_payload, research_kpi_payload)}
+        {render_research_v2_view(research_health_v2_payload, research_kpi_v2_payload)}
       </div>
     </section>
   </main>
@@ -1265,7 +1353,10 @@ def dashboard(_: None = Depends(check_auth)) -> str:
             performance_payload = None
     research_health_payload = load_research_snapshot(RESEARCH_HEALTH_PATH)
     research_kpi_payload = load_research_snapshot(RESEARCH_KPI_PATH)
-    return render_page(live_payload, performance_payload, load_alerts(), research_health_payload, research_kpi_payload)
+    research_health_v2_payload = load_research_snapshot(RESEARCH_HEALTH_V2_PATH)
+    research_kpi_v2_payload = load_research_snapshot(RESEARCH_KPI_V2_PATH)
+    return render_page(live_payload, performance_payload, load_alerts(), research_health_payload, research_kpi_payload,
+                       research_health_v2_payload, research_kpi_v2_payload)
 
 
 @app.get("/table", response_class=HTMLResponse)
@@ -1302,6 +1393,22 @@ def research_kpi(_: None = Depends(check_auth)) -> dict:
     Refresh button (the underlying KPI/ledger calculation is deliberately
     much less frequent than health, see research_snapshot_publisher.py)."""
     return load_research_snapshot(RESEARCH_KPI_PATH)
+
+
+@app.get("/research/health_v2", response_class=JSONResponse)
+def research_health_v2(_: None = Depends(check_auth)) -> dict:
+    """v2 measurement contract -- reads research_health_v2.json, a
+    COMPLETELY SEPARATE file from v1's, written only by a publisher
+    invocation pointed at a v2 observer checkout. See
+    research/prospective_baseline_v2/MEASUREMENT_CONTRACT.md."""
+    return load_research_snapshot(RESEARCH_HEALTH_V2_PATH)
+
+
+@app.get("/research/kpi_v2", response_class=JSONResponse)
+def research_kpi_v2(_: None = Depends(check_auth)) -> dict:
+    """v2 measurement contract -- reads research_kpi_v2.json. Never the
+    same file, never blended with v1's /research/kpi."""
+    return load_research_snapshot(RESEARCH_KPI_V2_PATH)
 
 
 @app.get("/api/performance", response_class=JSONResponse)

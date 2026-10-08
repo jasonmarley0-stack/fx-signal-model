@@ -256,6 +256,51 @@ def test_short_error_redacts_absolute_paths():
     print("publisher: _short_error redacts absolute-path-shaped substrings: OK")
 
 
+V2_FIXTURE_SRC = Path(__file__).parent / "fixtures" / "pinned_observer_v2_dev"
+
+
+def _fresh_v2_checkout() -> Path:
+    d = Path(tempfile.mkdtemp()) / "observer-checkout-v2"
+    shutil.copytree(V2_FIXTURE_SRC, d)
+    (d / "research" / "prospective_baseline_v2" / "logs").mkdir(parents=True, exist_ok=True)
+    return d
+
+
+def test_v2_publisher_path_writes_separate_suffixed_files_never_touching_v1():
+    """The dashboard-integration requirement: a v2 publish must write only
+    to research_health_v2.json/research_kpi_v2.json, reading only from a
+    v2 observer checkout's research/prospective_baseline_v2 package --
+    never the unsuffixed v1 files, never v1's package path, even when
+    both are invoked against the SAME out_dir."""
+    v1_checkout = _fresh_checkout()
+    _write_real_manifest(v1_checkout)
+    v2_checkout = _fresh_v2_checkout()
+
+    sys.path.insert(0, str(v2_checkout / "research" / "prospective_baseline_v2"))
+    import importlib
+    for name in ("contract", "score", "report", "run_identity"):
+        sys.modules.pop(name, None)
+    import run_identity as v2_run_identity
+    importlib.reload(v2_run_identity)
+    manifest = v2_run_identity.build_manifest(run_id="v2-test-run-id")
+    (v2_checkout / "research" / "prospective_baseline_v2" / "logs" / "run_manifest.json").write_text(json.dumps(manifest, indent=2))
+
+    out_dir = Path(tempfile.mkdtemp())
+    # publish v1 first, to the SAME out_dir
+    pub.publish_health_snapshot(v1_checkout, out_dir)
+    # then publish v2 -- must land in separate, suffixed files
+    v2_payload = pub.publish_health_snapshot(v2_checkout, out_dir, package_subdir="research/prospective_baseline_v2", snapshot_suffix="_v2")
+
+    assert (out_dir / "research_health.json").exists(), "v1's file must still exist"
+    assert (out_dir / "research_health_v2.json").exists(), "v2 must write its own suffixed file"
+    v1_content = json.loads((out_dir / "research_health.json").read_text())
+    v2_content = json.loads((out_dir / "research_health_v2.json").read_text())
+    assert v1_content["run_identity"]["run_id"] != v2_content["run_identity"]["run_id"], (
+        "v1 and v2 snapshots must never report the same run identity")
+    assert v2_payload["state"] == "ok", v2_payload
+    print("publisher: v1 and v2 publish to completely separate, suffixed snapshot files -- never mixed: OK")
+
+
 if __name__ == "__main__":
     test_health_snapshot_observer_not_found_is_explicit_not_silent()
     test_health_snapshot_no_manifest_never_creates_one()
@@ -267,5 +312,6 @@ if __name__ == "__main__":
     test_health_snapshot_sanitizes_run_identity_no_paths()
     test_health_snapshot_distinguishes_service_status_from_recording_health()
     test_atomic_write_leaves_no_partial_file_and_overwrites_cleanly()
+    test_v2_publisher_path_writes_separate_suffixed_files_never_touching_v1()
     test_short_error_redacts_absolute_paths()
     print("All research_snapshot_publisher tests passed (no network, no droplet access).")
