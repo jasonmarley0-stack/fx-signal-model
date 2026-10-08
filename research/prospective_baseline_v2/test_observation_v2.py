@@ -711,6 +711,35 @@ def test_position_policy_unchanged_still_suppresses_overlapping_decisions():
     print("v2: position suppression is unchanged from v1 — confirmed still working: OK")
 
 
+# ======================= real-collector import smoke check =======================
+
+def test_observe_module_imports_cleanly_for_a_real_collector_run():
+    """Activation regression: every other test in this suite exercises
+    score.py/quote_client.py directly with injected fixtures and never
+    actually imports the real collector module (observe.py) -- which is
+    the ONE thing systemd actually runs. That gap let a genuinely
+    unresolvable import (`from alert_lifecycle import guarded_entry_expiry`,
+    present since this file's very first commit, byte-identical to v1's
+    own observe.py) go undetected through every prior review, only
+    surfacing at actual activation time when `src/alert_lifecycle.py` was
+    found missing from this branch entirely. Importing the module (not
+    running main(), which requires real credentials and a practice-only
+    environment) is enough to catch this whole class of "the test suite
+    never actually loads the real entrypoint" defect again."""
+    import importlib
+    import sys as _sys
+    from pathlib import Path as _Path
+    _sys.path.insert(0, str(_Path(__file__).parent))
+    _sys.path.insert(0, str(_Path(__file__).parent.parent.parent / "src"))
+    for name in ("observe", "alert_lifecycle"):
+        _sys.modules.pop(name, None)
+    import observe as _observe
+    importlib.reload(_observe)
+    assert callable(_observe.compute_decision)
+    assert callable(_observe.main)
+    print("v2: the real collector module (observe.py) imports cleanly end to end, including alert_lifecycle: OK")
+
+
 if __name__ == "__main__":
     test_successful_receipt_with_unchanged_provider_timestamp_establishes_coverage_and_entry()
     test_valid_pair_quotes_reports_provider_age_as_metadata_never_as_a_gate()
@@ -744,4 +773,5 @@ if __name__ == "__main__":
     test_demonstrates_a_completed_sampled_paper_trade()
     test_genuine_unknown_is_still_retained_not_silently_resolved()
     test_position_policy_unchanged_still_suppresses_overlapping_decisions()
+    test_observe_module_imports_cleanly_for_a_real_collector_run()
     print("All v2 prospective-observation tests passed (no network, no credentials).")
