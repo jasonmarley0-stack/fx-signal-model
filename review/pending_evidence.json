@@ -1,5 +1,71 @@
 [
   {
+    "id": 812,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive European session wrap: Yields continue to soar as oil surges and stocks tumble",
+    "description": "Markets: 10-year Treasury yields up 6 bps to 5.345% WTI crude up 4.1% to $92.60 USD leads, AUD lags on the day Gold up 0.2% to $4,121 European stocks lower; S&amp;P 500 futures down 0.6% Bitcoin down 1% to $82,451 Once again, investors are dealing with the same old story in markets in European morning trade today. The bond market continues to come under pressure and that is leading to a more negative risk backdrop while underpinning the dollar. At the same time, higher oil prices are only adding fuel to the fire in reigniting the \"higher for longer\" narrative amid worries about more persistent",
+    "published_at": "2026-10-08T11:49:48",
+    "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-yields-continue-to-soar-as-oil-surges-and-stocks-tumble/"
+  },
+  {
+    "id": 811,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US initial jobless claims for the week is modestly stronger at 197K vs 200K est.",
+    "description": "Prior week 197K Initial claims: 197,000 vs 200,000 expected. Prior revised to 199,000 from 197,000. Initial claims four-week average: 198,000, down 2,500. Prior revised to 200,500 from 200,000. Continuing claims: 1.716 million vs 1.708 million expected. Prior revised to 1.699 million from 1.701 million. Continuing claims four-week average: 1.711 million, down 12,250. Prior revised to 1.72325 million from 1.72375 million. Insured unemployment rate: 1.1%. Prior 1.1%. The US weekly claims report was mixed relative to expectations, with fewer new claims than forecast but continuing claims slightly",
+    "published_at": "2026-10-08T12:30:14",
+    "source_url": "https://investinglive.com/news/us-initial-jobless-claims-for-the-week-is-modestly-stronger-at-197k-vs-200k-est/"
+  },
+  {
+    "id": 810,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US weekly initial jobless claims 197K vs 200K expected",
+    "description": "Prior was 197K (revised to 199K) Continuing claims 1716K vs 1708K exp Prior was 1701K (revised to 1699K) These numbers remain near ultra-low multi-generational lows. They're one of the best signs out there that the US jobs market is solid and that the Fed has room to hike rates. For background,&nbsp;US initial jobless claims provide one of the timeliest readings on the labour market, tracking new applications for unemployment insurance. Published by the Labor Department, usually on Thursdays at 8:30 a.m. Eastern, the report offers a weekly check on layoffs between monthly employment releases. ",
+    "published_at": "2026-10-08T12:31:05",
+    "source_url": "https://investinglive.com/news/us-weekly-initial-jobless-claims-197k-vs-200k-expected-0/"
+  },
+  {
+    "id": 809,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "US August wholesale inventories +0.5% vs +0.7% expected",
+    "description": "Prior was +1.3% Wholesale sales +1.8% vs +0.8% prior Inventory to sales ratio 1.18 months vs 1.19 months prior The inventories number will lead to a slight trimming of Q3 GDP trackers. US wholesale inventories measure the value of goods held for resale by merchant wholesalers, providing a snapshot of stockbuilding between producers and retailers or other business customers. Published monthly by the Census Bureau, the wholesale trade report includes sales and the inventories-to-sales ratio. An advance inventory estimate arrives earlier, giving economists an initial input for GDP forecasts. The ",
+    "published_at": "2026-10-08T14:00:40",
+    "source_url": "https://investinglive.com/news/us-august-wholesale-inventories-0-5-vs-0-7-expected/"
+  },
+  {
+    "id": 808,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Atlanta Fed GDPNow Q3 tracker 3.6% vs 3.7% prior",
+    "description": "Prior was 3.7% This isn't a surprise after the downgrade to the wholesale inventories data released earlier today. The next update ont his metric comes in a week but we're getting closer to the first release of Q3 GDP. The report said: \"The GDPNow model estimate for real GDP growth (seasonally adjusted annual rate) in the third quarter of 2026 is 3.6 percent on October 8, down from 3.7 percent on October 6. After this morning\u2019s wholesale trade report from the US Census Bureau, the nowcast of the contribution of inventory investment to third-quarter real GDP growth decreased from 2.07 percentag",
+    "published_at": "2026-10-08T15:19:49",
+    "source_url": "https://investinglive.com/news/atlanta-fed-gdpnow-q3-tracker-3-6-vs-3-7-prior/"
+  },
+  {
+    "id": 807,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 3,
+    "source_id": 2,
+    "title": "Meeting of 9-10 September 2026",
+    "description": "",
+    "published_at": "2026-10-08T11:30:00",
+    "source_url": "https://www.ecb.europa.eu//press/accounts/2026/html/ecb.mg261008~a10153d090.en.html"
+  },
+  {
     "id": 806,
     "status": "UNMATCHED",
     "was_matched": false,
