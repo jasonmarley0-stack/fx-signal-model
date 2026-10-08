@@ -1,5 +1,49 @@
 [
   {
+    "id": 798,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "The US treasury sells $39 billion of 10 year notes at a high yield of 5.300% versus WI level of 5.317%",
+    "description": "The U.S. Treasury thousand $39 billion of 10 year notes: WI level at the time of the auction: 5.317% High yield: 5.300% WI level at the time of the auction: 5.317% Stop-through: 1.7 basis points vs the average of 0.3 basis points Bid to cover: 2.77X vs the average of 2.54X Directs: 17.2% vs the average of 17.0% Indirects: 80.34% vs the average of 74.1% Dealers: 2.54% vs the average of 8.8% Auction grade: A A strong auction across the board. The high yield came in 1.7 basis points below the WI level, showing buyers were willing to accept a lower yield than the market indicated ahead of the auct",
+    "published_at": "2026-10-07T17:03:28",
+    "source_url": "https://investinglive.com/news/the-us-treasury-sells-39-billion-of-10-year-notes-at-a-high-yield-of-5-300-versus-wi-level-of-5-317/"
+  },
+  {
+    "id": 797,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "investingLive Americas market news wrap: Fed officials prepared to hike again this year",
+    "description": "FOMC Minutes: Most participants assessed another hike would likely be appropriate by year end The US treasury sells $39 billion of 10 year notes at a high yield of 5.300% versus WI level of 5.317% Tropical Storm Isaias spins up in the Gulf New York Fed inflation expectations: One year inflation expectations hit the highest since 2023 EIA weekly US crude oil inventories -3186K vs +1722K expected Markets: Gold down $53 to $4110 WTI crude oil down 96-cents to $88.48 US 10-year yields up 0.2 bps to 5.27% S&amp;P 500 down 0.1% USD leads, EUR lags It was one of those days where it looked like market",
+    "published_at": "2026-10-07T19:26:46",
+    "source_url": "https://investinglive.com/news/investinglive-americas-market-news-wrap-fed-officials-prepared-to-hike-again-this-year/"
+  },
+  {
+    "id": 796,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Economic and event calendar in Asia Thursday, October 8, 2026 - Chinese markets reopen",
+    "description": "The biggest news ahead of the session here today is that mainland Chinese markets reopen after a week long holiday. China's absence seems to have been keenly felt by gold! I'll pop more on gold separately. The data agenda should be not very impactufl: This article was written by Eamonn Sheridan at investinglive.com.",
+    "published_at": "2026-10-07T20:04:17",
+    "source_url": "https://investinglive.com/news/economic-and-event-calendar-in-asia-thursday-october-8-2026-chinese-markets-reopen/"
+  },
+  {
+    "id": 795,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 2,
+    "source_id": 1,
+    "title": "Minutes of the Federal Open Market Committee, September 15-16, 2026",
+    "description": "Minutes of the Federal Open Market Committee, September 15-16, 2026",
+    "published_at": "2026-10-07T18:00:00",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261007a.htm"
+  },
+  {
     "id": 794,
     "status": "UNMATCHED",
     "was_matched": false,
@@ -20,17 +64,6 @@
     "description": "Headlines: Treasury yields continue to break higher as 30-year hits 5.70%, putting markets on edge Crude oil rebounds as persistent supply risks continue to outweigh improving physical exports Bitcoin dips as over $400 million in crypto longs are liquidated in just one hour Chart of the day: EUR/CHF is becoming a pressure gauge for Europe\u2019s fiscal risks What are the FOMC meeting minutes and why do they rarely move markets? Markets: 10-year Treasury yields +6 bps to 5.34% WTI crude up 0.7% to $90.06 USD leads, EUR lags on the day Gold down 1.1% to $4,118 European equities lower; S&amp;P 500 fut",
     "published_at": "2026-10-07T11:46:24",
     "source_url": "https://investinglive.com/news/investinglive-european-session-wrap-treasury-yields-surge-stocks-slide-as-risk-mood-sours/"
-  },
-  {
-    "id": 792,
-    "status": "UNMATCHED",
-    "was_matched": false,
-    "company_id": null,
-    "source_id": 7,
-    "title": "New York Fed inflation expectations: One year inflation expectations hit the highest since 2023",
-    "description": "The&nbsp;New York Fed survey of consumer expectations One year inflation 3.9% vs 3.6% prior Three year inflation 3.3% vs 3.2% prior Five year inflation unchanged at %3% Year-ahead expected spending rose to the highest since May 2023 Labor market expectations were mostly positive The Fed won't be happy about this but will take some solace in the flat 5-year number. But like many of them are saying, longer-term inflation expectations are stable until they're not. For background, the New York Fed\u2019s Survey of Consumer Expectations is a monthly report tracking how US households view inflation, the ",
-    "published_at": "2026-10-07T15:02:08",
-    "source_url": "https://investinglive.com/news/new-york-fed-inflation-expectations-one-year-inflation-expectations-hit-the-highest-since-2023/"
   },
   {
     "id": 791,
