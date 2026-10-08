@@ -1,5 +1,38 @@
 [
   {
+    "id": 801,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "Reuters poll: 37% of Japan firms see oil volatility as biggest risk to earnings",
+    "description": "The survey reinforces Japan's acute sensitivity to the Iran war: with almost all crude imports sourced from the Middle East, any further disruption to Gulf shipping ( like this ), such as this week's tanker attack north of Qatar, feeds directly into corporate costs and margins. That leaves energy-intensive sectors such as materials, chemicals, cement and transport most exposed if oil stays elevated, while higher fuel import bills add to pressure on the yen. A tilt towards second-half earnings downgrades could weigh on Japanese equities heading into the results season, particularly if crude sta",
+    "published_at": "2026-10-07T23:06:37",
+    "source_url": "https://investinglive.com/news/reuters-poll-37-of-japan-firms-see-oil-volatility-as-biggest-risk-to-earnings/"
+  },
+  {
+    "id": 800,
+    "status": "UNMATCHED",
+    "was_matched": false,
+    "company_id": null,
+    "source_id": 7,
+    "title": "China bucks global bond rout as 10-year yield touches 1.7%",
+    "description": "A gap of more than 3.5 percentage points between Chinese and US 10-year yields keeps downward pressure on the yuan and makes the currency attractive to borrow for carry trades, leaving the People's Bank of China leaning on capital controls and its daily fixing to contain weakness. Central bank buying signals that Beijing is comfortable with low rates, so a policy-driven reversal in Chinese bonds looks unlikely while the domestic economy remains soft. For global markets, China is exporting disinflation rather than adding to the yield surge, and its banks' appetite for government debt shows how ",
+    "published_at": "2026-10-08T01:51:07",
+    "source_url": "https://investinglive.com/news/china-bucks-global-bond-rout-as-10-year-yield-touches-1-7/"
+  },
+  {
+    "id": 799,
+    "status": "NORMALISED",
+    "was_matched": true,
+    "company_id": 1,
+    "source_id": 3,
+    "title": "Bank of England announces the four animals that will feature on our next series of banknotes",
+    "description": "The Atlantic puffin, barn owl, buff-tailed bumblebee and European hedgehog will represent UK wildlife and feature as the central images on our next series of banknotes.",
+    "published_at": "2026-10-07T23:01:00",
+    "source_url": "https://www.bankofengland.co.uk/news/2026/october/boe-announces-the-four-animals-that-will-feature-on-next-series-of-banknotes"
+  },
+  {
     "id": 798,
     "status": "UNMATCHED",
     "was_matched": false,
