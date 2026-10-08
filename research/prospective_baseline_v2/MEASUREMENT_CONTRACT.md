@@ -130,12 +130,18 @@ qualifies, by design ("weekend absence alone must remain unexplained"):
   not count; a missing flag is a malformed/incomplete observation, not
   OANDA affirmatively reporting closure;
 - that quote's `bid`/`ask` are both finite, positive, and non-crossed
-  (`bid <= ask`), and its own provider timestamp (`oanda_time_utc`)
-  parses — a malformed or crossed quote proves nothing about the market,
-  closed or open;
-- the same validity bar applies to the reopen sample itself
-  (`tradeable` explicitly `True`, well-formed, valid provider timestamp)
-  before it is accepted as ending the closure.
+  (`bid <= ask`), and its own provider timestamp (`oanda_time_utc`) is
+  present, parseable, and **not future-dated relative to its own receipt
+  time** — a malformed, crossed, or future-dated quote proves nothing
+  about the market, closed or open;
+- **the identical validity gate** — same bid/ask, same provider-timestamp
+  present/parseable/not-future-dated rule, no age cutoff either way — is
+  applied to the reopen sample itself (plus `tradeable` explicitly
+  `True`) before it is accepted as ending the closure. Ordinary
+  (tradeable) quotes, non-tradeable closure evidence, and reopening
+  quotes all share one validity gate (`score.py`'s
+  `_quote_price_and_timestamp_valid`) rather than three independently
+  maintained checks that could silently drift apart.
 
 **The interval closure actually explains is bounded by CONTINUOUS
 evidence, not by proximity to an estimated reopen time.** An earlier

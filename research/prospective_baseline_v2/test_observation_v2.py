@@ -593,6 +593,65 @@ def test_very_old_but_well_formed_provider_timestamp_is_still_accepted():
     print("v2: a very old but well-formed provider timestamp (an unchanged price) is still accepted, only its age is reported: OK")
 
 
+def test_future_dated_reopen_quote_cannot_establish_an_exit():
+    """Alignment regression: the SAME provider-timestamp validity gate
+    applied to ordinary quotes (_quote_price_and_timestamp_valid) must
+    also reject a REOPENING quote whose provider timestamp is future-
+    dated relative to its own receipt. Continuous, genuinely valid
+    closure evidence spans the whole gap; the only tradeable=True
+    candidate within the search window carries a corrupt (future-dated)
+    oanda_time_utc and must be skipped -- it cannot establish the exit,
+    and with no other valid reopen candidate present, the trade must
+    stay honestly incomplete_coverage rather than resolving on corrupt
+    data."""
+    friday = datetime(2026, 1, 9, 20, 0, 0, tzinfo=timezone.utc)
+    entry_t = friday - timedelta(hours=30, minutes=-5)
+    entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
+    deadline = entry_t + timedelta(hours=30)
+    filler = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), deadline, price=1.10020)
+    bad_reopen_t = deadline + timedelta(hours=49)
+    # continuous, genuinely valid closure evidence right up to the bad candidate
+    closure_filler = _dense_filler("EURUSD", deadline, bad_reopen_t, price=1.1002, tradeable=False)
+    # tradeable=True, well-formed bid/ask, but the provider timestamp claims
+    # to be AFTER this quote's own receipt -- corrupt data, not a real reopen.
+    bad_reopen_q = _q("EURUSD", bad_reopen_t, bid=1.10800, ask=1.10810, tradeable=True,
+                       oanda_time=bad_reopen_t + timedelta(seconds=5))
+    d = _decision(stop=1.05000, target=1.20000, max_holding_hours=30.0, published_at=entry_t - timedelta(minutes=1))
+    now = bad_reopen_t + timedelta(minutes=10)
+    result = score_decision(d, [entry_q, *filler, *closure_filler, bad_reopen_q], now=now)
+    assert result["state"] == "incomplete_coverage", (
+        f"a future-dated reopen quote must never establish an exit, got {result['state']}")
+    assert result["deadline_delay_reason"] is None
+    assert result["exit_time_utc"] is None
+    print("v2: a future-dated reopening quote (corrupt provider timestamp) cannot establish an exit: OK")
+
+
+def test_future_dated_nontradeable_observation_cannot_establish_closure():
+    """Alignment regression: the same gate applied to CLOSURE EVIDENCE.
+    A tradeable=False observation that is otherwise well-formed but
+    carries a provider timestamp claiming to be from the future relative
+    to its own receipt is corrupt data, not a trustworthy report that the
+    market is closed, and must not count as evidence -- exactly like a
+    missing tradeable flag or a crossed quote already does not."""
+    friday = datetime(2026, 1, 9, 20, 0, 0, tzinfo=timezone.utc)
+    entry_t = friday - timedelta(hours=30, minutes=-5)
+    entry_q = _q("EURUSD", entry_t, bid=1.09960, ask=1.10010)
+    deadline = entry_t + timedelta(hours=30)
+    filler = _dense_filler("EURUSD", entry_t + timedelta(seconds=10), deadline, price=1.10020)
+    bad_evidence_t = deadline + timedelta(minutes=5)
+    bad_evidence_q = _q("EURUSD", bad_evidence_t, bid=1.1002, ask=1.1003, tradeable=False,
+                         oanda_time=bad_evidence_t + timedelta(seconds=5))  # future-dated -> corrupt, not evidence
+    reopen_t = deadline + timedelta(hours=49)
+    reopen_q = _q("EURUSD", reopen_t, bid=1.10800, ask=1.10810, tradeable=True)
+    d = _decision(stop=1.05000, target=1.20000, max_holding_hours=30.0, published_at=entry_t - timedelta(minutes=1))
+    now = reopen_t + timedelta(minutes=10)
+    result = score_decision(d, [entry_q, *filler, bad_evidence_q, reopen_q], now=now)
+    assert result["state"] == "incomplete_coverage", (
+        f"a future-dated tradeable=false observation must never establish closure, got {result['state']}")
+    assert result["deadline_delay_reason"] is None
+    print("v2: a future-dated non-tradeable observation (corrupt provider timestamp) cannot establish closure: OK")
+
+
 # ======================= no-lookahead =======================
 
 def test_decisions_never_use_future_information():
@@ -679,6 +738,8 @@ if __name__ == "__main__":
     test_missing_provider_timestamp_is_rejected()
     test_future_provider_timestamp_is_rejected()
     test_very_old_but_well_formed_provider_timestamp_is_still_accepted()
+    test_future_dated_reopen_quote_cannot_establish_an_exit()
+    test_future_dated_nontradeable_observation_cannot_establish_closure()
     test_decisions_never_use_future_information()
     test_demonstrates_a_completed_sampled_paper_trade()
     test_genuine_unknown_is_still_retained_not_silently_resolved()

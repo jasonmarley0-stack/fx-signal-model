@@ -52,37 +52,53 @@ def _valid_price(p) -> float | None:
     return f
 
 
+def _quote_price_and_timestamp_valid(q: dict) -> tuple[float, float, datetime, datetime] | None:
+    """Shared structural validity for a single raw quote, reused
+    identically for ordinary (tradeable) quotes, non-tradeable closure
+    evidence, and reopening quotes -- the provider-timestamp conflation
+    fix (MEASUREMENT_CONTRACT.md section 1/2) applies the same way
+    regardless of which of those three roles the quote plays: finite,
+    positive, non-crossed bid/ask; a parseable receipt time; and a
+    provider timestamp (`oanda_time_utc`) that is present, parseable, and
+    not from the future relative to this quote's OWN receipt time. There
+    is deliberately NO lower bound on provider-timestamp age -- an
+    arbitrarily old but well-formed timestamp (an unchanged price) is
+    always accepted; only PRESENCE/PARSEABILITY/FUTURE-DATING are gates,
+    never age. Returns (bid, ask, recv, oanda_t) when every field is
+    valid, else None. Does NOT check `tradeable` or any receipt-vs-`now`
+    bound -- those differ across the three call sites and are applied by
+    each caller itself."""
+    bid, ask = _valid_price(q.get("bid")), _valid_price(q.get("ask"))
+    if bid is None or ask is None or bid > ask:
+        return None
+    recv = _try_parse(q.get("received_at_utc"))
+    if recv is None:
+        return None
+    oanda_t = _try_parse(q.get("oanda_time_utc"))
+    if oanda_t is None or oanda_t > recv:
+        return None  # missing/malformed, or "from the future" relative to receipt -> corrupt, not an old price
+    return bid, ask, recv, oanda_t
+
+
 def _valid_pair_quotes(quotes: list[dict], pair: str, now: datetime) -> list[dict]:
     """v2: COVERAGE is receipt-time-only (MEASUREMENT_CONTRACT.md section
     2) -- the provider's price-creation AGE is never a gate, so an old-but-
-    unchanged, successfully-returned price is usable. That is not the same
-    as skipping provider-timestamp validity entirely: the field itself
-    must still be present, parseable, and not claim to be from the future
-    relative to receipt -- a missing/malformed/future-dated provider
-    timestamp is a malformed observation, not a legitimate "unchanged
-    older price" case, and is rejected here just like a crossed or
-    non-finite price. The distinction v2 draws is AGE vs VALIDITY: any
-    non-negative age is accepted; no provider timestamp at all, or one
-    that doesn't parse, or one that's impossibly after our own receipt
-    time, is not."""
+    unchanged, successfully-returned price is usable. See
+    _quote_price_and_timestamp_valid for the (age-blind) validity gate
+    itself."""
     out = []
     for q in quotes:
         if q.get("pair") != pair:
             continue
-        bid, ask = _valid_price(q.get("bid")), _valid_price(q.get("ask"))
-        if bid is None or ask is None or bid > ask:
-            continue
         if not q.get("tradeable", False):
             continue
-        recv = _try_parse(q.get("received_at_utc"))
-        if recv is None or recv > now:
+        valid = _quote_price_and_timestamp_valid(q)
+        if valid is None:
             continue
-        oanda_t = _try_parse(q.get("oanda_time_utc"))
-        if oanda_t is None:
-            continue  # missing/malformed provider timestamp -> not a usable observation
+        bid, ask, recv, oanda_t = valid
+        if recv > now:
+            continue
         provider_age = (recv - oanda_t).total_seconds()
-        if provider_age < 0:
-            continue  # a provider timestamp "from the future" relative to our own receipt is corrupt data, not an old price
         out.append({**q, "_recv": recv, "bid": bid, "ask": ask, "_provider_age_seconds": provider_age})
     out.sort(key=lambda q: q["_recv"])
     return out
@@ -122,28 +138,26 @@ def _in_closure_reference_window(t: datetime) -> bool:
 
 def _valid_nontradeable_receipts(raw_pair_quotes: list[dict], start: datetime, end: datetime) -> list[datetime]:
     """Receipt times of well-formed raw observations in [start, end] where
-    OANDA explicitly marked `tradeable` False, sorted. Three distinct
-    failure modes are excluded, all by design:
+    OANDA explicitly marked `tradeable` False, sorted. Uses the SAME
+    _quote_price_and_timestamp_valid gate as ordinary quotes and reopening
+    quotes (bid/ask, receipt time, and provider-timestamp validity --
+    present, parseable, not future-dated relative to receipt, no age
+    cutoff) plus two checks specific to this role:
     - A quote with the `tradeable` key simply ABSENT is not evidence of
       anything -- `.get("tradeable", False)` would silently conflate "the
       provider told us the market is closed" with "we don't know what the
       provider said"; only `is False` (the key present AND exactly False)
       counts.
-    - A malformed observation (non-finite/crossed bid-ask, or an
-      unparseable provider timestamp) happening to carry tradeable=False
-      is not a trustworthy observation of anything, including closure.
     - Receipts outside [start, end] are irrelevant to explaining THIS gap."""
     out = []
     for q in raw_pair_quotes:
-        recv = _try_parse(q.get("received_at_utc"))
-        if recv is None or not (start <= recv <= end):
-            continue
         if q.get("tradeable") is not False:
             continue
-        bid, ask = _valid_price(q.get("bid")), _valid_price(q.get("ask"))
-        if bid is None or ask is None or bid > ask:
+        valid = _quote_price_and_timestamp_valid(q)
+        if valid is None:
             continue
-        if _try_parse(q.get("oanda_time_utc")) is None:
+        _, _, recv, _ = valid
+        if not (start <= recv <= end):
             continue
         out.append(recv)
     out.sort()
@@ -231,9 +245,13 @@ def _detect_closure(raw_pair_quotes: list[dict], deadline: datetime, now: dateti
     reopen_quote = None
     for q in sorted(window, key=lambda q: q["received_at_utc"]):
         if q.get("tradeable") is True:
-            bid, ask = _valid_price(q.get("bid")), _valid_price(q.get("ask"))
-            if bid is not None and ask is not None and bid <= ask and _try_parse(q.get("oanda_time_utc")) is not None:
-                recv = _try_parse(q.get("received_at_utc"))
+            # SAME validity gate as ordinary quotes and closure evidence --
+            # including: not future-dated relative to receipt. A reopening
+            # quote with a corrupt (future-dated/missing/unparseable)
+            # provider timestamp must never establish an exit.
+            valid = _quote_price_and_timestamp_valid(q)
+            if valid is not None:
+                _, _, recv, _ = valid
                 reopen_quote = {**q, "_recv": recv}
                 break
         # a non-tradeable (or malformed) quote during the candidate window is
