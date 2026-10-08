@@ -120,11 +120,44 @@ every affected result (`deadline_delay_reason: "market_closure"`,
 `scheduled_exit_time_utc` unchanged, `execution_delay_seconds` reflecting
 the real wait). It must be compared separately from v1's wall-clock rule,
 never silently substituted into a v1-contract figure. **Closure must be
-demonstrated, not assumed**: v2 only applies this rule when the gap
-following the deadline is bounded by a detected `tradeable: false`
-stretch (or total absence) that aligns with the known weekly closure
-window; an unexplained gap of similar length on a weekday is still
+demonstrated, not assumed**: v2 only applies this rule inside the weekly
+closure reference window, and only when demonstrated by affirmative
+evidence meeting ALL of the following — mere total absence never
+qualifies, by design ("weekend absence alone must remain unexplained"):
+
+- the `tradeable` field is **explicitly `False`** on the evidence quote —
+  a key that is simply *absent* (as opposed to present and `False`) does
+  not count; a missing flag is a malformed/incomplete observation, not
+  OANDA affirmatively reporting closure;
+- that quote's `bid`/`ask` are both finite, positive, and non-crossed
+  (`bid <= ask`), and its own provider timestamp (`oanda_time_utc`)
+  parses — a malformed or crossed quote proves nothing about the market,
+  closed or open;
+- the same validity bar applies to the reopen sample itself
+  (`tradeable` explicitly `True`, well-formed, valid provider timestamp)
+  before it is accepted as ending the closure.
+
+**The interval closure actually explains is bounded, not open-ended.**
+One genuine piece of evidence near the start of a long silence does not
+excuse silence of unlimited length: the candidate reopen sample must
+arrive within `MAX_REOPEN_DELAY_FROM_EXPECTED_HOURS` of the *expected*
+reopen point (the next weekly reopen on/after the gap's start), not
+merely somewhere within the outer `MAX_CLOSURE_DEADLINE_DELAY_HOURS`
+sanity ceiling. A real Friday `tradeable: false` observation followed by
+silence that continues well past the expected Sunday reopen (e.g. into
+Monday) stays `incomplete_coverage` for the unexplained remainder — the
+one observation explains the closure, not an arbitrarily longer absence
+that happens to follow it. An unexplained gap of similar length on a
+weekday, with no such evidence at all, is likewise still
 `incomplete_coverage`, never silently treated as closure.
+
+The publisher's bounded per-pair quote window (`research_snapshot_
+publisher.py`) is widened by `MAX_CLOSURE_DEADLINE_DELAY_HOURS` for any
+contract version that defines it (version-tolerant; v1 has no closure
+concept and gets no widening) specifically so this evidence — the
+closure quotes and the reopen sample, however late within the sanity
+ceiling — is never silently dropped from the bounded-memory path while
+still resolving identically to direct scoring of the complete data.
 
 ## 5. What v2 explicitly does not change
 

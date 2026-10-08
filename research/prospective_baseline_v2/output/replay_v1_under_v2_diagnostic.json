@@ -1,13 +1,13 @@
 {
   "label": "RETROSPECTIVE_DIAGNOSTIC_REPLAY_V1_DATA_UNDER_V2_CONTRACT",
   "warning": "This is a retrospective diagnostic replay of ALREADY-RECORDED v1 data under the v2 contract. It is NOT a fresh v2 prospective run and must never be presented as one. v1's own logs, manifest, and published scores are untouched by this script.",
-  "replayed_at_utc": "2026-10-08T19:58:30.822654+00:00",
-  "scoring_clock_now_utc": "2026-10-07T20:01:33+00:00",
+  "replayed_at_utc": "2026-10-08T20:21:02.227657+00:00",
+  "scoring_clock_now_utc": "2026-10-08T20:21:00.550582+00:00",
   "v1_source_run_id": "885c5e3ef4b24446a1be3fc05b8f8577",
   "v1_pinned_commit": "29c286d",
   "decisions_replayed": 11,
   "quote_rows_used": 198563,
-  "peak_rss_mb": 283.9,
+  "peak_rss_mb": 284.0,
   "rows": [
     {
       "pair": "NZDUSD",

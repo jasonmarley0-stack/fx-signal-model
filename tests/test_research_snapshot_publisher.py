@@ -225,6 +225,28 @@ def test_v2_publisher_end_to_end_rss_at_production_scale():
           f"REAL process peak RSS={peak_rss_mb:.1f}MB (not tracemalloc, not one inner helper): OK")
 
 
+def test_v2_publisher_weekend_spanning_rss_at_production_scale():
+    """Correction-order regression: 'remeasure publisher RSS with a
+    weekend-spanning fixture'. The existing production-scale RSS test
+    (test_v2_publisher_end_to_end_rss_at_production_scale) already
+    includes the closure-margin widening in its measurement, but its
+    quote log has no genuinely closure-shaped data in it. This variant's
+    fixture (tests/_measure_v2_publisher_rss_weekend_subprocess.py)
+    actually embeds a tradeable=false stretch spanning Friday evening
+    through Sunday for one pair, plus a reopen, inside a production-scale
+    (512,624-row) quote log, and confirms the now-WIDER retained window
+    this requires still stays within the 1GiB droplet's memory budget."""
+    script = Path(__file__).parent / "_measure_v2_publisher_rss_weekend_subprocess.py"
+    result = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=120)
+    assert result.returncode == 0, f"weekend RSS-measurement subprocess failed:\nSTDOUT:{result.stdout}\nSTDERR:{result.stderr}"
+    payload = json.loads(result.stdout.strip().splitlines()[-1])
+    assert payload["state"] == "ok", payload
+    peak_rss_mb = payload["peak_rss_mb"]
+    assert peak_rss_mb < 200, f"weekend-spanning v2 publish peak RSS unexpectedly high for the 1GiB droplet budget: {peak_rss_mb:.1f}MB"
+    print(f"publisher: v2 end-to-end publish_kpi_snapshot() against a weekend-spanning, production-scale (512,624-row) "
+          f"quote log -- REAL process peak RSS={peak_rss_mb:.1f}MB, eurusd_state={payload.get('eurusd_state')}: OK")
+
+
 def test_health_snapshot_sanitizes_run_identity_no_paths():
     checkout = _fresh_checkout()
     _write_real_manifest(checkout, started_at=datetime.now(timezone.utc) - timedelta(days=3))
@@ -410,6 +432,77 @@ def test_v2_health_and_kpi_publish_succeed_with_correct_scores_from_genuine_fixt
     print("publisher: v2 health+kpi publish succeed (state=ok) from genuine v2 fixture logs with independently-verified correct scores: OK")
 
 
+def test_v2_publisher_retains_friday_closure_to_sunday_execution_evidence():
+    """Correction-order regression: 'add an end-to-end publisher test
+    where the deadline falls during Friday closure and execution occurs
+    Sunday. Assert exact ledger and KPI parity with direct scoring of the
+    complete relevant data.' Before the _closure_margin_seconds fix, the
+    publisher's bounded quote window ended only COVERAGE_GAP_SECONDS past
+    the (conservative, entry-validity-inflated) nominal deadline -- far
+    short of the ~49h delay a real Friday-closure/Sunday-reopen trade
+    needs -- silently truncating the Friday tradeable=false evidence and
+    the Sunday reopen quote the frozen scorer needs to resolve it, which
+    would have made the bounded publisher path disagree with direct
+    scoring of the complete data for exactly this scenario."""
+    checkout = _fresh_v2_checkout()
+    _write_v2_manifest(checkout, run_id="v2-closure-fixture-run")
+    log_dir = checkout / "research" / "prospective_baseline_v2" / "logs"
+
+    friday = datetime(2026, 1, 9, 20, 0, 0, tzinfo=timezone.utc)
+    entry_t = friday - timedelta(hours=30, minutes=-5)
+    published_at = entry_t - timedelta(minutes=1)
+    deadline = entry_t + timedelta(hours=30)  # lands ~Friday 20:05 UTC
+    reopen_t = deadline + timedelta(hours=49)  # Sunday reopen
+
+    d = {
+        "event_type": "decision", "pair": "EURUSD", "direction": "long",
+        "source_candle_start_utc": (published_at - timedelta(hours=4)).isoformat(), "source_candle_completion_utc": published_at.isoformat(),
+        "actual_calculation_time_utc": published_at.isoformat(), "actual_recording_time_utc": published_at.isoformat(), "decision_delay_seconds": 1.0,
+        "confidence": "high", "combined_score": 0.8, "entry_price": 1.10000, "stop": 1.05000, "target": 1.20000,
+        "entry_condition_lo": 1.09950, "entry_condition_hi": 1.10050, "entry_expiry_utc": (published_at + timedelta(hours=4)).isoformat(),
+        "max_holding_time_hours": 30.0, "technical_inputs": {}, "hypothetical": True, "result_type": "prospective_paper_v2",
+    }
+
+    quotes = [{"pair": "EURUSD", "received_at_utc": entry_t.isoformat(), "oanda_time_utc": (entry_t - timedelta(seconds=1)).isoformat(),
+               "bid": 1.09960, "ask": 1.10010, "tradeable": True}]
+    t = entry_t + timedelta(seconds=10)
+    while t < deadline:
+        quotes.append({"pair": "EURUSD", "received_at_utc": t.isoformat(), "oanda_time_utc": (t - timedelta(seconds=1)).isoformat(),
+                        "bid": 1.10020, "ask": 1.10022, "tradeable": True})
+        t += timedelta(seconds=10)
+    closure_t = deadline + timedelta(minutes=5)
+    quotes.append({"pair": "EURUSD", "received_at_utc": closure_t.isoformat(), "oanda_time_utc": (closure_t - timedelta(seconds=1)).isoformat(),
+                    "bid": 1.1002, "ask": 1.1003, "tradeable": False})  # Friday closure evidence
+    quotes.append({"pair": "EURUSD", "received_at_utc": reopen_t.isoformat(), "oanda_time_utc": (reopen_t - timedelta(seconds=1)).isoformat(),
+                    "bid": 1.10800, "ask": 1.10810, "tradeable": True})  # Sunday reopen
+
+    _write_jsonl(log_dir / "decisions_log.jsonl", [d])
+    _write_jsonl(log_dir / "quotes_log.jsonl", quotes)
+    _write_jsonl(log_dir / "health_log.jsonl", [])
+
+    out_dir = Path(tempfile.mkdtemp())
+    payload = pub.publish_kpi_snapshot(checkout, out_dir, package_subdir="research/prospective_baseline_v2", snapshot_suffix="_v2")
+    assert payload["state"] == "ok", payload
+    assert payload["ledger"][0]["state"] == "time_exited", (
+        f"the bounded publisher path must resolve the real closure-delayed exit, not silently fall back to "
+        f"incomplete_coverage because its quote window excluded the Friday/Sunday evidence, got {payload['ledger'][0]}")
+    assert payload["ledger"][0]["deadline_delay_reason"] == "market_closure"
+
+    sys.path.insert(0, str(checkout / "research" / "prospective_baseline_v2"))
+    import importlib
+    for name in ("contract", "score", "report", "run_identity"):
+        sys.modules.pop(name, None)
+    import score as v2_score
+    importlib.reload(v2_score)
+    direct_now = datetime.fromisoformat(payload["generated_at_utc"])
+    expected_ledger = v2_score.build_paper_ledger([d], quotes, direct_now)
+    assert payload["ledger"] == expected_ledger, (
+        "bounded publisher ledger must exactly match direct scoring of the COMPLETE, unbounded relevant data")
+    assert payload["kpi"]["counts"]["completed"] == 1
+    print("publisher: a Friday-closure-deadline/Sunday-execution trade resolves identically through the bounded "
+          "publisher path and direct unbounded scoring -- exact ledger and KPI parity: OK")
+
+
 if __name__ == "__main__":
     test_health_snapshot_observer_not_found_is_explicit_not_silent()
     test_health_snapshot_no_manifest_never_creates_one()
@@ -419,10 +512,12 @@ if __name__ == "__main__":
     test_bounded_kpi_matches_frozen_scorer_for_gap_pending_and_deadline()
     test_bounded_quote_scan_has_headroom_at_production_row_count()
     test_v2_publisher_end_to_end_rss_at_production_scale()
+    test_v2_publisher_weekend_spanning_rss_at_production_scale()
     test_health_snapshot_sanitizes_run_identity_no_paths()
     test_health_snapshot_distinguishes_service_status_from_recording_health()
     test_atomic_write_leaves_no_partial_file_and_overwrites_cleanly()
     test_v2_publisher_path_writes_separate_suffixed_files_never_touching_v1()
     test_v2_health_and_kpi_publish_succeed_with_correct_scores_from_genuine_fixture_logs()
+    test_v2_publisher_retains_friday_closure_to_sunday_execution_evidence()
     test_short_error_redacts_absolute_paths()
     print("All research_snapshot_publisher tests passed (no network, no droplet access).")

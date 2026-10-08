@@ -122,32 +122,61 @@ def _in_closure_reference_window(t: datetime) -> bool:
 
 def _affirmative_closure_evidence(raw_pair_quotes: list[dict], start: datetime, end: datetime) -> bool:
     """Proof the MARKET, not our collector, explains a gap: at least one
-    well-formed (valid bid/ask) raw observation in [start, end] that
-    OANDA itself marked tradeable=False. Pure silence -- no receipts at
-    all in the window -- does NOT satisfy this, by design: "weekend
-    absence alone must remain unexplained" (the correction order, and
-    MEASUREMENT_CONTRACT.md section 4). A collection outage that happens
-    to span a weekend looks identical to silence; only an explicit,
-    successfully-received non-tradeable quote distinguishes real closure
-    from an unexplained gap we must not paper over."""
+    well-formed raw observation in [start, end] that OANDA itself marked
+    tradeable EXPLICITLY False. Three distinct failure modes are rejected
+    here, all by design:
+    - Pure silence (no receipts at all in the window) does not satisfy
+      this: "weekend absence alone must remain unexplained".
+    - A quote with the `tradeable` key simply ABSENT is not evidence of
+      anything -- `.get("tradeable", False)` would silently conflate
+      "the provider told us the market is closed" with "we don't know
+      what the provider said"; only `is False` (the key present AND
+      exactly False) counts.
+    - A malformed observation (non-finite/crossed bid-ask, or an
+      unparseable provider timestamp) occurring to be tradeable=False is
+      not a trustworthy observation of anything, including closure."""
     for q in raw_pair_quotes:
         recv = _try_parse(q.get("received_at_utc"))
         if recv is None or not (start <= recv <= end):
             continue
-        if q.get("tradeable", False):
+        if q.get("tradeable") is not False:
             continue
         bid, ask = _valid_price(q.get("bid")), _valid_price(q.get("ask"))
-        if bid is not None and ask is not None:
-            return True
+        if bid is None or ask is None or bid > ask:
+            continue
+        if _try_parse(q.get("oanda_time_utc")) is None:
+            continue
+        return True
     return False
+
+
+def _closure_acceptance_ceiling(from_time: datetime) -> datetime:
+    """How late a candidate reopen sample may arrive and still be
+    accepted as explaining a gap that starts at/near `from_time`. Keyed
+    to the EXPECTED reopen point (_next_reopen_estimate), not to
+    `from_time` itself plus a large ceiling -- this is the fix for "an
+    isolated Friday observation must not excuse unexplained missing
+    coverage after reopening": one genuine tradeable=False quote early in
+    a long gap no longer excuses silence of arbitrary length, only up to
+    a bounded margin around when the market should actually have
+    reopened. MAX_CLOSURE_DEADLINE_DELAY_HOURS is kept as an outer,
+    absolute sanity ceiling in case the tighter margin were ever
+    misconfigured larger than it."""
+    expected_reopen = _next_reopen_estimate(from_time)
+    tight = expected_reopen + timedelta(hours=cfg.MAX_REOPEN_DELAY_FROM_EXPECTED_HOURS)
+    absolute = from_time + timedelta(hours=cfg.MAX_CLOSURE_DEADLINE_DELAY_HOURS)
+    return min(tight, absolute)
 
 
 def _closure_explains_gap(raw_pair_quotes: list[dict], gap_start: datetime, gap_end: datetime) -> bool:
     """Used by the exit scan to decide whether a MID-WINDOW gap (the
     market can close before the holding deadline, not only exactly at
-    it) may be bridged rather than disqualified -- both the reference-
-    window timing AND affirmative evidence are required."""
+    it) may be bridged rather than disqualified -- reference-window
+    timing, a bounded reopen arrival, AND affirmative evidence are all
+    required."""
     if not (_in_closure_reference_window(gap_start) or _in_closure_reference_window(gap_end)):
+        return False
+    if gap_end > _closure_acceptance_ceiling(gap_start):
         return False
     return _affirmative_closure_evidence(raw_pair_quotes, gap_start, gap_end)
 
@@ -182,18 +211,17 @@ def _detect_closure(raw_pair_quotes: list[dict], deadline: datetime, now: dateti
     """
     if not _in_closure_reference_window(deadline):
         return None
-    ceiling = deadline + timedelta(hours=cfg.MAX_CLOSURE_DEADLINE_DELAY_HOURS)
-    scan_end = min(ceiling, now)
+    scan_end = min(_closure_acceptance_ceiling(deadline), now)
     window = [q for q in raw_pair_quotes if deadline <= (_try_parse(q.get("received_at_utc")) or deadline - timedelta(seconds=1)) <= scan_end]
     reopen_quote = None
     for q in sorted(window, key=lambda q: q["received_at_utc"]):
-        if q.get("tradeable", False):
+        if q.get("tradeable") is True:
             bid, ask = _valid_price(q.get("bid")), _valid_price(q.get("ask"))
-            if bid is not None and ask is not None and bid <= ask:
+            if bid is not None and ask is not None and bid <= ask and _try_parse(q.get("oanda_time_utc")) is not None:
                 recv = _try_parse(q.get("received_at_utc"))
                 reopen_quote = {**q, "_recv": recv}
                 break
-        # a non-tradeable (or invalid) quote during the candidate window is
+        # a non-tradeable (or malformed) quote during the candidate window is
         # exactly what closure predicts -- keep scanning for reopen.
     if reopen_quote is None:
         return None

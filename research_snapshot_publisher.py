@@ -368,10 +368,30 @@ def _coverage_margin_seconds(obs_contract) -> float:
         "cannot determine the quote-window margin")
 
 
-def _decision_windows(decisions: list[dict], quote_staleness_seconds: float) -> dict[str, tuple[datetime, datetime]]:
+def _closure_margin_seconds(obs_contract) -> float:
+    """v2 introduces closure-delayed deadline execution: a reopen sample
+    (and the tradeable=false evidence proving closure) can legitimately
+    arrive up to MAX_CLOSURE_DEADLINE_DELAY_HOURS after the nominal
+    deadline -- see research/prospective_baseline_v2/MEASUREMENT_
+    CONTRACT.md section 4. Without this margin, the publisher's bounded
+    quote window ends right at the ordinary deadline+staleness bound and
+    silently truncates exactly the evidence the frozen scorer needs to
+    resolve a Friday-deadline, Sunday-execution trade -- the bounded KPI
+    would then disagree with direct scoring of the complete data for that
+    scenario specifically. v1 has no closure concept at all, so this is
+    version-tolerant via getattr and returns 0 for it, same pattern as
+    _coverage_margin_seconds."""
+    hours = getattr(obs_contract, "MAX_CLOSURE_DEADLINE_DELAY_HOURS", 0)
+    return float(hours) * 3600.0
+
+
+def _decision_windows(decisions: list[dict], quote_staleness_seconds: float,
+                       closure_margin_seconds: float = 0.0) -> dict[str, tuple[datetime, datetime]]:
     """Smallest conservative per-pair quote windows needed by the frozen
     scorer.  A decision can enter just before its deadline and then require
-    its full holding period plus one permitted post-deadline sample."""
+    its full holding period plus one permitted post-deadline sample, plus
+    (for contract versions that have the concept) room for a closure-
+    delayed deadline resolution."""
     windows = {}
     for d in decisions:
         if d.get("event_type") != "decision":
@@ -380,7 +400,8 @@ def _decision_windows(decisions: list[dict], quote_staleness_seconds: float) -> 
         deadline = _parse_iso(d.get("entry_expiry_utc"))
         if start is None or deadline is None:
             continue
-        end = deadline + timedelta(hours=float(d["max_holding_time_hours"]), seconds=quote_staleness_seconds)
+        end = deadline + timedelta(hours=float(d["max_holding_time_hours"]),
+                                    seconds=quote_staleness_seconds + closure_margin_seconds)
         pair = d["pair"]
         if pair in windows:
             old_start, old_end = windows[pair]
@@ -407,8 +428,9 @@ def _bounded_quotes(path: Path, windows: dict[str, tuple[datetime, datetime]]) -
     return out, scanned
 
 
-def _bounded_ledger(obs_score, decisions: list[dict], quote_path: Path, now: datetime, quote_staleness_seconds: float) -> tuple[list[dict], int, int]:
-    windows = _decision_windows(decisions, quote_staleness_seconds)
+def _bounded_ledger(obs_score, decisions: list[dict], quote_path: Path, now: datetime, quote_staleness_seconds: float,
+                     closure_margin_seconds: float = 0.0) -> tuple[list[dict], int, int]:
+    windows = _decision_windows(decisions, quote_staleness_seconds, closure_margin_seconds)
     quotes_by_pair, scanned = _bounded_quotes(quote_path, windows)
     ledger = []
     # Position suppression is pair-local in the frozen build_paper_ledger;
@@ -503,6 +525,7 @@ def publish_kpi_snapshot(observer_checkout: Path, out_dir: Path,
         ledger, quote_rows_scanned, quote_rows_retained = _bounded_ledger(
             obs_score, decisions, log_dir / "quotes_log.jsonl", now,
             _coverage_margin_seconds(obs_contract),
+            _closure_margin_seconds(obs_contract),
         )
         kpi = _kpi_from_frozen_ledger(ledger, decisions, health, now)
         kpi["operational"]["quote_samples_recorded"] = quote_rows_scanned
