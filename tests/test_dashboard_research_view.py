@@ -345,6 +345,41 @@ def test_v2_closure_delayed_count_surfaced_distinctly():
     print("dashboard: v2's closure-delayed-deadline count is surfaced as its own, distinctly labeled figure: OK")
 
 
+def test_v2_kpi_displays_stale_banner_when_publisher_paused():
+    """2026-10-09 incident regression: v2's section is server-rendered
+    with no client-side JS equivalent of v1's age/STALE handling. If the
+    KPI publisher timer is paused (exactly what happened during the
+    memory incident) the snapshot file stops updating, but the page must
+    say so explicitly -- a frozen figure must never quietly look
+    current. Uses a deliberately old generated_at_utc, independent of
+    whatever date the test happens to run on."""
+    import datetime as _dt
+    old_kpi = {**KPI_V2_OK, "generated_at_utc": (_dt.datetime.now(_dt.timezone.utc) - _dt.timedelta(hours=5)).isoformat()}
+    client = _client_with_snapshots(HEALTH_OK, KPI_OK)
+    ds.RESEARCH_HEALTH_V2_PATH.write_text(json.dumps(HEALTH_V2_OK))
+    ds.RESEARCH_KPI_V2_PATH.write_text(json.dumps(old_kpi))
+    r = client.get("/", auth=AUTH)
+    # "STALE" alone is confounded by v1's always-present client-side JS
+    # source text (literal "— STALE" inside a template string, rendered
+    # regardless of actual staleness) -- "last published" is unique to
+    # the new v2 server-side staleness note.
+    assert "last published" in r.text, "a KPI snapshot published 5 hours ago must show an explicit staleness warning"
+    print("dashboard: v2's KPI section shows an explicit STALE banner when its publisher has been paused: OK")
+
+
+def test_v2_kpi_no_stale_banner_when_fresh():
+    import datetime as _dt
+    now_iso = _dt.datetime.now(_dt.timezone.utc).isoformat()
+    fresh_health = {**HEALTH_V2_OK, "generated_at_utc": now_iso}
+    fresh_kpi = {**KPI_V2_OK, "generated_at_utc": now_iso}
+    client = _client_with_snapshots(HEALTH_OK, KPI_OK)
+    ds.RESEARCH_HEALTH_V2_PATH.write_text(json.dumps(fresh_health))
+    ds.RESEARCH_KPI_V2_PATH.write_text(json.dumps(fresh_kpi))
+    r = client.get("/", auth=AUTH)
+    assert "last published" not in r.text, "a freshly-published KPI snapshot must never show the stale warning"
+    print("dashboard: v2's KPI section shows no stale warning for a freshly-published snapshot: OK")
+
+
 if __name__ == "__main__":
     test_research_routes_require_auth()
     test_research_routes_return_exact_snapshot_contents()
@@ -363,4 +398,6 @@ if __name__ == "__main__":
     test_v2_section_never_mixes_with_v1_on_the_page()
     test_v2_null_avg_r_never_gets_positive_styling()
     test_v2_closure_delayed_count_surfaced_distinctly()
+    test_v2_kpi_displays_stale_banner_when_publisher_paused()
+    test_v2_kpi_no_stale_banner_when_fresh()
     print("All dashboard Research-view tests passed (no network, no real observer checkout).")

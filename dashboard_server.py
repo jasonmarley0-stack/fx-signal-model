@@ -448,6 +448,32 @@ def _v2_perf_class(v) -> str:
     return "" if v is None else ("pos" if v >= 0 else "neg")
 
 
+def _v2_staleness_note(payload: dict, stale_after_seconds: float) -> str:
+    """Server-side staleness indicator for v2's section (which has no
+    client-side JS equivalent of v1's age/STALE handling -- see
+    render_research_v2_view's docstring). Computed from the snapshot's
+    own generated_at_utc at render time: this must never go silent when
+    the KPI publisher timer is paused (e.g. during the 2026-10-09 memory
+    incident) -- a frozen, increasingly-old figure must say so explicitly
+    rather than quietly look current. Returns an empty string when fresh
+    or when generated_at_utc can't be read (never crashes the page over
+    a missing field)."""
+    generated_at = payload.get("generated_at_utc")
+    if not generated_at:
+        return ""
+    try:
+        gen_dt = datetime.fromisoformat(generated_at)
+    except (ValueError, TypeError):
+        return ""
+    age_seconds = (datetime.now(timezone.utc) - gen_dt).total_seconds()
+    if age_seconds <= stale_after_seconds:
+        return ""
+    age_minutes = int(age_seconds // 60)
+    age_label = f"{age_minutes // 60}h {age_minutes % 60}m" if age_minutes >= 60 else f"{age_minutes}m"
+    return (f'<p class="snapshot-note is-stale" style="margin:4px 0 10px">'
+            f'⚠ STALE — last published {html.escape(age_label)} ago ({html.escape(generated_at)})</p>')
+
+
 def render_research_v2_view(health_payload: dict, kpi_payload: dict) -> str:
     """v2 measurement contract -- server-rendered (no client JS needed for
     this compact activation-handoff view; deliberately simpler than v1's
@@ -477,6 +503,7 @@ def render_research_v2_view(health_payload: dict, kpi_payload: dict) -> str:
         svc = (health_payload.get("service") or {}).get("status", "unknown")
         rec = health_payload.get("recording_health", "unknown")
         health_block = f"""
+        {_v2_staleness_note(health_payload, RESEARCH_HEALTH_STALE_AFTER_SECONDS)}
         <div class="status-grid">
           <div>Service: <span class="status-pill status-{html.escape(svc)}">{html.escape(svc)}</span></div>
           <div>Recording: <span class="status-pill status-{html.escape(rec)}">{html.escape(rec.replace('_',' '))}</span></div>
@@ -489,6 +516,7 @@ def render_research_v2_view(health_payload: dict, kpi_payload: dict) -> str:
         c = kpi.get("counts", {})
         completed_avg = kpi.get("avg_net_r_per_completed_trade", {})
         kpi_block = f"""
+        {_v2_staleness_note(kpi_payload, RESEARCH_KPI_STALE_AFTER_SECONDS)}
         <div class="stat-tiles">
           <div class="tile"><div class="label">Eligible Alerts</div><div class="value">{c.get('eligible_alerts', '—')}</div>
             <div class="sub">{c.get('suppressed_existing_position', 0)} suppressed</div></div>
