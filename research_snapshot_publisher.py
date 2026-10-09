@@ -328,11 +328,23 @@ def _iter_jsonl(path: Path):
                 continue
 
 
-def _decision_windows(decisions: list[dict], quote_staleness_seconds: float) -> dict[str, tuple[datetime, datetime]]:
+def _decision_windows(decisions: list[dict], quote_staleness_seconds: float) -> dict[str, list[tuple[datetime, datetime]]]:
     """Smallest conservative per-pair quote windows needed by the frozen
-    scorer.  A decision can enter just before its deadline and then require
-    its full holding period plus one permitted post-deadline sample."""
-    windows = {}
+    scorer. Returns, per pair, a list of MERGED, non-overlapping intervals
+    -- never a single min-start/max-end collapse across that pair's whole
+    history. That collapse was a real production defect (2026-10-09
+    incident: 15 decisions spread over 8 days collapsed into per-pair
+    windows that retained 48% of the entire quotes log -- two decisions
+    for the same pair just days apart in calendar time were enough to
+    make that pair's "window" span nearly the whole run, since every
+    quote received in the dead time between them was still inside the
+    collapsed min/max span and got retained for nothing, eventually
+    OOM-killing the KPI publisher). A decision's own window (holding
+    period + a staleness margin) is small and bounded; only decisions
+    whose windows actually overlap or touch are merged here, so total
+    retained memory grows with actual trading activity, never with how
+    long the run has been collecting."""
+    per_pair: dict[str, list[tuple[datetime, datetime]]] = defaultdict(list)
     for d in decisions:
         if d.get("event_type") != "decision":
             continue
@@ -341,46 +353,76 @@ def _decision_windows(decisions: list[dict], quote_staleness_seconds: float) -> 
         if start is None or deadline is None:
             continue
         end = deadline + timedelta(hours=float(d["max_holding_time_hours"]), seconds=quote_staleness_seconds)
-        pair = d["pair"]
-        if pair in windows:
-            old_start, old_end = windows[pair]
-            windows[pair] = min(old_start, start), max(old_end, end)
-        else:
-            windows[pair] = start, end
-    return windows
+        per_pair[d["pair"]].append((start, end))
+
+    merged: dict[str, list[tuple[datetime, datetime]]] = {}
+    for pair, intervals in per_pair.items():
+        intervals.sort(key=lambda iv: iv[0])
+        out = [intervals[0]]
+        for s, e in intervals[1:]:
+            last_s, last_e = out[-1]
+            if s <= last_e:  # overlapping or touching -- merge, don't collapse the whole run
+                out[-1] = (last_s, max(last_e, e))
+            else:
+                out.append((s, e))
+        merged[pair] = out
+    return merged
 
 
-def _bounded_quotes(path: Path, windows: dict[str, tuple[datetime, datetime]]) -> tuple[dict[str, list[dict]], int]:
-    """One streaming pass over the raw quote log.  Only quotes which can
-    affect at least one frozen decision score are retained."""
-    out = defaultdict(list)
+def _bounded_quotes_for_pair(path: Path, pair: str, intervals: list[tuple[datetime, datetime]]) -> tuple[list[dict], int]:
+    """One streaming pass over the raw quote log for a SINGLE pair. Only
+    this pair's quotes falling within its own (merged, non-overlapping)
+    windows are retained -- never the dead space between sparse,
+    far-apart decisions, and never another pair's quotes at all.
+
+    Called once per pair (see _bounded_ledger) rather than bucketing
+    every pair's retained quotes into memory simultaneously -- this is
+    the second half of the 2026-10-09 production OOM fix. Even after
+    _decision_windows() stopped collapsing a pair's whole history into
+    one span, holding all 7 pairs' bounded-but-still-substantial
+    retained sets in memory at once measured ~297MB against the real
+    incident data (236,305 combined retained rows) -- too much for a
+    1GiB host already running several other services. Processing one
+    pair at a time measured ~72MB for the worst single pair on that same
+    real data, a ~4x reduction, at the cost of re-scanning the quote log
+    once per pair (cheap, sequential disk reads; this runs once every
+    15 minutes, not in a hot path)."""
+    out = []
     scanned = 0
     for q in _iter_jsonl(path):
         scanned += 1
-        pair = q.get("pair")
-        window = windows.get(pair)
-        if window is None:
+        if q.get("pair") != pair:
             continue
         received = _parse_iso(q.get("received_at_utc"))
-        if received is not None and window[0] <= received <= window[1]:
-            out[pair].append(q)
+        if received is None:
+            continue
+        for s, e in intervals:
+            if received < s:
+                # intervals are sorted ascending by start; once the
+                # receipt time is before this interval's start, every
+                # later (later-starting) interval is further away too.
+                break
+            if received <= e:
+                out.append(q)
+                break
     return out, scanned
 
 
 def _bounded_ledger(obs_score, decisions: list[dict], quote_path: Path, now: datetime, quote_staleness_seconds: float) -> tuple[list[dict], int, int]:
     windows = _decision_windows(decisions, quote_staleness_seconds)
-    quotes_by_pair, scanned = _bounded_quotes(quote_path, windows)
-    ledger = []
     # Position suppression is pair-local in the frozen build_paper_ledger;
     # invoking it once per pair is therefore semantically identical while
-    # keeping only that pair's decision-relevant quote window in memory.
+    # keeping only ONE pair's decision-relevant quotes in memory at a
+    # time (see _bounded_quotes_for_pair's docstring for why this matters).
     by_pair = defaultdict(list)
     for d in decisions:
         if d.get("event_type") == "decision":
             by_pair[d["pair"]].append(d)
+    ledger = []
     retained = 0
+    scanned = 0
     for pair, pair_decisions in by_pair.items():
-        pair_quotes = quotes_by_pair.get(pair, [])
+        pair_quotes, scanned = _bounded_quotes_for_pair(quote_path, pair, windows.get(pair, []))
         retained += len(pair_quotes)
         ledger.extend(obs_score.build_paper_ledger(pair_decisions, pair_quotes, now))
     ledger.sort(key=lambda r: r["actual_recording_time_utc"])

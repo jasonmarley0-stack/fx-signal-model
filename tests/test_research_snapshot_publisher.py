@@ -185,6 +185,72 @@ def test_bounded_kpi_matches_frozen_scorer_for_gap_pending_and_deadline():
     print("publisher: bounded path matches frozen gap, pending, and deadline scoring: OK")
 
 
+def test_sparse_decisions_far_apart_are_not_collapsed_into_one_retained_span():
+    """Production incident regression (2026-10-09): two decisions for the
+    SAME pair, far apart in calendar time -- the realistic case once a
+    run has been collecting for days, where decisions are sparse but
+    quote collection is continuous -- must each retain only their OWN
+    small window, never get collapsed by _decision_windows() into one
+    min-start/max-end span that retains everything in between. That
+    collapse is exactly what drove a real KPI-publisher OOM on the 1GiB
+    production droplet: 15 decisions spread over 8 days of continuous
+    collection retained 48% of the entire quotes log. Asserts BOTH the
+    retained-row count stays small AND the resulting ledger is
+    byte-identical to direct, unbounded scoring -- the fix changes
+    memory use, never the score."""
+    checkout = _fresh_checkout(); _write_real_manifest(checkout)
+    log_dir = checkout / "research" / "prospective_baseline" / "logs"
+
+    def decision(at):
+        return {"event_type": "decision", "pair": "EURUSD", "direction": "long",
+                "source_candle_start_utc": (at - timedelta(hours=4)).isoformat(), "source_candle_completion_utc": at.isoformat(),
+                "actual_calculation_time_utc": at.isoformat(), "actual_recording_time_utc": at.isoformat(), "decision_delay_seconds": 1.0,
+                "confidence": "high", "combined_score": .8, "entry_price": 1.1, "stop": 1.098, "target": 1.102,
+                "entry_condition_lo": 1.0995, "entry_condition_hi": 1.1005, "entry_expiry_utc": (at + timedelta(hours=4)).isoformat(),
+                "max_holding_time_hours": 30.0, "technical_inputs": {}, "hypothetical": True, "result_type": "prospective_paper"}
+
+    d1_at = T0
+    d2_at = T0 + timedelta(hours=72)  # 3 days later -- a sparse-decision gap, far shorter than the real 7-day one
+    d1, d2 = decision(d1_at), decision(d2_at)
+
+    quotes = []
+    span_end = d2_at + timedelta(hours=35)
+    t = d1_at
+    while t < span_end:
+        quotes.append({"pair": "EURUSD", "received_at_utc": t.isoformat(), "oanda_time_utc": t.isoformat(),
+                        "bid": 1.1000, "ask": 1.1001, "tradeable": True})
+        t += timedelta(seconds=5)
+
+    _write_jsonl(log_dir / "decisions_log.jsonl", [d1, d2])
+    _write_jsonl(log_dir / "quotes_log.jsonl", quotes)
+    _write_jsonl(log_dir / "health_log.jsonl", [])
+
+    out = Path(tempfile.mkdtemp())
+    payload = pub.publish_kpi_snapshot(checkout, out)
+    assert payload["state"] == "ok", payload
+
+    _, score, report = pub._import_observer_modules(checkout)
+    expected = score.build_paper_ledger([d1, d2], quotes, datetime.fromisoformat(payload["generated_at_utc"]))
+    assert payload["ledger"] == expected, "the windowing fix must never change the resulting score, only what's retained in memory"
+    assert {r["state"] for r in payload["ledger"]} == {"time_exited"}, payload["ledger"]
+
+    windows = pub._decision_windows([d1, d2], 15.0)
+    assert len(windows["EURUSD"]) == 2, (
+        "two decisions 72h apart (each needing only ~34h) must produce TWO separate windows, not one collapsed span")
+    pair_quotes, scanned = pub._bounded_quotes_for_pair(log_dir / "quotes_log.jsonl", "EURUSD", windows["EURUSD"])
+    retained_count = len(pair_quotes)
+    total_quotes = len(quotes)
+    assert scanned == total_quotes
+    per_window_rows = int((34 * 3600 + 15) / 5) + 10
+    assert retained_count < 2 * per_window_rows, (
+        f"retained {retained_count} rows -- the two decisions' windows must not have collapsed into one giant span "
+        f"(that would retain close to all {total_quotes})")
+    assert retained_count < total_quotes * 0.7, (
+        f"retained {retained_count} of {total_quotes} total -- expected well under the full span")
+    print(f"publisher: two decisions 72h apart retain only their own ~{retained_count} rows (of {total_quotes} total "
+          f"available), never collapsed into one giant span, AND the ledger exactly matches direct unbounded scoring: OK")
+
+
 def test_bounded_quote_scan_has_headroom_at_production_row_count():
     """512,624 is the observed production quote-row count at incident time.
     Only a short decision window is retained while every row is streamed."""
@@ -193,11 +259,11 @@ def test_bounded_quote_scan_has_headroom_at_production_row_count():
         for i in range(512_624):
             t = start + timedelta(seconds=i * 5)
             f.write(json.dumps({"pair": "EURUSD" if i % 7 == 0 else "GBPUSD", "received_at_utc": t.isoformat(), "oanda_time_utc": t.isoformat(), "bid": 1.1, "ask": 1.1001, "tradeable": True}) + "\n")
-    windows = {"EURUSD": (start, start + timedelta(hours=34))}
-    tracemalloc.start(); retained, scanned = pub._bounded_quotes(path, windows); _, peak = tracemalloc.get_traced_memory(); tracemalloc.stop()
-    assert scanned == 512_624 and len(retained["EURUSD"]) < 25_000
+    intervals = [(start, start + timedelta(hours=34))]
+    tracemalloc.start(); retained, scanned = pub._bounded_quotes_for_pair(path, "EURUSD", intervals); _, peak = tracemalloc.get_traced_memory(); tracemalloc.stop()
+    assert scanned == 512_624 and len(retained) < 25_000
     assert peak < 80 * 1024 * 1024, f"bounded scan peak unexpectedly high: {peak}"
-    print(f"publisher: streamed 512624 production-scale rows; retained={len(retained['EURUSD'])}; tracemalloc_peak={peak/1024/1024:.1f}MiB: OK")
+    print(f"publisher: streamed 512624 production-scale rows; retained={len(retained)}; tracemalloc_peak={peak/1024/1024:.1f}MiB: OK")
 
 
 def test_health_snapshot_sanitizes_run_identity_no_paths():
@@ -263,6 +329,7 @@ if __name__ == "__main__":
     test_manifest_mismatch_never_leaks_a_filesystem_path()
     test_kpi_snapshot_reuses_pinned_report_and_score_not_reimplemented()
     test_bounded_kpi_matches_frozen_scorer_for_gap_pending_and_deadline()
+    test_sparse_decisions_far_apart_are_not_collapsed_into_one_retained_span()
     test_bounded_quote_scan_has_headroom_at_production_row_count()
     test_health_snapshot_sanitizes_run_identity_no_paths()
     test_health_snapshot_distinguishes_service_status_from_recording_health()
