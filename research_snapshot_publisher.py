@@ -48,6 +48,7 @@ import json
 import re
 import subprocess
 import sys
+import tempfile
 import traceback
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
@@ -434,18 +435,16 @@ def _bounded_quotes_for_pair(path: Path, pair: str, intervals: list[tuple[dateti
     windows are retained -- never the dead space between sparse,
     far-apart decisions, and never another pair's quotes at all.
 
-    Called once per pair (see _bounded_ledger) rather than bucketing
-    every pair's retained quotes into memory simultaneously -- this is
-    the second half of the 2026-10-09 production OOM fix. Even after
-    _decision_windows() stopped collapsing a pair's whole history into
-    one span, holding all 7 pairs' bounded-but-still-substantial
-    retained sets in memory at once measured ~297MB against the real
-    incident data (236,305 combined retained rows) -- too much for a
-    1GiB host already running several other services. Processing one
-    pair at a time measured ~72MB for the worst single pair on that same
-    real data, a ~4x reduction, at the cost of re-scanning the quote log
-    once per pair (cheap, sequential disk reads; this runs once every
-    15 minutes, not in a hot path)."""
+    Retained for direct, single-pair callers and tests. Production
+    scoring no longer calls this once per pair (see _spill_bounded_quotes
+    / _bounded_ledger below) -- re-scanning the whole, ever-growing quote
+    log once PER PAIR was itself unbounded work: the per-publish I/O/CPU
+    cost scaled with pair_count x log_size, which is exactly what made a
+    225MB/1.27M-row log take 30s-to-OOM per publish on a 1-vCPU host
+    (2026-10-20 incident) even though peak MEMORY stayed bounded. This
+    function is kept for the cases that only need one pair's quotes
+    (tests, ad-hoc inspection) -- not multiplied by how many pairs have
+    live decisions."""
     out = []
     scanned = 0
     for q in _iter_jsonl(path):
@@ -467,24 +466,86 @@ def _bounded_quotes_for_pair(path: Path, pair: str, intervals: list[tuple[dateti
     return out, scanned
 
 
+def _spill_bounded_quotes(path: Path, windows: dict[str, list[tuple[datetime, datetime]]]) -> tuple[dict[str, Path], int]:
+    """ONE streaming pass over the WHOLE quote log, regardless of how many
+    pairs have live decisions -- not one pass per pair. Each pair's
+    window-matching rows are written to that pair's OWN small temp file
+    on disk AS THEY STREAM BY, never accumulated in a Python list; the
+    caller reads each (now small and bounded) temp file back one at a
+    time for scoring and is responsible for deleting them afterward (see
+    _bounded_ledger).
+
+    This is the fix for the per-publish cost scaling with pair_count x
+    log_size (2026-10-20 incident: re-scanning the whole, ever-growing
+    log once per pair meant the dominant cost multiplied by how many
+    pairs had open decisions). A single pass bounds the dominant
+    (file-read) cost to ONE read of the log per publish, independent of
+    pair count; peak memory stays bounded exactly as before (one pair's
+    retained rows read back and scored at a time, never all pairs'
+    retained sets held simultaneously)."""
+    temp_files: dict[str, object] = {}
+    temp_paths: dict[str, Path] = {}
+    try:
+        for pair in windows:
+            tf = tempfile.NamedTemporaryFile(mode="w", prefix=f"research_kpi_bounded_{pair}_", suffix=".jsonl", delete=False)
+            temp_files[pair] = tf
+            temp_paths[pair] = Path(tf.name)
+
+        scanned = 0
+        for q in _iter_jsonl(path):
+            scanned += 1
+            pair = q.get("pair")
+            intervals = windows.get(pair)
+            if not intervals:
+                continue
+            received = _parse_iso(q.get("received_at_utc"))
+            if received is None:
+                continue
+            for s, e in intervals:
+                if received < s:
+                    break
+                if received <= e:
+                    temp_files[pair].write(json.dumps(q) + "\n")
+                    break
+    finally:
+        for tf in temp_files.values():
+            tf.close()
+
+    return temp_paths, scanned
+
+
 def _bounded_ledger(obs_score, decisions: list[dict], quote_path: Path, now: datetime, quote_staleness_seconds: float,
                      closure_margin_seconds: float = 0.0) -> tuple[list[dict], int, int]:
     windows = _decision_windows(decisions, quote_staleness_seconds, closure_margin_seconds)
     # Position suppression is pair-local in the frozen build_paper_ledger;
     # invoking it once per pair is therefore semantically identical while
     # keeping only ONE pair's decision-relevant quotes in memory at a
-    # time (see _bounded_quotes_for_pair's docstring for why this matters).
+    # time (the temp files spilled below are read back one at a time).
     by_pair = defaultdict(list)
     for d in decisions:
         if d.get("event_type") == "decision":
             by_pair[d["pair"]].append(d)
+
+    temp_paths, scanned = _spill_bounded_quotes(quote_path, {p: windows.get(p, []) for p in by_pair})
     ledger = []
     retained = 0
-    scanned = 0
-    for pair, pair_decisions in by_pair.items():
-        pair_quotes, scanned = _bounded_quotes_for_pair(quote_path, pair, windows.get(pair, []))
-        retained += len(pair_quotes)
-        ledger.extend(obs_score.build_paper_ledger(pair_decisions, pair_quotes, now))
+    try:
+        for pair, pair_decisions in by_pair.items():
+            pair_quotes = []
+            tpath = temp_paths.get(pair)
+            if tpath is not None and tpath.exists():
+                with tpath.open() as f:
+                    for line in f:
+                        if line.strip():
+                            pair_quotes.append(json.loads(line))
+            retained += len(pair_quotes)
+            ledger.extend(obs_score.build_paper_ledger(pair_decisions, pair_quotes, now))
+    finally:
+        for tpath in temp_paths.values():
+            try:
+                tpath.unlink(missing_ok=True)
+            except OSError:
+                pass
     ledger.sort(key=lambda r: r["actual_recording_time_utc"])
     return ledger, scanned, retained
 
