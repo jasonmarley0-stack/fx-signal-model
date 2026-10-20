@@ -20,16 +20,18 @@ def to_oanda_instrument(pair: str) -> str:
     return f"{pair[:3]}_{pair[3:]}"
 
 
-def _client() -> API:
+def _client(timeout: float | None = None) -> API:
     api_key = os.environ.get("OANDA_API_KEY")
     if not api_key:
         raise RuntimeError("OANDA_API_KEY not set in environment — check setup/oanda.env is loaded")
     environment = os.environ.get("OANDA_ENVIRONMENT", "practice")
-    return API(access_token=api_key, environment=environment)
+    request_params = {"timeout": timeout} if timeout is not None else None
+    return API(access_token=api_key, environment=environment, request_params=request_params)
 
 
 def fetch_oanda_candles(pair: str, count: int | None = 300, granularity: str = "M30",
-                         from_time: datetime | None = None, to_time: datetime | None = None) -> pd.DataFrame:
+                         from_time: datetime | None = None, to_time: datetime | None = None,
+                         timeout: float | None = None) -> pd.DataFrame:
     """Returns a DataFrame with open/high/low/close columns and a tz-aware
     UTC DatetimeIndex — same shape backtest.load_real_ohlc produces, so it
     drops straight into strategies.composite.technical_score unchanged.
@@ -40,8 +42,18 @@ def fetch_oanda_candles(pair: str, count: int | None = 300, granularity: str = "
     `count` bars — the live-scanning use case. Pass from_time/to_time
     (tz-aware UTC datetimes) instead to fetch a specific historical range —
     e.g. performance_scorer.py checking what price actually did after a
-    past signal fired — rather than "most recent N bars"."""
-    client = _client()
+    past signal fired — rather than "most recent N bars".
+
+    `timeout` optionally bounds this single HTTP request (oandapyV20's
+    own request_params={"timeout": ...} mechanism, same pattern as
+    research/prospective_baseline_v2/quote_client.py). Defaults to None
+    (unbounded) to leave every EXISTING caller's behavior exactly
+    unchanged (live_scanner.py, scanner_oanda.py, performance_scorer.py,
+    streaming_scanner.py, shadow_scanner.py); only
+    research/prospective_baseline_v2/observe.py's own H4 fetch passes an
+    explicit bound -- an unbounded wait here was confirmed contributing
+    to v2's collector-blocking diagnosis (2026-10)."""
+    client = _client(timeout=timeout)
     instrument = to_oanda_instrument(pair)
     params = {"granularity": granularity, "price": "M"}  # midpoint OHLC
     if from_time is not None or to_time is not None:

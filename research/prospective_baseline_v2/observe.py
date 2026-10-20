@@ -18,6 +18,7 @@ Usage (NOT started by this change):
 from __future__ import annotations
 import json
 import sys
+import threading
 import time
 import traceback
 from datetime import datetime, timedelta, timezone
@@ -42,14 +43,19 @@ STATE_PATH = LOG_DIR / ".observe_state.json"
 
 
 class AppendLog:
-    """Unchanged from v1."""
+    """Unchanged from v1, except a lock guarding each append(): the
+    decision-tick and quote-tick loops now run on separate threads (see
+    main()) and can both write to health_log concurrently. A single
+    small write() is atomic at the OS level under O_APPEND in practice,
+    but this makes that guarantee explicit rather than relying on it."""
 
     def __init__(self, path: Path):
         self.path = Path(path)
+        self._lock = threading.Lock()
 
     def append(self, row: dict) -> dict:
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        with self.path.open("a") as f:
+        with self._lock, self.path.open("a") as f:
             f.write(json.dumps(row) + "\n")
         return row
 
@@ -210,7 +216,56 @@ def run_quote_tick(pairs: list[str], quotes_log: AppendLog, health_log: AppendLo
 
 
 def _fetch_rolling_h4_mid(pair: str):  # pragma: no cover
-    return fetch_oanda_candles(pair, granularity=cfg.DECISION_GRANULARITY, count=cfg.ROLLING_HISTORY_BARS)
+    return fetch_oanda_candles(pair, granularity=cfg.DECISION_GRANULARITY, count=cfg.ROLLING_HISTORY_BARS,
+                                timeout=cfg.REQUEST_TIMEOUT_SECONDS)
+
+
+def _decision_tick_loop(decisions_log: AppendLog, health_log: AppendLog, state: dict, fetch_h4_fn,
+                        stop_event: "threading.Event", poll_interval_seconds: float | None = None,
+                        monotonic_fn=time.monotonic, wait_fn=None) -> None:
+    """Runs decision ticks (an H4 fetch + compute_decision() per pair,
+    now individually timeout-bounded -- see _fetch_rolling_h4_mid) on
+    their OWN cadence, on a thread separate from quote sampling. This is
+    the collector-blocking fix: previously a single shared loop ran
+    run_quote_tick() then, every DECISION_POLL_INTERVAL_SECONDS,
+    run_decision_tick() inline before the next quote sample -- a ~12s
+    decision cycle (7 sequential, previously UNBOUNDED H4 requests) plus
+    the subsequent QUOTE_SAMPLE_INTERVAL_SECONDS sleep created a ~17s
+    receipt gap on every single decision tick, which COVERAGE_GAP_SECONDS
+    (15s, zero-tolerance) treats as permanently disqualifying -- the
+    confirmed root cause of v2's zero completed trades (see the 2026-10
+    diagnosis). Decision-tick work can now take arbitrarily long (bounded
+    only by its own per-request timeout) without ever again delaying the
+    next quote sample, which keeps ticking on _quote_tick_loop's own
+    thread regardless."""
+    poll_interval_seconds = cfg.DECISION_POLL_INTERVAL_SECONDS if poll_interval_seconds is None else poll_interval_seconds
+    wait_fn = wait_fn or stop_event.wait
+    while not stop_event.is_set():
+        tick_start = monotonic_fn()
+        try:
+            run_decision_tick(cfg.PAIRS, decisions_log, health_log, state, fetch_h4_fn)
+            save_state(state)
+        except Exception:  # noqa: BLE001
+            health_log.append({"event_type": "decision_tick_crashed", "recorded_at_utc": datetime.now(timezone.utc).isoformat(),
+                               "traceback": traceback.format_exc()})
+        elapsed = monotonic_fn() - tick_start
+        wait_fn(max(0.0, poll_interval_seconds - elapsed))
+
+
+def _quote_tick_loop(quotes_log: AppendLog, health_log: AppendLog, fetch_pricing_fn, stop_event: "threading.Event",
+                     sample_interval_seconds: float | None = None, wait_fn=None) -> None:
+    """The primary sampling loop: ticks on a fixed cadence, unaffected by
+    however long a concurrently-running decision tick takes (see
+    _decision_tick_loop, run on its own thread by main())."""
+    sample_interval_seconds = cfg.QUOTE_SAMPLE_INTERVAL_SECONDS if sample_interval_seconds is None else sample_interval_seconds
+    wait_fn = wait_fn or stop_event.wait
+    while not stop_event.is_set():
+        try:
+            run_quote_tick(cfg.PAIRS, quotes_log, health_log, fetch_pricing_fn)
+        except Exception:  # noqa: BLE001
+            health_log.append({"event_type": "quote_tick_crashed", "recorded_at_utc": datetime.now(timezone.utc).isoformat(),
+                               "traceback": traceback.format_exc()})
+        wait_fn(sample_interval_seconds)
 
 
 def main() -> None:  # pragma: no cover
@@ -223,24 +278,17 @@ def main() -> None:  # pragma: no cover
     health_log = AppendLog(HEALTH_LOG)
     state = load_state()
 
-    last_decision_tick = 0.0
+    stop_event = threading.Event()
+    decision_thread = threading.Thread(
+        target=_decision_tick_loop, args=(decisions_log, health_log, state, _fetch_rolling_h4_mid, stop_event),
+        name="v2-decision-tick", daemon=True)
+    decision_thread.start()
+
     print(f"Prospective baseline observation v2 starting (practice-only, enforced). Logs: {LOG_DIR}")
-    while True:
-        now = time.monotonic()
-        try:
-            run_quote_tick(cfg.PAIRS, quotes_log, health_log, fetch_pricing_samples)
-        except Exception:  # noqa: BLE001
-            health_log.append({"event_type": "quote_tick_crashed", "recorded_at_utc": datetime.now(timezone.utc).isoformat(),
-                               "traceback": traceback.format_exc()})
-        if now - last_decision_tick >= cfg.DECISION_POLL_INTERVAL_SECONDS:
-            try:
-                run_decision_tick(cfg.PAIRS, decisions_log, health_log, state, _fetch_rolling_h4_mid)
-                save_state(state)
-            except Exception:  # noqa: BLE001
-                health_log.append({"event_type": "decision_tick_crashed", "recorded_at_utc": datetime.now(timezone.utc).isoformat(),
-                                   "traceback": traceback.format_exc()})
-            last_decision_tick = now
-        time.sleep(cfg.QUOTE_SAMPLE_INTERVAL_SECONDS)
+    try:
+        _quote_tick_loop(quotes_log, health_log, fetch_pricing_samples, stop_event)
+    finally:
+        stop_event.set()
 
 
 if __name__ == "__main__":

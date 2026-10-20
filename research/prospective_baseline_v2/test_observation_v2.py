@@ -740,6 +740,93 @@ def test_observe_module_imports_cleanly_for_a_real_collector_run():
     print("v2: the real collector module (observe.py) imports cleanly end to end, including alert_lifecycle: OK")
 
 
+def test_quote_sampling_is_not_blocked_by_a_slow_decision_tick():
+    """2026-10 diagnosis regression: a single shared loop ran
+    run_quote_tick() then, every DECISION_POLL_INTERVAL_SECONDS,
+    run_decision_tick() INLINE before the next quote sample -- a slow
+    decision tick (7 sequential, previously unbounded H4 fetches) directly
+    delayed the next quote sample by however long it took, producing a
+    receipt gap COVERAGE_GAP_SECONDS (15s, zero-tolerance) treats as
+    permanently disqualifying. This is why that mattered in production:
+    confirmed via the real collector logs as the first disqualifying gap
+    for 6 of 8 entered v2 positions.
+
+    This test runs the REAL _quote_tick_loop and _decision_tick_loop
+    together, on real threads, via real AppendLog instances writing to
+    real temp files -- not isolated helper calls -- with a genuinely slow
+    (0.5s per pair x 7 pairs = 3.5s) fake H4 fetch standing in for a
+    stalled/slow OANDA request, and a fast fake quote fetch. It asserts
+    quote ticks kept arriving on their own short cadence THROUGHOUT the
+    slow decision tick, with no inter-quote-tick gap anywhere near the
+    3.5s decision-tick duration -- proving the fix actually isolates them,
+    using the real orchestration code path, not a reimplementation of it."""
+    import importlib
+    import sys as _sys
+    import tempfile
+    import threading
+    import time
+    from pathlib import Path as _Path
+
+    _sys.path.insert(0, str(_Path(__file__).parent))
+    _sys.path.insert(0, str(_Path(__file__).parent.parent.parent / "src"))
+    for name in ("observe", "alert_lifecycle"):
+        _sys.modules.pop(name, None)
+    import observe
+    importlib.reload(observe)
+
+    tmp = Path(tempfile.mkdtemp())
+    quotes_log = observe.AppendLog(tmp / "quotes_log.jsonl")
+    health_log = observe.AppendLog(tmp / "health_log.jsonl")
+    decisions_log = observe.AppendLog(tmp / "decisions_log.jsonl")
+    state: dict = {}
+
+    quote_tick_times: list[float] = []
+    quote_lock = threading.Lock()
+
+    def fake_fetch_pricing(pairs):
+        with quote_lock:
+            quote_tick_times.append(time.monotonic())
+        now = datetime.now(timezone.utc)
+        return {
+            "samples": [{"pair": p, "received_at_utc": now.isoformat(), "oanda_time_utc": now.isoformat(),
+                         "bid": 1.1, "ask": 1.1001, "tradeable": True} for p in pairs],
+            "attempts": [{"attempt": 1, "started_at_utc": now.isoformat(), "completed_at_utc": now.isoformat(), "outcome": "success"}],
+        }
+
+    def fake_fetch_h4(pair):
+        time.sleep(0.5)  # stands in for a slow/stalled OANDA H4 request
+        return []  # len(h4_mid) < 60 -> compute_decision returns None promptly once called
+
+    stop_event = threading.Event()
+    decision_thread = threading.Thread(
+        target=observe._decision_tick_loop,
+        args=(decisions_log, health_log, state, fake_fetch_h4, stop_event),
+        kwargs={"poll_interval_seconds": 1000.0},  # only run the decision tick ONCE during this test
+        daemon=True)
+    quote_thread = threading.Thread(
+        target=observe._quote_tick_loop,
+        args=(quotes_log, health_log, fake_fetch_pricing, stop_event),
+        kwargs={"sample_interval_seconds": 0.2},
+        daemon=True)
+
+    decision_thread.start()
+    quote_thread.start()
+    time.sleep(4.0)  # longer than the ~3.5s (7 pairs x 0.5s) decision tick
+    stop_event.set()
+    decision_thread.join(timeout=2.0)
+    quote_thread.join(timeout=2.0)
+
+    assert len(quote_tick_times) >= 10, (
+        f"expected many quote ticks during the 4s run at a 0.2s cadence, got {len(quote_tick_times)} -- "
+        "the decision tick may still be blocking quote sampling")
+    max_gap = max((b - a) for a, b in zip(quote_tick_times, quote_tick_times[1:])) if len(quote_tick_times) > 1 else 0.0
+    assert max_gap < 1.5, (
+        f"max inter-quote-tick gap was {max_gap:.2f}s -- the ~3.5s slow decision tick leaked into quote "
+        "sampling, the isolation fix did not work")
+    print(f"v2: quote sampling continued on its own cadence ({len(quote_tick_times)} ticks, max gap "
+          f"{max_gap:.2f}s) throughout a real, genuinely slow (3.5s) decision tick on a separate thread: OK")
+
+
 if __name__ == "__main__":
     test_successful_receipt_with_unchanged_provider_timestamp_establishes_coverage_and_entry()
     test_valid_pair_quotes_reports_provider_age_as_metadata_never_as_a_gate()
@@ -774,4 +861,5 @@ if __name__ == "__main__":
     test_genuine_unknown_is_still_retained_not_silently_resolved()
     test_position_policy_unchanged_still_suppresses_overlapping_decisions()
     test_observe_module_imports_cleanly_for_a_real_collector_run()
+    test_quote_sampling_is_not_blocked_by_a_slow_decision_tick()
     print("All v2 prospective-observation tests passed (no network, no credentials).")
