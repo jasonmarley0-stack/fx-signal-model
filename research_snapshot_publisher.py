@@ -50,9 +50,11 @@ import subprocess
 import sys
 import tempfile
 import traceback
+import types
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from research_quote_index import QuoteIndex
 
 DEFAULT_OBSERVER_CHECKOUT = Path("/root/fx-signal-model-stage2-observer")
 DEFAULT_OUT_DIR = Path(__file__).parent / "research_snapshots"
@@ -170,6 +172,8 @@ def _service_status(service_name: str) -> dict:
             capture_output=True, text=True, timeout=10,
         )
         status = result.stdout.strip() or "unknown"
+        if status not in {"active", "inactive", "failed", "activating", "deactivating", "reloading"}:
+            status = "unknown"
     except (FileNotFoundError, subprocess.TimeoutExpired, OSError):
         status = "unknown"
     return {"name": service_name, "status": status, "checked_via": "systemctl"}
@@ -515,39 +519,37 @@ def _spill_bounded_quotes(path: Path, windows: dict[str, list[tuple[datetime, da
 
 
 def _bounded_ledger(obs_score, decisions: list[dict], quote_path: Path, now: datetime, quote_staleness_seconds: float,
-                     closure_margin_seconds: float = 0.0) -> tuple[list[dict], int, int]:
-    windows = _decision_windows(decisions, quote_staleness_seconds, closure_margin_seconds)
-    # Position suppression is pair-local in the frozen build_paper_ledger;
-    # invoking it once per pair is therefore semantically identical while
-    # keeping only ONE pair's decision-relevant quotes in memory at a
-    # time (the temp files spilled below are read back one at a time).
-    by_pair = defaultdict(list)
-    for d in decisions:
-        if d.get("event_type") == "decision":
-            by_pair[d["pair"]].append(d)
+                     closure_margin_seconds: float = 0.0, index_path: Path | None = None) -> tuple[list[dict], int, int]:
+    """Run the actual frozen occupancy loop with per-decision quote windows.
 
-    temp_paths, scanned = _spill_bounded_quotes(quote_path, {p: windows.get(p, []) for p in by_pair})
-    ledger = []
-    retained = 0
-    try:
-        for pair, pair_decisions in by_pair.items():
-            pair_quotes = []
-            tpath = temp_paths.get(pair)
-            if tpath is not None and tpath.exists():
-                with tpath.open() as f:
-                    for line in f:
-                        if line.strip():
-                            pair_quotes.append(json.loads(line))
-            retained += len(pair_quotes)
-            ledger.extend(obs_score.build_paper_ledger(pair_decisions, pair_quotes, now))
-    finally:
-        for tpath in temp_paths.values():
-            try:
-                tpath.unlink(missing_ok=True)
-            except OSError:
-                pass
-    ledger.sort(key=lambda r: r["actual_recording_time_utc"])
-    return ledger, scanned, retained
+    A function-local copy of its globals substitutes ONLY its quote-loading
+    adapter. No frozen file or module global is patched; suppression, fills,
+    closure decisions and scoring all remain the frozen functions' work.
+    Memory no longer scales with one pair's entire quote history. The small
+    decision/ledger records still scale with alert count, not quote count.
+    """
+    windows = _decision_windows(decisions, quote_staleness_seconds, closure_margin_seconds)
+    with tempfile.TemporaryDirectory(prefix="research_quote_cache_") as scratch:
+        index = QuoteIndex(index_path or Path(scratch) / "quotes.sqlite3")
+        try:
+            scanned = index.sync(quote_path)
+
+            def score_window(decision, _unused_quotes, as_of):
+                start = _parse_iso(decision["actual_recording_time_utc"])
+                end = _parse_iso(decision["entry_expiry_utc"]) + timedelta(
+                    hours=float(decision["max_holding_time_hours"]),
+                    seconds=quote_staleness_seconds + closure_margin_seconds)
+                quotes = index.window(decision["pair"], start, min(end, as_of))
+                return obs_score.score_decision(decision, quotes, as_of)
+
+            frozen = obs_score.build_paper_ledger
+            scope = {**frozen.__globals__, "score_decision": score_window}
+            ledger_fn = types.FunctionType(frozen.__code__, scope, frozen.__name__,
+                                          frozen.__defaults__, frozen.__closure__)
+            ledger = ledger_fn(decisions, (), now)
+            return ledger, scanned, index.count_windows(windows)
+        finally:
+            index.close()
 
 
 def _count_recording_failures(health: list[dict]) -> int:
@@ -557,10 +559,12 @@ def _count_recording_failures(health: list[dict]) -> int:
     (one copy got the v2 quote_attempt/outcome="failed" shape added, the
     other didn't). See the recording_failures comment in
     publish_health_snapshot() for why both event shapes must be counted."""
-    poll_failed_v1_named = sum(1 for h in health if h.get("event_type") in
-                                ("poll_failed", "quote_poll_failed", "decision_tick_crashed", "quote_tick_crashed"))
-    quote_attempt_failed_v2 = sum(1 for h in health if h.get("event_type") == "quote_attempt" and h.get("outcome") == "failed")
-    return poll_failed_v1_named + quote_attempt_failed_v2
+    return sum(_is_recording_failure(h) for h in health)
+
+
+def _is_recording_failure(h):
+    return (h.get("event_type") in ("poll_failed", "quote_poll_failed", "decision_tick_crashed", "quote_tick_crashed")
+            or (h.get("event_type") == "quote_attempt" and h.get("outcome") == "failed"))
 
 
 def _kpi_from_frozen_ledger(ledger: list[dict], decisions: list[dict], health: list[dict], now: datetime) -> dict:
@@ -595,8 +599,12 @@ def _kpi_from_frozen_ledger(ledger: list[dict], decisions: list[dict], health: l
         curve.append({"exit_time_utc": r["exit_time_utc"], "pair": r["pair"], "r_multiple": r["r_multiple"], "cumulative_r": running, "drawdown_r": dd})
     decision_delays = [d["decision_delay_seconds"] for d in decisions if d.get("event_type") == "decision" and d.get("decision_delay_seconds") is not None]
     execution_delays = [r["execution_delay_seconds"] for r in completed if r.get("execution_delay_seconds") is not None]
-    recording_failures_count = _count_recording_failures(health)
-    no_signal = [h for h in health if h.get("event_type") == "no_signal"]
+    # Consume the health history ONCE, without retaining successes or failures.
+    recording_failures_count = no_signal_count = 0
+    for h in health:
+        recording_failures_count += _is_recording_failure(h)
+        no_signal_count += h.get("event_type") == "no_signal"
+    no_signal = range(no_signal_count)  # existing aggregate uses len(); O(1) storage
     return {"generated_at_utc": now.isoformat(), "counts": {"eligible_alerts": len(executable), "suppressed_existing_position": len(suppressed), "entered": len(entered), "completed": len(completed), "completed_via_closure_delayed_deadline": len(closure_delayed), "pending_open": len(pending), "unknown_total": len(unknown), "missed_entries_confirmed_zero_pnl": len(missed), "no_signal_ticks": len(no_signal)}, "avg_net_r_per_completed_trade": {"value": sum(r_values) / len(r_values) if r_values else None, "denominator": len(r_values)}, "avg_net_r_per_all_eligible_alert": {"value": sum(r_values) / len(executable) if executable and not unknown else None, "denominator": len(executable), "is_undetermined": bool(unknown), "reason": f"{len(unknown)} of {len(executable)} eligible alerts have an unknown outcome" if unknown else None}, "max_drawdown_r_partial_completed_trades_only": max_dd, "max_drawdown_label": "R drawdown on completed trades only — NOT an account-percentage drawdown; PARTIAL whenever unknown_total > 0", "equity_curve": curve, "by_month": {m: v for m, v in sorted(by_month.items())}, "operational": {"decision_delay_seconds_mean": sum(decision_delays) / len(decision_delays) if decision_delays else None, "decision_delay_seconds_max": max(decision_delays) if decision_delays else None, "decision_count": len(decision_delays), "execution_delay_seconds_mean": sum(execution_delays) / len(execution_delays) if execution_delays else None, "execution_delay_seconds_max": max(execution_delays) if execution_delays else None, "quote_samples_recorded": None, "recording_failures": recording_failures_count, "no_signal_ticks": len(no_signal)}, "unobserved": ["Financing/swap charges are not recorded or estimated anywhere in this report.", "Slippage beyond the sampled bid/ask (i.e. the true fill an order would have received) is not observed — this reports the quoted price at the sample that crossed a level, not a broker-confirmed fill.", "Price movement between quote samples (every QUOTE_SAMPLE_INTERVAL_SECONDS) is unobserved and unobservable from this data — a real, stated limitation distinct from the offline replay's continuous M30-candle coverage."]}
 
 
@@ -629,11 +637,12 @@ def publish_kpi_snapshot(observer_checkout: Path, out_dir: Path,
         # full-log loader.  The manifest already exists, so this is read-only.
         obs_report.load_or_create_manifest(log_dir)
         decisions = list(_iter_jsonl(log_dir / "decisions_log.jsonl"))
-        health = list(_iter_jsonl(log_dir / "health_log.jsonl"))
+        health = _iter_jsonl(log_dir / "health_log.jsonl")
         ledger, quote_rows_scanned, quote_rows_retained = _bounded_ledger(
             obs_score, decisions, log_dir / "quotes_log.jsonl", now,
             _coverage_margin_seconds(obs_contract),
             _closure_margin_seconds(obs_contract),
+            index_path=out_dir / f"research_quote_index{snapshot_suffix}.sqlite3",
         )
         kpi = _kpi_from_frozen_ledger(ledger, decisions, health, now)
         kpi["operational"]["quote_samples_recorded"] = quote_rows_scanned
