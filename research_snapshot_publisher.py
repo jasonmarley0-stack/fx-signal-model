@@ -48,6 +48,7 @@ import json
 import re
 import subprocess
 import sys
+import tempfile
 import traceback
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
@@ -91,16 +92,19 @@ def _short_error(ex: Exception) -> str:
     return f"{type(ex).__name__}: {msg}"[:300]
 
 
-def _import_observer_modules(observer_checkout: Path):
+def _import_observer_modules(observer_checkout: Path, package_subdir: str = "research/prospective_baseline"):
     """Imports the PINNED contract/score/report/run_identity modules
     directly from the frozen observer checkout -- this is the "reuse the
     pinned scorer/report functions rather than reimplementing
     calculations" requirement. Nothing here ever writes into
     observer_checkout; only sys.path is touched (process-local, not a
-    filesystem change)."""
-    obs_pkg = observer_checkout / "research" / "prospective_baseline"
+    filesystem change). `package_subdir` selects which contract version's
+    package to import -- "research/prospective_baseline" (v1, default) or
+    "research/prospective_baseline_v2" -- so a v1 and a v2 observer
+    checkout are never conflated by this function."""
+    obs_pkg = observer_checkout / package_subdir
     if not obs_pkg.is_dir():
-        raise FileNotFoundError("observer checkout's research/prospective_baseline package not found")
+        raise FileNotFoundError(f"observer checkout's {package_subdir} package not found")
     path_str = str(obs_pkg)
     if path_str not in sys.path:
         sys.path.insert(0, path_str)
@@ -115,8 +119,8 @@ def _import_observer_modules(observer_checkout: Path):
     return obs_contract, obs_score, obs_report
 
 
-def _log_dir(observer_checkout: Path) -> Path:
-    return observer_checkout / "research" / "prospective_baseline" / "logs"
+def _log_dir(observer_checkout: Path, package_subdir: str = "research/prospective_baseline") -> Path:
+    return observer_checkout / package_subdir / "logs"
 
 
 def _read_manifest(log_dir: Path) -> dict | None:
@@ -199,12 +203,20 @@ def _tail_jsonl(path: Path, max_bytes: int = 512_000) -> list[dict]:
     return rows
 
 
-def publish_health_snapshot(observer_checkout: Path, out_dir: Path, service_name: str = DEFAULT_SERVICE_NAME) -> dict:
+def publish_health_snapshot(observer_checkout: Path, out_dir: Path, service_name: str = DEFAULT_SERVICE_NAME,
+                             package_subdir: str = "research/prospective_baseline", snapshot_suffix: str = "") -> dict:
+    """`package_subdir`/`snapshot_suffix` select the contract version --
+    e.g. ("research/prospective_baseline_v2", "_v2") publishes
+    research_health_v2.json from a v2 observer checkout, entirely
+    separate from v1's research_health.json. Never both at once from one
+    call: a v1-invocation writes only the unsuffixed file, a v2-invocation
+    writes only the suffixed one -- there is no code path that could mix
+    the two into one file."""
     now = datetime.now(timezone.utc)
-    out_path = out_dir / "research_health.json"
+    out_path = out_dir / f"research_health{snapshot_suffix}.json"
     service = _service_status(service_name)
 
-    log_dir = _log_dir(observer_checkout)
+    log_dir = _log_dir(observer_checkout, package_subdir)
     if not log_dir.is_dir():
         payload = {
             "generated_at_utc": now.isoformat(), "state": "observer_not_found", "error": None,
@@ -225,7 +237,7 @@ def publish_health_snapshot(observer_checkout: Path, out_dir: Path, service_name
         return payload
 
     try:
-        obs_contract, obs_score, _obs_report = _import_observer_modules(observer_checkout)
+        obs_contract, obs_score, _obs_report = _import_observer_modules(observer_checkout, package_subdir)
         pairs = obs_contract.PAIRS
         window_start = now - timedelta(seconds=HEALTH_WINDOW_SECONDS)
         recent_quotes = [q for q in _tail_jsonl(log_dir / "quotes_log.jsonl")
@@ -255,9 +267,19 @@ def publish_health_snapshot(observer_checkout: Path, out_dir: Path, service_name
         valid_in_window = sum(p["valid_samples_in_window"] for p in per_pair.values())
 
         health_events = _tail_jsonl(log_dir / "health_log.jsonl", max_bytes=512_000)
+        # v1 logs one quote_poll_failed event per failed tick; v2's collector
+        # (see research/prospective_baseline_v2/observe.py's run_quote_tick)
+        # logs one quote_attempt event per ATTEMPT instead -- success or
+        # failure, with outcome/error_category -- so a failure there shows up
+        # as event_type="quote_attempt" with outcome="failed", never as
+        # "quote_poll_failed" at all. Counting only the v1 event name here
+        # was the v2-compatibility defect: v2's quote failures would always
+        # read back as zero. Both shapes are counted explicitly.
+        quote_poll_failed_v1 = sum(1 for h in health_events if h.get("event_type") == "quote_poll_failed")
+        quote_attempt_failed_v2 = sum(1 for h in health_events if h.get("event_type") == "quote_attempt" and h.get("outcome") == "failed")
         recording_failures = {
             "poll_failed": sum(1 for h in health_events if h.get("event_type") == "poll_failed"),
-            "quote_poll_failed": sum(1 for h in health_events if h.get("event_type") == "quote_poll_failed"),
+            "quote_poll_failed": quote_poll_failed_v1 + quote_attempt_failed_v2,
             "crashed": sum(1 for h in health_events if str(h.get("event_type", "")).endswith("_crashed")),
         }
         recording_failures["total"] = sum(recording_failures.values())
@@ -328,22 +350,59 @@ def _iter_jsonl(path: Path):
                 continue
 
 
-def _decision_windows(decisions: list[dict], quote_staleness_seconds: float) -> dict[str, list[tuple[datetime, datetime]]]:
+def _coverage_margin_seconds(obs_contract) -> float:
+    """The windowing margin's own name differs by contract version: v1
+    calls it QUOTE_STALENESS_SECONDS, v2 renamed the same concept (the
+    gap threshold used to pad a decision's quote window) to
+    COVERAGE_GAP_SECONDS as part of the v1->v2 measurement-contract
+    correction (see research/prospective_baseline_v2/MEASUREMENT_
+    CONTRACT.md). Hardcoding v1's name here was the v2-publish defect --
+    this resolves either name so publish_kpi_snapshot works against
+    either contract version without version-specific branching baked into
+    the publisher itself."""
+    for name in ("COVERAGE_GAP_SECONDS", "QUOTE_STALENESS_SECONDS"):
+        value = getattr(obs_contract, name, None)
+        if value is not None:
+            return value
+    raise AttributeError(
+        "observer contract module has neither COVERAGE_GAP_SECONDS (v2) nor QUOTE_STALENESS_SECONDS (v1) -- "
+        "cannot determine the quote-window margin")
+
+
+def _closure_margin_seconds(obs_contract) -> float:
+    """v2 introduces closure-delayed deadline execution: a reopen sample
+    (and the tradeable=false evidence proving closure) can legitimately
+    arrive up to MAX_CLOSURE_DEADLINE_DELAY_HOURS after the nominal
+    deadline -- see research/prospective_baseline_v2/MEASUREMENT_
+    CONTRACT.md section 4. Without this margin, the publisher's bounded
+    quote window ends right at the ordinary deadline+staleness bound and
+    silently truncates exactly the evidence the frozen scorer needs to
+    resolve a Friday-deadline, Sunday-execution trade -- the bounded KPI
+    would then disagree with direct scoring of the complete data for that
+    scenario specifically. v1 has no closure concept at all, so this is
+    version-tolerant via getattr and returns 0 for it, same pattern as
+    _coverage_margin_seconds."""
+    hours = getattr(obs_contract, "MAX_CLOSURE_DEADLINE_DELAY_HOURS", 0)
+    return float(hours) * 3600.0
+
+
+def _decision_windows(decisions: list[dict], quote_staleness_seconds: float,
+                       closure_margin_seconds: float = 0.0) -> dict[str, list[tuple[datetime, datetime]]]:
     """Smallest conservative per-pair quote windows needed by the frozen
     scorer. Returns, per pair, a list of MERGED, non-overlapping intervals
     -- never a single min-start/max-end collapse across that pair's whole
-    history. That collapse was a real production defect (2026-10-09
+    history. That collapse was a real production defect (see the Oct 2026
     incident: 15 decisions spread over 8 days collapsed into per-pair
     windows that retained 48% of the entire quotes log -- two decisions
-    for the same pair just days apart in calendar time were enough to
-    make that pair's "window" span nearly the whole run, since every
-    quote received in the dead time between them was still inside the
-    collapsed min/max span and got retained for nothing, eventually
-    OOM-killing the KPI publisher). A decision's own window (holding
-    period + a staleness margin) is small and bounded; only decisions
-    whose windows actually overlap or touch are merged here, so total
-    retained memory grows with actual trading activity, never with how
-    long the run has been collecting."""
+    for the same pair just 2 days apart, 6 days apart from each other in
+    calendar time, were enough to make that pair's "window" span nearly
+    the whole run, since every quote received at the moment in between
+    the two decisions' 30-hour needs was still inside the collapsed
+    min/max span and got retained for nothing). A decision's own window
+    (holding period + a staleness/closure margin) is small and bounded;
+    only decisions whose windows actually overlap or touch are merged
+    here, so total retained memory grows with actual trading activity,
+    never with how long the run has been collecting."""
     per_pair: dict[str, list[tuple[datetime, datetime]]] = defaultdict(list)
     for d in decisions:
         if d.get("event_type") != "decision":
@@ -352,7 +411,8 @@ def _decision_windows(decisions: list[dict], quote_staleness_seconds: float) -> 
         deadline = _parse_iso(d.get("entry_expiry_utc"))
         if start is None or deadline is None:
             continue
-        end = deadline + timedelta(hours=float(d["max_holding_time_hours"]), seconds=quote_staleness_seconds)
+        end = deadline + timedelta(hours=float(d["max_holding_time_hours"]),
+                                    seconds=quote_staleness_seconds + closure_margin_seconds)
         per_pair[d["pair"]].append((start, end))
 
     merged: dict[str, list[tuple[datetime, datetime]]] = {}
@@ -375,18 +435,16 @@ def _bounded_quotes_for_pair(path: Path, pair: str, intervals: list[tuple[dateti
     windows are retained -- never the dead space between sparse,
     far-apart decisions, and never another pair's quotes at all.
 
-    Called once per pair (see _bounded_ledger) rather than bucketing
-    every pair's retained quotes into memory simultaneously -- this is
-    the second half of the 2026-10-09 production OOM fix. Even after
-    _decision_windows() stopped collapsing a pair's whole history into
-    one span, holding all 7 pairs' bounded-but-still-substantial
-    retained sets in memory at once measured ~297MB against the real
-    incident data (236,305 combined retained rows) -- too much for a
-    1GiB host already running several other services. Processing one
-    pair at a time measured ~72MB for the worst single pair on that same
-    real data, a ~4x reduction, at the cost of re-scanning the quote log
-    once per pair (cheap, sequential disk reads; this runs once every
-    15 minutes, not in a hot path)."""
+    Retained for direct, single-pair callers and tests. Production
+    scoring no longer calls this once per pair (see _spill_bounded_quotes
+    / _bounded_ledger below) -- re-scanning the whole, ever-growing quote
+    log once PER PAIR was itself unbounded work: the per-publish I/O/CPU
+    cost scaled with pair_count x log_size, which is exactly what made a
+    225MB/1.27M-row log take 30s-to-OOM per publish on a 1-vCPU host
+    (2026-10-20 incident) even though peak MEMORY stayed bounded. This
+    function is kept for the cases that only need one pair's quotes
+    (tests, ad-hoc inspection) -- not multiplied by how many pairs have
+    live decisions."""
     out = []
     scanned = 0
     for q in _iter_jsonl(path):
@@ -408,25 +466,101 @@ def _bounded_quotes_for_pair(path: Path, pair: str, intervals: list[tuple[dateti
     return out, scanned
 
 
-def _bounded_ledger(obs_score, decisions: list[dict], quote_path: Path, now: datetime, quote_staleness_seconds: float) -> tuple[list[dict], int, int]:
-    windows = _decision_windows(decisions, quote_staleness_seconds)
+def _spill_bounded_quotes(path: Path, windows: dict[str, list[tuple[datetime, datetime]]]) -> tuple[dict[str, Path], int]:
+    """ONE streaming pass over the WHOLE quote log, regardless of how many
+    pairs have live decisions -- not one pass per pair. Each pair's
+    window-matching rows are written to that pair's OWN small temp file
+    on disk AS THEY STREAM BY, never accumulated in a Python list; the
+    caller reads each (now small and bounded) temp file back one at a
+    time for scoring and is responsible for deleting them afterward (see
+    _bounded_ledger).
+
+    This is the fix for the per-publish cost scaling with pair_count x
+    log_size (2026-10-20 incident: re-scanning the whole, ever-growing
+    log once per pair meant the dominant cost multiplied by how many
+    pairs had open decisions). A single pass bounds the dominant
+    (file-read) cost to ONE read of the log per publish, independent of
+    pair count; peak memory stays bounded exactly as before (one pair's
+    retained rows read back and scored at a time, never all pairs'
+    retained sets held simultaneously)."""
+    temp_files: dict[str, object] = {}
+    temp_paths: dict[str, Path] = {}
+    try:
+        for pair in windows:
+            tf = tempfile.NamedTemporaryFile(mode="w", prefix=f"research_kpi_bounded_{pair}_", suffix=".jsonl", delete=False)
+            temp_files[pair] = tf
+            temp_paths[pair] = Path(tf.name)
+
+        scanned = 0
+        for q in _iter_jsonl(path):
+            scanned += 1
+            pair = q.get("pair")
+            intervals = windows.get(pair)
+            if not intervals:
+                continue
+            received = _parse_iso(q.get("received_at_utc"))
+            if received is None:
+                continue
+            for s, e in intervals:
+                if received < s:
+                    break
+                if received <= e:
+                    temp_files[pair].write(json.dumps(q) + "\n")
+                    break
+    finally:
+        for tf in temp_files.values():
+            tf.close()
+
+    return temp_paths, scanned
+
+
+def _bounded_ledger(obs_score, decisions: list[dict], quote_path: Path, now: datetime, quote_staleness_seconds: float,
+                     closure_margin_seconds: float = 0.0) -> tuple[list[dict], int, int]:
+    windows = _decision_windows(decisions, quote_staleness_seconds, closure_margin_seconds)
     # Position suppression is pair-local in the frozen build_paper_ledger;
     # invoking it once per pair is therefore semantically identical while
     # keeping only ONE pair's decision-relevant quotes in memory at a
-    # time (see _bounded_quotes_for_pair's docstring for why this matters).
+    # time (the temp files spilled below are read back one at a time).
     by_pair = defaultdict(list)
     for d in decisions:
         if d.get("event_type") == "decision":
             by_pair[d["pair"]].append(d)
+
+    temp_paths, scanned = _spill_bounded_quotes(quote_path, {p: windows.get(p, []) for p in by_pair})
     ledger = []
     retained = 0
-    scanned = 0
-    for pair, pair_decisions in by_pair.items():
-        pair_quotes, scanned = _bounded_quotes_for_pair(quote_path, pair, windows.get(pair, []))
-        retained += len(pair_quotes)
-        ledger.extend(obs_score.build_paper_ledger(pair_decisions, pair_quotes, now))
+    try:
+        for pair, pair_decisions in by_pair.items():
+            pair_quotes = []
+            tpath = temp_paths.get(pair)
+            if tpath is not None and tpath.exists():
+                with tpath.open() as f:
+                    for line in f:
+                        if line.strip():
+                            pair_quotes.append(json.loads(line))
+            retained += len(pair_quotes)
+            ledger.extend(obs_score.build_paper_ledger(pair_decisions, pair_quotes, now))
+    finally:
+        for tpath in temp_paths.values():
+            try:
+                tpath.unlink(missing_ok=True)
+            except OSError:
+                pass
     ledger.sort(key=lambda r: r["actual_recording_time_utc"])
     return ledger, scanned, retained
+
+
+def _count_recording_failures(health: list[dict]) -> int:
+    """Shared by publish_health_snapshot() and _kpi_from_frozen_ledger() --
+    kept as ONE function specifically because having this logic duplicated
+    in two places is exactly how the v2-compatibility defect happened
+    (one copy got the v2 quote_attempt/outcome="failed" shape added, the
+    other didn't). See the recording_failures comment in
+    publish_health_snapshot() for why both event shapes must be counted."""
+    poll_failed_v1_named = sum(1 for h in health if h.get("event_type") in
+                                ("poll_failed", "quote_poll_failed", "decision_tick_crashed", "quote_tick_crashed"))
+    quote_attempt_failed_v2 = sum(1 for h in health if h.get("event_type") == "quote_attempt" and h.get("outcome") == "failed")
+    return poll_failed_v1_named + quote_attempt_failed_v2
 
 
 def _kpi_from_frozen_ledger(ledger: list[dict], decisions: list[dict], health: list[dict], now: datetime) -> dict:
@@ -441,6 +575,13 @@ def _kpi_from_frozen_ledger(ledger: list[dict], decisions: list[dict], health: l
     pending = [r for r in entered if r["state"] == "open"]
     unknown = [r for r in executable if r["state"] in unknown_states]
     missed = [r for r in executable if r["state"] == "expired_no_entry"]
+    # Mirrors report.py's closure_delayed exactly (v2's MEASUREMENT_CONTRACT.md
+    # section 4 exit policy) -- this field was missing from this reimplemented
+    # aggregation while report.py's own kpi_report() already had it, so the
+    # dashboard's completed_via_closure_delayed_deadline tile silently
+    # defaulted to zero even when the ledger held a qualifying completed row.
+    # v1 ledger rows never set deadline_delay_reason, so this is always 0 there.
+    closure_delayed = [r for r in completed if r.get("deadline_delay_reason") == "market_closure"]
     r_values = [r["r_multiple"] for r in completed if r.get("r_multiple") is not None]
     by_month = defaultdict(lambda: {"eligible": 0, "entered": 0, "completed": 0, "sum_r": 0.0})
     for r in executable:
@@ -454,16 +595,17 @@ def _kpi_from_frozen_ledger(ledger: list[dict], decisions: list[dict], health: l
         curve.append({"exit_time_utc": r["exit_time_utc"], "pair": r["pair"], "r_multiple": r["r_multiple"], "cumulative_r": running, "drawdown_r": dd})
     decision_delays = [d["decision_delay_seconds"] for d in decisions if d.get("event_type") == "decision" and d.get("decision_delay_seconds") is not None]
     execution_delays = [r["execution_delay_seconds"] for r in completed if r.get("execution_delay_seconds") is not None]
-    failures = [h for h in health if h.get("event_type") in ("poll_failed", "quote_poll_failed", "decision_tick_crashed", "quote_tick_crashed")]
+    recording_failures_count = _count_recording_failures(health)
     no_signal = [h for h in health if h.get("event_type") == "no_signal"]
-    return {"generated_at_utc": now.isoformat(), "counts": {"eligible_alerts": len(executable), "suppressed_existing_position": len(suppressed), "entered": len(entered), "completed": len(completed), "pending_open": len(pending), "unknown_total": len(unknown), "missed_entries_confirmed_zero_pnl": len(missed), "no_signal_ticks": len(no_signal)}, "avg_net_r_per_completed_trade": {"value": sum(r_values) / len(r_values) if r_values else None, "denominator": len(r_values)}, "avg_net_r_per_all_eligible_alert": {"value": sum(r_values) / len(executable) if executable and not unknown else None, "denominator": len(executable), "is_undetermined": bool(unknown), "reason": f"{len(unknown)} of {len(executable)} eligible alerts have an unknown outcome" if unknown else None}, "max_drawdown_r_partial_completed_trades_only": max_dd, "max_drawdown_label": "R drawdown on completed trades only — NOT an account-percentage drawdown; PARTIAL whenever unknown_total > 0", "equity_curve": curve, "by_month": {m: v for m, v in sorted(by_month.items())}, "operational": {"decision_delay_seconds_mean": sum(decision_delays) / len(decision_delays) if decision_delays else None, "decision_delay_seconds_max": max(decision_delays) if decision_delays else None, "decision_count": len(decision_delays), "execution_delay_seconds_mean": sum(execution_delays) / len(execution_delays) if execution_delays else None, "execution_delay_seconds_max": max(execution_delays) if execution_delays else None, "quote_samples_recorded": None, "recording_failures": len(failures), "no_signal_ticks": len(no_signal)}, "unobserved": ["Financing/swap charges are not recorded or estimated anywhere in this report.", "Slippage beyond the sampled bid/ask (i.e. the true fill an order would have received) is not observed — this reports the quoted price at the sample that crossed a level, not a broker-confirmed fill.", "Price movement between quote samples (every QUOTE_SAMPLE_INTERVAL_SECONDS) is unobserved and unobservable from this data — a real, stated limitation distinct from the offline replay's continuous M30-candle coverage."]}
+    return {"generated_at_utc": now.isoformat(), "counts": {"eligible_alerts": len(executable), "suppressed_existing_position": len(suppressed), "entered": len(entered), "completed": len(completed), "completed_via_closure_delayed_deadline": len(closure_delayed), "pending_open": len(pending), "unknown_total": len(unknown), "missed_entries_confirmed_zero_pnl": len(missed), "no_signal_ticks": len(no_signal)}, "avg_net_r_per_completed_trade": {"value": sum(r_values) / len(r_values) if r_values else None, "denominator": len(r_values)}, "avg_net_r_per_all_eligible_alert": {"value": sum(r_values) / len(executable) if executable and not unknown else None, "denominator": len(executable), "is_undetermined": bool(unknown), "reason": f"{len(unknown)} of {len(executable)} eligible alerts have an unknown outcome" if unknown else None}, "max_drawdown_r_partial_completed_trades_only": max_dd, "max_drawdown_label": "R drawdown on completed trades only — NOT an account-percentage drawdown; PARTIAL whenever unknown_total > 0", "equity_curve": curve, "by_month": {m: v for m, v in sorted(by_month.items())}, "operational": {"decision_delay_seconds_mean": sum(decision_delays) / len(decision_delays) if decision_delays else None, "decision_delay_seconds_max": max(decision_delays) if decision_delays else None, "decision_count": len(decision_delays), "execution_delay_seconds_mean": sum(execution_delays) / len(execution_delays) if execution_delays else None, "execution_delay_seconds_max": max(execution_delays) if execution_delays else None, "quote_samples_recorded": None, "recording_failures": recording_failures_count, "no_signal_ticks": len(no_signal)}, "unobserved": ["Financing/swap charges are not recorded or estimated anywhere in this report.", "Slippage beyond the sampled bid/ask (i.e. the true fill an order would have received) is not observed — this reports the quoted price at the sample that crossed a level, not a broker-confirmed fill.", "Price movement between quote samples (every QUOTE_SAMPLE_INTERVAL_SECONDS) is unobserved and unobservable from this data — a real, stated limitation distinct from the offline replay's continuous M30-candle coverage."]}
 
 
-def publish_kpi_snapshot(observer_checkout: Path, out_dir: Path) -> dict:
+def publish_kpi_snapshot(observer_checkout: Path, out_dir: Path,
+                          package_subdir: str = "research/prospective_baseline", snapshot_suffix: str = "") -> dict:
     now = datetime.now(timezone.utc)
-    out_path = out_dir / "research_kpi.json"
+    out_path = out_dir / f"research_kpi{snapshot_suffix}.json"
 
-    log_dir = _log_dir(observer_checkout)
+    log_dir = _log_dir(observer_checkout, package_subdir)
     if not log_dir.is_dir():
         payload = {"generated_at_utc": now.isoformat(), "state": "observer_not_found", "error": None,
                    "run_id": None, "kpi": None, "ledger": None}
@@ -478,7 +620,7 @@ def publish_kpi_snapshot(observer_checkout: Path, out_dir: Path) -> dict:
         return payload
 
     try:
-        obs_contract, obs_score, obs_report = _import_observer_modules(observer_checkout)
+        obs_contract, obs_score, obs_report = _import_observer_modules(observer_checkout, package_subdir)
         # The manifest already exists on disk (checked above), so this
         # call can only take report.py's verify-and-compare (read-only)
         # branch, never the create-a-new-manifest (write) branch -- see
@@ -490,7 +632,8 @@ def publish_kpi_snapshot(observer_checkout: Path, out_dir: Path) -> dict:
         health = list(_iter_jsonl(log_dir / "health_log.jsonl"))
         ledger, quote_rows_scanned, quote_rows_retained = _bounded_ledger(
             obs_score, decisions, log_dir / "quotes_log.jsonl", now,
-            obs_contract.QUOTE_STALENESS_SECONDS,
+            _coverage_margin_seconds(obs_contract),
+            _closure_margin_seconds(obs_contract),
         )
         kpi = _kpi_from_frozen_ledger(ledger, decisions, health, now)
         kpi["operational"]["quote_samples_recorded"] = quote_rows_scanned
@@ -540,14 +683,23 @@ def main() -> None:
     parser.add_argument("--observer-checkout", type=Path, default=DEFAULT_OBSERVER_CHECKOUT)
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
     parser.add_argument("--service-name", default=DEFAULT_SERVICE_NAME)
+    parser.add_argument("--contract-version", choices=["v1", "v2"], default="v1",
+                         help="Selects which observer package to import and which output files to write. "
+                              "v1 writes research_health.json/research_kpi.json (unchanged, default). v2 writes "
+                              "research_health_v2.json/research_kpi_v2.json from a SEPARATE v2 observer checkout's "
+                              "research/prospective_baseline_v2 package -- never the same files, never the same "
+                              "checkout subdirectory as v1, so the two can never be mixed by this script.")
     args = parser.parse_args()
+    package_subdir = "research/prospective_baseline" if args.contract_version == "v1" else "research/prospective_baseline_v2"
+    snapshot_suffix = "" if args.contract_version == "v1" else "_v2"
 
     if args.mode == "health":
-        payload = publish_health_snapshot(args.observer_checkout, args.out_dir, args.service_name)
+        payload = publish_health_snapshot(args.observer_checkout, args.out_dir, args.service_name,
+                                           package_subdir, snapshot_suffix)
     else:
-        payload = publish_kpi_snapshot(args.observer_checkout, args.out_dir)
+        payload = publish_kpi_snapshot(args.observer_checkout, args.out_dir, package_subdir, snapshot_suffix)
 
-    print(f"Wrote {args.out_dir / ('research_' + args.mode + '.json')} — state={payload['state']}")
+    print(f"Wrote {args.out_dir / ('research_' + args.mode + snapshot_suffix + '.json')} — state={payload['state']}")
 
 
 if __name__ == "__main__":

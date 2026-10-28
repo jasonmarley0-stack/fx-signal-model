@@ -31,6 +31,7 @@ Usage:
     python3 dashboard_server.py           # serves on :8080
 """
 from __future__ import annotations
+import html
 import json
 import os
 import secrets
@@ -57,6 +58,14 @@ RESEARCH_HEALTH_PATH = Path(__file__).parent / "research_snapshots" / "research_
 RESEARCH_KPI_PATH = Path(__file__).parent / "research_snapshots" / "research_kpi.json"
 RESEARCH_HEALTH_STALE_AFTER_SECONDS = 300    # health publisher runs ~every 60s
 RESEARCH_KPI_STALE_AFTER_SECONDS = 3600      # kpi publisher runs ~every 15-30 min
+
+# v2 measurement contract -- COMPLETELY SEPARATE snapshot files, own run
+# identity, own observer checkout. See research/prospective_baseline_v2/
+# MEASUREMENT_CONTRACT.md. Never read, written, or rendered together with
+# the v1 paths above as if they were one figure -- the Research view
+# renders them as two clearly labeled, independent sections.
+RESEARCH_HEALTH_V2_PATH = Path(__file__).parent / "research_snapshots" / "research_health_v2.json"
+RESEARCH_KPI_V2_PATH = Path(__file__).parent / "research_snapshots" / "research_kpi_v2.json"
 
 app = FastAPI()
 security = HTTPBasic()
@@ -433,8 +442,138 @@ def render_research_view(health_payload: dict, kpi_payload: dict) -> str:
     <script id="research-data" type="application/json">{data_json}</script>"""
 
 
+def _v2_perf_class(v) -> str:
+    """Same neutral-by-default discipline as the v1 Research view's
+    perfClass(): null/undefined/non-finite never selects positive styling."""
+    return "" if v is None else ("pos" if v >= 0 else "neg")
+
+
+def _v2_staleness_note(payload: dict, stale_after_seconds: float) -> str:
+    """Server-side staleness indicator for v2's section (which has no
+    client-side JS equivalent of v1's age/STALE handling -- see
+    render_research_v2_view's docstring). Computed from the snapshot's
+    own generated_at_utc at render time: this must never go silent when
+    the KPI publisher timer is paused (e.g. during the 2026-10-09 memory
+    incident) -- a frozen, increasingly-old figure must say so explicitly
+    rather than quietly look current. Returns an empty string when fresh
+    or when generated_at_utc can't be read (never crashes the page over
+    a missing field)."""
+    generated_at = payload.get("generated_at_utc")
+    if not generated_at:
+        return ""
+    try:
+        gen_dt = datetime.fromisoformat(generated_at)
+    except (ValueError, TypeError):
+        return ""
+    age_seconds = (datetime.now(timezone.utc) - gen_dt).total_seconds()
+    if age_seconds <= stale_after_seconds:
+        return ""
+    age_minutes = int(age_seconds // 60)
+    age_label = f"{age_minutes // 60}h {age_minutes % 60}m" if age_minutes >= 60 else f"{age_minutes}m"
+    return (f'<p class="snapshot-note is-stale" style="margin:4px 0 10px">'
+            f'⚠ STALE — last published {html.escape(age_label)} ago ({html.escape(generated_at)})</p>')
+
+
+def render_research_v2_view(health_payload: dict, kpi_payload: dict) -> str:
+    """v2 measurement contract -- THE CURRENT, primary research view (v1,
+    rendered separately below this one on the page, is explicitly
+    labeled historical/paused). Server-renders real first-paint content
+    from the snapshot payloads passed in -- same no-computation-in-the-
+    handler discipline as v1 -- AND wraps every piece client-side JS
+    needs to refresh (container ids, a data script tag, a manual refresh
+    button) so this section is no longer "rendered once on page load"
+    like the rest of v1's architecture. See the script block in
+    render_page() for the actual refresh/staleness/run-id-mismatch logic,
+    which mirrors v1's but targets these v2 container ids. Nothing here
+    is ever merged with the v1 figures rendered elsewhere on the page."""
+    def state_block(payload: dict) -> str | None:
+        state = payload.get("state")
+        if state == "ok":
+            return None
+        label = {
+            "not_published": "No v2 snapshot published yet — the v2 publisher has not run.",
+            "malformed_snapshot_file": "v2 snapshot file is malformed — waiting for the next publish.",
+            "observer_not_found": "v2 observer checkout not found by the publisher.",
+            "no_manifest": "v2 observer has not recorded a run manifest yet — no v2 activation detected.",
+            "manifest_mismatch": "v2 publisher paused: code/contract changed since this run started.",
+        }.get(state, state)
+        if state == "error":
+            label = payload.get("error") or "v2 snapshot generation failed."
+        return f'<p class="empty">{html.escape(str(label))}</p>'
+
+    health_block = state_block(health_payload)
+    if health_block is None:
+        ri = health_payload.get("run_identity") or {}
+        svc = (health_payload.get("service") or {}).get("status", "unknown")
+        rec = health_payload.get("recording_health", "unknown")
+        health_block = f"""
+        <div class="status-grid">
+          <div>Service: <span class="status-pill status-{html.escape(svc)}">{html.escape(svc)}</span></div>
+          <div>Recording: <span class="status-pill status-{html.escape(rec)}">{html.escape(rec.replace('_',' '))}</span></div>
+          <div><span class="hint">v2 Run ID</span><br><span class="mono" title="{html.escape(ri.get('run_id',''))}">{html.escape((ri.get('run_id') or '—')[:12])}…</span></div>
+        </div>"""
+
+    kpi_block = state_block(kpi_payload)
+    if kpi_block is None:
+        kpi = kpi_payload.get("kpi") or {}
+        c = kpi.get("counts", {})
+        completed_avg = kpi.get("avg_net_r_per_completed_trade", {})
+        kpi_block = f"""
+        <div class="stat-tiles">
+          <div class="tile"><div class="label">Eligible Alerts</div><div class="value">{c.get('eligible_alerts', '—')}</div>
+            <div class="sub">{c.get('suppressed_existing_position', 0)} suppressed</div></div>
+          <div class="tile"><div class="label">Entered / Completed</div><div class="value">{c.get('entered','—')} / {c.get('completed','—')}</div>
+            <div class="sub">{c.get('pending_open',0)} pending · {c.get('unknown_total',0)} unknown</div></div>
+          <div class="tile"><div class="label">Avg R / Completed</div>
+            <div class="value {_v2_perf_class(completed_avg.get('value'))}">{fmt_r(completed_avg.get('value'))}</div>
+            <div class="sub">n={completed_avg.get('denominator', 0)}</div></div>
+          <div class="tile"><div class="label">Via Closure-Delayed Deadline</div><div class="value">{c.get('completed_via_closure_delayed_deadline', 0)}</div>
+            <div class="sub">v2 exit policy — see MEASUREMENT_CONTRACT.md §4</div></div>
+        </div>"""
+
+    data_json = json.dumps({
+        "health": health_payload,
+        "kpi": kpi_payload,
+        "health_stale_after_seconds": RESEARCH_HEALTH_STALE_AFTER_SECONDS,
+        "kpi_stale_after_seconds": RESEARCH_KPI_STALE_AFTER_SECONDS,
+    })
+
+    return f"""
+    <div class="block-head" style="margin-top:12px">
+      <h1>Research — v2 (Current)</h1>
+    </div>
+    <div class="research-disclaimer">
+      <strong>Separate observer, separate run identity, separate logs.</strong> v2 corrects a measurement-contract
+      defect found in the v1 7-day review (see research/prospective_baseline_v2/MEASUREMENT_CONTRACT.md). This is the
+      current, primary research view — <strong>never</strong> combined with the v1 section below, which is retained
+      as historical and whose own KPI publication is intentionally paused.
+    </div>
+
+    <div class="block-head"><h2>v2 Observation Health</h2><span class="hint" id="research-v2-health-freshness"></span></div>
+    <div id="research-v2-health-container">{_v2_staleness_note(health_payload, RESEARCH_HEALTH_STALE_AFTER_SECONDS)}{health_block}</div>
+
+    <div class="block-head"><h2>v2 Progress &amp; Performance</h2>
+      <button class="refresh-btn" id="research-v2-kpi-refresh">Refresh</button>
+      <span class="hint" id="research-v2-kpi-freshness"></span>
+    </div>
+    <div id="research-v2-kpi-container">{_v2_staleness_note(kpi_payload, RESEARCH_KPI_STALE_AFTER_SECONDS)}{kpi_block}</div>
+
+    <div class="block-head"><h3>v2 Trade Ledger</h3>
+      <span class="hint" id="research-v2-ledger-scope">state, entry, deadline, exit/R where determined</span></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Pair</th><th>Dir</th><th>Entry</th><th>Deadline</th><th>Exit</th><th>Outcome</th><th>R</th></tr></thead>
+        <tbody id="research-v2-ledger-body"><tr><td colspan="7" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+
+    <script id="research-v2-data" type="application/json">{data_json}</script>
+    """
+
+
 def render_page(live_payload: dict | None, performance_payload: dict | None, alerts_payload: dict | None,
-                 research_health_payload: dict, research_kpi_payload: dict) -> str:
+                 research_health_payload: dict, research_kpi_payload: dict,
+                 research_health_v2_payload: dict, research_kpi_v2_payload: dict) -> str:
     return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8">
@@ -653,6 +792,14 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
     <section class="view" id="view-research">
       <div class="topbar"><h1>Research</h1></div>
       <div style="padding:24px clamp(16px,3vw,36px) 0" id="research-container">
+        {render_research_v2_view(research_health_v2_payload, research_kpi_v2_payload)}
+        <div class="block-head" style="margin-top:56px;border-top:2px solid var(--border-strong);padding-top:28px">
+          <h1>Research — v1 (Historical, Publication Paused)</h1>
+        </div>
+        <div class="research-disclaimer">
+          <strong>v1's own KPI publication is intentionally paused</strong> (not automatically reactivated) — figures
+          figures below reflect v1's most recent publish before pausing, retained for historical reference. Never blended with v2 above.
+        </div>
         {render_research_view(research_health_payload, research_kpi_payload)}
       </div>
     </section>
@@ -1221,6 +1368,182 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
     setInterval(refreshHealth, 30000);   // health: frequent, independent of the heavier KPI calculation
     setInterval(refreshKpi, 300000);     // kpi/ledger: much less frequent (real publish cadence is 15-30 min)
   }}
+
+  // ---------- Research v2: current primary view -- same refresh/staleness/run-id-mismatch
+  // discipline as v1 above, ported to v2's simpler (tiles + ledger, no chart/roadmap) layout.
+  // Small helpers are deliberately re-declared here rather than shared with v1's closure --
+  // this block must keep working even if v1's block above is ever removed. ----------
+  const researchV2DataEl = document.getElementById('research-v2-data');
+  if (researchV2DataEl) {{
+    const initialV2 = JSON.parse(researchV2DataEl.textContent);
+    const v2HealthStaleAfter = initialV2.health_stale_after_seconds;
+    const v2KpiStaleAfter = initialV2.kpi_stale_after_seconds;
+    let latestHealthV2 = initialV2.health;
+    let latestKpiV2 = initialV2.kpi;
+
+    function v2IsFiniteNum(v) {{ return typeof v === 'number' && Number.isFinite(v); }}
+    function v2FmtR(v) {{ return v2IsFiniteNum(v) ? (v >= 0 ? '+' : '') + v.toFixed(2) + 'R' : '—'; }}
+    function v2PerfClass(v) {{ return v2IsFiniteNum(v) ? (v >= 0 ? 'pos' : 'neg') : ''; }}
+    function v2FmtUTC(iso) {{ return iso ? iso.replace('T', ' ').slice(0, 19) + ' UTC' : '—'; }}
+    function v2FmtAge(seconds) {{
+      if (seconds === null || seconds === undefined) return '—';
+      if (seconds < 90) return seconds.toFixed(0) + 's ago';
+      if (seconds < 5400) return (seconds / 60).toFixed(0) + 'm ago';
+      if (seconds < 172800) return (seconds / 3600).toFixed(1) + 'h ago';
+      return (seconds / 86400).toFixed(1) + 'd ago';
+    }}
+    function v2EscapeHtml(s) {{
+      return String(s).replace(/[&<>"']/g, ch => ({{'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}})[ch]);
+    }}
+    const V2_SNAPSHOT_STATE_LABEL = {{
+      not_published: 'No v2 snapshot published yet — the v2 publisher has not run.',
+      malformed_snapshot_file: 'v2 snapshot file is malformed — waiting for the next publish.',
+      observer_not_found: 'v2 observer checkout not found by the publisher.',
+      no_manifest: 'v2 observer has not recorded a run manifest yet — no v2 activation detected.',
+      manifest_mismatch: 'v2 publisher paused: code/contract changed since this run started.',
+    }};
+    function v2ExplicitStateBlock(payload) {{
+      if (payload.state === 'ok') return null;
+      const label = payload.state === 'error' ? (payload.error || 'v2 snapshot generation failed.')
+        : (V2_SNAPSHOT_STATE_LABEL[payload.state] || `Unavailable (${{payload.state}}).`);
+      return `<p class="empty">${{v2EscapeHtml(label)}}</p>`;
+    }}
+    // Recomputed from the client's own clock every tick (see the 15s
+    // interval below), not only when a fetch succeeds -- a refresh that
+    // starts failing must not leave a frozen "fresh" label sitting on an
+    // increasingly-old retained snapshot.
+    function v2StalenessNote(payload, staleAfter) {{
+      const genAt = payload.generated_at_utc ? new Date(payload.generated_at_utc) : null;
+      if (!genAt) return '';
+      const ageSec = (Date.now() - genAt.getTime()) / 1000;
+      if (ageSec <= staleAfter) return '';
+      return `<p class="snapshot-note is-stale" style="margin:4px 0 10px">⚠ STALE — snapshot age ${{v2FmtAge(ageSec)}} (generated ${{v2EscapeHtml(payload.generated_at_utc)}})</p>`;
+    }}
+
+    function v2RunIdMismatch() {{
+      const h = latestHealthV2, k = latestKpiV2;
+      const healthRunId = (h && h.state === 'ok' && h.run_identity) ? h.run_identity.run_id : null;
+      const kpiRunId = (k && k.state === 'ok') ? k.run_id : null;
+      if (!healthRunId || !kpiRunId) return null;
+      return healthRunId !== kpiRunId ? {{ healthRunId, kpiRunId }} : null;
+    }}
+
+    function renderHealthV2(health) {{
+      latestHealthV2 = health;
+      const container = document.getElementById('research-v2-health-container');
+      const freshnessEl = document.getElementById('research-v2-health-freshness');
+      const explicit = v2ExplicitStateBlock(health);
+      const stale = v2StalenessNote(health, v2HealthStaleAfter);
+      if (explicit) {{ container.innerHTML = stale + explicit; freshnessEl.textContent = ''; renderKpiViewV2(); return; }}
+      const genAt = health.generated_at_utc ? new Date(health.generated_at_utc) : null;
+      const ageSec = genAt ? (Date.now() - genAt.getTime()) / 1000 : null;
+      freshnessEl.innerHTML = genAt ? `<span class="snapshot-note">snapshot ${{v2FmtAge(ageSec)}}</span>` : '';
+      const ri = health.run_identity || {{}};
+      const svc = (health.service || {{}}).status || 'unknown';
+      const rec = health.recording_health || 'unknown';
+      container.innerHTML = stale + `
+        <div class="status-grid">
+          <div>Service: <span class="status-pill status-${{v2EscapeHtml(svc)}}">${{v2EscapeHtml(svc)}}</span></div>
+          <div>Recording: <span class="status-pill status-${{v2EscapeHtml(rec)}}">${{v2EscapeHtml(rec.replace('_',' '))}}</span></div>
+          <div><span class="hint">v2 Run ID</span><br><span class="mono" title="${{ri.run_id || ''}}">${{(ri.run_id || '—').slice(0, 12)}}…</span></div>
+        </div>`;
+      renderKpiViewV2();
+    }}
+
+    function renderKpiSectionV2(payload) {{
+      latestKpiV2 = payload;
+      renderKpiViewV2();
+    }}
+
+    function renderKpiViewV2() {{
+      const payload = latestKpiV2;
+      const container = document.getElementById('research-v2-kpi-container');
+      const freshnessEl = document.getElementById('research-v2-kpi-freshness');
+      const ledgerBody = document.getElementById('research-v2-ledger-body');
+      const explicit = v2ExplicitStateBlock(payload);
+      if (explicit) {{
+        container.innerHTML = v2StalenessNote(payload, v2KpiStaleAfter) + explicit;
+        freshnessEl.textContent = '';
+        ledgerBody.innerHTML = '<tr><td colspan="7" class="empty">No data.</td></tr>';
+        return;
+      }}
+      // Cross-check run identity BEFORE presenting health and KPI/ledger
+      // together -- same discipline as v1's runIdMismatch() above.
+      const mismatch = v2RunIdMismatch();
+      const stale = v2StalenessNote(payload, v2KpiStaleAfter);
+      if (mismatch) {{
+        const genAt = payload.generated_at_utc ? new Date(payload.generated_at_utc) : null;
+        freshnessEl.innerHTML = genAt ? `<span class="snapshot-note">snapshot ${{v2FmtAge((Date.now() - genAt.getTime()) / 1000)}}</span>` : '';
+        container.innerHTML = stale + `<p class="empty">Run identity mismatch — health (run ${{mismatch.healthRunId.slice(0, 12)}}…) and
+          KPI (run ${{mismatch.kpiRunId.slice(0, 12)}}…) disagree. Withholding performance and the ledger until both agree.</p>`;
+        ledgerBody.innerHTML = '<tr><td colspan="7" class="empty">Withheld — run identity mismatch.</td></tr>';
+        return;
+      }}
+      const kpi = payload.kpi, ledger = payload.ledger || [];
+      const genAt = payload.generated_at_utc ? new Date(payload.generated_at_utc) : null;
+      const ageSec = genAt ? (Date.now() - genAt.getTime()) / 1000 : null;
+      freshnessEl.innerHTML = genAt ? `<span class="snapshot-note">snapshot ${{v2FmtAge(ageSec)}}</span>` : '';
+      const c = kpi.counts;
+      const completedAvg = kpi.avg_net_r_per_completed_trade;
+      container.innerHTML = stale + `<div class="stat-tiles">
+        <div class="tile"><div class="label">Eligible Alerts</div><div class="value">${{c.eligible_alerts}}</div><div class="sub">${{c.suppressed_existing_position}} suppressed</div></div>
+        <div class="tile"><div class="label">Entered / Completed</div><div class="value">${{c.entered}} / ${{c.completed}}</div><div class="sub">${{c.pending_open}} pending · ${{c.unknown_total}} unknown</div></div>
+        <div class="tile"><div class="label">Avg R / Completed</div><div class="value ${{v2PerfClass(completedAvg.value)}}">${{v2FmtR(completedAvg.value)}}</div><div class="sub">n=${{completedAvg.denominator}}</div></div>
+        <div class="tile"><div class="label">Via Closure-Delayed Deadline</div><div class="value">${{c.completed_via_closure_delayed_deadline || 0}}</div><div class="sub">v2 exit policy</div></div>
+      </div>`;
+
+      // ---- ledger: state, entry, deadline, exit/R where determined, unknown reason where available ----
+      const V2_STATE_LABEL = {{
+        stopped: 'Stopped', targeted: 'Targeted', time_exited: 'Time exit', expired_no_entry: 'Missed (expired)',
+        ambiguous_intrabar_exit: 'Ambiguous exit', insufficient_data_entry: 'Insufficient data', incomplete_coverage: 'Incomplete coverage',
+        open: 'Open', actionable_open: 'Actionable (open)',
+      }};
+      const V2_RESOLVED = new Set(['stopped', 'targeted', 'time_exited']);
+      // Clear separation of unknown outcomes (incomplete_coverage etc.) from genuinely open positions (open/actionable_open).
+      const executable = ledger.filter(r => r.executable && r.assumed_entry_time_utc);
+      if (!executable.length) {{
+        ledgerBody.innerHTML = '<tr><td colspan="7" class="empty">No entered positions yet.</td></tr>';
+      }} else {{
+        ledgerBody.innerHTML = executable.map(r => {{
+          const resolved = V2_RESOLVED.has(r.state);
+          // Neutral styling for unavailable/undetermined performance -- never pos/neg for an unresolved state.
+          const badgeKind = resolved ? (r.r_multiple >= 0 ? 'outcome-target' : 'outcome-stop') : 'outcome-unresolved';
+          const entryStr = `${{r.assumed_entry_price.toFixed(5)}}<br><span class="hint">${{v2FmtUTC(r.assumed_entry_time_utc)}}</span>`;
+          // Holding deadline = assumed_entry_time_utc + max_holding_time_hours -- NEVER entry_expiry_utc + holding duration.
+          const deadline = new Date(new Date(r.assumed_entry_time_utc).getTime() + r.max_holding_time_hours * 3600000);
+          const exitStr = r.exit_time_utc ? `${{r.exit_price.toFixed(5)}}<br><span class="hint">${{v2FmtUTC(r.exit_time_utc)}}</span>` : '—';
+          const reasonStr = resolved ? '' : `<br><span class="hint reason-text">${{v2EscapeHtml((r.caveats || [])[0] || V2_STATE_LABEL[r.state] || r.state)}}</span>`;
+          return `<tr>
+              <td class="pair">${{r.pair}}</td>
+              <td><span class="badge ${{r.direction}}">${{r.direction.toUpperCase()}}</span></td>
+              <td class="num">${{entryStr}}</td>
+              <td class="num mono">${{v2FmtUTC(deadline.toISOString())}}</td>
+              <td class="num">${{exitStr}}</td>
+              <td><span class="badge ${{badgeKind}}">${{V2_STATE_LABEL[r.state] || r.state}}</span>${{reasonStr}}</td>
+              <td class="num">${{v2FmtR(r.r_multiple)}}</td>
+            </tr>`;
+        }}).join('');
+      }}
+    }}
+
+    function refreshHealthV2() {{
+      fetch('/research/health_v2', {{ credentials: 'same-origin' }}).then(r => r.json()).then(renderHealthV2).catch(() => {{}});
+    }}
+    function refreshKpiV2() {{
+      const btn = document.getElementById('research-v2-kpi-refresh');
+      btn.disabled = true;
+      fetch('/research/kpi_v2', {{ credentials: 'same-origin' }}).then(r => r.json()).then(renderKpiSectionV2)
+        .catch(() => {{}}).finally(() => {{ btn.disabled = false; }});
+    }}
+
+    document.getElementById('research-v2-kpi-refresh').addEventListener('click', refreshKpiV2);
+    renderHealthV2(initialV2.health);
+    renderKpiSectionV2(initialV2.kpi);
+    setInterval(refreshHealthV2, 30000);
+    setInterval(refreshKpiV2, 300000);
+    // Live staleness tick, independent of fetch cadence/success (see v2StalenessNote above).
+    setInterval(() => {{ renderHealthV2(latestHealthV2); }}, 15000);
+  }}
 </script>
 </body></html>"""
 
@@ -1265,7 +1588,10 @@ def dashboard(_: None = Depends(check_auth)) -> str:
             performance_payload = None
     research_health_payload = load_research_snapshot(RESEARCH_HEALTH_PATH)
     research_kpi_payload = load_research_snapshot(RESEARCH_KPI_PATH)
-    return render_page(live_payload, performance_payload, load_alerts(), research_health_payload, research_kpi_payload)
+    research_health_v2_payload = load_research_snapshot(RESEARCH_HEALTH_V2_PATH)
+    research_kpi_v2_payload = load_research_snapshot(RESEARCH_KPI_V2_PATH)
+    return render_page(live_payload, performance_payload, load_alerts(), research_health_payload, research_kpi_payload,
+                       research_health_v2_payload, research_kpi_v2_payload)
 
 
 @app.get("/table", response_class=HTMLResponse)
@@ -1302,6 +1628,22 @@ def research_kpi(_: None = Depends(check_auth)) -> dict:
     Refresh button (the underlying KPI/ledger calculation is deliberately
     much less frequent than health, see research_snapshot_publisher.py)."""
     return load_research_snapshot(RESEARCH_KPI_PATH)
+
+
+@app.get("/research/health_v2", response_class=JSONResponse)
+def research_health_v2(_: None = Depends(check_auth)) -> dict:
+    """v2 measurement contract -- reads research_health_v2.json, a
+    COMPLETELY SEPARATE file from v1's, written only by a publisher
+    invocation pointed at a v2 observer checkout. See
+    research/prospective_baseline_v2/MEASUREMENT_CONTRACT.md."""
+    return load_research_snapshot(RESEARCH_HEALTH_V2_PATH)
+
+
+@app.get("/research/kpi_v2", response_class=JSONResponse)
+def research_kpi_v2(_: None = Depends(check_auth)) -> dict:
+    """v2 measurement contract -- reads research_kpi_v2.json. Never the
+    same file, never blended with v1's /research/kpi."""
+    return load_research_snapshot(RESEARCH_KPI_V2_PATH)
 
 
 @app.get("/api/performance", response_class=JSONResponse)
