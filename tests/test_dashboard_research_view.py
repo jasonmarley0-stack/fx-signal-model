@@ -380,6 +380,62 @@ def test_v2_kpi_no_stale_banner_when_fresh():
     print("dashboard: v2's KPI section shows no stale warning for a freshly-published snapshot: OK")
 
 
+def test_v2_is_rendered_as_the_primary_section_before_v1():
+    """Section 4 repair: v2 must be the clearly identified PRIMARY research
+    view, with v1 retained below as explicitly labeled historical/paused
+    -- never the reverse, and never blended."""
+    client = _client_with_snapshots(HEALTH_OK, KPI_OK)
+    ds.RESEARCH_HEALTH_V2_PATH.write_text(json.dumps(HEALTH_V2_OK))
+    ds.RESEARCH_KPI_V2_PATH.write_text(json.dumps(KPI_V2_OK))
+    r = client.get("/", auth=AUTH)
+    assert r.status_code == 200
+    v2_pos = r.text.find("Research — v2 (Current)")
+    v1_pos = r.text.find("Research — v1 (Historical")
+    assert v2_pos != -1 and v1_pos != -1, "both section headings must be present"
+    assert v2_pos < v1_pos, "v2 must render before (be primary over) v1 on the page"
+    assert "intentionally paused" in r.text
+    print("dashboard: v2 renders as the primary section, v1 explicitly labeled historical/paused, in that order: OK")
+
+
+def test_v2_has_its_own_refresh_and_run_id_mismatch_wiring():
+    """Section 4 repair: v2 must get automatic AND manual refresh, and its
+    own run-id cross-check between health_v2 and kpi_v2 -- previously v2
+    was rendered once on page load with no refresh path at all (Codex
+    finding), unlike v1 which already had this."""
+    client = _client_with_snapshots(HEALTH_OK, KPI_OK)
+    ds.RESEARCH_HEALTH_V2_PATH.write_text(json.dumps(HEALTH_V2_OK))
+    ds.RESEARCH_KPI_V2_PATH.write_text(json.dumps(KPI_V2_OK))
+    r = client.get("/", auth=AUTH)
+    assert 'id="research-v2-kpi-refresh"' in r.text, "v2 needs a manual refresh button"
+    assert "function v2RunIdMismatch()" in r.text
+    assert "refreshHealthV2" in r.text and "refreshKpiV2" in r.text
+    assert "setInterval(refreshHealthV2" in r.text and "setInterval(refreshKpiV2" in r.text
+    # the live staleness tick must recompute from the client's own clock,
+    # independent of whether a refresh fetch is currently succeeding
+    assert "renderHealthV2(latestHealthV2)" in r.text
+    print("dashboard: v2 has automatic+manual refresh and its own run-id-mismatch check, independent of v1's: OK")
+
+
+def test_v2_ledger_shows_entry_deadline_exit_and_unknown_reason():
+    """Section 4 repair: 'a usable current-v2 ledger showing state, entry,
+    deadline, exit/R where determined, and unknown reason where
+    available' -- and the deadline must be computed as assumed_entry_time
+    + max_holding_time_hours, never entry_expiry_utc + that duration
+    (section 5's explicit rule, also applies to the ledger display)."""
+    client = _client_with_snapshots(HEALTH_OK, KPI_OK)
+    ds.RESEARCH_HEALTH_V2_PATH.write_text(json.dumps(HEALTH_V2_OK))
+    ds.RESEARCH_KPI_V2_PATH.write_text(json.dumps(KPI_V2_OK))
+    r = client.get("/", auth=AUTH)
+    assert 'id="research-v2-ledger-body"' in r.text
+    assert "new Date(r.assumed_entry_time_utc).getTime() + r.max_holding_time_hours * 3600000" in r.text, (
+        "the v2 ledger's deadline column must be derived from assumed_entry_time_utc + max_holding_time_hours")
+    assert "entry_expiry_utc" not in r.text.split("research-v2-ledger-body")[1].split("</script>")[0] if (
+        "research-v2-ledger-body" in r.text and "</script>" in r.text) else True
+    assert "r.caveats" in r.text, "unknown reason where available must surface the ledger row's own caveats"
+    print("dashboard: v2's ledger shows entry/deadline/exit, deadline computed from assumed_entry_time + "
+          "max_holding_time_hours, and surfaces an unknown reason from caveats: OK")
+
+
 if __name__ == "__main__":
     test_research_routes_require_auth()
     test_research_routes_return_exact_snapshot_contents()
@@ -400,4 +456,7 @@ if __name__ == "__main__":
     test_v2_closure_delayed_count_surfaced_distinctly()
     test_v2_kpi_displays_stale_banner_when_publisher_paused()
     test_v2_kpi_no_stale_banner_when_fresh()
+    test_v2_is_rendered_as_the_primary_section_before_v1()
+    test_v2_has_its_own_refresh_and_run_id_mismatch_wiring()
+    test_v2_ledger_shows_entry_deadline_exit_and_unknown_reason()
     print("All dashboard Research-view tests passed (no network, no real observer checkout).")

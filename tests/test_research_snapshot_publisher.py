@@ -493,6 +493,8 @@ def test_v2_health_and_kpi_publish_succeed_with_correct_scores_from_genuine_fixt
     assert abs(kpi_payload["ledger"][0]["r_multiple"] - 0.9524) < 0.01
     assert kpi_payload["kpi"]["counts"]["eligible_alerts"] == 1
     assert kpi_payload["kpi"]["counts"]["completed"] == 1
+    assert kpi_payload["kpi"]["counts"]["completed_via_closure_delayed_deadline"] == 0, (
+        "an ordinary same-day target exit must never be counted as closure-delayed")
     assert kpi_payload["kpi"]["operational"]["recording_failures"] == 2, (
         "both v2-style failed quote_attempt events must be counted, not just a v1-named quote_poll_failed event")
 
@@ -600,6 +602,9 @@ def test_v2_publisher_retains_friday_closure_to_sunday_execution_evidence():
 
     _assert_publisher_matches_direct_scoring(checkout, payload, d, quotes)
     assert payload["kpi"]["counts"]["completed"] == 1
+    assert payload["kpi"]["counts"]["completed_via_closure_delayed_deadline"] == 1, (
+        "the one qualifying completed row (deadline_delay_reason=='market_closure') must be counted, not "
+        "silently defaulted to zero by an aggregation that omits this field")
     print("publisher: a Friday-closure-deadline/Sunday-execution trade with CONTINUOUS closure evidence resolves "
           "identically through the bounded publisher path and direct unbounded scoring -- exact ledger and KPI parity: OK")
 
