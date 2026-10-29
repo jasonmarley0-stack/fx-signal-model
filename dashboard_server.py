@@ -33,6 +33,7 @@ Usage:
 from __future__ import annotations
 import html
 import json
+import math
 import os
 import secrets
 from datetime import datetime, timezone
@@ -66,6 +67,69 @@ RESEARCH_KPI_STALE_AFTER_SECONDS = 3600      # kpi publisher runs ~every 15-30 m
 # renders them as two clearly labeled, independent sections.
 RESEARCH_HEALTH_V2_PATH = Path(__file__).parent / "research_snapshots" / "research_health_v2.json"
 RESEARCH_KPI_V2_PATH = Path(__file__).parent / "research_snapshots" / "research_kpi_v2.json"
+RESEARCH_EVIDENCE_V2_PATH = Path(__file__).parent / "research_supplementary" / "research_supplementary_evidence.json"
+
+
+def research_ledger_display(health: dict, kpi: dict, evidence: dict) -> dict:
+    """Read-only display overlay. Original states, R and KPI counts never change.
+
+    Match immutable run/source identity AND decision/pair/entry. A duplicate,
+    malformed or foreign result is not a usable reconstruction. An already
+    completed live result always takes precedence over an audit result.
+    """
+    resolved = {"stopped", "targeted", "time_exited"}
+    ri = health.get("run_identity") or {}
+    matched = (health.get("state") == kpi.get("state") == evidence.get("state") == "ok"
+               and bool(ri.get("run_id")) and ri["run_id"] == kpi.get("run_id") == evidence.get("run_id")
+               and bool(ri.get("source_hash")) and ri["source_hash"] == evidence.get("source_hash")
+               and evidence.get("measurement_contract") == "supplementary_gap_evidence_v1"
+               and evidence.get("live_kpi_unchanged") is True and isinstance(evidence.get("ledger"), list))
+    evidence_state = ("matched" if matched else "unavailable" if evidence.get("state") != "ok" else "identity_mismatch")
+
+    def timestamp(value):
+        try:
+            t = datetime.fromisoformat(value)
+            return t if t.tzinfo is not None else None
+        except (TypeError, ValueError):
+            return None
+
+    def finite(value, positive=False):
+        return (type(value) in (int, float) and math.isfinite(value)
+                and (not positive or value > 0))
+
+    audit_rows = evidence.get("ledger") if matched else []
+    audit_rows = audit_rows if isinstance(audit_rows, list) else []
+    rows, reconstructed = [], 0
+    for row in kpi.get("ledger") or []:
+        out = dict(row)
+        if not row.get("executable") or not row.get("assumed_entry_time_utc"):
+            rows.append(out)
+            continue
+        display = {"source": "live", "state": row.get("state"), "exit_time_utc": row.get("exit_time_utc"),
+                   "exit_price": row.get("exit_price"), "r_multiple": row.get("r_multiple"), "reason": None}
+        decision_id = row.get("decision_id") or row.get("actual_recording_time_utc")
+        candidates = [a for a in audit_rows if isinstance(a, dict) and decision_id
+                      and a.get("decision_id") == decision_id and a.get("pair") == row.get("pair")
+                      and timestamp(a.get("assumed_entry_time_utc")) == timestamp(row.get("assumed_entry_time_utc"))]
+        if row.get("state") not in resolved and len(candidates) == 1:
+            a = candidates[0]
+            display["reason"] = a.get("reason")
+            entered, exited = timestamp(row.get("assumed_entry_time_utc")), timestamp(a.get("exit_time_utc"))
+            as_of = timestamp(a.get("as_of_utc"))
+            if (a.get("state") in resolved and finite(a.get("r_multiple")) and finite(a.get("exit_price"), True)
+                    and entered is not None and exited is not None and as_of is not None
+                    and entered <= exited <= as_of <= datetime.now(timezone.utc)):
+                display.update(source="reconstructed", state=a["state"], exit_time_utc=a["exit_time_utc"],
+                               exit_price=a["exit_price"], r_multiple=a["r_multiple"],
+                               audit_as_of_utc=a["as_of_utc"])
+                reconstructed += 1
+        out["display_result"] = display
+        rows.append(out)
+    entered_rows = [r for r in rows if r.get("executable") and r.get("assumed_entry_time_utc")]
+    determined = sum(r["display_result"]["state"] in resolved for r in entered_rows)
+    return {**kpi, "ledger": rows, "display_meta": {"evidence_state": evidence_state,
+            "source_hash": ri.get("source_hash"), "shown_entered": len(entered_rows), "shown_determined": determined,
+            "shown_reconstructed": reconstructed, "shown_undetermined": len(entered_rows) - determined}}
 
 app = FastAPI()
 security = HTTPBasic()
@@ -536,7 +600,7 @@ def render_research_v2_view(health_payload: dict, kpi_payload: dict) -> str:
         "kpi": kpi_payload,
         "health_stale_after_seconds": RESEARCH_HEALTH_STALE_AFTER_SECONDS,
         "kpi_stale_after_seconds": RESEARCH_KPI_STALE_AFTER_SECONDS,
-    })
+    }).replace("<", "\\u003c")
 
     return f"""
     <div class="block-head" style="margin-top:12px">
@@ -552,14 +616,20 @@ def render_research_v2_view(health_payload: dict, kpi_payload: dict) -> str:
     <div class="block-head"><h2>v2 Observation Health</h2><span class="hint" id="research-v2-health-freshness"></span></div>
     <div id="research-v2-health-container">{_v2_staleness_note(health_payload, RESEARCH_HEALTH_STALE_AFTER_SECONDS)}{health_block}</div>
 
-    <div class="block-head"><h2>v2 Progress &amp; Performance</h2>
+    <div class="block-head"><h2>v2 Progress &amp; Performance — Live Only</h2>
       <button class="refresh-btn" id="research-v2-kpi-refresh">Refresh</button>
       <span class="hint" id="research-v2-kpi-freshness"></span>
     </div>
     <div id="research-v2-kpi-container">{_v2_staleness_note(kpi_payload, RESEARCH_KPI_STALE_AFTER_SECONDS)}{kpi_block}</div>
 
     <div class="block-head"><h3>v2 Trade Ledger</h3>
-      <span class="hint" id="research-v2-ledger-scope">state, entry, deadline, exit/R where determined</span></div>
+      <span class="hint" id="research-v2-ledger-scope">Live and separately labelled reconstructed paper outcomes</span></div>
+    <p class="hint" id="research-v2-evidence-note"></p>
+    <details class="hint" style="margin-bottom:12px"><summary>Method &amp; limitations</summary>
+      All results are paper estimates, not actual broker fills. Reconstructed rows use supplementary
+      historical evidence; original live outcomes remain in each row's details. Performance tiles above
+      remain live-only. Financing, commissions and execution slippage are not included.
+    </details>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Pair</th><th>Dir</th><th>Entry</th><th>Deadline</th><th>Exit</th><th>Outcome</th><th>R</th></tr></thead>
@@ -1460,6 +1530,8 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
       const container = document.getElementById('research-v2-kpi-container');
       const freshnessEl = document.getElementById('research-v2-kpi-freshness');
       const ledgerBody = document.getElementById('research-v2-ledger-body');
+      const evidenceNote = document.getElementById('research-v2-evidence-note');
+      evidenceNote.textContent = '';
       const explicit = v2ExplicitStateBlock(payload);
       if (explicit) {{
         container.innerHTML = v2StalenessNote(payload, v2KpiStaleAfter) + explicit;
@@ -1499,28 +1571,46 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
         open: 'Open', actionable_open: 'Actionable (open)',
       }};
       const V2_RESOLVED = new Set(['stopped', 'targeted', 'time_exited']);
+      const meta = payload.display_meta || {{}};
+      const displayIdentityOK = latestHealthV2.state === 'ok' && latestHealthV2.run_identity
+        && meta.source_hash === latestHealthV2.run_identity.source_hash;
+      if (meta.evidence_state === 'matched' && displayIdentityOK) {{
+        evidenceNote.textContent = `Shown rows: ${{meta.shown_determined}} determined (${{meta.shown_reconstructed}} reconstructed), ${{meta.shown_undetermined}} not determined. Live-only tiles are unchanged.`;
+      }} else {{
+        evidenceNote.textContent = meta.evidence_state === 'identity_mismatch' || !displayIdentityOK
+          ? 'Supplementary evidence not matched to the current run; original live outcomes shown.'
+          : 'Supplementary evidence unavailable; original live outcomes shown.';
+      }}
       // Clear separation of unknown outcomes (incomplete_coverage etc.) from genuinely open positions (open/actionable_open).
       const executable = ledger.filter(r => r.executable && r.assumed_entry_time_utc);
       if (!executable.length) {{
         ledgerBody.innerHTML = '<tr><td colspan="7" class="empty">No entered positions yet.</td></tr>';
       }} else {{
         ledgerBody.innerHTML = executable.map(r => {{
-          const resolved = V2_RESOLVED.has(r.state);
+          const shown = displayIdentityOK && r.display_result ? r.display_result : r;
+          const recovered = shown.source === 'reconstructed';
+          const resolved = V2_RESOLVED.has(shown.state);
           // Neutral styling for unavailable/undetermined performance -- never pos/neg for an unresolved state.
-          const badgeKind = resolved ? (r.r_multiple >= 0 ? 'outcome-target' : 'outcome-stop') : 'outcome-unresolved';
+          const badgeKind = resolved ? (shown.r_multiple >= 0 ? 'outcome-target' : 'outcome-stop') : 'outcome-unresolved';
           const entryStr = `${{r.assumed_entry_price.toFixed(5)}}<br><span class="hint">${{v2FmtUTC(r.assumed_entry_time_utc)}}</span>`;
           // Holding deadline = assumed_entry_time_utc + max_holding_time_hours -- NEVER entry_expiry_utc + holding duration.
           const deadline = new Date(new Date(r.assumed_entry_time_utc).getTime() + r.max_holding_time_hours * 3600000);
-          const exitStr = r.exit_time_utc ? `${{r.exit_price.toFixed(5)}}<br><span class="hint">${{v2FmtUTC(r.exit_time_utc)}}</span>` : '—';
-          const reasonStr = resolved ? '' : `<br><span class="hint reason-text">${{v2EscapeHtml((r.caveats || [])[0] || V2_STATE_LABEL[r.state] || r.state)}}</span>`;
+          const exitStr = shown.exit_time_utc && v2IsFiniteNum(shown.exit_price)
+            ? `${{shown.exit_price.toFixed(5)}}<br><span class="hint">${{v2FmtUTC(shown.exit_time_utc)}}</span>` : '—';
+          const unknown = ['incomplete_coverage', 'ambiguous_intrabar_exit', 'insufficient_data_entry'].includes(shown.state);
+          const label = resolved ? V2_STATE_LABEL[shown.state] : unknown ? 'Unresolved — evidence gap' : (V2_STATE_LABEL[shown.state] || shown.state);
+          const source = recovered ? 'Reconstructed' : resolved ? 'Live observation' : '';
+          const detail = [recovered ? `Original live outcome: ${{V2_STATE_LABEL[r.state] || r.state}}. Supplementary audit as of ${{v2FmtUTC(shown.audit_as_of_utc)}}.` : '',
+            shown.reason || '', ...(r.caveats || [])].filter(Boolean).map(v2EscapeHtml).join('<br>');
+          const reasonStr = detail ? `<details class="hint" style="margin-top:6px"><summary>Details</summary>${{detail}}</details>` : '';
           return `<tr>
               <td class="pair">${{r.pair}}</td>
               <td><span class="badge ${{r.direction}}">${{r.direction.toUpperCase()}}</span></td>
               <td class="num">${{entryStr}}</td>
               <td class="num mono">${{v2FmtUTC(deadline.toISOString())}}</td>
               <td class="num">${{exitStr}}</td>
-              <td><span class="badge ${{badgeKind}}">${{V2_STATE_LABEL[r.state] || r.state}}</span>${{reasonStr}}</td>
-              <td class="num">${{v2FmtR(r.r_multiple)}}</td>
+              <td><span class="badge ${{badgeKind}}">${{v2EscapeHtml(label)}}</span>${{source ? `<br><span class="hint">${{source}}</span>` : ''}}${{reasonStr}}</td>
+              <td class="num">${{resolved ? v2FmtR(shown.r_multiple) : '—'}}</td>
             </tr>`;
         }}).join('');
       }}
@@ -1532,7 +1622,7 @@ def render_page(live_payload: dict | None, performance_payload: dict | None, ale
     function refreshKpiV2() {{
       const btn = document.getElementById('research-v2-kpi-refresh');
       btn.disabled = true;
-      fetch('/research/kpi_v2', {{ credentials: 'same-origin' }}).then(r => r.json()).then(renderKpiSectionV2)
+      fetch('/research/ledger_v2', {{ credentials: 'same-origin' }}).then(r => {{ if (!r.ok) throw new Error('Refresh failed'); return r.json(); }}).then(renderKpiSectionV2)
         .catch(() => {{}}).finally(() => {{ btn.disabled = false; }});
     }}
 
@@ -1589,7 +1679,7 @@ def dashboard(_: None = Depends(check_auth)) -> str:
     research_health_payload = load_research_snapshot(RESEARCH_HEALTH_PATH)
     research_kpi_payload = load_research_snapshot(RESEARCH_KPI_PATH)
     research_health_v2_payload = load_research_snapshot(RESEARCH_HEALTH_V2_PATH)
-    research_kpi_v2_payload = load_research_snapshot(RESEARCH_KPI_V2_PATH)
+    research_kpi_v2_payload = research_ledger_v2()
     return render_page(live_payload, performance_payload, load_alerts(), research_health_payload, research_kpi_payload,
                        research_health_v2_payload, research_kpi_v2_payload)
 
@@ -1644,6 +1734,14 @@ def research_kpi_v2(_: None = Depends(check_auth)) -> dict:
     """v2 measurement contract -- reads research_kpi_v2.json. Never the
     same file, never blended with v1's /research/kpi."""
     return load_research_snapshot(RESEARCH_KPI_V2_PATH)
+
+
+@app.get("/research/ledger_v2", response_class=JSONResponse)
+def research_ledger_v2(_: None = Depends(check_auth)) -> dict:
+    """Display-only join of precomputed snapshots; no scoring, API or log scan."""
+    return research_ledger_display(load_research_snapshot(RESEARCH_HEALTH_V2_PATH),
+                                   load_research_snapshot(RESEARCH_KPI_V2_PATH),
+                                   load_research_snapshot(RESEARCH_EVIDENCE_V2_PATH))
 
 
 @app.get("/api/performance", response_class=JSONResponse)
