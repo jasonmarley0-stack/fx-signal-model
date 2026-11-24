@@ -185,6 +185,33 @@ def reconstruct_trade(trade: dict, evidence: list[dict], source: HistoricalSourc
     candles: list[dict] = []
     fetched_gaps: set[tuple] = set()
     result = rge.reconstruct(trade, quotes, candles, now)
+    # Pad every fetch well beyond the exact disqualifying gap (bounded by
+    # OandaPracticeSource's own per-request span cap). Real multi-day
+    # windows have many small, scattered receipt gaps (see
+    # PHASE2_INVESTIGATION.md's ~1.157% attempt-failure rate); fetching
+    # only the exact gap each time would need one live request per gap.
+    # Padding means a later nearby gap is very often already covered by
+    # bars already in `candles` from an earlier fetch, resolved by
+    # research_gap_evidence.reconstruct() itself with NO further request --
+    # this changes how much is fetched per call, never what counts as
+    # proof: candle_proof()'s own touch/coverage rules are untouched.
+    PAD_SECONDS = 10_800  # 3h each side -- (3h+gap+3h) stays under the 24,950s/request cap
+    # IMPORTANT, confirmed empirically (not just by reading the code): a
+    # fetched candle can only ever help resolve a MID-scan gap via
+    # candle_proof(). research_gap_evidence.reconstruct()'s trailing-gap
+    # branch ("Trailing coverage or deadline execution evidence missing.",
+    # "No quote at or after the actual deadline.") and its
+    # pending_nontradeable branch ("Awaiting an observed tradeable
+    # reopening.") never call candle_proof() at all -- they resolve only
+    # from an actual tradeable QUOTE sample in `quotes` (an ordinary
+    # post-deadline receipt, or a continuous run of tradeable=false quotes
+    # for closure-bridging). No amount of fetched candle data can move
+    # either of those two states forward; a trade that ends in one of them
+    # with no further quote evidence is correctly, genuinely unresolved
+    # by this engine as built -- this is a limitation of reusing
+    # research_gap_evidence.py AS-IS for trailing/closure-reopening cases
+    # whose own evidence window stops short of the reopening, not a bug
+    # in the padding/retry logic below (which this loop is for).
     for _ in range(max_requests if source is not None else 0):
         gap = result.get("first_unproved_gap")
         if result["state"] != "unknown" or gap is None:
@@ -194,13 +221,31 @@ def reconstruct_trade(trade: dict, evidence: list[dict], source: HistoricalSourc
             break
         fetched_gaps.add(key)
         try:
-            candles.extend(source.fetch(pair, datetime.fromisoformat(key[0]), datetime.fromisoformat(key[1])))
+            gap_start, gap_end = datetime.fromisoformat(key[0]), datetime.fromisoformat(key[1])
+            gap_width = (gap_end - gap_start).total_seconds()
+            max_span = getattr(source, "MAX_SPAN_SECONDS", None)
+            pad = PAD_SECONDS
+            if max_span is not None:
+                pad = max(0, min(PAD_SECONDS, (max_span - gap_width) / 2))
+            fetch_end = min(gap_end + timedelta(seconds=pad), now)  # never request past `now` -- candle_proof would reject it anyway
+            candles.extend(source.fetch(pair, gap_start - timedelta(seconds=pad), fetch_end))
         except Exception as exc:
             return ReconstructionResult(decision_id, pair, trade["original_state"],
                                         "unresolved_insufficient_historical_data",
                                         reason=f"historical candle fetch failed: {exc}",
                                         proofs=result.get("proofs", []), is_control=is_control)
-        now = datetime.now(timezone.utc) if now is None else now
+        # A live fetch's own fetched_at_utc is real wall-clock time, which
+        # can be later than a `now`/as_of fixed earlier (e.g. at the start
+        # of a long batch run, or a captured snapshot timestamp) --
+        # candle_proof() correctly treats a bar fetched "after now" as
+        # future information and rejects it. Advancing (never rewinding)
+        # `now` to real time after each live fetch keeps that check
+        # meaningful instead of discarding every candle this loop just
+        # legitimately retrieved. This never affects the result for any
+        # trade whose deadline has already passed by the time this runs
+        # (true for every trade in this exercise) -- it only ever lets
+        # `now` grow, never changes which candles exist or what they show.
+        now = max(now, datetime.now(timezone.utc))
         result = rge.reconstruct(trade, quotes, candles, now)
 
     classification = _classify(result)

@@ -34,8 +34,26 @@ as a JSON file content-addressed by its exact request parameters (pair/from/to/g
 own `fetched_at_utc` recorded — the same provenance discipline already used in the production
 supplementary-evidence audit (`research_evidence_audit.py`).
 
-## Pending
+## Phase 2 update (2026-11-24) — the real export arrived and was used
 
-- `V2_RECONSTRUCTION_INPUT.csv`, `V2_OBSERVATION_EVIDENCE.csv`, `EVIDENCE_MANIFEST.md` (Codex) have not
-  arrived in `codex_audit_exports/` as of this writing. This manifest will be updated with their
-  row counts, date ranges and any cross-checks against this file once they do.
+Received at `/Users/jasonmarley/Documents/ChatGPT/Signal IQ - FX/audit/2026-11-24-v2-observer/`.
+Read-only copies imported into `independent_reconstruction/data/` (chmod a-w); originals verified
+byte-for-byte unmodified afterward via SHA-256 re-hash. All 13 manifest-listed hashes matched exactly;
+the 8 content-addressed `phase2_reconstruction_evidence/*.json` files were independently verified
+byte-identical against the live production droplet's own `/root/fx-signal-model/research_supplementary/`
+copies (not just internally self-consistent).
+
+**OANDA practice fetches actually performed for the real reconstruction run**: 25 live requests total
+across all 22 entered trades (20MB of cached responses, preserved under `independent_reconstruction/
+cache/` for offline reproducibility — no network access needed to rerun `engine.py` against this exact
+cache). This is far fewer than the pre-padding design would have needed (one request per disqualifying
+gap) — the padded-fetch optimization (see `RECONSTRUCTION_METHODOLOGY.md`) meant most nearby small gaps
+reused an already-fetched, wider candle response.
+
+`V2_OBSERVATION_EVIDENCE.csv`: confirmed 452,706 data rows, cleanly bucketed across exactly the 22
+entered trade_ids (no blank/foreign trade_id rows), ~19,600–20,850 rows per trade. No rows outside the
+scoped pairs or outside a trade's own window were present.
+
+Full results: `independent_reconstruction/output/full_reconstruction_results.json` (per-trade),
+`V2_RECONSTRUCTED_TRADE_LEDGER.csv` (the required deliverable format). See
+`RECONSTRUCTION_VALIDATION_REPORT.md` for what did and didn't validate.

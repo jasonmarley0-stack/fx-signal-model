@@ -1,4 +1,13 @@
 .pytest_cache/
 __pycache__/
-cache/*.json
-output/
+# cache/ and output/ from the real Phase 2 run (2026-11-24) ARE committed
+# deliberately, for full offline reproducibility -- see
+# HISTORICAL_DATA_MANIFEST.md. A future, different reconstruction run's
+# scratch output should NOT be committed; re-add an ignore rule then.
+#
+# data/ is a read-only IMPORTED copy of Codex's external export (originals
+# at the path in EXECUTIVE_SUMMARY.md / HISTORICAL_DATA_MANIFEST.md, with
+# every file's SHA-256 already recorded there and in EVIDENCE_MANIFEST.md)
+# -- not duplicated into git history, 86MB of it is one raw CSV. Re-import
+# with the same commands used originally if this workspace needs it again.
+data/

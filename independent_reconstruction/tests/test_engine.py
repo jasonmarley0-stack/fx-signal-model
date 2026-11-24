@@ -187,6 +187,68 @@ def test_insufficient_historical_data_when_no_source_and_gap_present():
     assert result.classification == "unresolved_insufficient_historical_data"
 
 
+def test_fetch_padding_never_exceeds_the_source_span_cap():
+    requested_spans = []
+
+    class SpanRecordingSource(HistoricalSource):
+        MAX_SPAN_SECONDS = 24950
+
+        def fetch(self, pair, start, end):
+            requested_spans.append((end - start).total_seconds())
+            return [{"pair": pair, "side": "bid", "complete": True,
+                    "start_utc": start.isoformat(), "end_utc": end.isoformat(),
+                    "open": 1.0999, "high": 1.1001, "low": 1.0998, "close": 1.1000,
+                    "fetched_at_utc": start.isoformat(), "evidence_sha256": "x"}]
+
+    # A gap already wider than the source's own span cap minus 2*PAD (10800*2=21600,
+    # cap=24950, so a gap over ~3350s forces the padding to shrink rather than
+    # raise -- this one is deliberately much larger to exercise that clamp hard.
+    second_t = T0 + timedelta(seconds=23000)
+    quotes = [quote_row("EURUSD", T0, 1.09960, 1.10000),
+              quote_row("EURUSD", second_t, 1.09995, 1.10005)]
+    quotes = [{**q, "bid": float(q["bid"]), "ask": float(q["ask"]), "tradeable": True} for q in quotes]
+    result = _run_one({"max_holding_time_hours": str(23000 / 3600)}, quotes,
+                      source=SpanRecordingSource(), as_of=T0 + timedelta(seconds=23100))
+    assert requested_spans, "the source must have been called at least once"
+    assert all(span <= 24950 for span in requested_spans), (
+        f"a padded fetch exceeded the source's own span cap: {requested_spans}")
+
+
+def test_padding_lets_a_second_nearby_gap_reuse_already_fetched_candles():
+    class CountingPaddedSource(HistoricalSource):
+        MAX_SPAN_SECONDS = 24950
+
+        def __init__(self):
+            self.calls = 0
+
+        def fetch(self, pair, start, end):
+            self.calls += 1
+            bars = []
+            t = start
+            while t < end:
+                bars.append({"pair": pair, "side": "bid", "complete": True,
+                            "start_utc": t.isoformat(), "end_utc": (t + timedelta(seconds=5)).isoformat(),
+                            "open": 1.0999, "high": 1.1001, "low": 1.0998, "close": 1.1000,
+                            "fetched_at_utc": start.isoformat(), "evidence_sha256": "x"})
+                t += timedelta(seconds=5)
+            return bars
+
+    # Three quotes with two SEPARATE ~40s gaps, both well inside a single
+    # padded (3h either side) fetch window around the first gap -- the
+    # second gap should resolve from already-cached candles, no new call.
+    q2_t = T0 + timedelta(seconds=45)
+    q3_t = q2_t + timedelta(seconds=45)
+    quotes = [quote_row("EURUSD", T0, 1.09960, 1.10000),
+              quote_row("EURUSD", q2_t, 1.09995, 1.10005),
+              quote_row("EURUSD", q3_t, 1.09994, 1.10004)]
+    quotes = [{**q, "bid": float(q["bid"]), "ask": float(q["ask"]), "tradeable": True} for q in quotes]
+    source = CountingPaddedSource()
+    result = _run_one({"max_holding_time_hours": str(85 / 3600)}, quotes, source=source,
+                      as_of=T0 + timedelta(minutes=5))
+    assert result.classification == "reconstructed_time_exit"
+    assert source.calls == 1, f"expected the second gap to reuse padded candles, got {source.calls} live calls"
+
+
 def test_candle_envelope_proof_resolves_a_gap_via_fetched_source():
     # A short, 40s holding period: entry at T0, deadline at T0+40s, one quote
     # right after the gap at T0+45s (5s past deadline, within the ordinary
@@ -206,7 +268,7 @@ def test_candle_envelope_proof_resolves_a_gap_via_fetched_source():
                 bars.append({"pair": pair, "side": "bid", "complete": True,
                             "start_utc": t.isoformat(), "end_utc": (t + timedelta(seconds=5)).isoformat(),
                             "open": 1.0999, "high": 1.1001, "low": 1.0998, "close": 1.1000,
-                            "fetched_at_utc": (end + timedelta(seconds=1)).isoformat(), "evidence_sha256": "fake"})
+                            "fetched_at_utc": start.isoformat(), "evidence_sha256": "fake"})
                 t += timedelta(seconds=5)
             return bars
 
@@ -248,7 +310,7 @@ def test_identical_inputs_and_cache_produce_identical_output(tmp_path):
             return [{"pair": pair, "side": "bid", "complete": True,
                      "start_utc": start.isoformat(), "end_utc": end.isoformat(),
                      "open": 1.0999, "high": 1.1001, "low": 1.0998, "close": 1.1000,
-                     "fetched_at_utc": (end + timedelta(seconds=1)).isoformat(), "evidence_sha256": "x"}]
+                     "fetched_at_utc": start.isoformat(), "evidence_sha256": "x"}]
 
     quotes = [quote_row("EURUSD", T0, 1.09960, 1.10000),
               quote_row("EURUSD", T0 + timedelta(seconds=40), 1.09995, 1.10005)]
@@ -320,3 +382,29 @@ def test_already_resolved_original_is_flagged_as_control():
     quotes = [{**q, "bid": float(q["bid"]), "ask": float(q["ask"]), "tradeable": True} for q in quotes]
     result = eng.reconstruct_trade(trade, quotes, None, T0 + timedelta(hours=40))
     assert result.is_control is True
+
+
+def test_trailing_gap_cannot_be_resolved_by_candles_alone():
+    """Documented limitation (see engine.py's comment above the retry
+    loop): research_gap_evidence.reconstruct()'s trailing-gap branch never
+    calls candle_proof(), so no amount of fetched candle data can move it
+    forward -- only an actual quote sample can. A fetch IS still attempted
+    (confirming the engine tries, honestly, rather than giving up without
+    trying) but must not change the outcome."""
+    class AnySource(HistoricalSource):
+        def __init__(self):
+            self.calls = 0
+
+        def fetch(self, pair, start, end):
+            self.calls += 1
+            return [{"pair": pair, "side": "bid", "complete": True,
+                    "start_utc": start.isoformat(), "end_utc": end.isoformat(),
+                    "open": 1.0999, "high": 1.1001, "low": 1.0998, "close": 1.1000,
+                    "fetched_at_utc": start.isoformat(), "evidence_sha256": "x"}]
+
+    quotes = [quote_row("EURUSD", T0, 1.09960, 1.10000)]  # only the entry sample -- nothing else
+    quotes = [{**q, "bid": float(q["bid"]), "ask": float(q["ask"]), "tradeable": True} for q in quotes]
+    result = _run_one({"max_holding_time_hours": str(60 / 3600)}, quotes, source=AnySource(),
+                      as_of=T0 + timedelta(minutes=2))
+    assert result.classification == "unresolved_insufficient_historical_data"
+    assert "Trailing coverage" in result.reason or "No quote at or after" in result.reason
