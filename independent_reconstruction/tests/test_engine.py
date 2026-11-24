@@ -283,6 +283,72 @@ def test_candle_envelope_proof_resolves_a_gap_via_fetched_source():
     assert len(result.proofs) == 1
 
 
+def test_oversized_gap_is_split_into_bounded_fetches_not_widened_past_the_cap():
+    # A mid-scan gap (50005s) wider than the source's own single-request
+    # bound (24950s, matching OandaPracticeSource.MAX_SPAN_SECONDS) -- this
+    # is exactly the shape of the real v2-005/006/007 gaps found against
+    # the Phase 2B extended evidence (regression for the 2026-11-24
+    # discovery). Padding alone cannot help here -- it only ever shrinks to
+    # 0 once gap_width already exceeds the cap -- so a single fetch call
+    # covering the whole gap would still exceed the bound. The fetch must
+    # be split into multiple bounded sub-requests covering the same
+    # overall range, never one oversized call.
+    # The entry/gap start is deliberately placed 4.9s off the 5s grid (real
+    # quote receipt timestamps never land exactly on it either) -- chosen so
+    # that, combined with a chunk width that is itself a multiple of 5s, the
+    # rounded request grows by exactly 5s (float(0)+ceil(0.1)->this matches
+    # the real incident precisely: a nominal 24950s chunk became a rejected
+    # 24955s request). A margin-0 chunker reproduces that exact failure; the
+    # fix's 10s margin must absorb it.
+    start_t = T0 + timedelta(seconds=4, microseconds=900000)
+    gap_width = 50005
+    second_quote_t = start_t + timedelta(seconds=gap_width)
+
+    class CapEnforcingSource(HistoricalSource):
+        # Mirrors OandaPracticeSource.fetch()'s own behavior: snap start DOWN
+        # and end UP to the nearest 5s grid *before* checking the span bound.
+        # This is what actually caught the real v2-005/006/007 failure -- a
+        # chunk sized to land exactly on MAX_SPAN_SECONDS can still get
+        # rejected after this outward rounding, which a cap check against
+        # the UNROUNDED span (as this test originally had) cannot catch.
+        MAX_SPAN_SECONDS = 24950
+
+        def __init__(self):
+            self.spans = []
+
+        def fetch(self, pair, start, end):
+            import math as _math
+            a = datetime.fromtimestamp(_math.floor(start.timestamp() / 5) * 5, timezone.utc)
+            b = datetime.fromtimestamp(_math.ceil(end.timestamp() / 5) * 5, timezone.utc)
+            span = (b - a).total_seconds()
+            if span > self.MAX_SPAN_SECONDS:
+                raise ValueError(
+                    f"Requested span {span:.0f}s exceeds the {self.MAX_SPAN_SECONDS}s "
+                    "per-request bound -- split into multiple calls rather than widening this one.")
+            start, end = a, b
+            self.spans.append(span)
+            bars = []
+            t = start
+            while t < end:
+                bars.append({"pair": pair, "side": "bid", "complete": True,
+                            "start_utc": t.isoformat(), "end_utc": (t + timedelta(seconds=5)).isoformat(),
+                            "open": 1.0999, "high": 1.1001, "low": 1.0998, "close": 1.1000,
+                            "fetched_at_utc": start.isoformat(), "evidence_sha256": "fake"})
+                t += timedelta(seconds=5)
+            return bars
+
+    quotes = [quote_row("EURUSD", start_t, 1.09960, 1.10000),
+              quote_row("EURUSD", second_quote_t, 1.09995, 1.10005)]  # no stop/target touch
+    quotes = [{**q, "bid": float(q["bid"]), "ask": float(q["ask"]), "tradeable": True} for q in quotes]
+    source = CapEnforcingSource()
+    result = _run_one({"assumed_entry_time_utc": start_t.isoformat(),
+                       "max_holding_time_hours": str((gap_width - 5) / 3600)}, quotes, source=source,
+                      as_of=start_t + timedelta(seconds=gap_width + 120))
+    assert result.classification == "reconstructed_time_exit", result.reason
+    assert len(source.spans) >= 2, "expected the oversized gap to be split into multiple bounded fetches"
+    assert all(span <= 24950 for span in source.spans)
+
+
 def test_continuous_nontradeable_evidence_bridges_a_gap_without_any_fetch():
     deadline = T0 + timedelta(hours=30)
     quotes = [quote_row("EURUSD", T0, 1.09960, 1.10000)]

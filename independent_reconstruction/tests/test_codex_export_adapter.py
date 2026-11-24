@@ -140,3 +140,58 @@ def test_original_outcomes_matched_by_pair_and_entry_time(tmp_path):
     assert outcomes["v2-003"]["found"] is True
     assert outcomes["v2-003"]["r_multiple"] == -0.754
     assert outcomes["v2-004"]["found"] is False
+
+
+# ---------- memory-bounded spill (regression for the 2026-11-24 OOM) ----------
+
+def test_spill_writes_one_file_per_trade_and_never_builds_one_big_dict(tmp_path):
+    p = tmp_path / "evidence.csv"
+    rows = [evidence_row("v2-001", "2026-10-21T01:01:13+00:00", 1.0996, 1.1000),
+            evidence_row("v2-001", "2026-10-21T01:01:18+00:00", 1.0995, 1.1001),
+            evidence_row("v2-002", "2026-10-22T17:02:03+00:00", 0.99, 1.00)]
+    write_csv(p, rows, EVIDENCE_FIELDS)
+    spill_dir = tmp_path / "spill"
+    paths = adapter.spill_evidence_by_trade(p, {"v2-001", "v2-002"}, spill_dir)
+    assert set(paths.keys()) == {"v2-001", "v2-002"}
+    v1_rows = adapter.load_spilled_trade_evidence(paths["v2-001"])
+    v2_rows = adapter.load_spilled_trade_evidence(paths["v2-002"])
+    assert len(v1_rows) == 2
+    assert len(v2_rows) == 1
+    assert v1_rows[0]["bid"] == 1.0996
+
+
+def test_spill_skips_unwanted_trade_ids(tmp_path):
+    p = tmp_path / "evidence.csv"
+    rows = [evidence_row("v2-001", "2026-10-21T01:01:13+00:00", 1.0996, 1.1000),
+            evidence_row("v2-099", "2026-10-21T01:01:13+00:00", 1.0996, 1.1000)]
+    write_csv(p, rows, EVIDENCE_FIELDS)
+    spill_dir = tmp_path / "spill"
+    paths = adapter.spill_evidence_by_trade(p, {"v2-001"}, spill_dir)
+    assert set(paths.keys()) == {"v2-001"}
+    assert len(adapter.load_spilled_trade_evidence(paths["v2-001"])) == 1
+
+
+def test_spill_drops_malformed_row_same_as_load_evidence_by_trade(tmp_path):
+    p = tmp_path / "evidence.csv"
+    good = evidence_row("v2-001", "2026-10-21T01:01:13+00:00", 1.0996, 1.1000)
+    bad = {**evidence_row("v2-001", "2026-10-21T01:01:18+00:00", 1.0996, 1.1000), "bid": "nope"}
+    write_csv(p, [good, bad], EVIDENCE_FIELDS)
+    spill_dir = tmp_path / "spill"
+    paths = adapter.spill_evidence_by_trade(p, {"v2-001"}, spill_dir)
+    assert len(adapter.load_spilled_trade_evidence(paths["v2-001"])) == 1
+
+
+def test_spill_and_in_memory_load_agree_exactly(tmp_path):
+    """The memory-bounded path must produce identical data to the
+    original in-memory path -- this is purely a memory-footprint fix,
+    never a behavior change."""
+    p = tmp_path / "evidence.csv"
+    rows = [evidence_row("v2-001", "2026-10-21T01:01:13+00:00", 1.0996, 1.1000),
+            evidence_row("v2-001", "2026-10-21T01:01:18+00:00", 1.0995, 1.1001),
+            evidence_row("v2-002", "2026-10-22T17:02:03+00:00", 0.99, 1.00)]
+    write_csv(p, rows, EVIDENCE_FIELDS)
+    in_memory = adapter.load_evidence_by_trade(p)
+    spill_dir = tmp_path / "spill"
+    paths = adapter.spill_evidence_by_trade(p, {"v2-001", "v2-002"}, spill_dir)
+    for tid in ("v2-001", "v2-002"):
+        assert adapter.load_spilled_trade_evidence(paths[tid]) == in_memory[tid]

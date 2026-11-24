@@ -11,3 +11,9 @@ __pycache__/
 # -- not duplicated into git history, 86MB of it is one raw CSV. Re-import
 # with the same commands used originally if this workspace needs it again.
 data/
+
+# input/ is the same pattern for Phase 3's Phase-2B supplementary import --
+# 591MB, one raw CSV is 619MB of that. Hashes recorded in
+# PHASE3_BASELINE_RECONCILIATION.md; re-import from the external audit
+# directory named there if this workspace needs it again.
+input/

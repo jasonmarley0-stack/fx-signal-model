@@ -224,11 +224,39 @@ def reconstruct_trade(trade: dict, evidence: list[dict], source: HistoricalSourc
             gap_start, gap_end = datetime.fromisoformat(key[0]), datetime.fromisoformat(key[1])
             gap_width = (gap_end - gap_start).total_seconds()
             max_span = getattr(source, "MAX_SPAN_SECONDS", None)
+            # SPAN_SAFETY_MARGIN_SECONDS: OandaPracticeSource.fetch() snaps a
+            # request's start DOWN and end UP to the nearest 5s grid before
+            # checking its own MAX_SPAN_SECONDS bound -- so a request built
+            # to land exactly on that bound can still be rejected after
+            # rounding (confirmed empirically: a nominal 24950s chunk became
+            # a rejected 24955s request against the real source during Phase
+            # 2B). Subtracting this margin everywhere max_span is used below
+            # leaves headroom for that outward rounding.
+            SPAN_SAFETY_MARGIN_SECONDS = 10
+            effective_max_span = None if max_span is None else max(1, max_span - SPAN_SAFETY_MARGIN_SECONDS)
             pad = PAD_SECONDS
-            if max_span is not None:
-                pad = max(0, min(PAD_SECONDS, (max_span - gap_width) / 2))
+            if effective_max_span is not None:
+                pad = max(0, min(PAD_SECONDS, (effective_max_span - gap_width) / 2))
+            fetch_start = gap_start - timedelta(seconds=pad)
             fetch_end = min(gap_end + timedelta(seconds=pad), now)  # never request past `now` -- candle_proof would reject it anyway
-            candles.extend(source.fetch(pair, gap_start - timedelta(seconds=pad), fetch_end))
+            # If the raw gap itself is already wider than the source's own
+            # per-request bound, padding alone cannot help (it has already
+            # collapsed to 0 above) -- a single fetch covering the whole
+            # range would still exceed that bound (OandaPracticeSource.fetch()
+            # raises exactly this guidance back at its caller: "split into
+            # multiple calls rather than widening this one"). Split into
+            # consecutive bounded sub-requests covering the same overall
+            # [fetch_start, fetch_end) range instead of one oversized call --
+            # this changes how many calls fetch a gap, never what counts as
+            # proof.
+            if effective_max_span is not None and (fetch_end - fetch_start).total_seconds() > effective_max_span:
+                chunk_start = fetch_start
+                while chunk_start < fetch_end:
+                    chunk_end = min(chunk_start + timedelta(seconds=effective_max_span), fetch_end)
+                    candles.extend(source.fetch(pair, chunk_start, chunk_end))
+                    chunk_start = chunk_end
+            else:
+                candles.extend(source.fetch(pair, fetch_start, fetch_end))
         except Exception as exc:
             return ReconstructionResult(decision_id, pair, trade["original_state"],
                                         "unresolved_insufficient_historical_data",

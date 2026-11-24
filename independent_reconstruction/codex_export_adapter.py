@@ -130,6 +130,61 @@ def load_evidence_by_trade(path: Path, wanted_trade_ids: set[str] | None = None)
     return out
 
 
+def spill_evidence_by_trade(path: Path, wanted_trade_ids: set[str], spill_dir: Path) -> dict[str, Path]:
+    """Memory-bounded alternative to load_evidence_by_trade() for a large
+    export (Phase 2B's extended evidence is 619MB / ~1.9M rows across a
+    96h-per-trade margin -- loading that into one in-memory dict is what
+    actually OOM-killed this process on the 1GB droplet on 2026-11-24; see
+    PHASE3 engineering-assurance notes). ONE streaming pass over the whole
+    file; each row is written straight to its own trade_id's temp file on
+    disk as it is read, never accumulated -- the same disk-spill pattern
+    research_snapshot_publisher.py already uses in production
+    (_spill_bounded_quotes). Returns {trade_id: path}; caller reads one
+    trade's file back at a time (see load_spilled_trade_evidence) and is
+    responsible for deleting the files afterward."""
+    spill_dir.mkdir(parents=True, exist_ok=True)
+    handles: dict[str, object] = {}
+    paths: dict[str, Path] = {}
+    try:
+        for tid in wanted_trade_ids:
+            fh = open(spill_dir / f"{tid}.jsonl", "w")
+            handles[tid] = fh
+            paths[tid] = Path(fh.name)
+        with path.open(newline="") as f:
+            reader = csv.DictReader(f)
+            for raw in reader:
+                tid = raw.get("trade_id", "").strip()
+                fh = handles.get(tid)
+                if fh is None:
+                    continue
+                try:
+                    bid, ask = float(raw["bid"]), float(raw["ask"])
+                    tradeable = raw["tradeable"].strip().lower() == "true"
+                    received, provider = rge._time(raw["received_at_utc"]), rge._time(raw["oanda_time_utc"])
+                    if received is None or provider is None or provider > received or bid > ask:
+                        continue
+                except (KeyError, ValueError):
+                    continue
+                fh.write(json.dumps({"pair": raw["pair"], "received_at_utc": raw["received_at_utc"],
+                                     "oanda_time_utc": raw["oanda_time_utc"], "bid": bid, "ask": ask,
+                                     "tradeable": tradeable}) + "\n")
+    finally:
+        for fh in handles.values():
+            fh.close()
+    return paths
+
+
+def load_spilled_trade_evidence(path: Path) -> list[dict]:
+    """Reads back ONE trade's spilled evidence file (small -- one trade's
+    own ~15-20MB share of the export, never the whole thing)."""
+    rows = []
+    with path.open() as f:
+        for line in f:
+            if line.strip():
+                rows.append(json.loads(line))
+    return rows
+
+
 def load_original_outcomes(kpi_snapshot_path: Path, trades: list[dict]) -> dict[str, dict]:
     """Pulls original exit_time_utc/exit_price/r_multiple for the
     resolved trades from the captured KPI snapshot's own ledger (the

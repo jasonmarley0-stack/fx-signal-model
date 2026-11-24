@@ -1,0 +1,938 @@
+{
+  "as_of_utc": "2026-11-24T19:44:55.913492+00:00",
+  "evidence_source": "V2_EXTENDED_OBSERVATION_EVIDENCE.csv",
+  "results": [
+    {
+      "decision_id": "v2-001",
+      "pair": "USDJPY",
+      "original_state": "incomplete_coverage",
+      "classification": "reconstructed_stopped",
+      "exit_time_utc": "2026-10-22T03:08:42.529605+00:00",
+      "exit_price": 157.778,
+      "r_multiple": -1.0000000000000482,
+      "reason": null,
+      "proofs": [
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-10-21T10:07:05.325371+00:00",
+          "to_utc": "2026-10-21T10:07:20.778108+00:00",
+          "evidence_sha256": [
+            "8b3ddb77db518de32c6b9ca60650f4b755cce83c3ec301eb3092a3b4c28bb094"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-10-21T19:00:17.935230+00:00",
+          "to_utc": "2026-10-21T19:00:33.720420+00:00",
+          "evidence_sha256": [
+            "b7bbb78c3276ddc665bb119c291694c8e5719faf7f711f10378153a57546f2ec"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-10-21T19:30:03.174849+00:00",
+          "to_utc": "2026-10-21T19:30:18.640222+00:00",
+          "evidence_sha256": [
+            "b7bbb78c3276ddc665bb119c291694c8e5719faf7f711f10378153a57546f2ec"
+          ]
+        },
+        {
+          "kind": "continuous_explicit_nontradeability",
+          "from_utc": "2026-10-21T20:59:04.493150+00:00",
+          "to_utc": "2026-10-21T21:04:58.810492+00:00"
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-001",
+      "direction": "long",
+      "assumed_entry_time_utc": "2026-10-21T01:01:13.107750+00:00",
+      "assumed_entry_price": 158.367,
+      "stop": 157.77800000000002,
+      "target": 158.918,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-10-22T07:01:13.107750+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 87507
+    },
+    {
+      "decision_id": "v2-002",
+      "pair": "USDJPY",
+      "original_state": "incomplete_coverage",
+      "classification": "reconstructed_targeted",
+      "exit_time_utc": "2026-10-23T00:05:48.922447+00:00",
+      "exit_price": 156.309,
+      "r_multiple": 1.0172802037712931,
+      "reason": null,
+      "proofs": [
+        {
+          "kind": "continuous_explicit_nontradeability",
+          "from_utc": "2026-10-22T20:59:00.486567+00:00",
+          "to_utc": "2026-10-22T21:04:56.778924+00:00"
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-10-23T00:00:10.160328+00:00",
+          "to_utc": "2026-10-23T00:00:25.683077+00:00",
+          "evidence_sha256": [
+            "6d01b44dd588499751806fa7eb6d261d2440057aeceeb2c8d01dcb416c22e57c"
+          ]
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-002",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-10-22T17:02:03.373879+00:00",
+      "assumed_entry_price": 156.91,
+      "stop": 157.50079101094462,
+      "target": 156.3352089890554,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-10-23T23:02:03.373879+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 87449
+    },
+    {
+      "decision_id": "v2-003",
+      "pair": "USDCAD",
+      "original_state": "time_exited",
+      "classification": "reconstructed_time_exit",
+      "exit_time_utc": "2026-10-25T21:04:56.913807+00:00",
+      "exit_price": 1.40487,
+      "r_multiple": -0.7541152263374584,
+      "reason": null,
+      "proofs": [
+        {
+          "kind": "continuous_explicit_nontradeability",
+          "from_utc": "2026-10-23T20:59:03.699332+00:00",
+          "to_utc": "2026-10-25T21:04:56.913807+00:00"
+        }
+      ],
+      "is_control": true,
+      "trade_id": "v2-003",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-10-23T13:02:16.486494+00:00",
+      "assumed_entry_price": 1.39754,
+      "stop": 1.40726,
+      "target": 1.38746,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-10-24T19:02:16.486494+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "time_exited",
+        "exit_time_utc": "2026-10-25T21:04:56.913807+00:00",
+        "exit_price": 1.40487,
+        "r_multiple": -0.7541152263374584,
+        "deadline_delay_reason": "market_closure"
+      },
+      "evidence_row_count": 87428
+    },
+    {
+      "decision_id": "v2-004",
+      "pair": "EURUSD",
+      "original_state": "incomplete_coverage",
+      "classification": "unresolved_insufficient_historical_data",
+      "exit_time_utc": null,
+      "exit_price": null,
+      "r_multiple": null,
+      "reason": "Gap lacks sufficient non-touch or non-tradeability evidence.",
+      "proofs": [
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-10-26T11:30:12.005907+00:00",
+          "to_utc": "2026-10-26T11:30:37.702799+00:00",
+          "evidence_sha256": [
+            "4a91ab1229384c867e9598aafb5db79ba0d04c59566ca3caeb0c8bd7c6e73cce"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-10-26T16:30:29.810348+00:00",
+          "to_utc": "2026-10-26T16:30:45.331216+00:00",
+          "evidence_sha256": [
+            "2b434063cad6d7714048f0cb24d7ed1d1cbbbb7377a7c266869a83fdb4c23a3e"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-10-26T17:00:06.027330+00:00",
+          "to_utc": "2026-10-26T17:00:21.535793+00:00",
+          "evidence_sha256": [
+            "2b434063cad6d7714048f0cb24d7ed1d1cbbbb7377a7c266869a83fdb4c23a3e"
+          ]
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-004",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-10-26T09:03:53.675377+00:00",
+      "assumed_entry_price": 1.12071,
+      "stop": 1.1243,
+      "target": 1.1169,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-10-27T15:03:53.675377+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 86182
+    },
+    {
+      "decision_id": "v2-005",
+      "pair": "GBPUSD",
+      "original_state": "incomplete_coverage",
+      "classification": "unresolved_insufficient_historical_data",
+      "exit_time_utc": null,
+      "exit_price": null,
+      "r_multiple": null,
+      "reason": "historical candle fetch failed: OANDA practice credentials are not configured.",
+      "proofs": [],
+      "is_control": false,
+      "trade_id": "v2-005",
+      "direction": "long",
+      "assumed_entry_time_utc": "2026-10-30T09:04:02.922055+00:00",
+      "assumed_entry_price": 1.34126,
+      "stop": 1.33398,
+      "target": 1.34898,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-10-31T15:04:02.922055+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 86293
+    },
+    {
+      "decision_id": "v2-006",
+      "pair": "USDJPY",
+      "original_state": "incomplete_coverage",
+      "classification": "unresolved_insufficient_historical_data",
+      "exit_time_utc": null,
+      "exit_price": null,
+      "r_multiple": null,
+      "reason": "historical candle fetch failed: OANDA practice credentials are not configured.",
+      "proofs": [],
+      "is_control": false,
+      "trade_id": "v2-006",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-10-30T09:05:35.867771+00:00",
+      "assumed_entry_price": 157.324,
+      "stop": 157.85838457366486,
+      "target": 156.71361542633514,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-10-31T15:05:35.867771+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 86293
+    },
+    {
+      "decision_id": "v2-007",
+      "pair": "USDCAD",
+      "original_state": "incomplete_coverage",
+      "classification": "unresolved_insufficient_historical_data",
+      "exit_time_utc": null,
+      "exit_price": null,
+      "r_multiple": null,
+      "reason": "historical candle fetch failed: OANDA practice credentials are not configured.",
+      "proofs": [],
+      "is_control": false,
+      "trade_id": "v2-007",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-10-30T09:04:02.922055+00:00",
+      "assumed_entry_price": 1.39666,
+      "stop": 1.40634,
+      "target": 1.3865399999999999,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-10-31T15:04:02.922055+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 86293
+    },
+    {
+      "decision_id": "v2-008",
+      "pair": "USDJPY",
+      "original_state": "targeted",
+      "classification": "reconstructed_targeted",
+      "exit_time_utc": "2026-11-03T15:17:18.168919+00:00",
+      "exit_price": 158.525,
+      "r_multiple": 1.07246376811598,
+      "reason": null,
+      "proofs": [],
+      "is_control": true,
+      "trade_id": "v2-008",
+      "direction": "long",
+      "assumed_entry_time_utc": "2026-11-02T22:04:57.180230+00:00",
+      "assumed_entry_price": 157.933,
+      "stop": 157.381,
+      "target": 158.521,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-04T04:04:57.180230+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "targeted",
+        "exit_time_utc": "2026-11-03T15:17:18.168919+00:00",
+        "exit_price": 158.525,
+        "r_multiple": 1.07246376811598,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 87141
+    },
+    {
+      "decision_id": "v2-009",
+      "pair": "USDCHF",
+      "original_state": "incomplete_coverage",
+      "classification": "reconstructed_time_exit",
+      "exit_time_utc": "2026-11-04T12:03:59.074366+00:00",
+      "exit_price": 0.81707,
+      "r_multiple": 0.096739130434789,
+      "reason": null,
+      "proofs": [
+        {
+          "kind": "continuous_explicit_nontradeability",
+          "from_utc": "2026-11-03T21:59:00.663500+00:00",
+          "to_utc": "2026-11-03T22:04:59.084866+00:00"
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-04T06:00:15.194348+00:00",
+          "to_utc": "2026-11-04T06:00:30.640993+00:00",
+          "evidence_sha256": [
+            "d5faa96364b16b4d04a5c76a8b3dbfaf5b54a1323f1f3bbafe02ad4460a1eb8a"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-04T12:00:41.199927+00:00",
+          "to_utc": "2026-11-04T12:00:56.632577+00:00",
+          "evidence_sha256": [
+            "99c726f4a855cf5a4761ab857c56b20095555c452621967f7119a075296781d7"
+          ]
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-009",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-11-03T06:03:54.403487+00:00",
+      "assumed_entry_price": 0.81796,
+      "stop": 0.82716,
+      "target": 0.80876,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-04T12:03:54.403487+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 87140
+    },
+    {
+      "decision_id": "v2-010",
+      "pair": "EURUSD",
+      "original_state": "incomplete_coverage",
+      "classification": "unresolved_insufficient_historical_data",
+      "exit_time_utc": null,
+      "exit_price": null,
+      "r_multiple": null,
+      "reason": "Gap lacks sufficient non-touch or non-tradeability evidence.",
+      "proofs": [
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-04T06:00:15.194348+00:00",
+          "to_utc": "2026-11-04T06:00:30.640993+00:00",
+          "evidence_sha256": [
+            "a42841c3707be71209461b91d11f6138bbad672498dfb6bc57fabd9be5a4e262"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-04T12:00:41.199927+00:00",
+          "to_utc": "2026-11-04T12:00:56.632577+00:00",
+          "evidence_sha256": [
+            "170cf96032636a67a29ee09ffa84d35a4b73e1ab5cac613afb00cfd16dbcc168"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-04T18:00:05.494308+00:00",
+          "to_utc": "2026-11-04T18:00:21.079060+00:00",
+          "evidence_sha256": [
+            "aa0e1c705778d42c9fc770f04231f9717a2106ee55b90a1f1e1eb9668024ea7b"
+          ]
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-010",
+      "direction": "long",
+      "assumed_entry_time_utc": "2026-11-04T02:03:53.232138+00:00",
+      "assumed_entry_price": 1.12393,
+      "stop": 1.1197909607578895,
+      "target": 1.1282890392421103,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-05T08:03:53.232138+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 87173
+    },
+    {
+      "decision_id": "v2-011",
+      "pair": "USDJPY",
+      "original_state": "incomplete_coverage",
+      "classification": "unresolved_insufficient_historical_data",
+      "exit_time_utc": null,
+      "exit_price": null,
+      "r_multiple": null,
+      "reason": "Gap lacks sufficient non-touch or non-tradeability evidence.",
+      "proofs": [],
+      "is_control": false,
+      "trade_id": "v2-011",
+      "direction": "long",
+      "assumed_entry_time_utc": "2026-11-04T22:04:56.611164+00:00",
+      "assumed_entry_price": 158.456,
+      "stop": 157.80447275924863,
+      "target": 159.0435272407514,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-06T04:04:56.611164+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 87178
+    },
+    {
+      "decision_id": "v2-012",
+      "pair": "USDCHF",
+      "original_state": "incomplete_coverage",
+      "classification": "unresolved_insufficient_historical_data",
+      "exit_time_utc": null,
+      "exit_price": null,
+      "r_multiple": null,
+      "reason": "Gap lacks sufficient non-touch or non-tradeability evidence.",
+      "proofs": [
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-05T11:30:33.722114+00:00",
+          "to_utc": "2026-11-05T11:30:49.129336+00:00",
+          "evidence_sha256": [
+            "f30ee961636ea36c662a502840478d548fbaee8f57e7799f667056c46ad92c10"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-05T14:01:59.468738+00:00",
+          "to_utc": "2026-11-05T14:02:25.235810+00:00",
+          "evidence_sha256": [
+            "17cad1066795dedba35968da006f7f81ba0a20d571a29294691a4cdf3bde57d5"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-05T14:10:12.155872+00:00",
+          "to_utc": "2026-11-05T14:10:27.598060+00:00",
+          "evidence_sha256": [
+            "17cad1066795dedba35968da006f7f81ba0a20d571a29294691a4cdf3bde57d5"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-05T14:10:27.598060+00:00",
+          "to_utc": "2026-11-05T14:10:43.017725+00:00",
+          "evidence_sha256": [
+            "17cad1066795dedba35968da006f7f81ba0a20d571a29294691a4cdf3bde57d5"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-05T14:18:04.338284+00:00",
+          "to_utc": "2026-11-05T14:18:20.402682+00:00",
+          "evidence_sha256": [
+            "17cad1066795dedba35968da006f7f81ba0a20d571a29294691a4cdf3bde57d5"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-05T14:22:44.518559+00:00",
+          "to_utc": "2026-11-05T14:22:59.906030+00:00",
+          "evidence_sha256": [
+            "17cad1066795dedba35968da006f7f81ba0a20d571a29294691a4cdf3bde57d5"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-05T15:12:37.096530+00:00",
+          "to_utc": "2026-11-05T15:12:52.528197+00:00",
+          "evidence_sha256": [
+            "17cad1066795dedba35968da006f7f81ba0a20d571a29294691a4cdf3bde57d5"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-05T15:35:31.418525+00:00",
+          "to_utc": "2026-11-05T15:35:46.897815+00:00",
+          "evidence_sha256": [
+            "17cad1066795dedba35968da006f7f81ba0a20d571a29294691a4cdf3bde57d5"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-05T16:06:29.275508+00:00",
+          "to_utc": "2026-11-05T16:06:45.189797+00:00",
+          "evidence_sha256": [
+            "17cad1066795dedba35968da006f7f81ba0a20d571a29294691a4cdf3bde57d5"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-05T16:22:02.325497+00:00",
+          "to_utc": "2026-11-05T16:22:18.187002+00:00",
+          "evidence_sha256": [
+            "17cad1066795dedba35968da006f7f81ba0a20d571a29294691a4cdf3bde57d5"
+          ]
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-05T16:59:20.838602+00:00",
+          "to_utc": "2026-11-05T16:59:36.231871+00:00",
+          "evidence_sha256": [
+            "17cad1066795dedba35968da006f7f81ba0a20d571a29294691a4cdf3bde57d5"
+          ]
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-012",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-11-05T02:03:52.372081+00:00",
+      "assumed_entry_price": 0.81432,
+      "stop": 0.8234,
+      "target": 0.805,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-06T08:03:52.372081+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 87180
+    },
+    {
+      "decision_id": "v2-013",
+      "pair": "USDCAD",
+      "original_state": "incomplete_coverage",
+      "classification": "unresolved_insufficient_historical_data",
+      "exit_time_utc": null,
+      "exit_price": null,
+      "r_multiple": null,
+      "reason": "Gap lacks sufficient non-touch or non-tradeability evidence.",
+      "proofs": [
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-05T11:30:33.722114+00:00",
+          "to_utc": "2026-11-05T11:30:49.129336+00:00",
+          "evidence_sha256": [
+            "79e123c52a8aec855c5454535f7f5bd9c1c1b6f931702f0d14ed1c9abb2eab9f"
+          ]
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-013",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-11-05T02:03:57.528523+00:00",
+      "assumed_entry_price": 1.39546,
+      "stop": 1.40533,
+      "target": 1.38553,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-06T08:03:57.528523+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 87180
+    },
+    {
+      "decision_id": "v2-014",
+      "pair": "GBPUSD",
+      "original_state": "incomplete_coverage",
+      "classification": "reconstructed_stopped",
+      "exit_time_utc": "2026-11-10T15:29:46.428831+00:00",
+      "exit_price": 1.3367,
+      "r_multiple": -1.0051948051948103,
+      "reason": null,
+      "proofs": [
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-10T02:00:21.632873+00:00",
+          "to_utc": "2026-11-10T02:00:37.057857+00:00",
+          "evidence_sha256": [
+            "d5819a9e9dc9edf93f300e0c0d53165f65a9413d5edd22629ce0d2e881963c64"
+          ]
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-014",
+      "direction": "long",
+      "assumed_entry_time_utc": "2026-11-09T22:05:00.039277+00:00",
+      "assumed_entry_price": 1.34444,
+      "stop": 1.33674,
+      "target": 1.3517400000000002,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-11T04:05:00.039277+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 87157
+    },
+    {
+      "decision_id": "v2-015",
+      "pair": "EURUSD",
+      "original_state": "targeted",
+      "classification": "reconstructed_targeted",
+      "exit_time_utc": "2026-11-11T13:17:01.882877+00:00",
+      "exit_price": 1.1123,
+      "r_multiple": 0.8926488013576076,
+      "reason": null,
+      "proofs": [],
+      "is_control": true,
+      "trade_id": "v2-015",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-11-11T06:03:55.328983+00:00",
+      "assumed_entry_price": 1.11581,
+      "stop": 1.119742117530054,
+      "target": 1.112337882469946,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-12T12:03:55.328983+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "targeted",
+        "exit_time_utc": "2026-11-11T13:17:01.882877+00:00",
+        "exit_price": 1.1123,
+        "r_multiple": 0.8926488013576076,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 86857
+    },
+    {
+      "decision_id": "v2-016",
+      "pair": "USDJPY",
+      "original_state": "targeted",
+      "classification": "reconstructed_targeted",
+      "exit_time_utc": "2026-11-11T13:49:53.282780+00:00",
+      "exit_price": 159.542,
+      "r_multiple": 0.9556313993174356,
+      "reason": null,
+      "proofs": [],
+      "is_control": true,
+      "trade_id": "v2-016",
+      "direction": "long",
+      "assumed_entry_time_utc": "2026-11-11T10:03:54.015133+00:00",
+      "assumed_entry_price": 158.982,
+      "stop": 158.39600000000002,
+      "target": 159.536,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-12T16:03:54.015133+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "targeted",
+        "exit_time_utc": "2026-11-11T13:49:53.282780+00:00",
+        "exit_price": 159.542,
+        "r_multiple": 0.9556313993174356,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 86819
+    },
+    {
+      "decision_id": "v2-017",
+      "pair": "NZDUSD",
+      "original_state": "incomplete_coverage",
+      "classification": "reconstructed_time_exit",
+      "exit_time_utc": "2026-11-12T16:04:03.191781+00:00",
+      "exit_price": 0.55495,
+      "r_multiple": 0.22208281053952308,
+      "reason": null,
+      "proofs": [
+        {
+          "kind": "continuous_explicit_nontradeability",
+          "from_utc": "2026-11-11T17:59:03.630320+00:00",
+          "to_utc": "2026-11-11T18:04:57.892005+00:00"
+        },
+        {
+          "kind": "continuous_explicit_nontradeability",
+          "from_utc": "2026-11-11T21:59:03.244007+00:00",
+          "to_utc": "2026-11-11T22:04:56.971667+00:00"
+        },
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-12T12:00:09.256708+00:00",
+          "to_utc": "2026-11-12T12:00:24.790490+00:00",
+          "evidence_sha256": [
+            "327c11504e6bf86a1197a7397385205a550ed1e4a593c045dd584c20e3730326"
+          ]
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-017",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-11-11T10:03:59.193205+00:00",
+      "assumed_entry_price": 0.55849,
+      "stop": 0.57443,
+      "target": 0.54263,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-12T16:03:59.193205+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 86819
+    },
+    {
+      "decision_id": "v2-018",
+      "pair": "NZDUSD",
+      "original_state": "incomplete_coverage",
+      "classification": "unresolved_insufficient_historical_data",
+      "exit_time_utc": null,
+      "exit_price": null,
+      "r_multiple": null,
+      "reason": "Gap lacks sufficient non-touch or non-tradeability evidence.",
+      "proofs": [
+        {
+          "kind": "continuous_explicit_nontradeability",
+          "from_utc": "2026-11-12T21:59:02.703588+00:00",
+          "to_utc": "2026-11-12T22:04:56.908861+00:00"
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-018",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-11-12T18:04:57.306184+00:00",
+      "assumed_entry_price": 0.55433,
+      "stop": 0.57026,
+      "target": 0.5384599999999999,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-14T00:04:57.306184+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 86634
+    },
+    {
+      "decision_id": "v2-019",
+      "pair": "AUDUSD",
+      "original_state": "incomplete_coverage",
+      "classification": "unresolved_insufficient_historical_data",
+      "exit_time_utc": null,
+      "exit_price": null,
+      "r_multiple": null,
+      "reason": "Gap lacks sufficient non-touch or non-tradeability evidence.",
+      "proofs": [
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-13T18:18:02.447175+00:00",
+          "to_utc": "2026-11-13T18:18:17.866127+00:00",
+          "evidence_sha256": [
+            "61c5dc340a827ee22fbd8cce62116b7bb229a64bff824c9b116f2b0934fbc7c1"
+          ]
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-019",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-11-13T06:03:57.401209+00:00",
+      "assumed_entry_price": 0.67954,
+      "stop": 0.6909799999999999,
+      "target": 0.66838,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-14T12:03:57.401209+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 86643
+    },
+    {
+      "decision_id": "v2-020",
+      "pair": "GBPUSD",
+      "original_state": "incomplete_coverage",
+      "classification": "unresolved_insufficient_historical_data",
+      "exit_time_utc": null,
+      "exit_price": null,
+      "r_multiple": null,
+      "reason": "Gap lacks sufficient non-touch or non-tradeability evidence.",
+      "proofs": [
+        {
+          "kind": "historical_exit_side_envelope_excludes_levels",
+          "from_utc": "2026-11-13T18:18:02.447175+00:00",
+          "to_utc": "2026-11-13T18:18:17.866127+00:00",
+          "evidence_sha256": [
+            "2b27abab82a35b7736cb28f8b20ab769fd1cd9ef3bffd524077f08567dcc9739"
+          ]
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-020",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-11-13T18:03:45.201552+00:00",
+      "assumed_entry_price": 1.32059,
+      "stop": 1.3282800000000001,
+      "target": 1.31328,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-15T00:03:45.201552+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 86649
+    },
+    {
+      "decision_id": "v2-021",
+      "pair": "NZDUSD",
+      "original_state": "incomplete_coverage",
+      "classification": "reconstructed_time_exit",
+      "exit_time_utc": "2026-11-18T20:03:55.896440+00:00",
+      "exit_price": 0.54899,
+      "r_multiple": 0.003162555344718164,
+      "reason": null,
+      "proofs": [
+        {
+          "kind": "continuous_explicit_nontradeability",
+          "from_utc": "2026-11-17T17:59:03.783024+00:00",
+          "to_utc": "2026-11-17T18:04:56.732810+00:00"
+        },
+        {
+          "kind": "continuous_explicit_nontradeability",
+          "from_utc": "2026-11-17T21:59:04.364316+00:00",
+          "to_utc": "2026-11-17T22:04:56.374197+00:00"
+        },
+        {
+          "kind": "continuous_explicit_nontradeability",
+          "from_utc": "2026-11-18T17:59:03.424690+00:00",
+          "to_utc": "2026-11-18T18:04:55.623395+00:00"
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-021",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-11-17T14:03:50.774256+00:00",
+      "assumed_entry_price": 0.54904,
+      "stop": 0.5648500000000001,
+      "target": 0.53305,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-18T20:03:50.774256+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 85358
+    },
+    {
+      "decision_id": "v2-022",
+      "pair": "GBPUSD",
+      "original_state": "incomplete_coverage",
+      "classification": "unresolved_insufficient_historical_data",
+      "exit_time_utc": null,
+      "exit_price": null,
+      "r_multiple": null,
+      "reason": "historical candle fetch failed: OANDA practice credentials are not configured.",
+      "proofs": [
+        {
+          "kind": "continuous_explicit_nontradeability",
+          "from_utc": "2026-11-19T21:59:03.008363+00:00",
+          "to_utc": "2026-11-19T22:04:55.883983+00:00"
+        }
+      ],
+      "is_control": false,
+      "trade_id": "v2-022",
+      "direction": "short",
+      "assumed_entry_time_utc": "2026-11-19T18:03:47.483426+00:00",
+      "assumed_entry_price": 1.31017,
+      "stop": 1.31782,
+      "target": 1.3028199999999999,
+      "max_holding_time_hours": 30.0,
+      "deadline_utc": "2026-11-21T00:03:47.483426+00:00",
+      "original_outcome": {
+        "found": true,
+        "state": "incomplete_coverage",
+        "exit_time_utc": null,
+        "exit_price": null,
+        "r_multiple": null,
+        "deadline_delay_reason": null
+      },
+      "evidence_row_count": 81563
+    }
+  ]
+}
